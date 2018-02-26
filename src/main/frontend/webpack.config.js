@@ -3,7 +3,7 @@ const merge = require("webpack-merge");
 
 const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
-    source: path.join(__dirname, "app"),
+    source: path.join(__dirname, "app"), 
     output: path.join(__dirname, "../../../target/classes/static")
 };
 
