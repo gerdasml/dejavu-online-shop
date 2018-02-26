@@ -21,13 +21,10 @@
             4
         ],
         "linebreak-style": [
-            "warn",
+            "off",
             "windows"
         ],
-        "quotes": [
-            "error",
-            "double"
-        ],
+        "quotes": "off",
         "semi": [
             "error",
             "always"
