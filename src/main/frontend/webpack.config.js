@@ -26,7 +26,7 @@ const common = {
             },
             {
                 test: /\.css$/,
-                lodaer: "style!css"
+                loader: "style!css"
             }
         ]
     },
