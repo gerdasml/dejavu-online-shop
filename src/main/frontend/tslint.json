@@ -1,7 +1,7 @@
 {
     "defaultSeverity": "error",
     "extends": [
-        "tslint-react-recommended"
+        "tslint:recommended"
     ],
     "jsRules": {},
     "rules": {
@@ -9,11 +9,7 @@
             true,
             120
         ],
-        "indent": [
-            true,
-            "spaces",
-            4
-        ],
+        "indent": [ true, "spaces", 4 ],
         "linebreak-style": [
             false
         ],
@@ -69,7 +65,6 @@
         "restrict-plus-operands": true,
         "strict-boolean-expressions": true,
         "triple-equals": true,
-        "typeof-compare": true,
         "use-isnan": true,
         "deprecation": true,
         "eofline": true,
@@ -103,7 +98,8 @@
         "space-before-function-paren": [true, "always"],
         "type-literal-delimiter": true,
         "variable-name": [true, "check-format", "allow-leading-underscore", "allow-trailing-underscore", "allow-pascal-case", "ban-keywords"], // PascalCase is allowed for stateless components
-        "whitespace": true
+        "whitespace": true,
+        "member-access": [true, "no-public"]
     },
     "rulesDirectory": []
 }
