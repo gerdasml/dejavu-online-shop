@@ -1,0 +1,29 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint-react-recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+        "max-line-length": {
+            "options": [120]
+        },
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "off",
+            "windows"
+        ],
+        "quotemark": [true, "double", "avoid-escape"],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "trailing-comma": [true, {
+            "singleline": "never"
+        }]
+    },
+    "rulesDirectory": []
+}
