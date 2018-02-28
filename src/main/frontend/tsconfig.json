@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "outDir": "../../../target/classes/static/",
+        "outDir": "./build/",
         "sourceMap": true,
         "noImplicitAny": true,
         "module": "commonjs",
@@ -9,5 +9,8 @@
     },
     "include": [
         "./app/**/*"
+    ],
+    "exclude": [
+        "node_modules"
     ]
 }

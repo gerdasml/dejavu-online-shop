@@ -34,10 +34,9 @@
     "webpack": "^1.12.2"
   },
   "scripts": {
-    "watch": "webpack --watch -d",
-    "build": "webpack",
-    "start": "webpack-dev-server --hot --inline",
-    "lint": "tslint app/*.tsx app/*.ts"
+    "lint": "tslint app/**/*.{ts,tsx}",
+    "start": "webpack-dev-server --hot --inline --colors",
+    "build": "webpack --progress"
   },
   "devDependencies": {
     "awesome-typescript-loader": "^3.5.0",
