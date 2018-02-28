@@ -34,7 +34,8 @@
     "webpack": "^1.12.2"
   },
   "scripts": {
-    "lint": "tslint app/**/*.{ts,tsx}",
+    "lint": "tslint -p tsconfig.json -c tslint.json app/**/*.{ts,tsx}",
+    "lint:fix": "tslint -p tsconfig.json -c tslint.json app/**/*.{ts,tsx} --fix",
     "start": "webpack-dev-server --hot --inline --colors",
     "build": "webpack --progress"
   },
