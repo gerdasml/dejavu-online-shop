@@ -1,4 +1,2 @@
-spring:
-  data:
-    rest:
-      base-path: /api
+rest:
+  basePath: /api
