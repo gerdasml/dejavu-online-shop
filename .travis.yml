@@ -1,0 +1,21 @@
+language: java
+
+jdk:
+  - oraclejdk8
+
+git:
+  submodules: false
+
+notifications:
+  email: false
+  slack:
+    rooms:
+     dejavu-psk:yYAY30VYZ6Pb2bfuSEYywGpZ#builds
+    on_success: change # default: always
+    on_failure: always # default: always
+  
+install:
+  - mvn clean install -B
+
+script: 
+  - mvn test -B
