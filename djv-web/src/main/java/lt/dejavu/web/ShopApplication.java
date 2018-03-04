@@ -1,11 +1,11 @@
-package lt.dejavu.onlineshop;
+package lt.dejavu.web;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OnlineShopApplication {
+public class ShopApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(OnlineShopApplication.class, args);
+		SpringApplication.run(ShopApplication.class, args);
 	}
 }
