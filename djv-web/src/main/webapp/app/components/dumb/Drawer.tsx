@@ -4,9 +4,9 @@ import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui
 
 import "../../../style/drawer.css";
 
-export interface IMyState { visible: boolean; }
+export interface IDrawerMenuState { visible: boolean; }
 
-export class Drawer extends React.Component<{}, IMyState> {
+export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
     constructor(props: any){
         super(props);
         this.state = {

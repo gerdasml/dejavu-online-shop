@@ -1,10 +1,10 @@
 import * as React from "react";
 
-import { Drawer } from './Drawer';
+import { DrawerMenu } from './Drawer';
 import { Header } from './Header';
 
 export const Layout = () => 
     <div>
         <Header />
-        <Drawer />
+        <DrawerMenu />
     </div>
