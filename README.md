@@ -1,4 +1,4 @@
-# dejavu-online-shop
+# dejavu-online-shop [![Build Status](https://travis-ci.com/gerdasml/dejavu-online-shop.svg?token=tbwmaymHECVL58qYgxDP&branch=master)](https://travis-ci.com/gerdasml/dejavu-online-shop)
 
 A project for the Software Development course in Vilnius University. 2018.
 
