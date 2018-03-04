@@ -1,4 +1,4 @@
-package com.dejavu.onlineshop.model;
+package lt.dejavu.onlineshop.model;
 
 import lombok.Data;
 

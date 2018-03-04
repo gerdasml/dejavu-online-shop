@@ -1,4 +1,4 @@
-package com.dejavu.onlineshop;
+package lt.dejavu.onlineshop;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

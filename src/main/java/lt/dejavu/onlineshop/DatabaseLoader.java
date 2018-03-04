@@ -1,7 +1,7 @@
-package com.dejavu.onlineshop;
+package lt.dejavu.onlineshop;
 
-import com.dejavu.onlineshop.model.Product;
-import com.dejavu.onlineshop.repository.ProductRepository;
+import lt.dejavu.onlineshop.model.Product;
+import lt.dejavu.onlineshop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
