@@ -34,6 +34,7 @@
         <h2.version>1.4.196</h2.version>
         <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
         <jdbi.version>2.78</jdbi.version>
+        <liquibase.version>3.5.5</liquibase.version>
     </properties>
 
     <dependencyManagement>
@@ -76,6 +77,12 @@
                 <groupId>org.jdbi</groupId>
                 <artifactId>jdbi</artifactId>
                 <version>${jdbi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

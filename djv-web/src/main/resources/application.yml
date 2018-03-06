@@ -11,3 +11,4 @@ spring:
     console:
       enabled: true
       path: /dejavu_dev
+      # h2 console available at http://localhost:8080/dejavu_dev
