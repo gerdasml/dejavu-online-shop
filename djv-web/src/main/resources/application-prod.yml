@@ -1,9 +1,10 @@
+# Add VM option to enable this profile: -Dspring.profiles.active=prod
 rest:
   basePath: /api
 
 spring:
   datasource:
-    url: jdbc:h2:mem:dejavu_dev;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:dejavu_dev;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE # TODO: Put an actual DB here
     driver-class-name: org.h2.Driver
     username: sa
     password:
