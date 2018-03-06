@@ -9,6 +9,7 @@
 
     <modules>
         <module>djv-web</module>
+        <module>djv-auth</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -32,6 +33,7 @@
         <npm.version>3.9.2</npm.version>
         <h2.version>1.4.196</h2.version>
         <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
+        <jdbi.version>2.78</jdbi.version>
     </properties>
 
     <dependencyManagement>
@@ -68,6 +70,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-devtools</artifactId>
                 <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jdbi</groupId>
+                <artifactId>jdbi</artifactId>
+                <version>${jdbi.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,24 +1,27 @@
-package lt.dejavu.web.configuration;
+package lt.dejavu.auth.configuration;
 
+import org.skife.jdbi.v2.DBI;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import javax.sql.DataSource;
 
 @Configuration
-public class ShopConfiguration {
-    // Example dataSource configuration
+public class AuthConfiguration {
     @Bean
+    @Primary
     @ConfigurationProperties("spring.datasource")
-    public DataSource testDataSource() {
+    public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
-    public String test(DataSource ds) {
-        int x = 5;
-        return "lol";
+    public DBI dbi(DataSource dataSource) {
+        DBI dbi = new DBI(dataSource);
+        // register mappers here
+        return dbi;
     }
 }
