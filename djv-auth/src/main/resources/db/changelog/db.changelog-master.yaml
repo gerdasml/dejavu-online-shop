@@ -3,8 +3,11 @@ databaseChangeLog:
       id: 1
       author: vstrimaitis
       changes:
+        - sql:
+          sql: CREATE SCHEMA IF NOT EXISTS dejavu
         - createTable:
             tableName: user
+            #schemaName: dejavu
             columns:
               - column:
                   name: id
@@ -36,6 +39,7 @@ databaseChangeLog:
                   name: lastName
                   type: varchar(255)
         - insert:
+            #schemaName: dejavu
             tableName: user
             columns:
               - column:
