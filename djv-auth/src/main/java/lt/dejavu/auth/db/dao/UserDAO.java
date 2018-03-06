@@ -13,8 +13,9 @@ public interface UserDAO {
     String PASSWORD = "Password";
     String FIRST_NAME = "FirstName";
     String LAST_NAME = "LastName";
+    String TYPE = "Type";
 
-    @SqlQuery("SELECT " + ID + ", " + EMAIL + ", " + PASSWORD + ", " + FIRST_NAME + ", " + LAST_NAME + " " +
+    @SqlQuery("SELECT " + ID + ", " + EMAIL + ", " + PASSWORD + ", " + FIRST_NAME + ", " + LAST_NAME + " " + TYPE + " " +
               "FROM " + SCHEMA_COLON + ".:" + TABLE_NAME + " " +
               "WHERE " + ID + " = :" + ID
     )
