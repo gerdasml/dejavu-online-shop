@@ -35,6 +35,7 @@
         <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
         <jdbi.version>2.78</jdbi.version>
         <flyway.version>5.0.7</flyway.version>
+        <killbill-jdbi.version>0.21.8</killbill-jdbi.version>
     </properties>
 
     <dependencyManagement>
@@ -84,6 +85,12 @@
                 <artifactId>flyway-core</artifactId>
                 <version>${flyway.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.kill-bill.commons</groupId>
+                <artifactId>killbill-jdbi</artifactId>
+                <version>${killbill-jdbi.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
