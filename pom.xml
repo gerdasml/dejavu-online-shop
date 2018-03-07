@@ -36,8 +36,9 @@
         <jdbi.version>2.78</jdbi.version>
         <flyway.version>5.0.7</flyway.version>
         <killbill-jdbi.version>0.21.8</killbill-jdbi.version>
-        <apache-commons.version>1.3.2</apache-commons.version>
+        <apache-commons-io.version>1.3.2</apache-commons-io.version>
         <jackson.version>2.9.4</jackson.version>
+        <apache-commons-codec.version>1.11</apache-commons-codec.version>
     </properties>
 
     <dependencyManagement>
@@ -96,14 +97,21 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>${apache-commons.version}</version>
+                <version>${apache-commons-io.version}</version>
             </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${apache-commons-codec.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
         </dependencies>
+
     </dependencyManagement>
 
 

@@ -4,13 +4,13 @@ import lt.dejavu.auth.db.dao.UserDAO;
 import lt.dejavu.auth.db.dao.UserTokenDAO;
 import lt.dejavu.auth.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 import java.util.UUID;
 
-@Component
+@Repository
 public class UserRepositoryImpl implements UserRepository {
 
     private final UserDAO userDAO;
