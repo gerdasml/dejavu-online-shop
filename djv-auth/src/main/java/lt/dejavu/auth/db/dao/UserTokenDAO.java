@@ -14,7 +14,7 @@ public interface UserTokenDAO {
     @SqlQuery("SELECT " + TOKEN + " " +
               "FROM " + TABLE_NAME + " " +
               "WHERE " + ID + " = :" + ID)
-    UUID getAccessToken(@Bind(ID) int id);
+    UUID getAccessToken(@Bind(ID) int id); // TODO: Investigate JWT and maybe use that?
 
     @SqlQuery("SELECT " + ID + " " +
               "FROM " + TABLE_NAME + " " +

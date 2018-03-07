@@ -3,6 +3,8 @@ package lt.dejavu.auth.db.dao;
 import lt.dejavu.auth.model.User;
 import org.skife.jdbi.v2.sqlobject.*;
 
+import java.util.List;
+
 public interface UserDAO {
     // These should match the in ${flyway.placeholders.tables.user}
     // TODO: investigate if the constants can be connected to the properties
@@ -31,4 +33,13 @@ public interface UserDAO {
               "WHERE " + EMAIL + " = :" + EMAIL + " AND " + PASSWORD + " = :" + PASSWORD)
     // Returns 0 if no user with these credentials is found
     int getUserId(@Bind(EMAIL) String email, @Bind(PASSWORD) String password);
+
+    @SqlQuery("SELECT " + ID + ", " + EMAIL + ", " + PASSWORD + ", " + FIRST_NAME + ", " + LAST_NAME + ", " + TYPE + ", " + BANNED + " " +
+              "FROM " + TABLE_NAME)
+    List<User> getUsers();
+
+    @SqlUpdate("UPDATE " + TABLE_NAME + " " +
+              "SET " + BANNED + " = :" + BANNED + " " +
+              "WHERE " + ID + " = :" + ID)
+    void setBanned(@Bind(ID) int id, @Bind(BANNED) boolean banned);
 }
