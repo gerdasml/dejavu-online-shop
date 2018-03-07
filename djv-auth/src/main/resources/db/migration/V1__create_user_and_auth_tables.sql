@@ -10,7 +10,7 @@ CREATE TABLE ${tables.user.name} (
 
 CREATE TABLE ${tables.userToken.name} (
   ${tables.userToken.columns.id} INT PRIMARY KEY,
-  ${tables.userToken.columns.token} UUID UNIQUE,
+  ${tables.userToken.columns.token} UUID UNIQUE NOT NULL,
 
   FOREIGN KEY (${tables.userToken.columns.id}) REFERENCES user(${tables.user.columns.id})
 );
