@@ -17,9 +17,6 @@ public class AuthApi {
     @Autowired
     private AuthService authService;
 
-    @Autowired
-    private UserService userService;
-
     @RequestMapping(
             path = "/login",
             method = RequestMethod.POST,
