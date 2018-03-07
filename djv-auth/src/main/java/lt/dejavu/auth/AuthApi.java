@@ -38,6 +38,7 @@ public class AuthApi {
         authService.logout(token);
     }
 
+    // TODO: find out what should be passed to registration / how it should be done
     /*public void register(???) {
 
     }*/
