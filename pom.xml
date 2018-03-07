@@ -35,7 +35,6 @@
         <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
         <jdbi.version>2.78</jdbi.version>
         <flyway.version>5.0.7</flyway.version>
-        <snakeyaml.version>1.20</snakeyaml.version>
     </properties>
 
     <dependencyManagement>
@@ -84,11 +83,6 @@
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-core</artifactId>
                 <version>${flyway.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.yaml</groupId>
-                <artifactId>snakeyaml</artifactId>
-                <version>${snakeyaml.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
