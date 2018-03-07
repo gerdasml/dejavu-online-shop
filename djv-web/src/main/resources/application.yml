@@ -28,7 +28,8 @@ flyway:
           password: password
           firstName: firstName
           lastName: lastName
-          type: userType
+          type: type
+          banned: banned
       userToken:
         name: userToken
         columns:

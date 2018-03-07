@@ -12,4 +12,5 @@ public class User {
     private String firstName;
     private String lastName;
     private UserType type;
+    private boolean banned;
 }
