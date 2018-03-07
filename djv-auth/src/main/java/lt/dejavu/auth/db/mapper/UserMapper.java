@@ -19,6 +19,7 @@ public class UserMapper implements ResultSetMapper<User> {
         user.setFirstName(rs.getString(UserDAO.FIRST_NAME));
         user.setLastName(rs.getString(UserDAO.LAST_NAME));
         user.setType(UserType.valueOf(rs.getString(UserDAO.TYPE)));
+        user.setBanned(rs.getBoolean(UserDAO.BANNED));
         return user;
     }
 }

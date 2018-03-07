@@ -1,0 +1,2 @@
+DELETE FROM userToken;
+DELETE FROM user;
