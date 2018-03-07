@@ -47,7 +47,7 @@ public class UserDAOTest extends DbTestBase {
     }
 
     @Test
-    public void testFindNonExistantUser_returnsZero() {
+    public void testFindNonExistantUserReturnsZero() {
         UserDAO userDAO = dbi.onDemand(UserDAO.class);
 
         int id = userDAO.getUserId("doesnt", "exist");

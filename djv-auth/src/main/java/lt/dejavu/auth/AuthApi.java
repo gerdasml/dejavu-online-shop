@@ -15,21 +15,21 @@ import java.util.UUID;
 @RequestMapping("${rest.basePath}/auth")
 public class AuthApi {
     @Autowired
-    AuthService authService;
+    private AuthService authService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @RequestMapping(
-            path="/login",
-            method= RequestMethod.POST,
+            path = "/login",
+            method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public UUID login(@RequestBody LoginRequest request) {
         return authService.login(request.getEmail(), request.getPassword());
     }
 
-    @RequestMapping (
+    @RequestMapping(
             path = "/logout",
             method = RequestMethod.POST
     )

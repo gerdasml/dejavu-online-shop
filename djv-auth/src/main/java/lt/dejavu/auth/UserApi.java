@@ -2,7 +2,6 @@ package lt.dejavu.auth;
 
 import lt.dejavu.auth.helpers.AuthHelper;
 import lt.dejavu.auth.model.User;
-import lt.dejavu.auth.service.AuthService;
 import lt.dejavu.auth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +19,7 @@ public class UserApi {
 
     @RequestMapping(
             path = "/",
-            method= RequestMethod.GET,
+            method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public List<User> getAllUsers(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
@@ -28,7 +27,7 @@ public class UserApi {
         return userService.getUsers(token);
     }
 
-    @RequestMapping (
+    @RequestMapping(
             path = "/{userId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
@@ -38,7 +37,7 @@ public class UserApi {
         return userService.getUser(userId, token);
     }
 
-    @RequestMapping (
+    @RequestMapping(
             path = "/{userId}/ban",
             method = RequestMethod.POST
     )
