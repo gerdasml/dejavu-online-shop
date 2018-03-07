@@ -1,9 +1,6 @@
 package lt.dejavu.auth;
 
-import lt.dejavu.auth.db.dao.UserDAO;
-import lt.dejavu.auth.db.dao.UserTokenDAO;
 import lt.dejavu.auth.helpers.AuthHelper;
-import lt.dejavu.auth.model.User;
 import lt.dejavu.auth.model.rest.LoginRequest;
 import lt.dejavu.auth.service.AuthService;
 import lt.dejavu.auth.service.UserService;

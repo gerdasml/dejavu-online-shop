@@ -41,6 +41,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(UUID token, User newInfo) {
+        // TODO: investigate this question
+        // How to know which fields to update and which to leave as-is?
+        // One possibility: send in the previous info as well as the new one
+        // This way we could construct a new User object by combining the two versions
         User user = userRepository.getUserByToken(token);
         userRepository.updateUserInfo(user.getId(), newInfo);
     }
