@@ -1,5 +1,6 @@
 package lt.dejavu.auth.service;
 
+import lt.dejavu.auth.exception.UserAlreadyExistsException;
 import lt.dejavu.auth.model.User;
 import lt.dejavu.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,7 @@ public class AuthServiceImpl implements AuthService {
     public void register(User info) {
         int id = userRepository.getUserId(info.getEmail(), info.getPassword());
         if(id != 0) {
-            // User already exists
-            // TODO: throw custom exception
-            throw new RuntimeException("User already exists");
+            throw new UserAlreadyExistsException("A user with the specified credentials already exists");
         }
         userRepository.addUser(info);
     }

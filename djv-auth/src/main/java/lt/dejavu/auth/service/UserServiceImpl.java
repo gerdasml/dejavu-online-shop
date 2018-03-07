@@ -1,5 +1,6 @@
 package lt.dejavu.auth.service;
 
+import lt.dejavu.auth.exception.AccessDeniedException;
 import lt.dejavu.auth.model.User;
 import lt.dejavu.auth.model.UserType;
 import lt.dejavu.auth.repository.UserRepository;
@@ -50,16 +51,14 @@ public class UserServiceImpl implements UserService {
     private void checkAdminOrSelf(UUID token, int id) {
         User requester = userRepository.getUserByToken(token);
         if (requester.getId() != id && requester.getType() != UserType.ADMIN) {
-            // TODO: throw some custom AccessDenied exception
-            throw new RuntimeException("Access denied");
+            throw new AccessDeniedException("Unauthorized access");
         }
     }
 
     private void checkAdmin(UUID token) {
         User requester = userRepository.getUserByToken(token);
         if (requester.getType() != UserType.ADMIN) {
-            // TODO: throw some custom AccessDenied exception
-            throw new RuntimeException("Access denied");
+            throw new AccessDeniedException("Unauthorized access");
         }
     }
 }
