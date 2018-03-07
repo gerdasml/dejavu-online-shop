@@ -1,4 +1,4 @@
-# dejavu-online-shop [![Build Status](https://travis-ci.com/gerdasml/dejavu-online-shop.svg?token=tbwmaymHECVL58qYgxDP&branch=master)](https://travis-ci.com/gerdasml/dejavu-online-shop)
+# dejavu-online-shop [![Build Status](https://travis-ci.com/gerdasml/dejavu-online-shop.svg?token=tbwmaymHECVL58qYgxDP&branch=master)](https://travis-ci.com/gerdasml/dejavu-online-shop) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4bb5f393571f4f66bb3f9f1dbc87ff75)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gerdasml/dejavu-online-shop&amp;utm_campaign=Badge_Grade)
 
 A project for the Software Development course in Vilnius University. 2018.
 
