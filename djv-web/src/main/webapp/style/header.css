@@ -1,4 +1,24 @@
 .header {
     background-color: #b7d2ff;
-    height: 15vh;
+    height: 10vh;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#logo{
+    height: 10vh;
+}
+
+#searchBar{
+    width: 80vh;
+    height: 4vh;
+}
+
+.grid, .column{
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.row{
+    height: 5vh;
 }
