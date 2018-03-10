@@ -3,6 +3,7 @@ package lt.dejavu.auth;
 import lt.dejavu.auth.helpers.AuthHelper;
 import lt.dejavu.auth.model.User;
 import lt.dejavu.auth.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("${rest.basePath}/auth/user")
 public class UserApi {
+    private static final Logger log = Logger.getLogger(UserApi.class);
     @Autowired
     private UserService userService;
 
@@ -33,6 +35,7 @@ public class UserApi {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public User getUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId) {
+        log.info(String.format("getUser with header `%s`", authHeader));
         UUID token = AuthHelper.extractTokenFromHeader(authHeader);
         return userService.getUser(userId, token);
     }
