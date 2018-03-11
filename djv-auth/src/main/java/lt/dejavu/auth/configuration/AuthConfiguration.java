@@ -11,6 +11,8 @@ import lt.dejavu.auth.helpers.Sha256Hasher;
 import lt.dejavu.auth.helpers.TokenCodec;
 import lt.dejavu.auth.model.UserType;
 import lt.dejavu.auth.model.token.Endpoint;
+import lt.dejavu.auth.service.SignatureService;
+import lt.dejavu.auth.service.SignatureServiceImpl;
 import lt.dejavu.auth.service.TokenService;
 import lt.dejavu.auth.service.TokenServiceImpl;
 import org.killbill.commons.jdbi.mapper.UUIDMapper;
@@ -71,8 +73,13 @@ public class AuthConfiguration {
     }
 
     @Bean
-    public TokenService tokenService(TokenCodec codec, AuthProperties props) {
-        return new TokenServiceImpl(codec, authEndpointProvider(props));
+    public SignatureService signatureService(AuthProperties properties) {
+        return new SignatureServiceImpl(properties.getSecret());
+    }
+
+    @Bean
+    public TokenService tokenService(TokenCodec codec, SignatureService signatureService, AuthProperties props) {
+        return new TokenServiceImpl(codec, signatureService, authEndpointProvider(props));
     }
 
     @Bean
