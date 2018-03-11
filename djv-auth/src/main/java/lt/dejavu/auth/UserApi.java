@@ -1,13 +1,20 @@
 package lt.dejavu.auth;
 
+import lt.dejavu.auth.exception.token.*;
 import lt.dejavu.auth.helpers.AuthHelper;
 import lt.dejavu.auth.model.User;
+import lt.dejavu.auth.model.UserType;
+import lt.dejavu.auth.model.token.Endpoint;
+import lt.dejavu.auth.model.token.SignedToken;
+import lt.dejavu.auth.model.token.Token;
+import lt.dejavu.auth.service.TokenService;
 import lt.dejavu.auth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +23,9 @@ import java.util.UUID;
 public class UserApi {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TokenService tokenService;
 
     @RequestMapping(
             path = "/",
@@ -32,9 +42,31 @@ public class UserApi {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public User getUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId) {
-        UUID token = AuthHelper.extractTokenFromHeader(authHeader);
-        return userService.getUser(userId, token);
+    public User getUser(HttpServletRequest req, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId) throws TokenEncodingFailedException, SigningFailedException, InvalidTokenException, BadTokenSignatureException, TokenDecodignFailedException {
+        /*UUID token = AuthHelper.extractTokenFromHeader(authHeader);
+        User u = userService.getUser(userId, token);
+        SignedToken signedToken = tokenService.generateToken(u);
+        return userService.getUser(userId, token);*/
+        User u1 = new User();
+        u1.setType(UserType.REGULAR);
+        u1.setId(1);
+
+        User u2 = new User();
+        u2.setType(UserType.ADMIN);
+        u2.setId(2);
+
+        String rawToken = AuthHelper.extractRawTokenFromHeader(authHeader);
+        SignedToken signedToken = tokenService.fromString(rawToken);
+        Token token = tokenService.extractPayload(signedToken);
+
+        Endpoint endpoint = new Endpoint();
+        endpoint.setMethod(RequestMethod.valueOf(req.getMethod()));
+        endpoint.setPath(req.getRequestURI());
+
+        tokenService.authorize(token, endpoint);
+
+        return null;
+
     }
 
     @RequestMapping(

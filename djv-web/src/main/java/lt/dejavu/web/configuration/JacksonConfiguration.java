@@ -11,9 +11,10 @@ import org.springframework.context.annotation.Configuration;
 public class JacksonConfiguration {
     @Bean("defaultObjectMapper")
     public ObjectMapper objectMapper() {
-        return new ObjectMapper()
-                .registerModule(new ParameterNamesModule())
-                .registerModule(new Jdk8Module())
-                .registerModule(new JavaTimeModule());
+        ObjectMapper mapper = new ObjectMapper()
+                                .registerModule(new ParameterNamesModule())
+                                .registerModule(new Jdk8Module())
+                                .registerModule(new JavaTimeModule());
+        return mapper;
     }
 }

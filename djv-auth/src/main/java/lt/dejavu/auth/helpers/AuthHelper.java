@@ -16,4 +16,10 @@ public class AuthHelper {
             throw new AccessDeniedException("Incorrect access token format");
         }
     }
+    public static String extractRawTokenFromHeader(String header) {
+        if(!header.startsWith("Bearer ")) {
+            throw new AccessDeniedException("Incorrect Authorization header format");
+        }
+        return header.substring(7);
+    }
 }
