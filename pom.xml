@@ -29,8 +29,8 @@
         <java.version>1.8</java.version>
         <lombok.version>1.16.20</lombok.version>
         <frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
-        <node.version>v4.4.5</node.version>
-        <npm.version>3.9.2</npm.version>
+        <node.version>v8.3.0</node.version>
+        <npm.version>5.6.0</npm.version>
         <h2.version>1.4.196</h2.version>
         <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
         <jdbi.version>2.78</jdbi.version>
