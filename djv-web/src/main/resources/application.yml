@@ -3,6 +3,17 @@ databaseSchema: dejavu
 rest:
   basePath: /api
 
+auth:
+  secret: changeit
+  rights:
+    REGULAR:
+      - GET /api/auth/user/{id}
+      - POST /api/auth/user/{id}
+    ADMIN:
+      - GET /api/auth/user/*
+      - GET /api/auth/user/
+      - POST /api/auth/user/*/ban
+
 spring:
   datasource:
     url: jdbc:h2:mem:dejavu_dev;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
