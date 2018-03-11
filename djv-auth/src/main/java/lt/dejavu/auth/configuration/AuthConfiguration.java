@@ -83,47 +83,21 @@ public class AuthConfiguration {
                              .collect(
                                      toMap(
                                              Map.Entry::getKey,
-                                             entry -> convertRightsToEndpoints(entry.getValue())
+                                             entry -> addUserId(entry.getValue())
                                           )
                                      );
     }
 
-    private Function<Integer, List<Endpoint>> convertRightsToEndpoints(List<String> rights) {
+    private Function<Integer, List<Endpoint>> addUserId(List<Endpoint> rights) {
         return id -> rights.stream()
-                           .map(s -> s.replace("{id}", id.toString()))
-                           .map(this::buildEndpoint)
+                           .map(e -> addUserId(e, id))
                            .collect(toList());
     }
 
-    private Endpoint buildEndpoint(String right) {
-        String[] parts = right.split(" ");
-        Endpoint e = new Endpoint();
-        e.setMethod(RequestMethod.valueOf(parts[0]));
-        e.setPath(globToRegex(parts[1]));
-        return e;
-    }
-
-    private String globToRegex(String glob) {
-        StringBuilder sb = new StringBuilder("^");
-        for (char c : glob.toCharArray()) {
-            switch (c) {
-                case '*':
-                    sb.append(".*");
-                    break;
-                case '?':
-                    sb.append('.');
-                    break;
-                case '.':
-                    sb.append("\\.");
-                    break;
-                case '\\':
-                    sb.append("\\\\");
-                    break;
-                default:
-                    sb.append(c);
-            }
-        }
-        sb.append("$");
-        return sb.toString();
+    private Endpoint addUserId(Endpoint e, int id) {
+        Endpoint ee = new Endpoint();
+        ee.setMethod(e.getMethod());
+        ee.setPath(e.getPath().replace("{id}", String.valueOf(id)));
+        return ee;
     }
 }
