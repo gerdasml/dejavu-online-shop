@@ -5,8 +5,6 @@ import lt.dejavu.auth.exception.token.TokenEncodingFailedException;
 import lt.dejavu.auth.model.User;
 import lt.dejavu.auth.model.rest.LoginResponse;
 
-import java.util.UUID;
-
 public interface AuthService {
     void register(User info);
     LoginResponse login(String email, String pass) throws TokenEncodingFailedException, SigningFailedException;

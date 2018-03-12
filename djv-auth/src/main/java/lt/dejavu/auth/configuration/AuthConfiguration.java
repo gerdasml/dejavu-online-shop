@@ -7,9 +7,6 @@ import lt.dejavu.auth.db.mapper.UserMapper;
 import lt.dejavu.auth.codec.AuthHeaderCodec;
 import lt.dejavu.auth.codec.SignedTokenCodec;
 import lt.dejavu.auth.codec.TokenCodec;
-import lt.dejavu.auth.model.UserType;
-import lt.dejavu.auth.model.token.Endpoint;
-import lt.dejavu.auth.service.*;
 import org.killbill.commons.jdbi.mapper.UUIDMapper;
 import org.skife.jdbi.v2.DBI;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
@@ -20,11 +17,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import javax.sql.DataSource;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
 @Configuration

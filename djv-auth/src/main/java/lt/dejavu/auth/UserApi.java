@@ -1,9 +1,6 @@
 package lt.dejavu.auth;
 
-import lt.dejavu.auth.exception.token.*;
-import lt.dejavu.auth.helpers.AuthHelper;
 import lt.dejavu.auth.model.User;
-import lt.dejavu.auth.model.UserType;
 import lt.dejavu.auth.model.token.Endpoint;
 import lt.dejavu.auth.model.token.SignedToken;
 import lt.dejavu.auth.model.token.Token;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("${rest.basePath}/user")

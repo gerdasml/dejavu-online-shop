@@ -2,16 +2,12 @@ package lt.dejavu.auth;
 
 import lt.dejavu.auth.exception.token.SigningFailedException;
 import lt.dejavu.auth.exception.token.TokenEncodingFailedException;
-import lt.dejavu.auth.helpers.AuthHelper;
 import lt.dejavu.auth.model.rest.LoginRequest;
 import lt.dejavu.auth.model.rest.LoginResponse;
 import lt.dejavu.auth.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping("${rest.basePath}/auth")

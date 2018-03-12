@@ -10,6 +10,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>djv-auth</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>djv-security</module>
+        <module>djv-user</module>
+    </modules>
 
     <dependencies>
         <dependency>
