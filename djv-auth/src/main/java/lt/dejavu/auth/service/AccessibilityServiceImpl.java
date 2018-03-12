@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.regex.Pattern;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -49,7 +48,7 @@ public class AccessibilityServiceImpl implements AccessibilityService {
     private Endpoint addUserId(Endpoint e, int id) {
         Endpoint ee = new Endpoint();
         ee.setMethod(e.getMethod());
-        ee.setPath(e.getPath().replace(Pattern.quote(ID_PLACEHOLDER), String.valueOf(id)));
+        ee.setPath(e.getPath().replace(ID_PLACEHOLDER, String.valueOf(id)));
         return ee;
     }
 }

@@ -37,7 +37,7 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public SignedToken generateToken(User user) throws TokenEncodingFailedException, SigningFailedException {
+    public String generateToken(User user) throws TokenEncodingFailedException, SigningFailedException {
         Token token = buildToken(user);
 
         String encodedPayload = new String(Base64.getEncoder().encode(tokenCodec.encode(token).getBytes()));
@@ -46,7 +46,8 @@ public class TokenServiceImpl implements TokenService {
         SignedToken signedToken = new SignedToken();
         signedToken.setPayload(encodedPayload);
         signedToken.setSignature(signature);
-        return signedToken;
+
+        return signedTokenCodec.encode(signedToken);
     }
 
     @Override

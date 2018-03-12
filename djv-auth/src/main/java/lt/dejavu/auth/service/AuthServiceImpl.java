@@ -1,6 +1,8 @@
 package lt.dejavu.auth.service;
 
 import lt.dejavu.auth.exception.UserAlreadyExistsException;
+import lt.dejavu.auth.exception.token.SigningFailedException;
+import lt.dejavu.auth.exception.token.TokenEncodingFailedException;
 import lt.dejavu.auth.helpers.Hasher;
 import lt.dejavu.auth.model.User;
 import lt.dejavu.auth.repository.UserRepository;
@@ -12,11 +14,13 @@ import java.util.UUID;
 
 @Service
 public class AuthServiceImpl implements AuthService {
+    private final TokenService tokenService;
     private final UserRepository userRepository;
     private final Hasher hasher;
 
     @Autowired
-    public AuthServiceImpl(UserRepository userRepository, Hasher hasher) {
+    public AuthServiceImpl(TokenService tokenService, UserRepository userRepository, Hasher hasher) {
+        this.tokenService = tokenService;
         this.userRepository = userRepository;
         this.hasher = hasher;
     }
@@ -33,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UUID login(String email, String pass) {
+    public String login(String email, String pass) throws TokenEncodingFailedException, SigningFailedException {
         String passHash = hasher.hash(pass);
         int userId = userRepository.getUserId(email, passHash);
         if (userId == 0) {
@@ -41,18 +45,13 @@ public class AuthServiceImpl implements AuthService {
             // TODO: throw 404
             throw new ResourceNotFoundException();
         }
-        UUID token = userRepository.getToken(userId);
-        if (token == null) {
-            // If token is not yet set for this user, set it
-            token = UUID.randomUUID();
-            userRepository.addToken(userId, token);
-        }
-        return token;
+        User user = userRepository.getUserById(userId);
+        return tokenService.generateToken(user);
     }
 
-    @Override
-    public void logout(UUID token) {
-        User user = userRepository.getUserByToken(token);
-        userRepository.updateToken(user.getId(), UUID.randomUUID());
-    }
+//    @Override
+//    public void logout(UUID token) {
+//        User user = userRepository.getUserByToken(token);
+//        userRepository.updateToken(user.getId(), UUID.randomUUID());
+//    }
 }

@@ -8,6 +8,6 @@ import lt.dejavu.auth.model.token.SignedToken;
 import lt.dejavu.auth.model.token.Token;
 
 public interface TokenService {
-    SignedToken generateToken(User user) throws TokenEncodingFailedException, SigningFailedException;
+    String generateToken(User user) throws TokenEncodingFailedException, SigningFailedException;
     void authorize(String authHeader, Endpoint endpoint) throws AccessDeniedException, TokenDecodingFailedException, SigningFailedException, BadTokenSignatureException;
 }
