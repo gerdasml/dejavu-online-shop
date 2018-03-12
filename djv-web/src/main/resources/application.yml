@@ -41,9 +41,4 @@ flyway:
           lastName: lastName
           type: type
           banned: banned
-      userToken:
-        name: userToken
-        columns:
-          id: userId
-          token: accessToken
 

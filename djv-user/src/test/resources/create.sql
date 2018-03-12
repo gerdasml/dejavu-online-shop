@@ -7,10 +7,3 @@ CREATE TABLE user (
   type VARCHAR(10) NOT NULL,
   banned BIT NOT NULL
 );
-
-CREATE TABLE userToken (
-  userId INT PRIMARY KEY,
-  accessToken UUID UNIQUE NOT NULL,
-
-  FOREIGN KEY (userId) REFERENCES user(id)
-);

@@ -1,7 +1,6 @@
 package lt.dejavu.auth.configuration;
 
 import lt.dejavu.auth.db.dao.UserDAO;
-import lt.dejavu.auth.db.dao.UserTokenDAO;
 import lt.dejavu.auth.db.mapper.UserMapper;
 import org.skife.jdbi.v2.DBI;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
@@ -31,10 +30,5 @@ public class AuthConfiguration {
     @Bean
     public UserDAO userDAO(DBI dbi) {
         return dbi.onDemand(UserDAO.class);
-    }
-
-    @Bean
-    public UserTokenDAO userTokenDAO(DBI dbi) {
-        return dbi.onDemand(UserTokenDAO.class);
     }
 }

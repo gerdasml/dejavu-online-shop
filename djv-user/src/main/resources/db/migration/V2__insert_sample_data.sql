@@ -21,8 +21,3 @@ INSERT INTO ${tables.user.name}
   , 'ADMIN'
   , 0
   );
-
-INSERT INTO ${tables.userToken.name} (${tables.userToken.columns.id}, ${tables.userToken.columns.token})
-  VALUES
-  (1, '1a36ffdd-48e5-4951-9d6a-420836e33a4c'),
-  (2, '0d23a8f8-eb4f-4b78-b090-d57c47908618');

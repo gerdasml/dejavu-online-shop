@@ -7,10 +7,3 @@ CREATE TABLE ${tables.user.name} (
   ${tables.user.columns.type} VARCHAR(10) NOT NULL,
   ${tables.user.columns.banned} BIT NOT NULL
 );
-
-CREATE TABLE ${tables.userToken.name} (
-  ${tables.userToken.columns.id} INT PRIMARY KEY,
-  ${tables.userToken.columns.token} UUID UNIQUE NOT NULL,
-
-  FOREIGN KEY (${tables.userToken.columns.id}) REFERENCES ${tables.user.name}(${tables.user.columns.id})
-);
