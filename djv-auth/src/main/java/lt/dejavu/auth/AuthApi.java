@@ -1,13 +1,15 @@
 package lt.dejavu.auth;
 
-import lt.dejavu.auth.exception.token.SigningFailedException;
-import lt.dejavu.auth.exception.token.TokenEncodingFailedException;
+import lt.dejavu.auth.exception.SecurityException;
 import lt.dejavu.auth.model.rest.LoginRequest;
 import lt.dejavu.auth.model.rest.LoginResponse;
 import lt.dejavu.auth.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("${rest.basePath}/auth")
@@ -20,7 +22,7 @@ public class AuthApi {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public LoginResponse login(@RequestBody LoginRequest request) throws TokenEncodingFailedException, SigningFailedException {
+    public LoginResponse login(@RequestBody LoginRequest request) throws SecurityException {
         return authService.login(request.getEmail(), request.getPassword());
     }
 

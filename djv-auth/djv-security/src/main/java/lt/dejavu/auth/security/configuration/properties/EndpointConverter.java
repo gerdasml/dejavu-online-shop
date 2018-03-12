@@ -1,6 +1,6 @@
-package lt.dejavu.auth.configuration.properties;
+package lt.dejavu.auth.security.configuration.properties;
 
-import lt.dejavu.auth.model.token.Endpoint;
+import lt.dejavu.auth.model.Endpoint;
 import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

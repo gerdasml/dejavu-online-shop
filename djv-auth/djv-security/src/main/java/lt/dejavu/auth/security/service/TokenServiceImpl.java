@@ -1,17 +1,16 @@
 package lt.dejavu.auth.security.service;
 
 import lt.dejavu.auth.exception.AccessDeniedException;
+import lt.dejavu.auth.exception.SecurityException;
+import lt.dejavu.auth.model.Endpoint;
 import lt.dejavu.auth.model.User;
 import lt.dejavu.auth.security.codec.AuthHeaderCodec;
 import lt.dejavu.auth.security.codec.SignedTokenCodec;
 import lt.dejavu.auth.security.codec.TokenCodec;
 import lt.dejavu.auth.security.exception.BadTokenSignatureException;
-import lt.dejavu.auth.security.exception.SigningFailedException;
-import lt.dejavu.auth.security.exception.TokenDecodingFailedException;
-import lt.dejavu.auth.security.exception.TokenEncodingFailedException;
-import lt.dejavu.auth.security.model.Endpoint;
 import lt.dejavu.auth.security.model.SignedToken;
 import lt.dejavu.auth.security.model.Token;
+import lt.dejavu.auth.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +39,7 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public String generateToken(User user) throws TokenEncodingFailedException, SigningFailedException {
+    public String generateToken(User user) throws SecurityException {
         Token token = buildToken(user);
 
         String encodedPayload = new String(Base64.getEncoder().encode(tokenCodec.encode(token).getBytes()));
@@ -54,7 +53,7 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public void authorize(String authHeader, Endpoint endpoint) throws AccessDeniedException, TokenDecodingFailedException, SigningFailedException, BadTokenSignatureException {
+    public void authorize(String authHeader, Endpoint endpoint) throws SecurityException {
         Token token = extractTokenFromHeader(authHeader);
         boolean isAuthorized = token.getEndpoints().stream().anyMatch(e -> endpointsMatch(endpoint, e));
         if (!isAuthorized) {
@@ -62,7 +61,7 @@ public class TokenServiceImpl implements TokenService {
         }
     }
 
-    private Token extractTokenFromHeader(String authHeader) throws TokenDecodingFailedException, SigningFailedException, BadTokenSignatureException {
+    private Token extractTokenFromHeader(String authHeader) throws SecurityException {
         String rawSignedToken = authHeaderCodec.decode(authHeader);
         SignedToken signedToken = signedTokenCodec.decode(rawSignedToken);
         if (!signatureService.sign(signedToken.getPayload()).equals(signedToken.getSignature())) {

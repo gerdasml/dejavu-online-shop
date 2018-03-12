@@ -1,6 +1,8 @@
 package lt.dejavu.auth.security.exception;
 
-public class TokenEncodingFailedException extends Exception {
+import lt.dejavu.auth.exception.SecurityException;
+
+public class TokenEncodingFailedException extends SecurityException {
     public TokenEncodingFailedException(String message) {
         super(message);
     }

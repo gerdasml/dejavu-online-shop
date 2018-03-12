@@ -1,9 +1,9 @@
 package lt.dejavu.auth.security.service;
 
-import lt.dejavu.auth.configuration.properties.AuthProperties;
+import lt.dejavu.auth.model.Endpoint;
 import lt.dejavu.auth.model.User;
 import lt.dejavu.auth.model.UserType;
-import lt.dejavu.auth.security.model.Endpoint;
+import lt.dejavu.auth.security.configuration.properties.SecurityProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +18,8 @@ public class AccessibilityServiceImpl implements AccessibilityService {
     private final static String ID_PLACEHOLDER = "{id}";
     private Map<UserType, Function<Integer, List<Endpoint>>> endpointProvider;
 
-    public AccessibilityServiceImpl(AuthProperties authProperties) {
-        endpointProvider = buildEndpointProvider(authProperties);
+    public AccessibilityServiceImpl(SecurityProperties securityProperties) {
+        endpointProvider = buildEndpointProvider(securityProperties);
     }
 
     @Override
@@ -27,16 +27,16 @@ public class AccessibilityServiceImpl implements AccessibilityService {
         return endpointProvider.get(user.getType()).apply(user.getId());
     }
 
-    private Map<UserType, Function<Integer, List<Endpoint>>> buildEndpointProvider(AuthProperties authProperties) {
-        return authProperties.getRights()
-                             .entrySet()
-                             .stream()
-                             .collect(
-                                     toMap(
-                                             Map.Entry::getKey,
-                                             entry -> addUserId(entry.getValue())
-                                          )
-                                     );
+    private Map<UserType, Function<Integer, List<Endpoint>>> buildEndpointProvider(SecurityProperties securityProperties) {
+        return securityProperties.getRights()
+                                 .entrySet()
+                                 .stream()
+                                 .collect(
+                                         toMap(
+                                                 Map.Entry::getKey,
+                                                 entry -> addUserId(entry.getValue())
+                                              )
+                                         );
     }
 
     private Function<Integer, List<Endpoint>> addUserId(List<Endpoint> rights) {

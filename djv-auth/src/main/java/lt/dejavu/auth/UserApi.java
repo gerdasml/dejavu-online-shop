@@ -1,9 +1,8 @@
 package lt.dejavu.auth;
 
+import lt.dejavu.auth.exception.SecurityException;
+import lt.dejavu.auth.model.Endpoint;
 import lt.dejavu.auth.model.User;
-import lt.dejavu.auth.model.token.Endpoint;
-import lt.dejavu.auth.model.token.SignedToken;
-import lt.dejavu.auth.model.token.Token;
 import lt.dejavu.auth.service.TokenService;
 import lt.dejavu.auth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class UserApi {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<User> getAllUsers(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) throws SigningFailedException, TokenDecodingFailedException, BadTokenSignatureException {
+    public List<User> getAllUsers(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) throws SecurityException {
         authorize(authHeader, request);
         return userService.getUsers();
     }
@@ -38,7 +37,7 @@ public class UserApi {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public User getUser(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId) throws TokenEncodingFailedException, SigningFailedException, InvalidTokenException, BadTokenSignatureException, TokenDecodingFailedException {
+    public User getUser(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId) throws SecurityException {
         authorize(authHeader, request);
         return userService.getUser(userId);
     }
@@ -47,7 +46,7 @@ public class UserApi {
             path = "/{userId}/ban",
             method = RequestMethod.POST
     )
-    public void banUser(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId, @RequestParam("banned") boolean banned) throws SigningFailedException, TokenDecodingFailedException, BadTokenSignatureException {
+    public void banUser(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId, @RequestParam("banned") boolean banned) throws SecurityException {
         authorize(authHeader, request);
         userService.setBan(userId, banned);
     }
@@ -68,7 +67,7 @@ public class UserApi {
         return endpoint;
     }
 
-    private void authorize(String authHeader, HttpServletRequest request) throws SigningFailedException, TokenDecodingFailedException, BadTokenSignatureException {
+    private void authorize(String authHeader, HttpServletRequest request) throws SecurityException {
         tokenService.authorize(authHeader, buildEndpoint(request));
     }
 }

@@ -2,7 +2,8 @@ package lt.dejavu.auth.security.configuration.properties;
 
 import lombok.Getter;
 import lombok.Setter;
-import lt.dejavu.auth.security.model.Endpoint;
+import lt.dejavu.auth.model.Endpoint;
+import lt.dejavu.auth.model.UserType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.List;

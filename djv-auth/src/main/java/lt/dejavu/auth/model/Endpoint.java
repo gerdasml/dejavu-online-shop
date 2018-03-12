@@ -1,4 +1,4 @@
-package lt.dejavu.auth.security.model;
+package lt.dejavu.auth.model;
 
 import lombok.Getter;
 import lombok.Setter;

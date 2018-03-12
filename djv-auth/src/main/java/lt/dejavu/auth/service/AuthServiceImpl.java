@@ -1,15 +1,14 @@
 package lt.dejavu.auth.service;
 
 import lt.dejavu.auth.exception.UserAlreadyExistsException;
-import lt.dejavu.auth.exception.token.SigningFailedException;
-import lt.dejavu.auth.exception.token.TokenEncodingFailedException;
-import lt.dejavu.auth.helpers.Hasher;
+import lt.dejavu.auth.hash.Hasher;
 import lt.dejavu.auth.model.User;
 import lt.dejavu.auth.model.rest.LoginResponse;
 import lt.dejavu.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import lt.dejavu.auth.exception.SecurityException;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -36,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public LoginResponse login(String email, String pass) throws TokenEncodingFailedException, SigningFailedException {
+    public LoginResponse login(String email, String pass) throws SecurityException {
         String passHash = hasher.hash(pass);
         int userId = userRepository.getUserId(email, passHash);
         if (userId == 0) {
@@ -47,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.getUserById(userId);
 
         LoginResponse response = new LoginResponse();
-        if(user.isBanned()) {
+        if (user.isBanned()) {
             response.setBanned(true);
         } else {
             response.setToken(tokenService.generateToken(user));

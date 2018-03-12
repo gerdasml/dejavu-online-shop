@@ -1,4 +1,4 @@
-package lt.dejavu.auth.security.hash;
+package lt.dejavu.auth.hash;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Component;
