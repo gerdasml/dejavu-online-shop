@@ -8,9 +8,4 @@ import lombok.Setter;
 public class SignedToken {
     private String signature;
     private String payload;
-
-    @Override
-    public String toString() {
-        return signature + payload;
-    }
 }

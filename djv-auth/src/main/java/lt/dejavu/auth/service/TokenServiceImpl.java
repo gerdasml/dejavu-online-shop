@@ -9,7 +9,6 @@ import lt.dejavu.auth.model.token.Endpoint;
 import lt.dejavu.auth.model.token.SignedToken;
 import lt.dejavu.auth.model.token.Token;
 
-import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Base64;
@@ -44,7 +43,7 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public Token extractPayload(SignedToken signedToken) throws BadTokenSignatureException, SigningFailedException, TokenDecodignFailedException {
+    public Token extractPayload(SignedToken signedToken) throws BadTokenSignatureException, SigningFailedException, TokenDecodingFailedException {
         String raw = signedToken.getPayload();
         if (!signatureService.sign(raw).equals(signedToken.getSignature())) {
             throw new BadTokenSignatureException("The token's signature is invalid");

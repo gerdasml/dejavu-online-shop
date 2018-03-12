@@ -1,14 +1,19 @@
 package lt.dejavu.auth.helpers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lt.dejavu.auth.exception.token.TokenDecodignFailedException;
+import lt.dejavu.auth.exception.token.TokenDecodingFailedException;
 import lt.dejavu.auth.exception.token.TokenEncodingFailedException;
 import lt.dejavu.auth.model.token.Token;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
+@Component
 public class JsonTokenCodec implements TokenCodec {
     private final ObjectMapper mapper;
 
-    public JsonTokenCodec(ObjectMapper mapper) {
+    @Autowired
+    public JsonTokenCodec(@Qualifier("defaultObjectMapper") ObjectMapper mapper) {
         this.mapper = mapper;
     }
 
@@ -22,11 +27,11 @@ public class JsonTokenCodec implements TokenCodec {
     }
 
     @Override
-    public Token decode(String tokenStr) throws TokenDecodignFailedException {
+    public Token decode(String tokenStr) throws TokenDecodingFailedException {
         try {
             return mapper.readValue(tokenStr, Token.class);
         } catch (Exception e) {
-            throw new TokenDecodignFailedException("Failed to decode token", e);
+            throw new TokenDecodingFailedException("Failed to decode token", e);
         }
     }
 }

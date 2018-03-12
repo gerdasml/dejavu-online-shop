@@ -42,7 +42,7 @@ public class UserApi {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public User getUser(HttpServletRequest req, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId) throws TokenEncodingFailedException, SigningFailedException, InvalidTokenException, BadTokenSignatureException, TokenDecodignFailedException {
+    public User getUser(HttpServletRequest req, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId) throws TokenEncodingFailedException, SigningFailedException, InvalidTokenException, BadTokenSignatureException, TokenDecodingFailedException {
         /*UUID token = AuthHelper.extractTokenFromHeader(authHeader);
         User u = userService.getUser(userId, token);
         SignedToken signedToken = tokenService.generateToken(u);

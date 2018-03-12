@@ -63,16 +63,6 @@ public class AuthConfiguration {
     }
 
     @Bean
-    public Hasher hasher() {
-        return new Sha256Hasher();
-    }
-
-    @Bean
-    public TokenCodec tokenCodec(@Qualifier("defaultObjectMapper") ObjectMapper mapper) {
-        return new JsonTokenCodec(mapper);
-    }
-
-    @Bean
     public SignatureService signatureService(AuthProperties properties) {
         return new SignatureServiceImpl(properties.getSecret());
     }
