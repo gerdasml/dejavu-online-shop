@@ -1,4 +1,4 @@
-package lt.dejavu.auth.helpers;
+package lt.dejavu.auth.codec;
 
 import lt.dejavu.auth.exception.AccessDeniedException;
 import lt.dejavu.auth.model.token.SignedToken;

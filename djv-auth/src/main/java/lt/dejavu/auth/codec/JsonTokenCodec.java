@@ -1,4 +1,4 @@
-package lt.dejavu.auth.helpers;
+package lt.dejavu.auth.codec;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lt.dejavu.auth.exception.token.TokenDecodingFailedException;
