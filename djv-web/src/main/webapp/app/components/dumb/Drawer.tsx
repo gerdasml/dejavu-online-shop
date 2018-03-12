@@ -4,6 +4,8 @@ import { Menu, Segment, Sidebar } from "semantic-ui-react";
 
 import "../../../style/drawer.css";
 
+const myImage = require("../../assets/placeholder_350x150.png");
+
 export interface IDrawerMenuState { visible: boolean; }
 
 export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
@@ -27,7 +29,10 @@ export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
                          inverted
                 />
                 <Sidebar.Pusher>
-                    <Segment basic className="content"/>
+                    <Segment basic className="content">
+                        <button onClick={() => this.setState({visible: !this.state.visible})}>go</button>
+                        <Image src={myImage} />
+                    </Segment>
                 </Sidebar.Pusher>
                 </Sidebar.Pushable>
             </div>

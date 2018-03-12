@@ -12,39 +12,48 @@ const common = {
         PATHS.source
     ],
     cache: true,
-    debug: true,
+    mode: "development",
     output: {
         path: PATHS.output,
         publicPath: "",
         filename: "bundle.js"
     },
     module: {
-        loaders: [
-            {
-                exclude: /node_modules/,
-                loader: "babel"
-            },
+        rules: [
             {
                 test: /\.css$/,
-                loader: "style!css"
-            }
-        ],
-        rules: [
+                use: [
+                    { loader: "style-loader" },
+                    { loader: "css-loader" }
+                ]
+            },
+            {
+                test: /\.(png|jpe?g|svg|gif)$/,
+                use: [
+                    {
+                        loader: "url-loader",
+                        options: {
+                            limit: 8000
+                        }
+                    }
+                ]
+            },
             // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'
             {
                 test: /\.tsx?$/,
-                loader: "awesome-typescript-loader"
+                loader: "ts-loader"
             },
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'
             {
                 enforce: "pre",
                 test: /\.js$/,
+                exclude: /node_modules/,
                 loader: "source-map-loader"
             }
         ]
     },
     resolve: {
-        extensions: ["", ".js", ".jsx", ".ts", ".tsx"]
+        extensions: [".js", ".jsx", ".ts", ".tsx"]
     }
 };
 
