@@ -3,7 +3,6 @@ package lt.dejavu.auth.configuration;
 import lt.dejavu.auth.db.dao.UserDAO;
 import lt.dejavu.auth.db.dao.UserTokenDAO;
 import lt.dejavu.auth.db.mapper.UserMapper;
-import org.killbill.commons.jdbi.mapper.UUIDMapper;
 import org.skife.jdbi.v2.DBI;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -26,7 +25,6 @@ public class AuthConfiguration {
     public DBI dbi(DataSource dataSource) {
         DBI dbi = new DBI(dataSource);
         dbi.registerMapper(new UserMapper());
-        dbi.registerMapper(new UUIDMapper());
         return dbi;
     }
 

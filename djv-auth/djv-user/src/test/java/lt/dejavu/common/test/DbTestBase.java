@@ -4,7 +4,6 @@ import lt.dejavu.auth.db.mapper.UserMapper;
 import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.killbill.commons.jdbi.mapper.UUIDMapper;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 
@@ -19,7 +18,6 @@ public abstract class DbTestBase { // TODO: extract this class to some common pl
     public static void setUpFixture() {
         dbi = new DBI("jdbc:h2:mem:test'", "sa", "sa");
         dbi.registerMapper(new UserMapper());
-        dbi.registerMapper(new UUIDMapper());
         handle = dbi.open();
     }
 
