@@ -2,6 +2,8 @@ package lt.dejavu.auth.service;
 
 import lt.dejavu.auth.exception.AccessDeniedException;
 import lt.dejavu.auth.exception.token.*;
+import lt.dejavu.auth.helpers.AuthHeaderCodec;
+import lt.dejavu.auth.helpers.SignedTokenCodec;
 import lt.dejavu.auth.helpers.TokenCodec;
 import lt.dejavu.auth.model.User;
 import lt.dejavu.auth.model.UserType;
@@ -19,13 +21,17 @@ import java.util.function.Function;
 public class TokenServiceImpl implements TokenService {
     private final static int TOKEN_DURATION_IN_MINUTES = 60;
 
-    private final TokenCodec codec;
+    private final TokenCodec tokenCodec;
     private final SignatureService signatureService;
     private final Map<UserType, Function<Integer, List<Endpoint>>> endpointProvider;
+    private final SignedTokenCodec signedTokenCodec;
+    private final AuthHeaderCodec authHeaderCodec;
 
-    public TokenServiceImpl(TokenCodec codec, SignatureService signatureService, Map<UserType, Function<Integer, List<Endpoint>>> endpointProvider) {
-        this.codec = codec;
+    public TokenServiceImpl(TokenCodec tokenCodec, SignatureService signatureService, SignedTokenCodec signedTokenCodec, AuthHeaderCodec authHeaderCodec, Map<UserType, Function<Integer, List<Endpoint>>> endpointProvider) {
+        this.tokenCodec = tokenCodec;
         this.signatureService = signatureService;
+        this.signedTokenCodec = signedTokenCodec;
+        this.authHeaderCodec = authHeaderCodec;
         this.endpointProvider = endpointProvider;
     }
 
@@ -33,7 +39,7 @@ public class TokenServiceImpl implements TokenService {
     public SignedToken generateToken(User user) throws TokenEncodingFailedException, SigningFailedException {
         Token token = buildToken(user);
 
-        String encodedPayload = new String(Base64.getEncoder().encode(codec.encode(token).getBytes()));
+        String encodedPayload = new String(Base64.getEncoder().encode(tokenCodec.encode(token).getBytes()));
         String signature = signatureService.sign(encodedPayload);
 
         SignedToken signedToken = new SignedToken();
@@ -49,11 +55,17 @@ public class TokenServiceImpl implements TokenService {
             throw new BadTokenSignatureException("The token's signature is invalid");
         }
         String encoded = new String(Base64.getDecoder().decode(raw.getBytes()));
-        return codec.decode(encoded);
+        return tokenCodec.decode(encoded);
     }
 
     @Override
-    public void authorize(Token token, Endpoint endpoint) throws AccessDeniedException {
+    public void authorize(String authHeader, Endpoint endpoint) throws AccessDeniedException, TokenDecodingFailedException, SigningFailedException, BadTokenSignatureException {
+        String rawToken = authHeaderCodec.decode(authHeader);
+        SignedToken signedToken = signedTokenCodec.decode(rawToken);
+        if (!signatureService.sign(signedToken.getPayload()).equals(signedToken.getSignature())) {
+            throw new BadTokenSignatureException("The token's signature is invalid");
+        }
+        Token token = tokenCodec.decode(signedToken.getPayload());
         if(token.getExpiration().isBefore(Instant.now())) {
             throw new AccessDeniedException("The token is expired");
         }

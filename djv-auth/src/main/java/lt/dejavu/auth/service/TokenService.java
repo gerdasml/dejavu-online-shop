@@ -10,6 +10,6 @@ import lt.dejavu.auth.model.token.Token;
 public interface TokenService {
     SignedToken generateToken(User user) throws TokenEncodingFailedException, SigningFailedException;
     Token extractPayload(SignedToken signedToken) throws BadTokenSignatureException, SigningFailedException, TokenDecodingFailedException;
-    void authorize(Token token, Endpoint endpoint) throws AccessDeniedException;
+    void authorize(String authHeader, Endpoint endpoint) throws AccessDeniedException, TokenDecodingFailedException, SigningFailedException, BadTokenSignatureException;
     SignedToken fromString(String raw) throws InvalidTokenException;
 }

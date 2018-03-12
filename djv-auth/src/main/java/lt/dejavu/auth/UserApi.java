@@ -55,15 +55,11 @@ public class UserApi {
         u2.setType(UserType.ADMIN);
         u2.setId(2);
 
-        String rawToken = AuthHelper.extractRawTokenFromHeader(authHeader);
-        SignedToken signedToken = tokenService.fromString(rawToken);
-        Token token = tokenService.extractPayload(signedToken);
-
         Endpoint endpoint = new Endpoint();
         endpoint.setMethod(RequestMethod.valueOf(req.getMethod()));
         endpoint.setPath(req.getRequestURI());
 
-        tokenService.authorize(token, endpoint);
+        tokenService.authorize(authHeader, endpoint);
 
         return null;
 

@@ -1,13 +1,10 @@
 package lt.dejavu.auth.configuration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lt.dejavu.auth.configuration.properties.AuthProperties;
 import lt.dejavu.auth.db.dao.UserDAO;
 import lt.dejavu.auth.db.dao.UserTokenDAO;
 import lt.dejavu.auth.db.mapper.UserMapper;
-import lt.dejavu.auth.helpers.Hasher;
-import lt.dejavu.auth.helpers.JsonTokenCodec;
-import lt.dejavu.auth.helpers.Sha256Hasher;
+import lt.dejavu.auth.helpers.SignedTokenCodec;
 import lt.dejavu.auth.helpers.TokenCodec;
 import lt.dejavu.auth.model.UserType;
 import lt.dejavu.auth.model.token.Endpoint;
@@ -17,14 +14,12 @@ import lt.dejavu.auth.service.TokenService;
 import lt.dejavu.auth.service.TokenServiceImpl;
 import org.killbill.commons.jdbi.mapper.UUIDMapper;
 import org.skife.jdbi.v2.DBI;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -68,8 +63,8 @@ public class AuthConfiguration {
     }
 
     @Bean
-    public TokenService tokenService(TokenCodec codec, SignatureService signatureService, AuthProperties props) {
-        return new TokenServiceImpl(codec, signatureService, authEndpointProvider(props));
+    public TokenService tokenService(TokenCodec codec, SignedTokenCodec signedTokenCodec, SignatureService signatureService, AuthProperties props) {
+        return new TokenServiceImpl(codec, signatureService, signedTokenCodec, authHeaderCodec, authEndpointProvider(props));
     }
 
     @Bean
