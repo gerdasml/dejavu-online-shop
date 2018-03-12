@@ -4,6 +4,7 @@ import lt.dejavu.auth.exception.token.SigningFailedException;
 import lt.dejavu.auth.exception.token.TokenEncodingFailedException;
 import lt.dejavu.auth.helpers.AuthHelper;
 import lt.dejavu.auth.model.rest.LoginRequest;
+import lt.dejavu.auth.model.rest.LoginResponse;
 import lt.dejavu.auth.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +24,7 @@ public class AuthApi {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public String login(@RequestBody LoginRequest request) throws TokenEncodingFailedException, SigningFailedException {
+    public LoginResponse login(@RequestBody LoginRequest request) throws TokenEncodingFailedException, SigningFailedException {
         return authService.login(request.getEmail(), request.getPassword());
     }
 

@@ -5,6 +5,7 @@ import lt.dejavu.auth.exception.token.SigningFailedException;
 import lt.dejavu.auth.exception.token.TokenEncodingFailedException;
 import lt.dejavu.auth.helpers.Hasher;
 import lt.dejavu.auth.model.User;
+import lt.dejavu.auth.model.rest.LoginResponse;
 import lt.dejavu.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -37,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String login(String email, String pass) throws TokenEncodingFailedException, SigningFailedException {
+    public LoginResponse login(String email, String pass) throws TokenEncodingFailedException, SigningFailedException {
         String passHash = hasher.hash(pass);
         int userId = userRepository.getUserId(email, passHash);
         if (userId == 0) {
@@ -46,7 +47,14 @@ public class AuthServiceImpl implements AuthService {
             throw new ResourceNotFoundException();
         }
         User user = userRepository.getUserById(userId);
-        return tokenService.generateToken(user);
+
+        LoginResponse response = new LoginResponse();
+        if(user.isBanned()) {
+            response.setBanned(true);
+        } else {
+            response.setToken(tokenService.generateToken(user));
+        }
+        return response;
     }
 
 //    @Override
