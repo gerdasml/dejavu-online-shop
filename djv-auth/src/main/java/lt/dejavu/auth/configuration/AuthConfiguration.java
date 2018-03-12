@@ -9,10 +9,7 @@ import lt.dejavu.auth.codec.SignedTokenCodec;
 import lt.dejavu.auth.codec.TokenCodec;
 import lt.dejavu.auth.model.UserType;
 import lt.dejavu.auth.model.token.Endpoint;
-import lt.dejavu.auth.service.SignatureService;
-import lt.dejavu.auth.service.SignatureServiceImpl;
-import lt.dejavu.auth.service.TokenService;
-import lt.dejavu.auth.service.TokenServiceImpl;
+import lt.dejavu.auth.service.*;
 import org.killbill.commons.jdbi.mapper.UUIDMapper;
 import org.skife.jdbi.v2.DBI;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
@@ -64,33 +61,7 @@ public class AuthConfiguration {
     }
 
     @Bean
-    public TokenService tokenService(TokenCodec codec, SignedTokenCodec signedTokenCodec, AuthHeaderCodec authHeaderCodec, SignatureService signatureService, AuthProperties props) {
-        return new TokenServiceImpl(codec, signatureService, signedTokenCodec, authHeaderCodec, authEndpointProvider(props));
-    }
-
-    @Bean
-    public Map<UserType, Function<Integer, List<Endpoint>>> authEndpointProvider(AuthProperties authProperties) {
-        return authProperties.getRights()
-                             .entrySet()
-                             .stream()
-                             .collect(
-                                     toMap(
-                                             Map.Entry::getKey,
-                                             entry -> addUserId(entry.getValue())
-                                          )
-                                     );
-    }
-
-    private Function<Integer, List<Endpoint>> addUserId(List<Endpoint> rights) {
-        return id -> rights.stream()
-                           .map(e -> addUserId(e, id))
-                           .collect(toList());
-    }
-
-    private Endpoint addUserId(Endpoint e, int id) {
-        Endpoint ee = new Endpoint();
-        ee.setMethod(e.getMethod());
-        ee.setPath(e.getPath().replace("{id}", String.valueOf(id)));
-        return ee;
+    public AccessibilityService accessibilityService(AuthProperties properties) {
+        return new AccessibilityServiceImpl(properties);
     }
 }

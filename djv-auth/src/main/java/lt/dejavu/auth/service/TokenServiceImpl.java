@@ -6,33 +6,34 @@ import lt.dejavu.auth.codec.AuthHeaderCodec;
 import lt.dejavu.auth.codec.SignedTokenCodec;
 import lt.dejavu.auth.codec.TokenCodec;
 import lt.dejavu.auth.model.User;
-import lt.dejavu.auth.model.UserType;
 import lt.dejavu.auth.model.token.Endpoint;
 import lt.dejavu.auth.model.token.SignedToken;
 import lt.dejavu.auth.model.token.Token;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 
+@Service
 public class TokenServiceImpl implements TokenService {
     private final static int TOKEN_DURATION_IN_MINUTES = 60;
 
     private final TokenCodec tokenCodec;
     private final SignatureService signatureService;
-    private final Map<UserType, Function<Integer, List<Endpoint>>> endpointProvider;
+    private final AccessibilityService accessibilityService;
     private final SignedTokenCodec signedTokenCodec;
     private final AuthHeaderCodec authHeaderCodec;
 
-    public TokenServiceImpl(TokenCodec tokenCodec, SignatureService signatureService, SignedTokenCodec signedTokenCodec, AuthHeaderCodec authHeaderCodec, Map<UserType, Function<Integer, List<Endpoint>>> endpointProvider) {
+    @Autowired
+    public TokenServiceImpl(AccessibilityService accessibilityService, TokenCodec tokenCodec, SignatureService signatureService, SignedTokenCodec signedTokenCodec, AuthHeaderCodec authHeaderCodec) {
+        this.accessibilityService = accessibilityService;
         this.tokenCodec = tokenCodec;
         this.signatureService = signatureService;
         this.signedTokenCodec = signedTokenCodec;
         this.authHeaderCodec = authHeaderCodec;
-        this.endpointProvider = endpointProvider;
     }
 
     @Override
@@ -79,7 +80,7 @@ public class TokenServiceImpl implements TokenService {
         Token token = new Token();
         token.setUserId(user.getId());
         token.setExpiration(Instant.now().plus(Duration.ofMinutes(TOKEN_DURATION_IN_MINUTES)));
-        List<Endpoint> endpoints = endpointProvider.get(user.getType()).apply(user.getId());
+        List<Endpoint> endpoints = accessibilityService.getAccessibleEndpoints(user);
         token.setEndpoints(endpoints);
         return token;
     }
