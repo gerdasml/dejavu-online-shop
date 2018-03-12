@@ -60,12 +60,13 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public void authorize(String authHeader, Endpoint endpoint) throws AccessDeniedException, TokenDecodingFailedException, SigningFailedException, BadTokenSignatureException {
-        String rawToken = authHeaderCodec.decode(authHeader);
-        SignedToken signedToken = signedTokenCodec.decode(rawToken);
+        String rawSignedToken = authHeaderCodec.decode(authHeader);
+        SignedToken signedToken = signedTokenCodec.decode(rawSignedToken);
         if (!signatureService.sign(signedToken.getPayload()).equals(signedToken.getSignature())) {
             throw new BadTokenSignatureException("The token's signature is invalid");
         }
-        Token token = tokenCodec.decode(signedToken.getPayload());
+        String rawToken = new String(Base64.getDecoder().decode(signedToken.getPayload().getBytes()));
+        Token token = tokenCodec.decode(rawToken);
         if(token.getExpiration().isBefore(Instant.now())) {
             throw new AccessDeniedException("The token is expired");
         }

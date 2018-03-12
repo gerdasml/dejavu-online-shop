@@ -4,6 +4,7 @@ import lt.dejavu.auth.configuration.properties.AuthProperties;
 import lt.dejavu.auth.db.dao.UserDAO;
 import lt.dejavu.auth.db.dao.UserTokenDAO;
 import lt.dejavu.auth.db.mapper.UserMapper;
+import lt.dejavu.auth.helpers.AuthHeaderCodec;
 import lt.dejavu.auth.helpers.SignedTokenCodec;
 import lt.dejavu.auth.helpers.TokenCodec;
 import lt.dejavu.auth.model.UserType;
@@ -63,7 +64,7 @@ public class AuthConfiguration {
     }
 
     @Bean
-    public TokenService tokenService(TokenCodec codec, SignedTokenCodec signedTokenCodec, SignatureService signatureService, AuthProperties props) {
+    public TokenService tokenService(TokenCodec codec, SignedTokenCodec signedTokenCodec, AuthHeaderCodec authHeaderCodec, SignatureService signatureService, AuthProperties props) {
         return new TokenServiceImpl(codec, signatureService, signedTokenCodec, authHeaderCodec, authEndpointProvider(props));
     }
 
