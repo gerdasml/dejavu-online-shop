@@ -49,17 +49,15 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public Token extractPayload(SignedToken signedToken) throws BadTokenSignatureException, SigningFailedException, TokenDecodingFailedException {
-        String raw = signedToken.getPayload();
-        if (!signatureService.sign(raw).equals(signedToken.getSignature())) {
-            throw new BadTokenSignatureException("The token's signature is invalid");
+    public void authorize(String authHeader, Endpoint endpoint) throws AccessDeniedException, TokenDecodingFailedException, SigningFailedException, BadTokenSignatureException {
+        Token token = extractTokenFromHeader(authHeader);
+        boolean isAuthorized = token.getEndpoints().stream().anyMatch(e -> endpointsMatch(endpoint, e));
+        if(!isAuthorized) {
+            throw new AccessDeniedException("You are not authorized to access this endpoint");
         }
-        String encoded = new String(Base64.getDecoder().decode(raw.getBytes()));
-        return tokenCodec.decode(encoded);
     }
 
-    @Override
-    public void authorize(String authHeader, Endpoint endpoint) throws AccessDeniedException, TokenDecodingFailedException, SigningFailedException, BadTokenSignatureException {
+    private Token extractTokenFromHeader(String authHeader) throws TokenDecodingFailedException, SigningFailedException, BadTokenSignatureException {
         String rawSignedToken = authHeaderCodec.decode(authHeader);
         SignedToken signedToken = signedTokenCodec.decode(rawSignedToken);
         if (!signatureService.sign(signedToken.getPayload()).equals(signedToken.getSignature())) {
@@ -70,26 +68,7 @@ public class TokenServiceImpl implements TokenService {
         if(token.getExpiration().isBefore(Instant.now())) {
             throw new AccessDeniedException("The token is expired");
         }
-        boolean isAuthorized = token.getEndpoints().stream().anyMatch(e -> endpointsMatch(endpoint, e));
-        if(!isAuthorized) {
-            throw new AccessDeniedException("You are not authorized to access this endpoint");
-        }
-    }
-
-    @Override
-    public SignedToken fromString(String raw) throws InvalidTokenException {
-        int signatureLength = signatureService.getSignatureLength();
-        if(raw.length() < signatureLength) {
-            throw new InvalidTokenException("Bad token format");
-        }
-
-        String signaturePart = raw.substring(0, signatureLength);
-        String payloadPart = raw.substring(signatureLength);
-
-        SignedToken signedToken = new SignedToken();
-        signedToken.setSignature(signaturePart);
-        signedToken.setPayload(payloadPart);
-        return signedToken;
+        return token;
     }
 
     private boolean endpointsMatch(Endpoint real, Endpoint pattern) {

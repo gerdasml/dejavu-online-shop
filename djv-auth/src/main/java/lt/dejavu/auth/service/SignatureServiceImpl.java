@@ -25,9 +25,4 @@ public class SignatureServiceImpl implements SignatureService {
             throw new SigningFailedException("Failed to generate signature", e);
         }
     }
-
-    @Override
-    public int getSignatureLength() {
-        return 44;
-    }
 }
