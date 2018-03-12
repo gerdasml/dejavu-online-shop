@@ -35,4 +35,12 @@ flyway:
         columns:
           id: userId
           token: accessToken
+      product:
+        name: product
+        columns:
+          id: id
+          name: name
+          description: description
+          category: category
+          price: price
 

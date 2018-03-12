@@ -10,6 +10,7 @@
     <modules>
         <module>djv-web</module>
         <module>djv-auth</module>
+        <module>djv-product</module>
     </modules>
     <packaging>pom</packaging>
 
