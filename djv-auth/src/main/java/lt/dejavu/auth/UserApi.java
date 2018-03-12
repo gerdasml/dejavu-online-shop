@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("${rest.basePath}/auth/user")
+@RequestMapping("${rest.basePath}/user")
 public class UserApi {
     @Autowired
     private UserService userService;

@@ -7,12 +7,12 @@ auth:
   secret: changeit
   rights:
     REGULAR:
-      - GET /api/auth/user/{id}
-      - POST /api/auth/user/{id}
+      - GET /api/user/{id}
+      - POST /api/user/{id}
     ADMIN:
-      - GET /api/auth/user/*
-      - GET /api/auth/user/
-      - POST /api/auth/user/*/ban
+      - GET /api/user/*
+      - GET /api/user/
+      - POST /api/user/*/ban
 
 spring:
   datasource:
