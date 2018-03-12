@@ -10,7 +10,7 @@ import lt.dejavu.auth.security.codec.TokenCodec;
 import lt.dejavu.auth.security.exception.BadTokenSignatureException;
 import lt.dejavu.auth.security.model.SignedToken;
 import lt.dejavu.auth.security.model.Token;
-import lt.dejavu.auth.service.TokenService;
+import lt.dejavu.auth.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ import java.util.Base64;
 import java.util.List;
 
 @Service
-public class TokenServiceImpl implements TokenService {
+public class SecurityServiceImpl implements SecurityService {
     private final static int TOKEN_DURATION_IN_MINUTES = 60;
 
     private final TokenCodec tokenCodec;
@@ -30,7 +30,7 @@ public class TokenServiceImpl implements TokenService {
     private final AuthHeaderCodec authHeaderCodec;
 
     @Autowired
-    public TokenServiceImpl(AccessibilityService accessibilityService, TokenCodec tokenCodec, SignatureService signatureService, SignedTokenCodec signedTokenCodec, AuthHeaderCodec authHeaderCodec) {
+    public SecurityServiceImpl(AccessibilityService accessibilityService, TokenCodec tokenCodec, SignatureService signatureService, SignedTokenCodec signedTokenCodec, AuthHeaderCodec authHeaderCodec) {
         this.accessibilityService = accessibilityService;
         this.tokenCodec = tokenCodec;
         this.signatureService = signatureService;

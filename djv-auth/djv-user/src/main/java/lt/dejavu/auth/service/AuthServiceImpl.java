@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthServiceImpl implements AuthService {
-    private final TokenService tokenService;
+    private final SecurityService securityService;
     private final UserRepository userRepository;
     private final Hasher hasher;
 
     @Autowired
-    public AuthServiceImpl(TokenService tokenService, UserRepository userRepository, Hasher hasher) {
-        this.tokenService = tokenService;
+    public AuthServiceImpl(SecurityService securityService, UserRepository userRepository, Hasher hasher) {
+        this.securityService = securityService;
         this.userRepository = userRepository;
         this.hasher = hasher;
     }
@@ -49,7 +49,7 @@ public class AuthServiceImpl implements AuthService {
         if (user.isBanned()) {
             response.setBanned(true);
         } else {
-            response.setToken(tokenService.generateToken(user));
+            response.setToken(securityService.generateToken(user));
         }
         return response;
     }

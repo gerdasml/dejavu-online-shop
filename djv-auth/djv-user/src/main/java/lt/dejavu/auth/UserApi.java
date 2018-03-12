@@ -3,7 +3,7 @@ package lt.dejavu.auth;
 import lt.dejavu.auth.exception.SecurityException;
 import lt.dejavu.auth.model.Endpoint;
 import lt.dejavu.auth.model.User;
-import lt.dejavu.auth.service.TokenService;
+import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.auth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +20,7 @@ public class UserApi {
     private UserService userService;
 
     @Autowired
-    private TokenService tokenService;
+    private SecurityService securityService;
 
     @RequestMapping(
             path = "/",
@@ -68,6 +68,6 @@ public class UserApi {
     }
 
     private void authorize(String authHeader, HttpServletRequest request) throws SecurityException {
-        tokenService.authorize(authHeader, buildEndpoint(request));
+        securityService.authorize(authHeader, buildEndpoint(request));
     }
 }
