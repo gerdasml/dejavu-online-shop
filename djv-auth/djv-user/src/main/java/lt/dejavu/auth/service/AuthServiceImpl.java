@@ -1,14 +1,14 @@
 package lt.dejavu.auth.service;
 
+import lt.dejavu.auth.codec.Hasher;
+import lt.dejavu.auth.exception.SecurityException;
 import lt.dejavu.auth.exception.UserAlreadyExistsException;
-import lt.dejavu.auth.hash.Hasher;
 import lt.dejavu.auth.model.User;
 import lt.dejavu.auth.model.rest.LoginResponse;
 import lt.dejavu.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
-import lt.dejavu.auth.exception.SecurityException;
 
 @Service
 public class AuthServiceImpl implements AuthService {

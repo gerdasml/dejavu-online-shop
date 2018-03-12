@@ -20,14 +20,14 @@ public class UserTokenDAOTest extends DbTestBase {
 
     @BeforeClass
     public static void setUp() throws IOException {
-        executeScript("create.sql");
+        DbTestBase.executeScript("create.sql");
     }
 
     @Before
     public void setUpTest() throws IOException {
-        executeScript("clear.sql");
+        DbTestBase.executeScript("clear.sql");
 
-        userTokenDAO = dbi.onDemand(UserTokenDAO.class);
+        userTokenDAO = DbTestBase.dbi.onDemand(UserTokenDAO.class);
         // Add two users to the DB before each test
         insertUser(getSampleUser1());
         insertUser(getSampleUser2());
@@ -39,7 +39,7 @@ public class UserTokenDAOTest extends DbTestBase {
         UUID token = UUID.randomUUID();
         String query = String.format(queryTemplate, USER_ID1, token);
 
-        handle.insert(query);
+        DbTestBase.handle.insert(query);
         int id = userTokenDAO.getUserId(token);
 
         Assert.assertEquals(1, id);
@@ -51,7 +51,7 @@ public class UserTokenDAOTest extends DbTestBase {
         UUID token = UUID.randomUUID();
         String query = String.format(queryTemplate, USER_ID1, token);
 
-        handle.insert(query);
+        DbTestBase.handle.insert(query);
         UUID actual = userTokenDAO.getAccessToken(1);
 
         Assert.assertEquals(token, actual);
@@ -123,7 +123,7 @@ public class UserTokenDAOTest extends DbTestBase {
                                      user.isBanned() ? 1 : 0,
                                      user.getFirstName(),
                                      user.getLastName());
-        handle.insert(query);
+        DbTestBase.handle.insert(query);
     }
 
     private User getSampleUser1() {

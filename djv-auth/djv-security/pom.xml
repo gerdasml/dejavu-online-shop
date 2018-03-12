@@ -12,9 +12,9 @@
     <artifactId>djv-security</artifactId>
     <dependencies>
         <dependency>
-            <groupId>lt.dejavu</groupId>
-            <artifactId>djv-auth</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>djv-user</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

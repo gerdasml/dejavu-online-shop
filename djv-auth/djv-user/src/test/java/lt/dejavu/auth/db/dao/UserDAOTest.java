@@ -14,21 +14,21 @@ public class UserDAOTest extends DbTestBase {
 
     @BeforeClass
     public static void setUp() throws IOException {
-        executeScript("create.sql");
+        DbTestBase.executeScript("create.sql");
     }
 
     @Before
     public void setUpTest() throws IOException {
-        executeScript("clear.sql");
+        DbTestBase.executeScript("clear.sql");
     }
 
     @Test
     public void testFindUserById() {
         User expected = getSampleUser();
-        UserDAO userDAO = dbi.onDemand(UserDAO.class);
+        UserDAO userDAO = DbTestBase.dbi.onDemand(UserDAO.class);
         String query = buildInsertQuery(expected);
 
-        handle.insert(query);
+        DbTestBase.handle.insert(query);
         User actual = userDAO.findUserById(1);
 
         assertUsersEqual(expected, actual);
@@ -37,10 +37,10 @@ public class UserDAOTest extends DbTestBase {
     @Test
     public void testFindUserByCredentials() {
         User expected = getSampleUser();
-        UserDAO userDAO = dbi.onDemand(UserDAO.class);
+        UserDAO userDAO = DbTestBase.dbi.onDemand(UserDAO.class);
         String query = buildInsertQuery(expected);
 
-        handle.insert(query);
+        DbTestBase.handle.insert(query);
         int id = userDAO.getUserId(expected.getEmail(), expected.getPassword());
 
         Assert.assertEquals(1, id);
@@ -48,7 +48,7 @@ public class UserDAOTest extends DbTestBase {
 
     @Test
     public void testFindNonExistantUserReturnsZero() {
-        UserDAO userDAO = dbi.onDemand(UserDAO.class);
+        UserDAO userDAO = DbTestBase.dbi.onDemand(UserDAO.class);
 
         int id = userDAO.getUserId("doesnt", "exist");
 
@@ -57,7 +57,7 @@ public class UserDAOTest extends DbTestBase {
 
     @Test
     public void testAddUser() {
-        UserDAO userDAO = dbi.onDemand(UserDAO.class);
+        UserDAO userDAO = DbTestBase.dbi.onDemand(UserDAO.class);
         User expected = getSampleUser();
 
         int id = userDAO.addNewUser(expected);
