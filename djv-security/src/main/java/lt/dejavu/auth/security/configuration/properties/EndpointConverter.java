@@ -38,6 +38,7 @@ public class EndpointConverter implements Converter<String, Endpoint> {
                     break;
                 default:
                     sb.append(c);
+                    break;
             }
         }
         sb.append("$");

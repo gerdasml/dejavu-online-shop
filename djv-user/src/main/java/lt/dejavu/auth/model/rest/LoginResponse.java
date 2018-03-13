@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LoginResponse {
-    String token;
-    Boolean banned;
+    private String token;
+    private Boolean banned;
 }
