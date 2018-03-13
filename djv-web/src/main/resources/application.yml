@@ -43,4 +43,10 @@ flyway:
           description: description
           category: category
           price: price
+      category:
+        name: category
+        columns:
+          id: id
+          name: name
+          parentCategory: parentCategory
 
