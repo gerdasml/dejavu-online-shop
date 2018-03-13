@@ -1,6 +1,7 @@
-package lt.dejavu.product.repository;
+package lt.dejavu.product.repository.impl;
 
 import lt.dejavu.product.model.Product;
+import lt.dejavu.product.repository.ProductRepository;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Long CreateProduct(Product id) {
+    public Long CreateProduct(Product product) {
         return null;
     }
 }

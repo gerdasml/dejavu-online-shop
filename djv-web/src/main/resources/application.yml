@@ -43,6 +43,7 @@ flyway:
           description: description
           category: category
           price: price
+          creationDate: creationDate
       category:
         name: category
         columns:
