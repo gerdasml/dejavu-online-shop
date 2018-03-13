@@ -4,70 +4,74 @@ import {Button, Grid, Icon, Image, Search} from "semantic-ui-react";
 import "../../../style/header.css";
 // import logo from "../../assets/dejavu-logo-transperant.png";
 
-/*export const Header = () =>
-    <div className="header"></div>
-;*/
+const logo = require("../../assets/dejavu-logo-transperant.png");
 
-export default class Header extends React.Component {
-    /*constructor () {
-        super(props: {});
-        this.state = {
-            test: "test"
-        };
-    }*/
+export default class Header extends React.Component <{}, {}> {
 
     render () {
         return (
             <Grid className="header">
-                <Grid.Row>
-                    <Grid.Column width={3}>
-                        <Image id="logo"
-                            // TODO: change for local image when loaders are fixed
-                            src="http://www.part.lt/img/1db15aa8a0de669f04c364eae9b6edb9383.png"
-                            alt="Neveikia"
-                        />
-                    </Grid.Column>
-                    <Grid.Column width={13}>
-                        <Grid>
-
-                            <Grid.Row>
-                                <Grid.Column width={6}>
-                                    <Icon name="mail outline" />
-                                    dejavu.psk@gmail.com
-                                </Grid.Column>
-                                <Grid.Column width={6}>
-                                    <Icon name="phone" />
-                                    +3706NETIKRAS
-                                </Grid.Column>
-                                <Grid.Column width={4}>
-                                    {/* TODO: make as a button */}
-                                    <Icon name="info" />
-                                    INFO
-                                </Grid.Column>
+                <Grid.Column width={2}>
+                    <Image id="logo"
+                           src={logo}
+                           alt="Neveikia"
+                    />
+                </Grid.Column>
+                <Grid.Column width={7}>
+                    <Grid>
+                        <Grid.Row>
+                            <Grid.Column width={8}>
+                                <Icon name="mail outline" />
+                                dejavu.psk@gmail.com
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Icon name="phone" />
+                                +37060000000
+                            </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
-                                <Grid.Column width={12}>
-                                    {/* TODO: implement search */}
-                                    <Search id="searchBar"
-                                            value="Search..."
-                                            noResultsMessage="Not implemented exception. xD"
-                                            size="mini"
-                                            fluid
+                            <Search id="searchBar"
+                                    value="Search..."
+                                    noResultsMessage="Not implemented exception. xD"
+                                    size="mini"
+                            >
+                            </Search>
+                        </Grid.Row>
+                    </Grid>
+                </Grid.Column>
+                <Grid.Column width={4}>
+                </Grid.Column>
+                <Grid.Column width={3}>
+                    <Grid>
+                        <Grid.Column  width={5}>
+                            <Button icon
+                                    size="massive"
                                     >
-                                    </Search>
-                                </Grid.Column>
-                                <Grid.Column width={2}>
-                                    {/* TODO: make as a button */}
-                                    <Icon name ="cart"/>
-                                </Grid.Column>
-                                <Grid.Column width={2}>
-                                    {/* TODO: make as a button */}
-                                    <Icon name ="user circle outline"/>
-                                </Grid.Column>
-                            </Grid.Row>
-                        </Grid>
-                    </Grid.Column>
-                </Grid.Row>
+                                ABOUT US
+                                <br/>
+                                <Icon name="info" />
+                            </Button>
+                        </Grid.Column>
+                        <Grid.Column width={5}>
+                            <Button icon
+                                    size="massive"
+                                    >
+                                CART
+                                <br/>
+                                <Icon name="cart" />
+                            </Button>
+                        </Grid.Column>
+                        <Grid.Column width={5}>
+                            <Button icon
+                                    size="massive"
+                                    >
+                                LOG IN
+                                <br/>
+                                <Icon name="user circle outline" />
+                            </Button>
+                        </Grid.Column>
+                    </Grid>
+                </Grid.Column>
             </Grid>
         );
     }

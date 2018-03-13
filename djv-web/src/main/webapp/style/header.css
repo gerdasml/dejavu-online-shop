@@ -1,31 +1,36 @@
 .header {
     background-color: #b7d2ff;
-    /* height: 10vh; */
+    /* max-height: 14vh; */
     text-align: center;
     vertical-align: middle;
 }
 
-#logo{
-    height: 10vh;
+logo{
+    /* height: 10vh; */
+    max-width: 100%;
+    max-height: 100%;
 }
 
+
 #searchBar{
-    width: 100%;
+    width: 40vw;
     height: 4vh;
 }
 
-.grid, .row, .column{
+
+
+/*.grid, .row, .column{
     margin: 0 !important;
     padding: 0 !important;
-}
+}*/
 
 /* .row{
     height: 5vh;
 } */
 
-/*.header.grid.column{
+/*.header .column{
     height: 10vh;
-}*/
-/*.header.grid.row{
+}
+.header .row{
     height: 5vh;
 }*/
