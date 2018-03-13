@@ -15,3 +15,6 @@ Ideas for the initial setup were taken from [here](https://github.com/dlizarra/s
     1. If using Visual Studio Code for frontend development, you should install the [TSLint extension](https://marketplace.visualstudio.com/items?itemName=eg2.tslint). It will help conform to the TypeScript style guide.
     2. If you'd like to check, if the code really obeys the style rules, you can run `npm run lint`.
     3. Some linting errors can be fixed automatically. You can run `npm run lint:fix` and `tslint` will attempt to fix as many of the errors as possible.
+
+### Mockups
+https://drive.google.com/drive/u/0/folders/1fZwtbi0a3jeAk5j_gq3So_Xpf9MndKkY
