@@ -1,6 +1,6 @@
 package lt.dejavu.auth;
 
-import lt.dejavu.auth.exception.SecurityException;
+import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.model.Endpoint;
 import lt.dejavu.auth.model.User;
 import lt.dejavu.auth.service.SecurityService;
@@ -27,7 +27,7 @@ public class UserApi {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<User> getAllUsers(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) throws SecurityException {
+    public List<User> getAllUsers(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) throws ApiSecurityException {
         authorize(authHeader, request);
         return userService.getUsers();
     }
@@ -37,7 +37,7 @@ public class UserApi {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public User getUser(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId) throws SecurityException {
+    public User getUser(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId) throws ApiSecurityException {
         authorize(authHeader, request);
         return userService.getUser(userId);
     }
@@ -46,7 +46,7 @@ public class UserApi {
             path = "/{userId}/ban",
             method = RequestMethod.POST
     )
-    public void banUser(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId, @RequestParam("banned") boolean banned) throws SecurityException {
+    public void banUser(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId, @RequestParam("banned") boolean banned) throws ApiSecurityException {
         authorize(authHeader, request);
         userService.setBan(userId, banned);
     }
@@ -67,7 +67,7 @@ public class UserApi {
         return endpoint;
     }
 
-    private void authorize(String authHeader, HttpServletRequest request) throws SecurityException {
+    private void authorize(String authHeader, HttpServletRequest request) throws ApiSecurityException {
         securityService.authorize(authHeader, buildEndpoint(request));
     }
 }

@@ -1,8 +1,8 @@
 package lt.dejavu.auth.security.exception;
 
-import lt.dejavu.auth.exception.SecurityException;
+import lt.dejavu.auth.exception.ApiSecurityException;
 
-public class BadTokenSignatureException extends SecurityException {
+public class BadTokenSignatureException extends ApiSecurityException {
     public BadTokenSignatureException(String message) {
         super(message);
     }

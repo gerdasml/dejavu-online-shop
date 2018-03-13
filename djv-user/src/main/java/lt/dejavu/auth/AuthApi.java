@@ -1,6 +1,6 @@
 package lt.dejavu.auth;
 
-import lt.dejavu.auth.exception.SecurityException;
+import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.model.rest.LoginRequest;
 import lt.dejavu.auth.model.rest.LoginResponse;
 import lt.dejavu.auth.service.AuthService;
@@ -22,7 +22,7 @@ public class AuthApi {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public LoginResponse login(@RequestBody LoginRequest request) throws SecurityException {
+    public LoginResponse login(@RequestBody LoginRequest request) throws ApiSecurityException {
         return authService.login(request.getEmail(), request.getPassword());
     }
 

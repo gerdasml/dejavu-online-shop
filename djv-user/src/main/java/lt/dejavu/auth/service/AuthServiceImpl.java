@@ -1,7 +1,7 @@
 package lt.dejavu.auth.service;
 
 import lt.dejavu.auth.codec.Hasher;
-import lt.dejavu.auth.exception.SecurityException;
+import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.exception.UserAlreadyExistsException;
 import lt.dejavu.auth.model.User;
 import lt.dejavu.auth.model.rest.LoginResponse;
@@ -35,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public LoginResponse login(String email, String pass) throws SecurityException {
+    public LoginResponse login(String email, String pass) throws ApiSecurityException {
         String passHash = hasher.hash(pass);
         int userId = userRepository.getUserId(email, passHash);
         if (userId == 0) {

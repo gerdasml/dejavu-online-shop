@@ -1,8 +1,8 @@
 package lt.dejavu.auth.security.exception;
 
-import lt.dejavu.auth.exception.SecurityException;
+import lt.dejavu.auth.exception.ApiSecurityException;
 
-public class SigningFailedException extends SecurityException {
+public class SigningFailedException extends ApiSecurityException {
     public SigningFailedException(String message) {
         super(message);
     }

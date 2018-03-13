@@ -1,7 +1,7 @@
 package lt.dejavu.auth.security.service;
 
 import lt.dejavu.auth.exception.AccessDeniedException;
-import lt.dejavu.auth.exception.SecurityException;
+import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.model.Endpoint;
 import lt.dejavu.auth.model.User;
 import lt.dejavu.auth.security.codec.AuthHeaderCodec;
@@ -39,7 +39,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public String generateToken(User user) throws SecurityException {
+    public String generateToken(User user) throws ApiSecurityException {
         Token token = buildToken(user);
 
         String encodedPayload = new String(Base64.getEncoder().encode(tokenCodec.encode(token).getBytes()));
@@ -53,7 +53,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public void authorize(String authHeader, Endpoint endpoint) throws SecurityException {
+    public void authorize(String authHeader, Endpoint endpoint) throws ApiSecurityException {
         Token token = extractTokenFromHeader(authHeader);
         boolean isAuthorized = token.getEndpoints().stream().anyMatch(e -> endpointsMatch(endpoint, e));
         if (!isAuthorized) {
@@ -61,7 +61,7 @@ public class SecurityServiceImpl implements SecurityService {
         }
     }
 
-    private Token extractTokenFromHeader(String authHeader) throws SecurityException {
+    private Token extractTokenFromHeader(String authHeader) throws ApiSecurityException {
         String rawSignedToken = authHeaderCodec.decode(authHeader);
         SignedToken signedToken = signedTokenCodec.decode(rawSignedToken);
         if (!signatureService.sign(signedToken.getPayload()).equals(signedToken.getSignature())) {
