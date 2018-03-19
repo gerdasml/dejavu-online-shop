@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react';
+import { Image, Menu, Segment, Sidebar } from "semantic-ui-react";
 
 import "../../../style/drawer.css";
 
@@ -9,17 +9,25 @@ const myImage = require("../../assets/placeholder_350x150.png");
 export interface IDrawerMenuState { visible: boolean; }
 
 export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
-    constructor(props: any){
+    constructor (props: {}) {
         super(props);
         this.state = {
             visible: true
-        }
+        };
     }
     render () {
         return (
             <div>
                 <Sidebar.Pushable as={Segment}>
-                <Sidebar className="drawer" as={Menu} animation='push' width='thin' visible={this.state.visible} icon='labeled' vertical inverted/>
+                <Sidebar className="drawer"
+                         as={Menu}
+                         animation="push"
+                         width="thin"
+                         visible={this.state.visible}
+                         icon="labeled"
+                         vertical
+                         inverted
+                />
                 <Sidebar.Pusher>
                     <Segment basic className="content">
                         <button onClick={() => this.setState({visible: !this.state.visible})}>go</button>
