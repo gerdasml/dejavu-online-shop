@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "dejavu Online Shop",
   "main": "index.tsx",
+  "typings": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "git@github.com:gerdasml/dejavu-online-shop.git"
