@@ -7,10 +7,10 @@ export enum HttpMethod {
 
 export const buildRequest = <T>(url: string, method: HttpMethod, payload?: T) => {
     const token = buildAuthHeader();
-    const headers: {[header: string]: string} = {};
+    const headers: { [header: string]: string } = {};
     headers.accept = "application/json";
-    if(method === HttpMethod.POST) headers["content-type"] = "application/json";
-    if(token !== null) headers.authorization = token;
+    if (method === HttpMethod.POST) headers["content-type"] = "application/json";
+    if (token !== null) headers.authorization = token;
 
     const params = {
         body: JSON.stringify(payload),
