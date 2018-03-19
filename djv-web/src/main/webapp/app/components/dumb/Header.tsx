@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {Button, Container, Grid, Icon, Image, Search} from "semantic-ui-react";
+import {Button, Container, Dropdown, Grid, Icon, Image, Search} from "semantic-ui-react";
 import "../../../style/header.css";
 
 // import logo from "../../assets/dejavu-logo-transperant.png"; // "Cannot find module"
@@ -40,13 +40,29 @@ export default class Header extends React.Component <{}, {}> {
                 </Grid.Column>
                 <Grid.Column width={6}>
                     <div id="threeHeaderButtons">
-                        <Button icon
-                                size="medium"
-                                >
-                            ABOUT
-                            <br/>
-                            <Icon name="info" size="big"/>
-                        </Button>
+                        <Dropdown trigger={
+                            <Button icon
+                                    size="medium"
+                            >
+                                ABOUT
+                                <br/>
+                                <Icon name="info" size="big"/>
+                            </Button>
+                        } icon={null}>
+                            <Dropdown.Menu>
+                                <Dropdown.Item icon="question" text="F.A.Q." />
+                                <Dropdown.Divider />
+                                <Dropdown.Item icon="ship" text="Shipping" />
+                                <Dropdown.Divider />
+                                <Dropdown.Item icon="shopping basket" text="How to buy?" />
+                                <Dropdown.Divider />
+                                <Dropdown.Item icon="exclamation" text="RULES" />
+                                <Dropdown.Divider />
+                                <Dropdown.Item icon="wait" text="Warranty" />
+                                <Dropdown.Divider />
+                                <Dropdown.Item icon="info" text="About Us" />
+                            </Dropdown.Menu>
+                        </Dropdown>
                         <Button icon
                                 size="medium"
                                 >
