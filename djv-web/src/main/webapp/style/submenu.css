@@ -1,0 +1,27 @@
+.submenu {
+    border: 1px solid red;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    max-width: 70%;
+    max-height: 70%;
+    z-index: 999999;
+    
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    background-color: white;
+}
+
+.submenu .item {
+    border: 1px solid green;
+    display: inline;
+    flex-basis: content;
+}
+
+.submenu .item.main {
+    font-weight: bold;
+}

@@ -9,7 +9,7 @@ export class MenuItem extends React.Component<IMenuItemProps, {}> {
     }
     render () {
         return (
-            <Menu.Item name={this.props.name}>
+            <Menu.Item name={this.props.name} onMouseOver={() => alert('ok')} >
                 <Icon name={this.props.icon as SemanticICONS}/>
                 {this.props.itemName}
             </Menu.Item>
