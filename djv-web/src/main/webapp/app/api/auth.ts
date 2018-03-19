@@ -1,3 +1,5 @@
+import {buildRequest, fetchData, HttpMethod} from "./utils";
+
 const PATH_PREFIX = "/api/auth";
 
 interface ILoginSuccessResponse {
@@ -10,16 +12,10 @@ interface ILoginBannedResponse {
 
 type LoginResponse = ILoginSuccessResponse | ILoginBannedResponse;
 
+export const isBanned = (response: LoginResponse): response is ILoginBannedResponse =>
+    (response as ILoginBannedResponse).banned !== undefined;
+
 export const login = (email: string, password: string): Promise<LoginResponse> => {
     const body = {email, password};
-    const params = {
-        body: JSON.stringify(body),
-        headers: {
-            "content-type": "application/json"
-        },
-        method: "POST",
-    };
-    const url = PATH_PREFIX + "/login";
-    return fetch(url, params)
-            .then(r => r.json());
+    return fetchData(PATH_PREFIX + "/login", HttpMethod.POST, body);
 };
