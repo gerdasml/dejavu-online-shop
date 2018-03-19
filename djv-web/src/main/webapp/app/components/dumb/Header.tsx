@@ -1,10 +1,10 @@
 import * as React from "react";
 
-import {Button, Grid, Icon, Image, Search} from "semantic-ui-react";
+import {Button, Container, Grid, Icon, Image, Search} from "semantic-ui-react";
 import "../../../style/header.css";
-// import logo from "../../assets/dejavu-logo-transperant.png";
 
-const logo = require("../../assets/dejavu-logo-transperant.png");
+// import logo from "../../assets/dejavu-logo-transperant.png"; // "Cannot find module"
+const logo = require("../../assets/dejavu-logo-transperant.png"); // šiuo metu veikiantis variantas
 
 export default class Header extends React.Component <{}, {}> {
 
@@ -17,60 +17,51 @@ export default class Header extends React.Component <{}, {}> {
                            alt="Neveikia"
                     />
                 </Grid.Column>
-                <Grid.Column width={7}>
-                    <Grid>
-                        <Grid.Row>
-                            <Grid.Column width={8}>
-                                <Icon name="mail outline" />
-                                dejavu.psk@gmail.com
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Icon name="phone" />
-                                +37060000000
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Search id="searchBar"
-                                    value="Search..."
-                                    noResultsMessage="Not implemented exception. xD"
-                                    size="mini"
-                            >
-                            </Search>
-                        </Grid.Row>
-                    </Grid>
+                <Grid.Column width={8}>
+                    <Grid.Row id="mailPhoneRow">
+                        <div id="mail">
+                            <Icon name="mail outline" />
+                            dejavu.psk@gmail.com
+                        </div>
+                        <div id="phone">
+                            <Icon name="phone" />
+                            +37060000000
+                        </div>
+                    </Grid.Row>
+                    <Grid.Row id="searchRow">
+                        <Search id="searchBar"
+                                value="Search..."
+                                noResultsMessage="Not implemented exception. xD"
+                                size="mini"
+                                fluid
+                        >
+                        </Search>
+                    </Grid.Row>
                 </Grid.Column>
-                <Grid.Column width={4}>
-                </Grid.Column>
-                <Grid.Column width={3}>
-                    <Grid>
-                        <Grid.Column  width={5}>
-                            <Button icon
-                                    size="massive"
-                                    >
-                                ABOUT US
-                                <br/>
-                                <Icon name="info" />
-                            </Button>
-                        </Grid.Column>
-                        <Grid.Column width={5}>
-                            <Button icon
-                                    size="massive"
-                                    >
-                                CART
-                                <br/>
-                                <Icon name="cart" />
-                            </Button>
-                        </Grid.Column>
-                        <Grid.Column width={5}>
-                            <Button icon
-                                    size="massive"
-                                    >
-                                LOG IN
-                                <br/>
-                                <Icon name="user circle outline" />
-                            </Button>
-                        </Grid.Column>
-                    </Grid>
+                <Grid.Column width={6}>
+                    <div id="threeHeaderButtons">
+                        <Button icon
+                                size="medium"
+                                >
+                            ABOUT
+                            <br/>
+                            <Icon name="info" size="big"/>
+                        </Button>
+                        <Button icon
+                                size="medium"
+                                >
+                            CART
+                            <br/>
+                            <Icon name="cart" size="big"/>
+                        </Button>
+                        <Button icon
+                                size="medium"
+                                >
+                            LOG&nbsp;IN
+                            <br/>
+                            <Icon name="user circle outline" size="big"/>
+                        </Button>
+                    </div>
                 </Grid.Column>
             </Grid>
         );
