@@ -1,4 +1,4 @@
-import {buildRequest, fetchData, HttpMethod} from "./utils";
+import {fetchData, HttpMethod} from "./utils";
 
 const PATH_PREFIX = "/api/auth";
 

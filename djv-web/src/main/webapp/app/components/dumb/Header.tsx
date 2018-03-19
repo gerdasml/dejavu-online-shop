@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {Button, Container, Grid, Icon, Image, Search} from "semantic-ui-react";
+import {Button, Grid, Icon, Image, Search} from "semantic-ui-react";
 import "../../../style/header.css";
 import * as api from "../../api";
 
