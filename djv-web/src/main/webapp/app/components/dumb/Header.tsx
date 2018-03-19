@@ -10,7 +10,7 @@ export default class Header extends React.Component <{}, {}> {
 
     render () {
         return (
-            <Grid className="header">
+            <Grid className="header" id="headerGrid">
                 <Grid.Column width={2}>
                     <Image id="logo"
                            src={logo}

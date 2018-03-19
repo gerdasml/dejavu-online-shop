@@ -1,13 +1,13 @@
-.header {
+#headerGrid {
     background-color: #b7d2ff;
     height: 10vh;
     text-align: center;
     vertical-align: middle;
-    margin: 0 !important;
+    margin: 0;
 }
 
-.grid .column{
-    padding: 0 !important;
+#headerGrid .column{
+    padding: 0;
 }
 
 #logo{
@@ -40,9 +40,9 @@
     justify-content: flex-end;
 }
 
-.header button{
-    margin-left: 5px !important;
-    margin-right: 5px !important;
+.header #threeHeaderButtons button{
+    margin-left: 1%;
+    margin-right: 1%;
 }
 
 /*reikės media, kad mažuose dydžiuose tekstai dingtų ir liktų tik icon'os*/
