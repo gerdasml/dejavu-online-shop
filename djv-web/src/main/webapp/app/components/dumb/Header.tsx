@@ -1,7 +1,8 @@
 import * as React from "react";
 
-import {Button, Container, Grid, Icon, Image, Search} from "semantic-ui-react";
+import {Button, Grid, Icon, Image, Search} from "semantic-ui-react";
 import "../../../style/header.css";
+import * as api from "../../api";
 
 // import logo from "../../assets/dejavu-logo-transperant.png"; // "Cannot find module"
 const logo = require("../../assets/dejavu-logo-transperant.png"); // šiuo metu veikiantis variantas
@@ -67,3 +68,17 @@ export default class Header extends React.Component <{}, {}> {
         );
     }
 }
+
+const getUser = async () => {
+    const tkn = await api.login("admin@email.com", "password");
+    if(api.isBanned(tkn)) {
+        console.log("You banned bro");
+        return undefined;
+    }
+    localStorage.setItem("accessToken", tkn.token);
+    const users = await api.getUsers();
+    console.log(users);
+    return users;
+};
+
+getUser();
