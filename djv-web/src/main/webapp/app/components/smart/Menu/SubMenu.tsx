@@ -3,10 +3,13 @@ import { Icon, Image, Menu} from "semantic-ui-react";
 
 import "../../../../style/submenu.css";
 
-export const SubMenu = (props: {}) => (
-    <div className="submenu">
+interface ISubMenuProps { onHover: Function; category: string; }
+
+export const SubMenu = (props: ISubMenuProps) => (
+    <div className="submenu" onMouseEnter={() => props.onHover(props.category)}
+        onMouseLeave={() => props.onHover(undefined)}>
         <div className="item main">
-            Abc
+            {props.category}
         </div>
         <div className="item">
             Def

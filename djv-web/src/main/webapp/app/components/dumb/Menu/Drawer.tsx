@@ -1,23 +1,30 @@
 import * as React from "react";
 
-import { Dropdown, Icon, Image, Menu, Segment, Sidebar, Container } from "semantic-ui-react";
+import { Container, Dropdown, Icon, Image, Menu, Segment, Sidebar } from "semantic-ui-react";
 
 import "../../../../style/drawer.css";
 import { MenuItem } from "../../smart/Menu/MenuItem";
 
-import {categories} from "../../../data/categories";
+import {categories, ICategory} from "../../../data/categories";
 import { SubMenu } from "../../smart/Menu/SubMenu";
 const myImage = require("../../../assets/placeholder_350x150.png");
 
-export interface IDrawerMenuState { visible: boolean; }
+export interface IDrawerMenuState { visible: boolean; current: string;}
 
 export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
     constructor (props: {}) {
         super(props);
         this.state = {
-            visible: true
+            current: undefined,
+            visible: true,
         };
     }
+
+    onHover = (cname: string) => {
+        console.log(cname);
+        this.setState({...this.state, current: cname});
+    }
+
     render () {
         const activeItem: string = "account";
         return (
@@ -35,12 +42,14 @@ export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
                             <MenuItem   name={x.name}
                                         itemName={x.displayName}
                                         icon={x.icon}
-                                        key={i}/>
+                                        key={i}
+                                        onHover={(n: string) => this.onHover(n)}/>
                                     )}
                 </Sidebar>
                 <Sidebar.Pusher>
                     <Segment basic className="mainContainer">
-                        <SubMenu />
+                        {this.state.current === undefined ? "" :
+                        <SubMenu category={this.state.current} onHover={this.onHover} /> }
                         <Container className="content">
                             <button onClick={() => this.setState({visible: !this.state.visible})}>go</button>
                             <Image src={myImage} />
