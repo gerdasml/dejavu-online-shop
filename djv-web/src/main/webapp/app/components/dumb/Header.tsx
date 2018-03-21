@@ -13,18 +13,23 @@ export default class Header extends React.Component <{}, {}> {
             <Grid className="header" id="headerGrid">
                 <Grid.Column width={2}>
                     <Image id="logo"
+                           title="dejavu"
                            src={logo}
                            alt="Neveikia"
                     />
                 </Grid.Column>
                 <Grid.Column width={8}>
                     <Grid.Row id="mailPhoneRow">
-                        <div id="mail">
-                            <Icon name="mail outline" />
+                        <div    className="headerInfo"
+                                id="mail">
+                            <Icon   title="dejavu.psk@gmail.com"
+                                    name="mail outline" />
                             dejavu.psk@gmail.com
                         </div>
-                        <div id="phone">
-                            <Icon name="phone" />
+                        <div    className="headerInfo"
+                                id="phone">
+                            <Icon   title="+37060000000"
+                                    name="phone" />
                             +37060000000
                         </div>
                     </Grid.Row>
@@ -40,7 +45,9 @@ export default class Header extends React.Component <{}, {}> {
                 </Grid.Column>
                 <Grid.Column width={6}>
                     <div id="threeHeaderButtons">
-                        <Dropdown trigger={
+                        <Dropdown   simple
+                                    className="headerButton"
+                                    trigger={
                             <Button icon
                                     size="medium"
                             >
@@ -63,14 +70,16 @@ export default class Header extends React.Component <{}, {}> {
                                 <Dropdown.Item icon="info" text="About Us" />
                             </Dropdown.Menu>
                         </Dropdown>
-                        <Button icon
+                        <Button className="headerButton"
+                                icon
                                 size="medium"
                                 >
                             CART
                             <br/>
                             <Icon name="cart" size="big"/>
                         </Button>
-                        <Button icon
+                        <Button className="headerButton"
+                                icon
                                 size="medium"
                                 >
                             LOG&nbsp;IN
