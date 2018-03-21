@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Icon, Image, Menu, SemanticICONS} from "semantic-ui-react";
+import { Icon, Menu, SemanticICONS} from "semantic-ui-react";
 
 export interface IMenuItemProps { name: string; icon: string; itemName: string; onHover: Function;}
 

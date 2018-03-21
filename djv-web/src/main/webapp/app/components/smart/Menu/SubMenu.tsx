@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Icon, Image, Menu} from "semantic-ui-react";
 
 import "../../../../style/submenu.css";
 
@@ -11,6 +10,8 @@ export const SubMenu = (props: ISubMenuProps) => (
         <div className="item main">
             {props.category}
         </div>
+        {/* For demo purpose only */}
+        {/* TODO: replace with mapping of categories */}
         <div className="item">
             Def
         </div>
