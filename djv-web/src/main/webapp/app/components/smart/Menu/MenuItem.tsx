@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Icon, Menu, SemanticICONS} from "semantic-ui-react";
+import { Icon, Menu, SemanticICONS } from "semantic-ui-react";
 
-export interface IMenuItemProps { name: string; icon: string; itemName: string; onHover: Function;}
+export interface IMenuItemProps { name: string; icon: string; itemName: string; onHover: Function; }
 
 export class MenuItem extends React.Component<IMenuItemProps, {}> {
     constructor (props: IMenuItemProps) {

@@ -9,7 +9,7 @@ import {categories} from "../../../data/categories";
 import { SubMenu } from "../../smart/Menu/SubMenu";
 const myImage = require("../../../assets/placeholder_350x150.png");
 
-export interface IDrawerMenuState { visible: boolean; current: string;}
+export interface IDrawerMenuState { visible: boolean; current: string; }
 
 export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
     constructor (props: {}) {
