@@ -38,6 +38,7 @@ public class AuthApi {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
+    // TODO: Discuss what this method should return. Currently it returns nothing on success and throws an exception on failure.
     public void register(@RequestBody RegistrationRequest request) {
         User user = registrationRequestMapper.mapToUser(request);
         authService.register(user);
