@@ -1,9 +1,4 @@
-export interface ICategory {
-    name: string;
-    icon: string;
-    displayName: string;
-    children: ICategory[];
-}
+import { ICategory } from "../model/Category";
 
 export const categories: ICategory[] = [
     {
