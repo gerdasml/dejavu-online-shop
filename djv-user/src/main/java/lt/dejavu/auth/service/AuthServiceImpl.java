@@ -8,7 +8,6 @@ import lt.dejavu.auth.model.User;
 import lt.dejavu.auth.model.rest.LoginResponse;
 import lt.dejavu.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -53,10 +52,4 @@ public class AuthServiceImpl implements AuthService {
         }
         return response;
     }
-
-//    @Override
-//    public void logout(UUID token) {
-//        User user = userRepository.getUserByToken(token);
-//        userRepository.updateToken(user.getId(), UUID.randomUUID());
-//    }
 }
