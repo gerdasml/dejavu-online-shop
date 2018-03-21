@@ -1,12 +1,12 @@
 import * as React from "react";
 
 import {Button, Grid, Icon, Image, Search} from "semantic-ui-react";
-import "../../../style/header.css";
+import "../../../../style/header.css";
 
 import * as api from "../../../api";
 
 // import logo from "../../assets/dejavu-logo-transperant.png"; // "Cannot find module"
-const logo = require("../../assets/dejavu-logo-transperant.png"); // šiuo metu veikiantis variantas
+const logo = require("../../../assets/dejavu-logo-transperant.png"); // šiuo metu veikiantis variantas
 
 export class Header extends React.Component <{}, {}> {
 
