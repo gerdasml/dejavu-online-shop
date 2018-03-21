@@ -3,6 +3,7 @@ package lt.dejavu.auth.service;
 import lt.dejavu.auth.codec.Hasher;
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.exception.UserAlreadyExistsException;
+import lt.dejavu.auth.exception.UserNotFoundException;
 import lt.dejavu.auth.model.User;
 import lt.dejavu.auth.model.rest.LoginResponse;
 import lt.dejavu.auth.repository.UserRepository;
@@ -35,13 +36,12 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public LoginResponse login(String email, String pass) throws ApiSecurityException {
+    public LoginResponse login(String email, String pass) throws ApiSecurityException, UserNotFoundException {
         String passHash = hasher.hash(pass);
         int userId = userRepository.getUserId(email, passHash);
         if (userId == 0) {
             // User not found
-            // TODO: throw 404
-            throw new ResourceNotFoundException();
+            throw new UserNotFoundException("User with the specified credentials was not found");
         }
         User user = userRepository.getUserById(userId);
 
