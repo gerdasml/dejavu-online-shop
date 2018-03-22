@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {Button, Grid, Icon, Image, Search} from "semantic-ui-react";
+import {Button, Container, Dropdown, Grid, Icon, Image, Search} from "semantic-ui-react";
 import "../../../../style/header.css";
 
 import * as api from "../../../api";
@@ -15,18 +15,23 @@ export class Header extends React.Component <{}, {}> {
             <Grid className="header" id="headerGrid">
                 <Grid.Column width={2}>
                     <Image id="logo"
+                           title="dejavu"
                            src={logo}
                            alt="Neveikia"
                     />
                 </Grid.Column>
                 <Grid.Column width={8}>
                     <Grid.Row id="mailPhoneRow">
-                        <div id="mail">
-                            <Icon name="mail outline" />
+                        <div    className="headerInfo"
+                                id="mail">
+                            <Icon   title="dejavu.psk@gmail.com"
+                                    name="mail outline" />
                             dejavu.psk@gmail.com
                         </div>
-                        <div id="phone">
-                            <Icon name="phone" />
+                        <div    className="headerInfo"
+                                id="phone">
+                            <Icon   title="+37060000000"
+                                    name="phone" />
                             +37060000000
                         </div>
                     </Grid.Row>
@@ -42,21 +47,41 @@ export class Header extends React.Component <{}, {}> {
                 </Grid.Column>
                 <Grid.Column width={6}>
                     <div id="threeHeaderButtons">
-                        <Button icon
-                                size="medium"
-                                >
-                            ABOUT
-                            <br/>
-                            <Icon name="info" size="big"/>
-                        </Button>
-                        <Button icon
+                        <Dropdown   simple
+                                    className="headerButton"
+                                    trigger={
+                            <Button icon
+                                    size="medium"
+                            >
+                                ABOUT
+                                <br/>
+                                <Icon name="info" size="big"/>
+                            </Button>
+                        } icon={null}>
+                            <Dropdown.Menu>
+                                <Dropdown.Item icon="question" text="F.A.Q." />
+                                <Dropdown.Divider />
+                                <Dropdown.Item icon="ship" text="Shipping" />
+                                <Dropdown.Divider />
+                                <Dropdown.Item icon="shopping basket" text="How to buy?" />
+                                <Dropdown.Divider />
+                                <Dropdown.Item icon="exclamation" text="RULES" />
+                                <Dropdown.Divider />
+                                <Dropdown.Item icon="wait" text="Warranty" />
+                                <Dropdown.Divider />
+                                <Dropdown.Item icon="info" text="About Us" />
+                            </Dropdown.Menu>
+                        </Dropdown>
+                        <Button className="headerButton"
+                                icon
                                 size="medium"
                                 >
                             CART
                             <br/>
                             <Icon name="cart" size="big"/>
                         </Button>
-                        <Button icon
+                        <Button className="headerButton"
+                                icon
                                 size="medium"
                                 >
                             LOG&nbsp;IN
