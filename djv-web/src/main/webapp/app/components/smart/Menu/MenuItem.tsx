@@ -1,7 +1,8 @@
 import * as React from "react";
 import { Icon, Menu, SemanticICONS } from "semantic-ui-react";
+import { ICategory } from "../../../model/Category";
 
-export interface IMenuItemProps { name: string; icon: string; itemName: string; onHover: Function; }
+export interface IMenuItemProps { category: ICategory; onHover: (c: ICategory) => void; }
 
 export class MenuItem extends React.Component<IMenuItemProps, {}> {
     constructor (props: IMenuItemProps) {
@@ -9,11 +10,11 @@ export class MenuItem extends React.Component<IMenuItemProps, {}> {
     }
     render () {
         return (
-            <Menu.Item name={this.props.name} onMouseEnter={() => this.props.onHover(this.props.name)}
+            <Menu.Item name={this.props.category.name} onMouseEnter={() => this.props.onHover(this.props.category)}
                 onMouseLeave={() => this.props.onHover(undefined)}>
                 <div>
-                    <Icon name={this.props.icon as SemanticICONS}/>
-                    {this.props.itemName}
+                    <Icon name={this.props.category.icon as SemanticICONS}/>
+                    {this.props.category.displayName}
                 </div>
             </Menu.Item>
         );

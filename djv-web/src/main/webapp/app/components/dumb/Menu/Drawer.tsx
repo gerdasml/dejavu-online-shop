@@ -6,10 +6,11 @@ import "../../../../style/drawer.css";
 import { MenuItem } from "../../smart/Menu/MenuItem";
 
 import {categories} from "../../../data/categories";
+import { ICategory } from "../../../model/Category";
 import { SubMenu } from "../../smart/Menu/SubMenu";
 const myImage = require("../../../assets/placeholder_350x150.png");
 
-export interface IDrawerMenuState { visible: boolean; current: string; }
+export interface IDrawerMenuState { visible: boolean; current: ICategory; }
 
 export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
     constructor (props: {}) {
@@ -20,7 +21,7 @@ export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
         };
     }
 
-    onHover = (cname: string) => {
+    onHover = (cname: ICategory) => {
         this.setState({...this.state, current: cname});
     }
 
@@ -37,11 +38,9 @@ export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
                     visible={this.state.visible}
                     vertical inverted>
                     {categories.map((x, i) =>
-                            <MenuItem   name={x.name}
-                                        itemName={x.displayName}
-                                        icon={x.icon}
+                            <MenuItem   category={x}
                                         key={i}
-                                        onHover={(n: string) => this.onHover(n)}/>
+                                        onHover={this.onHover}/>
                                     )}
                 </Sidebar>
                 <Sidebar.Pusher>
