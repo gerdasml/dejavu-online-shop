@@ -7,7 +7,6 @@ import { MenuItem } from "../../smart/Menu/MenuItem";
 
 import {categories} from "../../../data/categories";
 import { SubMenu } from "../../smart/Menu/SubMenu";
-const myImage = require("../../../assets/placeholder_350x150.png");
 
 export interface IDrawerMenuState { visible: boolean; current: string; }
 
@@ -49,8 +48,7 @@ export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
                         {this.state.current === undefined ? "" :
                         <SubMenu category={this.state.current} onHover={this.onHover} /> }
                         <Container className="content">
-                            <button onClick={() => this.setState({visible: !this.state.visible})}>go</button>
-                            <Image src={myImage} />
+                            {this.props.children}
                         </Container>
                     </Segment>
                 </Sidebar.Pusher>
