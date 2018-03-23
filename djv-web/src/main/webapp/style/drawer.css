@@ -2,7 +2,7 @@
     height: 84vh;
     background: #383838 !important;
 }
-
-.content {
+.mainContainer {
     height: 84vh;
+    padding: 0 !important;
 }

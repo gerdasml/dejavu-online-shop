@@ -11,7 +11,7 @@ notifications:
   slack:
     rooms:
      dejavu-psk:yYAY30VYZ6Pb2bfuSEYywGpZ#builds
-    on_success: change # default: always
+    on_success: never # default: always
     on_failure: always # default: always
   
 install:
