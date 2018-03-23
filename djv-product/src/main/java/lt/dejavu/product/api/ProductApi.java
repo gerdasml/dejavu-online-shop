@@ -21,7 +21,7 @@ public class ProductApi {
     }
 
     @RequestMapping(
-            path = "/{userId}",
+            path = "/{productId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )

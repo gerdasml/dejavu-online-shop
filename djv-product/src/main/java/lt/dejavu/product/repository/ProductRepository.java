@@ -11,5 +11,5 @@ public interface ProductRepository {
 
     List<Product> getProductsByCategory(int categoryId);
 
-    Long CreateProduct(Product product);
+    Long createProduct(Product product);
 }
