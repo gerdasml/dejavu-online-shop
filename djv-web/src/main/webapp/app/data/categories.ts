@@ -26,6 +26,291 @@ export const categories: ICategory[] = [
                 children: [
                     {
                         children: [],
+                        displayName: "Liečiamųjų ekranų",
+                        icon: "home",
+                        name: "home"
+                    },
+                    {
+                        children: [],
+                        displayName: "Knopkiniai",
+                        icon: "home",
+                        name: "home"
+                    }
+                ],
+                displayName: "Telefonai",
+                icon: "home",
+                name: "home",
+            },
+            {
+                children: [
+                    {
+                        children: [],
+                        displayName: "Liečiamųjų ekranų",
+                        icon: "home",
+                        name: "home"
+                    },
+                    {
+                        children: [],
+                        displayName: "Knopkiniai",
+                        icon: "home",
+                        name: "home"
+                    }
+                ],
+                displayName: "Telefonai",
+                icon: "home",
+                name: "home",
+            },
+            {
+                children: [
+                    {
+                        children: [],
+                        displayName: "Liečiamųjų ekranų",
+                        icon: "home",
+                        name: "home"
+                    },
+                    {
+                        children: [],
+                        displayName: "Knopkiniai",
+                        icon: "home",
+                        name: "home"
+                    }
+                ],
+                displayName: "Telefonai",
+                icon: "home",
+                name: "home",
+            },
+            {
+                children: [
+                    {
+                        children: [],
+                        displayName: "Liečiamųjų ekranų",
+                        icon: "home",
+                        name: "home"
+                    },
+                    {
+                        children: [],
+                        displayName: "Knopkiniai",
+                        icon: "home",
+                        name: "home"
+                    }
+                ],
+                displayName: "Telefonai",
+                icon: "home",
+                name: "home",
+            },
+            {
+                children: [
+                    {
+                        children: [],
+                        displayName: "Liečiamųjų ekranų",
+                        icon: "home",
+                        name: "home"
+                    },
+                    {
+                        children: [],
+                        displayName: "Knopkiniai",
+                        icon: "home",
+                        name: "home"
+                    }
+                ],
+                displayName: "Telefonai",
+                icon: "home",
+                name: "home",
+            },
+            {
+                children: [
+                    {
+                        children: [],
+                        displayName: "Liečiamųjų ekranų",
+                        icon: "home",
+                        name: "home"
+                    },
+                    {
+                        children: [],
+                        displayName: "Knopkiniai",
+                        icon: "home",
+                        name: "home"
+                    }
+                ],
+                displayName: "Telefonai",
+                icon: "home",
+                name: "home",
+            },
+            {
+                children: [
+                    {
+                        children: [],
+                        displayName: "Liečiamųjų ekranų",
+                        icon: "home",
+                        name: "home"
+                    },
+                    {
+                        children: [],
+                        displayName: "Knopkiniai",
+                        icon: "home",
+                        name: "home"
+                    }
+                ],
+                displayName: "Telefonai",
+                icon: "home",
+                name: "home",
+            },
+            {
+                children: [
+                    {
+                        children: [],
+                        displayName: "Liečiamųjų ekranų",
+                        icon: "home",
+                        name: "home"
+                    },
+                    {
+                        children: [],
+                        displayName: "Knopkiniai",
+                        icon: "home",
+                        name: "home"
+                    }
+                ],
+                displayName: "Telefonai",
+                icon: "home",
+                name: "home",
+            },
+            {
+                children: [
+                    {
+                        children: [],
+                        displayName: "Liečiamųjų ekranų",
+                        icon: "home",
+                        name: "home"
+                    },
+                    {
+                        children: [],
+                        displayName: "Knopkiniai",
+                        icon: "home",
+                        name: "home"
+                    }
+                ],
+                displayName: "Telefonai",
+                icon: "home",
+                name: "home",
+            },
+            {
+                children: [
+                    {
+                        children: [],
+                        displayName: "Liečiamųjų ekranų",
+                        icon: "home",
+                        name: "home"
+                    },
+                    {
+                        children: [],
+                        displayName: "Knopkiniai",
+                        icon: "home",
+                        name: "home"
+                    }
+                ],
+                displayName: "Telefonai",
+                icon: "home",
+                name: "home",
+            },
+            {
+                children: [
+                    {
+                        children: [],
+                        displayName: "Liečiamųjų ekranų",
+                        icon: "home",
+                        name: "home"
+                    },
+                    {
+                        children: [],
+                        displayName: "Knopkiniai",
+                        icon: "home",
+                        name: "home"
+                    }
+                ],
+                displayName: "Telefonai",
+                icon: "home",
+                name: "home",
+            },
+            {
+                children: [
+                    {
+                        children: [],
+                        displayName: "Liečiamųjų ekranų",
+                        icon: "home",
+                        name: "home"
+                    },
+                    {
+                        children: [],
+                        displayName: "Knopkiniai",
+                        icon: "home",
+                        name: "home"
+                    }
+                ],
+                displayName: "Telefonai",
+                icon: "home",
+                name: "home",
+            },
+            {
+                children: [
+                    {
+                        children: [],
+                        displayName: "Liečiamųjų ekranų",
+                        icon: "home",
+                        name: "home"
+                    },
+                    {
+                        children: [],
+                        displayName: "Knopkiniai",
+                        icon: "home",
+                        name: "home"
+                    }
+                ],
+                displayName: "Telefonai",
+                icon: "home",
+                name: "home",
+            },
+            {
+                children: [
+                    {
+                        children: [],
+                        displayName: "Liečiamųjų ekranų",
+                        icon: "home",
+                        name: "home"
+                    },
+                    {
+                        children: [],
+                        displayName: "Knopkiniai",
+                        icon: "home",
+                        name: "home"
+                    }
+                ],
+                displayName: "Telefonai",
+                icon: "home",
+                name: "home",
+            },
+            {
+                children: [
+                    {
+                        children: [],
+                        displayName: "Liečiamųjų ekranų",
+                        icon: "home",
+                        name: "home"
+                    },
+                    {
+                        children: [],
+                        displayName: "Knopkiniai",
+                        icon: "home",
+                        name: "home"
+                    }
+                ],
+                displayName: "Telefonai",
+                icon: "home",
+                name: "home",
+            },
+            {
+                children: [
+                    {
+                        children: [],
                         displayName: "Pakrovėjai",
                         icon: "home",
                         name: "home"
