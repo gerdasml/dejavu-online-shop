@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Divider, Segment } from "semantic-ui-react";
 
 import "../../../../style/submenu.css";
 import { ICategory } from "../../../model/Category";
@@ -21,6 +22,7 @@ const mapChild = (category: ICategory) =>
             key={i}
         >
             {x.displayName}
+                <Divider fitted className="divider"/>
         </div>]
         .concat(mapChildChild(x,i))
     );
@@ -28,11 +30,9 @@ const mapChild = (category: ICategory) =>
 export const SubMenu = (props: ISubMenuProps) => (
     <div className="submenu" onMouseEnter={() => props.onHover(props.category)}
         onMouseLeave={() => props.onHover(undefined)}>
-        <div className="item main">
-            {props.category.name}
+        <div className="item category-name">
+            {props.category.displayName}
         </div>
-        {/* For demo purpose only */}
-        {/* TODO: replace with mapping of categories */}
         {mapChild(props.category)}
     </div>
 );
