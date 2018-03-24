@@ -1,28 +1,51 @@
 import * as React from "react";
 
-import { Container, Image, Menu, Segment, Sidebar, Sticky } from "semantic-ui-react";
+import { Container, Image, Menu, Rail, Segment, Sidebar, Sticky } from "semantic-ui-react";
 
 import "../../../../style/drawer.css";
 import { MenuItem } from "../../smart/Menu/MenuItem";
 
 import {categories} from "../../../data/categories";
 import { ICategory } from "../../../model/Category";
-import { SubMenu } from "../../smart/Menu/SubMenu";
+import { ISubMenuPosition, SubMenu } from "../../smart/Menu/SubMenu";
 const myImage = require("../../../assets/placeholder_350x150.png");
 
-export interface IDrawerMenuState { visible: boolean; current: ICategory; }
+interface ICategorySettings {
+    category: ICategory;
+    position: ISubMenuPosition;
+}
+export interface IDrawerMenuState {
+    visible: boolean;
+    current: ICategorySettings;
+}
 
 export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
     constructor (props: {}) {
         super(props);
         this.state = {
             current: undefined,
-            visible: true,
+            visible: true
         };
     }
 
-    onHover = (cname: ICategory) => {
-        this.setState({...this.state, current: cname});
+    onHover = (cname: ICategory, pos?: ISubMenuPosition) => {
+        if(pos === undefined) {
+            this.setState({
+                ...this.state,
+                current: undefined
+            });
+        } else {
+            this.setState({
+                ...this.state,
+                current: {
+                    category: cname,
+                    position: {
+                        left: pos.left,
+                        top: pos.top,
+                    }
+                }
+            });
+        }
     }
 
     render () {
@@ -45,8 +68,6 @@ export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
                 </Sidebar>
                 <Sidebar.Pusher>
                     <Segment basic className="mainContainer">
-                        {this.state.current === undefined ? "" :
-                            <SubMenu category={this.state.current} onHover={this.onHover} />}
                         <Container className="content">
                             <button onClick={() => this.setState({visible: !this.state.visible})}>go</button>
                             <Image src={myImage} />
@@ -64,6 +85,11 @@ export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
                     </Segment>
                 </Sidebar.Pusher>
                 </Sidebar.Pushable>
+                {this.state.current === undefined ? "" :
+                    <SubMenu
+                        position={this.state.current.position}
+                        category={this.state.current.category}
+                        onHover={this.onHover} />}
             </div>
         );
     }

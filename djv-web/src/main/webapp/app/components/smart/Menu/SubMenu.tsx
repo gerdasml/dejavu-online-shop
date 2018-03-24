@@ -4,7 +4,12 @@ import { Divider, Segment } from "semantic-ui-react";
 import "../../../../style/submenu.css";
 import { ICategory } from "../../../model/Category";
 
-interface ISubMenuProps { onHover: (c: ICategory) => void; category: ICategory; }
+export interface ISubMenuPosition { top: number; left: number; }
+interface ISubMenuProps {
+    onHover: (c: ICategory, p?: ISubMenuPosition) => void;
+    category: ICategory;
+    position: ISubMenuPosition;
+}
 
 const mapChildChild = (category: ICategory, key: number) =>
     category.children.map((x, i) =>
@@ -28,8 +33,12 @@ const mapChild = (category: ICategory) =>
     );
 
 export const SubMenu = (props: ISubMenuProps) => (
-    <div className="submenu" onMouseEnter={() => props.onHover(props.category)}
-        onMouseLeave={() => props.onHover(undefined)}>
+    <div
+        className="submenu"
+        onMouseEnter={() => props.onHover(props.category, props.position)}
+        onMouseLeave={() => props.onHover(undefined)}
+        style={{top: props.position.top, left: props.position.left}}
+    >
         <div className="item category-name">
             {props.category.displayName}
         </div>
