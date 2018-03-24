@@ -1,6 +1,8 @@
 .drawer {
+    height: 84vh;
     background: #383838 !important;
 }
 .mainContainer {
+    height: 84vh;
     padding: 0 !important;
 }

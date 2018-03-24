@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Container, Image, Menu, Segment, Sidebar } from "semantic-ui-react";
+import { Container, Image, Menu, Segment, Sidebar, Sticky } from "semantic-ui-react";
 
 import "../../../../style/drawer.css";
 import { MenuItem } from "../../smart/Menu/MenuItem";
@@ -46,9 +46,19 @@ export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
                 <Sidebar.Pusher>
                     <Segment basic className="mainContainer">
                         {this.state.current === undefined ? "" :
-                        <SubMenu category={this.state.current} onHover={this.onHover} /> }
+                            <SubMenu category={this.state.current} onHover={this.onHover} />}
                         <Container className="content">
                             <button onClick={() => this.setState({visible: !this.state.visible})}>go</button>
+                            <Image src={myImage} />
+                            <Image src={myImage} />
+                            <Image src={myImage} />
+                            <Image src={myImage} />
+                            <Image src={myImage} />
+                            <Image src={myImage} />
+                            <Image src={myImage} />
+                            <Image src={myImage} />
+                            <Image src={myImage} />
+                            <Image src={myImage} />
                             <Image src={myImage} />
                         </Container>
                     </Segment>
