@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Divider, Segment } from "semantic-ui-react";
+import { Divider } from "semantic-ui-react";
 
 import "../../../../style/submenu.css";
 import { ICategory } from "../../../model/Category";
