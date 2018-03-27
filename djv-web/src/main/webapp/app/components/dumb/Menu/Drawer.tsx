@@ -61,7 +61,8 @@ export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
                     visible={this.state.visible}
                     vertical inverted>
                     {categories.map((x, i) =>
-                            <MenuItem   category={x}
+                            <MenuItem
+                                        category={x}
                                         key={i}
                                         onHover={this.onHover}/>
                                     )}

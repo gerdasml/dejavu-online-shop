@@ -22,6 +22,7 @@
     flex-basis: content;
     color: white;
     padding-left: 2%;
+    font-size: small;
 }
 
 .submenu .item.main {
@@ -32,6 +33,7 @@
 .submenu .item.category-name {
     font-weight: bold;
     margin-bottom: 1%;
+    font-size: large;
 }
 
 .divider {

@@ -4,3 +4,8 @@
 .mainContainer {
     padding: 0 !important;
 }
+
+.drawer .item.menu-item:hover{
+    background-color: #8e8e8e;
+    cursor: pointer;
+}

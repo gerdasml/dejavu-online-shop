@@ -26,7 +26,7 @@ export class MenuItem extends React.Component<IMenuItemProps, IMenuItemState> {
     }
     render () {
         return (
-            <Menu.Item name={this.props.category.name} onMouseEnter={() => {
+            <Menu.Item className="menu-item" name={this.props.category.name} onMouseEnter={() => {
                 this.props.onHover(this.props.category, {
                     left: this.state.rect.left + this.state.rect.width,
                     top: this.state.rect.top,
