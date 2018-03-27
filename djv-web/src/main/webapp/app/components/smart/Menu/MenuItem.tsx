@@ -19,6 +19,13 @@ export class MenuItem extends React.Component<IMenuItemProps, IMenuItemState> {
         };
     }
 
+    getPosition () {
+        return {
+            left: this.state.rect.left + this.state.rect.width,
+            top: this.state.rect.top,
+        };
+    }
+
     componentDidMount () {
         const rect = ReactDOM.findDOMNode(this)
                             .getBoundingClientRect();
@@ -27,10 +34,7 @@ export class MenuItem extends React.Component<IMenuItemProps, IMenuItemState> {
     render () {
         return (
             <Menu.Item className="menu-item" name={this.props.category.name} onMouseEnter={() => {
-                this.props.onHover(this.props.category, {
-                    left: this.state.rect.left + this.state.rect.width,
-                    top: this.state.rect.top,
-                });
+                this.props.onHover(this.props.category, this.getPosition());
             }}
                 onMouseLeave={() => this.props.onHover(undefined)}>
                 <div>

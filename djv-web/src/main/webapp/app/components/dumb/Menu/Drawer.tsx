@@ -28,7 +28,7 @@ export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
         };
     }
 
-    onHover = (cname: ICategory, pos?: ISubMenuPosition) => {
+    onHover = (cat: ICategory, pos?: ISubMenuPosition) => {
         if(pos === undefined) {
             this.setState({
                 ...this.state,
@@ -38,7 +38,7 @@ export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
             this.setState({
                 ...this.state,
                 current: {
-                    category: cname,
+                    category: cat,
                     position: {
                         left: pos.left,
                         top: pos.top,
