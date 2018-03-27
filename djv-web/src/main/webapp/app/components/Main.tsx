@@ -1,10 +1,9 @@
 import * as React from "react";
 import { Route, Switch } from "react-router";
-import {Image} from "semantic-ui-react";
 import { DrawerMenu } from "./dumb/Menu/Drawer";
 
-import {About, Home, Product, User, Admin, Cart, Profile, Category} from "./views";
 import { Link } from "react-router-dom";
+import {About, Admin, Cart, Category, Home, Product, Profile, User} from "./views";
 
 export const Main = () => (
     <DrawerMenu>
