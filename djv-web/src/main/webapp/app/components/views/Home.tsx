@@ -1,6 +1,11 @@
 import * as React from "react";
-import { Header } from "semantic-ui-react";
+import { Header, Image } from "semantic-ui-react";
+
+const myImage = require("../../assets/placeholder_350x150.png");
 
 export const Home = () => (
-    <Header size="large">Home</Header>
+    <div>
+        <Header size="large">Home</Header>
+        <Image src={myImage} />
+    </div>
 );
