@@ -9,3 +9,7 @@
     background-color: #8e8e8e;
     cursor: pointer;
 }
+
+.menuSidebar {
+    min-height: 90vh;
+}

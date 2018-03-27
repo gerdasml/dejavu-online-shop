@@ -50,7 +50,7 @@ export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
     render () {
         return (
             <div>
-                <Sidebar.Pushable as={Segment}>
+                <Sidebar.Pushable as={Segment} className="menuSidebar">
                 <Sidebar
                     className="drawer"
                     direction="left"
