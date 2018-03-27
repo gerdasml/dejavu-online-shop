@@ -7,5 +7,13 @@ export const Home = () => (
     <div>
         <Header size="large">Home</Header>
         <Image src={myImage} />
+        <Image src={myImage} />
+        <Image src={myImage} />
+        <Image src={myImage} />
+        <Image src={myImage} />
+        <Image src={myImage} />
+        <Image src={myImage} />
+        <Image src={myImage} />
+        <Image src={myImage} />
     </div>
 );

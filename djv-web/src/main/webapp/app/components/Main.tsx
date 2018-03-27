@@ -7,6 +7,9 @@ import {About, Admin, Cart, Category, Home, Product, Profile, User} from "./view
 
 export const Main = () => (
     <DrawerMenu>
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+        <Link to="/admin">Admin</Link>
         <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
@@ -18,8 +21,5 @@ export const Main = () => (
             <Route path="/category/:name" component={Category} />
             <Route path="*" component={Home} /> {/*TODO: Replace with a NotFound page*/}
         </Switch>
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/admin">Admin</Link>
     </DrawerMenu>
 );
