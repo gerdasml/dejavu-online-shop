@@ -6,3 +6,4 @@ export * from "./Home";
 export * from "./Product";
 export * from "./Profile";
 export * from "./User";
+export * from "./NotFound";

@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router";
 import { DrawerMenu } from "./dumb/Menu/Drawer";
 
 import { Link } from "react-router-dom";
-import {About, Admin, Cart, Category, Home, Product, Profile, User} from "./views";
+import {About, Admin, Cart, Category, Home, NotFound, Product, Profile, User} from "./views";
 
 export const Main = () => (
     <DrawerMenu>
@@ -19,7 +19,7 @@ export const Main = () => (
             <Route path="/cart" component={Cart} />
             <Route path="/profile" component = {Profile} />
             <Route path="/category/:name" component={Category} />
-            <Route path="*" component={Home} /> {/*TODO: Replace with a NotFound page*/}
+            <Route path="*" component={NotFound} />
         </Switch>
     </DrawerMenu>
 );
