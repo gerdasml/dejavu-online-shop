@@ -93,7 +93,7 @@
         "object-literal-shorthand": true,
         "ordered-imports": true,
         "prefer-function-over-method": true,
-        "prefer-method-signature": true,
+        "prefer-method-signature": false,
         "prefer-switch": [true, {"min-cases": 3}],
         "return-undefined": true,
         "space-before-function-paren": [true, "always"],
