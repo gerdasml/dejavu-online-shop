@@ -10,7 +10,7 @@ import { IProduct } from "../../../model/Product";
 interface IProductCardProps { product: IProduct; }
 
 export const ProductCard = (props: IProductCardProps) => (
-    <Card>
+    <Card link>
         <Image src={props.product.imageUrl} />
         <Card.Content>
             <Card.Header>

@@ -18,8 +18,8 @@ export const Home = () => (
         <Image src={myImage} />
         <Image src={myImage} />
         <Image src={myImage} /> */}
-        <Card.Group itemsPerRow={5}>
-            {products.map(x => <ProductCard product={x} />)}
+        <Card.Group itemsPerRow={5} doubling>
+            {products.map((x, i) => <ProductCard key={i} product={x} />)}
         </Card.Group>
     </div>
 );
