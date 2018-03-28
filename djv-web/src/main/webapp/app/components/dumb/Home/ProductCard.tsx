@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {Card, Image} from "semantic-ui-react";
+import {Card, Image, Header} from "semantic-ui-react";
 import "../../../../style/header.css";
 
 import * as api from "../../../api";
@@ -11,6 +11,7 @@ interface IProductCardProps { product: IProduct; }
 
 export const ProductCard = (props: IProductCardProps) => (
     <Card link>
+        <Header attached>{props.product.price}€</Header>
         <Image src={props.product.imageUrl} />
         <Card.Content>
             <Card.Header>
@@ -21,7 +22,7 @@ export const ProductCard = (props: IProductCardProps) => (
             </Card.Description>
         </Card.Content>
         <Card.Content extra>
-            {props.product.price}€
+            TODO: Add to cart...
         </Card.Content>
     </Card>
 );
