@@ -2,6 +2,7 @@ import * as React from "react";
 
 import {Button, Dropdown, Grid, Icon, Image, Search} from "semantic-ui-react";
 import "../../../../style/header.css";
+import Login from "../../views/Login";
 
 import * as api from "../../../api";
 
@@ -80,14 +81,7 @@ export class Header extends React.Component <{}, {}> {
                             <br/>
                             <Icon name="cart" size="big"/>
                         </Button>
-                        <Button className="headerButton"
-                                icon
-                                size="medium"
-                                >
-                            LOG&nbsp;IN
-                            <br/>
-                            <Icon name="user circle outline" size="big"/>
-                        </Button>
+                        <Login/>
                     </div>
                 </Grid.Column>
             </Grid>
