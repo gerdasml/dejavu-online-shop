@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Grid, Icon, Modal, Segment } from "semantic-ui-react";
+import { Button, Grid, Icon, Modal, Segment, Form } from "semantic-ui-react";
 import {Register} from "./Register";
 
 import "../../../style/login.css";
@@ -19,13 +19,13 @@ export class Login extends React.Component {
                         <Grid.Column>
                             <Segment basic>
                                 <h3> Already registered user?<br/>Log in:</h3>
-                                <form>
+                                <Form>
                                 Email address:<br/><br/>
                                 <input type="email"></input><br/><br/>
                                 Password:<br/><br/>
                                 <input type="password"></input><br/><br/>
                                 <input type="submit" value="Log in"></input>
-                                </form>
+                                </Form>
                             </Segment>
                         </Grid.Column>
                         <Grid.Column>
