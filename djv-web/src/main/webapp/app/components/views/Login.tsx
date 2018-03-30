@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Button, Grid, Icon, Modal, Segment } from "semantic-ui-react";
-import Register from "./Register";
+import {Register} from "./Register";
 
 import "../../../style/login.css";
 
-export default class Login extends React.Component {
+export class Login extends React.Component {
     render () {
         return (
             <Modal trigger={<Button icon

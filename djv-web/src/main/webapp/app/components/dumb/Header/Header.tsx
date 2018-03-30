@@ -2,7 +2,7 @@ import * as React from "react";
 
 import {Button, Dropdown, Grid, Icon, Image, Search} from "semantic-ui-react";
 import "../../../../style/header.css";
-import Login from "../../views/Login";
+import {Login} from "../../views/Login";
 
 import * as api from "../../../api";
 

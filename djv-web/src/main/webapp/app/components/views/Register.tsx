@@ -4,7 +4,7 @@ import {Button, Form, Modal } from "semantic-ui-react";
 
 import "../../../style/login.css";
 
-export default class Register extends React.Component {
+export class Register extends React.Component {
     render () {
         return (
             <Modal trigger={<Button>Register</Button>} size={"tiny"}>
