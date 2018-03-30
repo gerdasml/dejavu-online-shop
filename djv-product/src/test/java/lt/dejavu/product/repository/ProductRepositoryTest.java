@@ -14,9 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
-import java.io.File;
-import java.io.FileNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -24,6 +22,7 @@ import java.time.LocalDateTime;
 
 @RunWith(SpringJUnit4ClassRunner.class )
 @ContextConfiguration(classes={ProductConfiguration.class, JpaConfiguration.class})
+@Transactional
 public class ProductRepositoryTest {
 
     @Autowired
@@ -31,7 +30,7 @@ public class ProductRepositoryTest {
 
     @Before
     public void before() throws IOException{
-        executeScript("V1__create_product_table.sql");
+        executeScript("setup.sql");
     }
 
     @Autowired
@@ -73,18 +72,13 @@ public class ProductRepositoryTest {
     }
 
     private String readResource(String fileName) throws IOException {
-        File testFile = new File(fileName);
-        if (!testFile.exists()) {
-            throw new FileNotFoundException("File " + fileName + " does not exist");
-        }
-        InputStream in = ProductRepositoryTest.class.getClassLoader().getResourceAsStream(fileName);
-        return IOUtils.toString(in);
+        InputStream resourceInputStream = ProductRepositoryTest.class.getClassLoader().getResourceAsStream(fileName);
+        return IOUtils.toString(resourceInputStream);
     }
 
-    @Transactional
     protected void executeScript(String fileName) throws IOException {
         String sql = readResource(fileName);
-        Query q = em.createNativeQuery(" BEGIN " + sql + " END;");
+        Query q = em.createNativeQuery(sql);
         q.executeUpdate();
     }
 }

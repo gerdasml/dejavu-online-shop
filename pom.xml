@@ -94,6 +94,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-jpa</artifactId>
                 <version>${spring-boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.hibernate</groupId>
+                        <artifactId>hibernate-entitymanager</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.jdbi</groupId>
@@ -153,6 +159,12 @@
                 <artifactId>spring-boot-configuration-processor</artifactId>
                 <scope>compile</scope>
             </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>5.2.16.Final</version>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>

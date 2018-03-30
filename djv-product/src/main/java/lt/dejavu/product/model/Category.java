@@ -15,10 +15,11 @@ class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "${tables.category.columns.id}")
+    //@Column(name = "${tables.category.columns.id}")
+    @Column(name = "id")
     private int id;
 
-    @Column(name = "${tables.category.columns.name}")
+    //@Column(name = "${tables.category.columns.name}")
     private String name;
 
     private String iconName;
@@ -26,6 +27,7 @@ class Category {
     private String displayName;
 
     @OneToOne
-    @JoinColumn(name = "${tables.category.columns.parentCategory}")
+    //@JoinColumn(name = "${tables.category.columns.parentCategory}")
+    @JoinColumn(name = "parentCategory")
     private Category parentCategory;
 }

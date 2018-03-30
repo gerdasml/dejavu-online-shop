@@ -1,10 +1,7 @@
 package lt.dejavu.product.config;
 
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -69,7 +66,7 @@ public class JpaConfiguration {
         Properties properties = new Properties();
         // TODO h2 properties?
         // properties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-        //properties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
+        //properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         //properties.setProperty("hibernate.current_session_context_class", env.getProperty("hibernate.current_session_context_class"));
         return properties;
     }
