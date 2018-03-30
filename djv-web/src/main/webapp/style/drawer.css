@@ -1,8 +1,15 @@
 .drawer {
-    height: 84vh;
     background: #383838 !important;
 }
+.mainContainer {
+    padding: 0 !important;
+}
 
-.content {
-    height: 84vh;
+.drawer .item.menu-item:hover{
+    background-color: #8e8e8e;
+    cursor: pointer;
+}
+
+.menuSidebar {
+    min-height: 90vh;
 }

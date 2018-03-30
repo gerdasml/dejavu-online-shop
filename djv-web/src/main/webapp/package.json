@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "dejavu Online Shop",
   "main": "index.tsx",
+  "typings": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "git@github.com:gerdasml/dejavu-online-shop.git"
@@ -17,6 +18,7 @@
   "dependencies": {
     "@types/react": "^16.0.38",
     "@types/react-dom": "^16.0.4",
+    "@types/react-router-dom": "^4.2.5",
     "axios": "^0.18.0",
     "babel-preset-stage-1": "^6.5.0",
     "history": "^4.7.2",
@@ -26,6 +28,7 @@
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
     "react-router-bootstrap": "^0.24.4",
+    "react-router-dom": "^4.2.2",
     "react-router-redux": "^4.0.4",
     "redux": "^3.3.1",
     "redux-simple-router": "^2.0.4",
