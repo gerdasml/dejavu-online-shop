@@ -36,7 +36,7 @@ export class Register extends React.Component {
                             <label>Country</label>
                             <select>
                                 <option value="Lithuania">Lithuania</option>
-                                <option value="England">England</option>
+                                <option value="United Kingdom">United Kingdom</option>
                             </select>
                         </Form.Field>
                         <Form.Field inline>
