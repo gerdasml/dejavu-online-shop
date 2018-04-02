@@ -2,7 +2,7 @@ import * as React from "react";
 import { Button, Grid, Icon, Modal, Segment, Form } from "semantic-ui-react";
 import {Register} from "./Register";
 
-import "../../../style/login.css";
+import "../../../../style/login.css";
 
 export class Login extends React.Component {
     render () {
