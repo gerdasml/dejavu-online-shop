@@ -1,8 +1,8 @@
 package lt.dejavu.product.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-//@Table(name="${tables.product.name}")
+@EqualsAndHashCode
 @Table(name="Product")
 public class Product {
 

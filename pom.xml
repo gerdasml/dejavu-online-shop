@@ -12,6 +12,7 @@
         <module>djv-product</module>
         <module>djv-security</module>
         <module>djv-user</module>
+        <module>djv-category</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -43,6 +44,8 @@
         <swagger.version>2.8.0</swagger.version>
         <jackson.version>2.9.4</jackson.version>
         <log4j.version>1.2.14</log4j.version>
+        <hibernate.version>5.2.16.Final</hibernate.version>
+        <apache-commons-lang3.version>3.7</apache-commons-lang3.version>
     </properties>
 
     <dependencies>
@@ -162,11 +165,20 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>
-                <version>5.2.16.Final</version>
+                <version>${hibernate.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-jpamodelgen</artifactId>
+                <version>${hibernate.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${apache-commons-lang3.version}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
-
     </dependencyManagement>
 
 

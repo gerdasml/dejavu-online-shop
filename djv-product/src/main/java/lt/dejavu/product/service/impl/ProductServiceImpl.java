@@ -1,7 +1,8 @@
-package lt.dejavu.product.service;
+package lt.dejavu.product.service.impl;
 
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.repository.ProductRepository;
+import lt.dejavu.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

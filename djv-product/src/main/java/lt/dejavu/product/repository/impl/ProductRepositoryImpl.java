@@ -2,18 +2,21 @@ package lt.dejavu.product.repository.impl;
 
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
 @Transactional
-public class ProductRepositoryImpl implements ProductRepository {
+public class ProductRepositoryImpl extends SimpleJpaRepository<Product, Long> implements ProductRepository  {
+
+    public ProductRepositoryImpl(EntityManager em) {
+        super(Product.class, em);
+    }
 
     @PersistenceContext
     private EntityManager em;
@@ -30,8 +33,8 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Long createProduct(Product product) {
-        em.persist(product);
-        return product.getId();
+    public Long saveProduct(Product product) {
+        Product savedProduct = save(product);
+        return savedProduct.getId();
     }
 }

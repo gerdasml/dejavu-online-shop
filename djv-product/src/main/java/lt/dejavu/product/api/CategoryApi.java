@@ -1,7 +1,7 @@
 package lt.dejavu.product.api;
 
-import lt.dejavu.product.model.Product;
-import lt.dejavu.product.service.ProductService;
+import lt.dejavu.product.model.Category;
+import lt.dejavu.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,24 +10,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("%{rest.basePath}/products")
-public class ProductApi {
+@RequestMapping("%{rest.basePath}/category")
+public class CategoryApi {
 
-    private final ProductService productService;
+    private final CategoryService categoryService;
 
     @Autowired
-    public ProductApi(ProductService productService) {
-        this.productService = productService;
+    public CategoryApi(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     @RequestMapping(
-            path = "/{productId}",
+            path = "/{categoryId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public Product getProduct(@PathVariable("productId") long productId){
-        return productService.getProduct(productId);
+    public Category getCategory(@PathVariable("categoryId") long categoryId){
+        return categoryService.getCategory(categoryId);
     }
-
-
 }

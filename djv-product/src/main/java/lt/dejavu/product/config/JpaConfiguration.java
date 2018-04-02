@@ -2,7 +2,6 @@ package lt.dejavu.product.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -12,21 +11,26 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "lt.dejavu.product.repository")
 public class JpaConfiguration {
 
-    /*@Bean
-    @Primary
+    /*
+    this does not work - does not fill fields
+    @Bean
     @ConfigurationProperties("spring.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
-    }*/
+    }
+    */
+    /* this also fails
+    @Value("${spring.datasource.url}")
+    String dataSourceUrl;
+    */
+
 
     @Bean
     public DataSource dataSource(){
@@ -47,27 +51,13 @@ public class JpaConfiguration {
         em.setDataSource(dataSource());
         em.setPackagesToScan("lt.dejavu.product.model");
         em.setJpaVendorAdapter(vendorAdapter);
-        em.setJpaProperties(additionalProperties());
         return em;
     }
+
     @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
+    public PlatformTransactionManager transactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(emf);
+        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
         return transactionManager;
-    }
-
-    @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
-        return new PersistenceExceptionTranslationPostProcessor();
-    }
-
-    private Properties additionalProperties() {
-        Properties properties = new Properties();
-        // TODO h2 properties?
-        // properties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-        //properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
-        //properties.setProperty("hibernate.current_session_context_class", env.getProperty("hibernate.current_session_context_class"));
-        return properties;
     }
 }

@@ -3,43 +3,38 @@ package lt.dejavu.product.repository;
 import lt.dejavu.product.config.JpaConfiguration;
 import lt.dejavu.product.config.ProductConfiguration;
 import lt.dejavu.product.model.Product;
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import utils.JpaDbTestBase;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@RunWith(SpringJUnit4ClassRunner.class )
 @ContextConfiguration(classes={ProductConfiguration.class, JpaConfiguration.class})
-@Transactional
-public class ProductRepositoryTest {
-
-    @Autowired
-    EntityManager em;
-
-    @Before
-    public void before() throws IOException{
-        executeScript("setup.sql");
-    }
+public class ProductRepositoryTest extends JpaDbTestBase{
 
     @Autowired
     private ProductRepository productRepository;
 
+    private boolean isConfigured;
+
+    @Before
+    public void before() throws IOException{
+        if (!isConfigured){
+            executeScript("product_setup.sql");
+            isConfigured = true;
+        }
+        executeScript("product_clear.sql");
+    }
+
     @Test
     public void testFindProductByID(){
        Product expected = createSampleProduct();
-       Long id = productRepository.createProduct(expected);
+       Long id = productRepository.saveProduct(expected);
        Assert.assertNotNull(id);
 
        Product actual = productRepository.getProduct(id);
@@ -67,18 +62,5 @@ public class ProductRepositoryTest {
         Assert.assertEquals(actual.getCreationDate(), expected.getCreationDate());
         Assert.assertEquals(actual.getPrice(), expected.getPrice());
         Assert.assertEquals(actual.getCategory(), expected.getCategory());
-        Assert.assertEquals(actual.getName(), expected.getName());
-
-    }
-
-    private String readResource(String fileName) throws IOException {
-        InputStream resourceInputStream = ProductRepositoryTest.class.getClassLoader().getResourceAsStream(fileName);
-        return IOUtils.toString(resourceInputStream);
-    }
-
-    protected void executeScript(String fileName) throws IOException {
-        String sql = readResource(fileName);
-        Query q = em.createNativeQuery(sql);
-        q.executeUpdate();
     }
 }

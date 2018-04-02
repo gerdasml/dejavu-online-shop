@@ -3,31 +3,30 @@ package lt.dejavu.product.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
-@Table(name="${tables.category.name}")
-class Category {
+@Table(name="Category")
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@Column(name = "${tables.category.columns.id}")
     @Column(name = "id")
-    private int id;
+    private long id;
 
-    //@Column(name = "${tables.category.columns.name}")
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "iconName")
     private String iconName;
 
+    @Column(name = "displayName")
     private String displayName;
 
     @OneToOne
-    //@JoinColumn(name = "${tables.category.columns.parentCategory}")
     @JoinColumn(name = "parentCategory")
     private Category parentCategory;
 }
