@@ -14,23 +14,23 @@ export class Register extends React.Component {
                     <Form>
                         <Form.Field inline>
                             <label>First name</label>
-                            <input type="text"/>
+                            <input type="text" placeholder="First Name"/>
                         </Form.Field>
                         <Form.Field inline>
                             <label>Last name</label>
-                            <input type="text"/>
+                            <input type="text" placeholder="Last Name"/>
                         </Form.Field>
                         <Form.Field inline>
                             <label>Email</label>
-                            <input type="email"/>
+                            <input type="email" placeholder="email"/>
                         </Form.Field>
                         <Form.Field inline>
                             <label>Phone number</label>
-                            <input type="text"/>
+                            <input type="text" placeholder="+370********"/>
                         </Form.Field>
                         <Form.Field inline>
                             <label>Address</label>
-                            <input type="text"/>
+                            <input type="text" placeholder="address"/>
                         </Form.Field>
                         <Form.Field inline>
                             <label>Country</label>
@@ -41,11 +41,11 @@ export class Register extends React.Component {
                         </Form.Field>
                         <Form.Field inline>
                             <label>Password</label>
-                            <input type="password"/>
+                            <input type="password" placeholder="********"/>
                         </Form.Field>
                         <Form.Field inline>
                             <label>Repeat password</label>
-                            <input type="password"/>
+                            <input type="password" placeholder="********"/>
                         </Form.Field>
                         <Button>Cancel</Button>
                         <Button>Register</Button>

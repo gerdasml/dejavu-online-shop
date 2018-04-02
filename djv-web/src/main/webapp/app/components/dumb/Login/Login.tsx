@@ -22,11 +22,11 @@ export class Login extends React.Component {
                                 <Form>
                                     <Form.Field>
                                         <label>Email address</label>
-                                        <input type="email"></input>
+                                        <input type="email" placeholder="email"/>
                                     </Form.Field>
                                     <Form.Field>
                                         <label>Password</label>
-                                        <input type="password"></input>
+                                        <input type="password" placeholder="********"/>
                                     </Form.Field>
                                     <Button>Log in</Button>
                                 </Form>
