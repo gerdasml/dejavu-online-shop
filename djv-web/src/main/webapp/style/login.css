@@ -7,7 +7,7 @@
 #registerModal{
 }
 
-#registerModal input[type="button"], #registerModal input[type="submit"]{
+#registerModal Button{
     margin-top: 7%;
     margin-left: 12%;
     font-size: small;

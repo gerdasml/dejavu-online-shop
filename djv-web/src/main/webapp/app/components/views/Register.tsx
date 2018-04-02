@@ -47,8 +47,8 @@ export class Register extends React.Component {
                             <label>Repeat password</label>
                             <input type="password"/>
                         </Form.Field>
-                        <input type="button" value="Cancel"></input>
-                        <input type="submit" value="Register"></input>
+                        <Button>Cancel</Button>
+                        <Button>Register</Button>
                     </Form>
                 </Modal.Content>
             </Modal>
