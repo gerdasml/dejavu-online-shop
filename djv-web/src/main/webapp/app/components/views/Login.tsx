@@ -20,19 +20,24 @@ export class Login extends React.Component {
                             <Segment basic>
                                 <h3> Already registered user?<br/>Log in:</h3>
                                 <Form>
-                                Email address:<br/><br/>
-                                <input type="email"></input><br/><br/>
-                                Password:<br/><br/>
-                                <input type="password"></input><br/><br/>
-                                <input type="submit" value="Log in"></input>
+                                    <Form.Field>
+                                        <label>Email address</label>
+                                        <input type="email"></input>
+                                    </Form.Field>
+                                    <Form.Field>
+                                        <label>Password</label>
+                                        <input type="password"></input>
+                                    </Form.Field>
+                                    <Button>Log in</Button>
                                 </Form>
                             </Segment>
                         </Grid.Column>
                         <Grid.Column>
                             <Segment basic>
                                 <h3> Haven't used before?<br/>Sign up:</h3>
-                                <br/><br/><br/>
-                                <Register/>
+                                <div className="register">
+                                    <Register/>
+                                </div>
                             </Segment>
                         </Grid.Column>
                     </Grid>
