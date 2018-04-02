@@ -26,7 +26,7 @@ export class Register extends React.Component {
                         </Form.Field>
                         <Form.Field inline>
                             <label>Phone number</label>
-                            <input type="number"/>
+                            <input type="text"/>
                         </Form.Field>
                         <Form.Field inline>
                             <label>Address</label>
