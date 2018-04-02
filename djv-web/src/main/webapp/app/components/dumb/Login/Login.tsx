@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Grid, Icon, Modal, Segment, Form } from "semantic-ui-react";
+import { Button, Form, Grid, Icon, Modal, Segment } from "semantic-ui-react";
 import {Register} from "./Register";
 
 import "../../../../style/login.css";
