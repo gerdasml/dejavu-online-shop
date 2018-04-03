@@ -1,0 +1,35 @@
+#loginModal{
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+#registerModal{
+}
+
+#registerModal Button{
+    margin-top: 7%;
+    margin-left: 12%;
+    font-size: small;
+    width: 30%;
+}
+
+#registerModal input, #registerModal select{
+    font-size: xx-small;
+    width: 60%
+}
+
+#registerModal label{
+    width: 25%;
+    margin-left: 5%;
+}
+
+#registerModal h2{
+    margin-top: 5%;
+    text-align: center;
+    margin-bottom: 7%;
+}
+
+.register{
+padding-top: 15%;
+}
