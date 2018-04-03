@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("%{rest.basePath}/category")
+@RequestMapping("${rest.basePath}/category")
 public class CategoryApi {
 
     private final CategoryService categoryService;

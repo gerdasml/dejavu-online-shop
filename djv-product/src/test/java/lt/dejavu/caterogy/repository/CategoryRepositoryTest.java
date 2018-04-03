@@ -61,6 +61,37 @@ public class CategoryRepositoryTest extends JpaDbTestBase {
     }
 
 
+    @Test
+    public void testFindRootCategories(){
+        //TODO refactor into readable form
+        Category rootWithGrandChild = createSampleCategory();
+        long rootWithGrandChildId = categoryRepository.saveCategory(rootWithGrandChild);
+        Category child = createSampleCategory();
+        Category grandChild = createSampleCategory();
+        child.setParentCategory(rootWithGrandChild);
+        grandChild.setParentCategory(child);
+        categoryRepository.saveCategory(grandChild);
+        categoryRepository.saveCategory(child);
+        Category rootWithChild = createSampleCategory();
+        long rootWithChildId = categoryRepository.saveCategory(rootWithChild);
+        Category child2 = createSampleCategory();
+        child2.setParentCategory(rootWithChild);
+        categoryRepository.saveCategory(child2);
+        Category rootWithoutChild = createSampleCategory();
+        long rootWithoutChildId = categoryRepository.saveCategory(rootWithoutChild);
+
+        List<Category> rootCategories = categoryRepository.getAllRootCategories();
+        Assert.assertNotNull(rootCategories);
+        Assert.assertEquals(3, rootCategories.size());
+        Assert.assertTrue(rootCategories.stream().anyMatch(c-> (c.getId().equals(rootWithGrandChildId))));
+        Assert.assertTrue(rootCategories.stream().anyMatch(c-> (c.getId().equals(rootWithChildId))));
+        Assert.assertTrue(rootCategories.stream().anyMatch(c-> (c.getId().equals(rootWithoutChildId))));
+        rootCategories.stream().filter(c -> c.getId().equals(rootWithGrandChildId)).forEach(c -> assertCategoryEqual(c, rootWithGrandChild));
+        rootCategories.stream().filter(c -> c.getId().equals(rootWithChildId)).forEach(c -> assertCategoryEqual(c, rootWithChild));
+        rootCategories.stream().filter(c -> c.getId().equals(rootWithoutChildId)).forEach(c -> assertCategoryEqual(c, rootWithoutChild));
+    }
+
+
     private Category createSampleCategory() {
         Category category = new Category();
         String randomString = "@" + RandomStringUtils.randomAlphanumeric(8);

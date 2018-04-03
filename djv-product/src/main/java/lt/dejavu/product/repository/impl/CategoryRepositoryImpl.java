@@ -8,11 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Root;
-import java.util.LinkedList;
+import javax.persistence.criteria.*;
 import java.util.List;
 
 @Repository
@@ -28,10 +24,12 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public List<Category> getAllParentCategories() {
-         List<Category> list = new LinkedList<>();
-         list.add(new Category());
-         return list;
+    public List<Category> getAllRootCategories() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Category> query =  cb.createQuery(Category.class);
+        Root<Category> root = query.from(Category.class);
+        query.where(cb.isNull(root.get(Category_.parentCategory)));
+        return em.createQuery(query).getResultList();
     }
 
     @Override
@@ -49,4 +47,5 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         em.persist(category);
         return category.getId();
     }
+
 }

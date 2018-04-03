@@ -19,6 +19,7 @@ import javax.sql.DataSource;
 public class JpaConfiguration {
 
     /*
+    TODO investigate why
     this does not work - does not fill fields
     @Bean
     @ConfigurationProperties("spring.datasource")

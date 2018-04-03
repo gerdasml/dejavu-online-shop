@@ -55,5 +55,7 @@ flyway:
         columns:
           id: id
           name: name
+          iconName: iconName
+          displayName: displayName
           parentCategory: parentCategory
 
