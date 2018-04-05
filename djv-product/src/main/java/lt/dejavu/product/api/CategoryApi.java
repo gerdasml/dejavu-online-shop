@@ -13,12 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("${rest.basePath}/category")
 public class CategoryApi {
 
-    private final CategoryService categoryService;
-
     @Autowired
-    public CategoryApi(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+    private CategoryService categoryService;
 
     @RequestMapping(
             path = "/{categoryId}",

@@ -13,13 +13,13 @@ import java.util.List;
 @Repository
 @Transactional
 public class ProductRepositoryImpl extends SimpleJpaRepository<Product, Long> implements ProductRepository  {
+    
+    @PersistenceContext
+    private EntityManager em;
 
     public ProductRepositoryImpl(EntityManager em) {
         super(Product.class, em);
     }
-
-    @PersistenceContext
-    private EntityManager em;
 
     @Override
     public Product getProduct(long id) {

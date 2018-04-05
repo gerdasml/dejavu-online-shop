@@ -10,15 +10,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("${rest.basePath}/products")
+@RequestMapping("${rest.basePath}/product")
 public class ProductApi {
 
-    private final ProductService productService;
-
     @Autowired
-    public ProductApi(ProductService productService) {
-        this.productService = productService;
-    }
+    private ProductService productService;
 
     @RequestMapping(
             path = "/{productId}",

@@ -1,6 +1,7 @@
-package utils;
+package lt.dejavu.utils;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +15,10 @@ import java.io.InputStream;
 @Transactional
 public class JpaDbTestBase {
 
+    private static final String RANDOM_STRING_PREFIX = "@";
+
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     private String readResource(String fileName) throws IOException {
         InputStream resourceInputStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
@@ -26,4 +29,8 @@ public class JpaDbTestBase {
         String sql = readResource(fileName);
         em.createNativeQuery(sql).executeUpdate();
      }
+
+    protected String getGeneratedString(){
+        return RANDOM_STRING_PREFIX + RandomStringUtils.randomAlphanumeric(8);
+    }
 }

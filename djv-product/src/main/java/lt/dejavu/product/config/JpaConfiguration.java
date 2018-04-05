@@ -18,21 +18,14 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(basePackages = "lt.dejavu.product.repository")
 public class JpaConfiguration {
 
-    /*
-    TODO investigate why
-    this does not work - does not fill fields
-    @Bean
+    /* @Bean
+    // TODO investigate why this fails in tests
+    @Primary
     @ConfigurationProperties("spring.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
     */
-    /* this also fails
-    @Value("${spring.datasource.url}")
-    String dataSourceUrl;
-    */
-
-
     @Bean
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();

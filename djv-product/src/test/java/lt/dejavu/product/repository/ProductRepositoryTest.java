@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import utils.JpaDbTestBase;
+import lt.dejavu.utils.JpaDbTestBase;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -44,15 +44,16 @@ public class ProductRepositoryTest extends JpaDbTestBase{
 
     private Product createSampleProduct() {
         Product product = new Product();
-        product.setName("Test Product");
-        product.setDescription("Test Description");
+        String randomSuffix = getGeneratedString();
+        product.setName("Test Product "  + randomSuffix);
+        product.setDescription("Test Description" + randomSuffix);
         product.setCreationDate(LocalDateTime.now());
-        product.setPrice(new BigDecimal(9.99));
+        product.setPrice(new BigDecimal("9.99"));
         return product;
     }
 
     private void assertProductEqual(Product actual, Product expected){
-        if (actual == expected) {
+        if (actual.equals(expected)) {
             return;
         }
         Assert.assertNotNull(actual);
