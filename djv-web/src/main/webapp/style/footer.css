@@ -1,0 +1,25 @@
+#footer{
+    background-color: #b7d2ff;
+    display: flex;
+    align-items: center;
+    height: 5vh;
+    vertical-align: middle;
+    margin: 0;
+}
+
+#footer a .icon{
+    padding-left: 50%;
+    padding-right: 50%;
+}
+
+#footer .column{
+    padding: 0;
+    padding-right: 0.5vw;
+    padding-left: 0.5vw;
+    vertical-align: center;
+}
+
+#origin{
+    text-align: right;
+    vertical-align: middle;
+}
