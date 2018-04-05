@@ -12,7 +12,7 @@ import javax.persistence.EntityManager;
 public class ProductConfiguration {
 
     @Autowired
-    EntityManager em;
+    private EntityManager em;
 
     @Bean
     public ProductRepository productRepository(){
