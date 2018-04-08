@@ -54,10 +54,10 @@ export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
                     <Grid.Row stretched id="drawerRow">
                         <Grid.Column width={2} id="sidebarColumn">
                             <Menu vertical fluid inverted id="sidebarItems">
-                                {categories.map((x, i) =>
+                                {categories.map((itemCategory, itemIndex) =>
                                     <MenuItem
-                                                category={x}
-                                                key={i}
+                                                category={itemCategory}
+                                                key={itemIndex}
                                                 onHover={this.onHover}/>
                                             )}
                             </Menu>
