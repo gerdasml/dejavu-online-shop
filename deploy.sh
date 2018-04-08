@@ -2,15 +2,17 @@
 
 # Terminate script if anything fails
 set -e
+
+# Set constants
+APP="/etc/init.d/djv-app"
+
 # Build the project
-mvn clean install
+mvn clean package
 
-# Get ID of running java procesees (our app)
-pid=$(pgrep java || echo "")
-# If any processes were found, kill them
-if [ -n "$pid" ]; then /bin/kill -9 $pid; fi
+# Now the executable jar file can be found under djv-web/target/djv-web-VERSION.jar
 
-# Run the web app
-cd djv-web
-mvn spring-boot:run &
-cd ..
+# Stop the app if it is running
+$APP stop
+
+# Start the app
+$APP start
