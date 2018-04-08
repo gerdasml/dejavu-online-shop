@@ -17,7 +17,6 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "lt.dejavu.product.repository")
 public class JpaConfiguration {
-
     @Autowired
     DataSource dataSource;
 

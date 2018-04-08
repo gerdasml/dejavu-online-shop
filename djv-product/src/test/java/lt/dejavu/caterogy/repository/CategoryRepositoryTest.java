@@ -1,10 +1,11 @@
 package lt.dejavu.caterogy.repository;
 
-import lt.dejavu.test.common.JpaDbTestBase;
-import lt.dejavu.test.common.JpaTestConfiguration;
 import lt.dejavu.product.config.CategoryConfiguration;
+import lt.dejavu.product.config.JpaConfiguration;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.repository.CategoryRepository;
+import lt.dejavu.test.common.JpaDbTestBase;
+import lt.dejavu.test.common.JpaTestConfiguration;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -16,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Ignore
-@ContextConfiguration(classes={CategoryConfiguration.class, JpaTestConfiguration.class})
+@ContextConfiguration(classes={CategoryConfiguration.class, JpaTestConfiguration.class, JpaConfiguration.class})
 public class CategoryRepositoryTest extends JpaDbTestBase {
 
     @Autowired

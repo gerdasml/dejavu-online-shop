@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
             Category parentCategory = categoryRepository.getCategory(categoryRequest.getParentCategory());
             if (parentCategory == null) {
                 //TODO proper error
-                throw new IllegalArgumentException("cannot find category with parent id" + categoryRequest.getParentCategory());
+                throw new IllegalArgumentException("cannot find category with parent id: " + categoryRequest.getParentCategory());
             }
             category.setParentCategory(parentCategory);
         }
