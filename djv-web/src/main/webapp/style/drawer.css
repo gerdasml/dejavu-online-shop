@@ -1,15 +1,29 @@
-.drawer {
-    background: #383838 !important;
-}
-.mainContainer {
-    padding: 0 !important;
+#sideAndContent{
+    margin: 0;
+    min-height: 85vh;
 }
 
-.drawer .item.menu-item:hover{
+#sideAndContent #contentColumn{
+    padding: 1%;
+}
+
+#sideAndContent #sidebarColumn{
+    padding:0;
+}
+
+#sideAndContent .item.menu-item:hover{
     background-color: #8e8e8e;
     cursor: pointer;
 }
 
-.menuSidebar {
-    min-height: 90vh;
+#sideAndContent #drawerRow{
+    padding:0;
+}
+
+#sidebarItems{
+    border-radius: 0px;
+}
+
+#sidebarItems > *{
+    border-radius: 0px;
 }
