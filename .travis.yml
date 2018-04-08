@@ -23,6 +23,6 @@ before_install:
 deploy:
   provider: script
   skip_cleanup: true
-  script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/public deploy@159.89.106.85:/srv/deploy/dejavu.git
+  script: .travis/push.sh
   on:
     branch: master
