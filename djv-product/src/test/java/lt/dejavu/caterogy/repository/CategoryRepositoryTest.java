@@ -1,20 +1,22 @@
 package lt.dejavu.caterogy.repository;
 
+import lt.dejavu.test.common.JpaDbTestBase;
+import lt.dejavu.test.common.JpaTestConfiguration;
 import lt.dejavu.product.config.CategoryConfiguration;
-import lt.dejavu.product.config.JpaConfiguration;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.repository.CategoryRepository;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import lt.dejavu.utils.JpaDbTestBase;
 
 import java.io.IOException;
 import java.util.List;
 
-@ContextConfiguration(classes={CategoryConfiguration.class, JpaConfiguration.class})
+@Ignore
+@ContextConfiguration(classes={CategoryConfiguration.class, JpaTestConfiguration.class})
 public class CategoryRepositoryTest extends JpaDbTestBase {
 
     @Autowired
@@ -79,7 +81,7 @@ public class CategoryRepositoryTest extends JpaDbTestBase {
         Category rootWithoutChild = createSampleCategory();
         long rootWithoutChildId = categoryRepository.saveCategory(rootWithoutChild);
 
-        List<Category> rootCategories = categoryRepository.getAllRootCategories();
+        List<Category> rootCategories = categoryRepository.getRootCategories();
         Assert.assertNotNull(rootCategories);
         Assert.assertEquals(3, rootCategories.size());
         Assert.assertTrue(rootCategories.stream().anyMatch(c-> (c.getId().equals(rootWithGrandChildId))));
@@ -94,9 +96,9 @@ public class CategoryRepositoryTest extends JpaDbTestBase {
     private Category createSampleCategory() {
         Category category = new Category();
         String randomSuffix = getGeneratedString();
-        category.setName("Test Category " + randomSuffix);
-        category.setIconName("Test icon name " + randomSuffix);
-        category.setDisplayName("Test display name " + randomSuffix);
+        category.setName("Test Category" + randomSuffix);
+        category.setIconName("Test icon name" + randomSuffix);
+        category.setDisplayName("Test display name" + randomSuffix);
         return category;
     }
 

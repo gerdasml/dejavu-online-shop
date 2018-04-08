@@ -3,18 +3,21 @@ package lt.dejavu.product.repository;
 import lt.dejavu.product.config.JpaConfiguration;
 import lt.dejavu.product.config.ProductConfiguration;
 import lt.dejavu.product.model.Product;
+import lt.dejavu.test.common.JpaDbTestBase;
+import lt.dejavu.test.common.JpaTestConfiguration;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import lt.dejavu.utils.JpaDbTestBase;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@ContextConfiguration(classes={ProductConfiguration.class, JpaConfiguration.class})
+@Ignore
+@ContextConfiguration(classes={ProductConfiguration.class, JpaTestConfiguration.class, JpaConfiguration.class})
 public class ProductRepositoryTest extends JpaDbTestBase{
 
     @Autowired
@@ -45,7 +48,7 @@ public class ProductRepositoryTest extends JpaDbTestBase{
     private Product createSampleProduct() {
         Product product = new Product();
         String randomSuffix = getGeneratedString();
-        product.setName("Test Product "  + randomSuffix);
+        product.setName("Test Product"  + randomSuffix);
         product.setDescription("Test Description" + randomSuffix);
         product.setCreationDate(LocalDateTime.now());
         product.setPrice(new BigDecimal("9.99"));

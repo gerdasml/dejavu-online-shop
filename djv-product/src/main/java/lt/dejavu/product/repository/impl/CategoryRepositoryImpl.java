@@ -24,7 +24,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public List<Category> getAllRootCategories() {
+    public List<Category> getRootCategories() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Category> query =  cb.createQuery(Category.class);
         Root<Category> root = query.from(Category.class);

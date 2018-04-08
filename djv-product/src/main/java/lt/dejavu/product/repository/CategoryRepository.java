@@ -8,7 +8,7 @@ public interface CategoryRepository {
 
     Category getCategory(long id);
 
-    List<Category> getAllRootCategories();
+    List<Category> getRootCategories();
 
     List<Category> getSubCategories(long parentId);
 

@@ -9,7 +9,7 @@ public interface ProductRepository {
 
     Product getProduct(long id);
 
-    List<Product> getProductsByCategory(int categoryId);
+    List<Product> getProductsByCategory(long categoryId);
 
     Long saveProduct(Product product);
 }
