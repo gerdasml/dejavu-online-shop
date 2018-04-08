@@ -23,6 +23,6 @@ before_install:
 deploy:
   provider: script
   skip_cleanup: true
-  script: .travis/push.sh
+  script: chmod +x .travis/push.s && .travis/push.sh
   on:
     branch: master
