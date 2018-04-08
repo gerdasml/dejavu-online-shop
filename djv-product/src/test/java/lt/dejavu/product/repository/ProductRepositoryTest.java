@@ -1,10 +1,10 @@
 package lt.dejavu.product.repository;
 
 import lt.dejavu.product.config.JpaConfiguration;
-import lt.dejavu.product.config.ProductConfiguration;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.test.common.JpaDbTestBase;
 import lt.dejavu.test.common.JpaTestConfiguration;
+import lt.dejavu.test.common.RepositoryTestConfiguration;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Ignore
-@ContextConfiguration(classes={ProductConfiguration.class, JpaTestConfiguration.class, JpaConfiguration.class})
+@ContextConfiguration(classes={RepositoryTestConfiguration.class, JpaTestConfiguration.class, JpaConfiguration.class})
 public class ProductRepositoryTest extends JpaDbTestBase{
 
     @Autowired
