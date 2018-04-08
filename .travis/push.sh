@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -x # verbose mode
+
 setup_git() {
     git config --global user.email "travis@travis-ci.org"
     git config --global user.name "Travis CI"
@@ -12,10 +14,10 @@ commit_project_files() {
 }
 
 upload_files() {
-    git remote add prod ssh://deploy@159.89.106.85:/srv/deploy/dejavu.git > /dev/null 2>&1
+    git remote add prod ssh://deploy@159.89.106.85:/srv/deploy/dejavu.git
     git push --quiet --set-upstream prod master 
 }
 
 setup_git
-commit_website_files
+commit_project_files
 upload_files
