@@ -15,7 +15,7 @@ commit_project_files() {
 
 upload_files() {
     git remote add prod ssh://deploy@159.89.106.85:/srv/deploy/dejavu.git
-    git push --quiet --set-upstream prod master 
+    git push --set-upstream prod master  -f
 }
 
 setup_git
