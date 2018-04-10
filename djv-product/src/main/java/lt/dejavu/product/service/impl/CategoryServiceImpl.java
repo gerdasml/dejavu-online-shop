@@ -40,15 +40,20 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Long createCategory(CreateCategoryRequest categoryRequest) {
-        Category category = categoryRequestMapper.mapToCategory(categoryRequest);
+        Category parentCategory = resolveParentCategory(categoryRequest);
+        Category category = categoryRequestMapper.mapToCategory(categoryRequest, parentCategory);
+        return categoryRepository.saveCategory(category);
+    }
+
+    private Category resolveParentCategory(CreateCategoryRequest categoryRequest) {
         if (categoryRequest.getParentCategory() != null) {
             Category parentCategory = categoryRepository.getCategory(categoryRequest.getParentCategory());
             if (parentCategory == null) {
-                //TODO proper error
-                throw new IllegalArgumentException("cannot find category with parent id: " + categoryRequest.getParentCategory());
+                //TODO proper error or migrate to pure hibernate
+                throw new IllegalArgumentException("cannot find categoryId with parent id: " + categoryRequest.getParentCategory());
             }
-            category.setParentCategory(parentCategory);
+            return parentCategory;
         }
-        return categoryRepository.saveCategory(category);
+        return null;
     }
 }

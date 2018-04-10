@@ -1,6 +1,7 @@
 package lt.dejavu.product.model;
 
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name="Category")
+@EqualsAndHashCode
+@Table(name="category")
 public class Category {
 
     @Id
