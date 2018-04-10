@@ -15,13 +15,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
+    private final CategoryRequestMapper categoryRequestMapper;
 
     @Autowired
-    private CategoryRequestMapper categoryRequestMapper;
+    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryRequestMapper categoryRequestMapper) {
+        this.categoryRepository = categoryRepository;
+        this.categoryRequestMapper = categoryRequestMapper;
+    }
 
     @Override
     public Category getCategory(long id) {

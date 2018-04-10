@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -19,17 +18,16 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(basePackages = "lt.dejavu.product.repository")
 public class JpaConfiguration {
     @Autowired
-    DataSource dataSource;
+    private DataSource dataSource;
 
     @Autowired
     @Qualifier("databaseDialect")
-    String databaseDialect;
+    private String databaseDialect;
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setDatabase(Database.H2);
-        //vendorAdapter.setDatabasePlatform(databaseDialect);
+        vendorAdapter.setDatabasePlatform(databaseDialect);
         vendorAdapter.setGenerateDdl(false);
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);

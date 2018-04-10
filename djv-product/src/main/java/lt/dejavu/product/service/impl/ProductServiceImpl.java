@@ -17,14 +17,13 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ProductRequestMapper productRequestMapper;
 
     @Autowired
-    private ProductRequestMapper productRequestMapper;
-
-    @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository){
+    public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository, ProductRequestMapper productRequestMapper){
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.productRequestMapper = productRequestMapper;
     }
 
     @Override
