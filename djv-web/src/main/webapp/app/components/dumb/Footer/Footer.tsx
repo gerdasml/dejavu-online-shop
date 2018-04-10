@@ -17,7 +17,7 @@ export class Footer extends React.Component <{},{}> {
                     </a>
                 </Grid.Column>
                 <Grid.Column id="origin" width={7}>
-                    Vilnius University, Lithuania 2018.
+                    Vilnius University, Lithuania, 2018.
                 </Grid.Column>
             </Grid>
         );
