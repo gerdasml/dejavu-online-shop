@@ -15,6 +15,12 @@ public class FileSystemStorageStrategy implements StorageStrategy {
 
     public FileSystemStorageStrategy(String basePath) {
         this.basePath = basePath;
+        Path path = Paths.get(basePath);
+        try {
+            Files.createDirectories(path.getParent());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
