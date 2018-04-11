@@ -14,4 +14,4 @@ flyway:
       bool: BIT(1)
 
 storage:
-  rootDirectoy: /path/to/files
+  basePath: /path/to/files

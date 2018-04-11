@@ -20,4 +20,4 @@ flyway:
       bool: BIT
 
 storage:
-  rootDirectory: @project.build.directory@
+  basePath: @project.build.directory@\files\images

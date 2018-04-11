@@ -1,7 +1,7 @@
 package lt.dejavu.storage.strategy;
 
 public interface StorageStrategy {
-    int saveFile(byte[] contents);
+    void saveFile(byte[] contents, int id, String extension);
 
     byte[] getFile(int id);
 }
