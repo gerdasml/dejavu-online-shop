@@ -1,5 +1,6 @@
 package lt.dejavu.storage.image.strategy;
 
+import lt.dejavu.storage.image.exception.FileNotFoundException;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;
@@ -28,14 +29,13 @@ public class FileSystemStorageStrategy implements StorageStrategy {
     }
 
     @Override
-    public byte[] getFile(long id) throws IOException {
+    public byte[] getFile(long id) throws IOException, FileNotFoundException {
         File file = Arrays.stream(Objects.requireNonNull(new File(basePath).listFiles()))
                           .filter(f -> FilenameUtils.removeExtension(f.getName()).equals(String.valueOf(id)))
                           .findFirst()
                           .orElse(null);
         if (file == null) {
-            // TODO: proper exception
-            throw new RuntimeException("File not found");
+            throw new FileNotFoundException("The file with the specified id was not found");
         }
         return Files.readAllBytes(file.toPath());
     }

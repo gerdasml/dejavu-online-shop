@@ -1,5 +1,6 @@
 package lt.dejavu.storage.image;
 
+import lt.dejavu.storage.image.exception.FileNotFoundException;
 import lt.dejavu.storage.image.service.ImageStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,7 +23,7 @@ public class ImageController {
             produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE}
     )
     @ResponseBody
-    public byte[] getImage(@PathVariable("imageId") long imageId) throws IOException {
+    public byte[] getImage(@PathVariable("imageId") long imageId) throws IOException, FileNotFoundException {
         return imageStorageService.getImage(imageId);
     }
 }

@@ -2,6 +2,9 @@ package lt.dejavu.web;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.exception.UserNotFoundException;
+import lt.dejavu.storage.image.exception.FileNotFoundException;
+import lt.dejavu.storage.image.exception.StorageException;
+import lt.dejavu.storage.image.exception.UnsupportedImageFormatException;
 import lt.dejavu.web.exception.ExceptionDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,16 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ApiSecurityException.class)
     public final ResponseEntity<ExceptionDetails> handleApiSecurityException(ApiSecurityException ex, WebRequest req) {
         return buildResponse(ex, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    public final ResponseEntity<ExceptionDetails> handleStorageException(FileNotFoundException ex, WebRequest req) {
+        return buildResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UnsupportedImageFormatException.class)
+    public final ResponseEntity<ExceptionDetails> handleStorageException(StorageException ex, WebRequest req) {
+        return buildResponse(ex, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IOException.class)

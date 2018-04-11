@@ -1,5 +1,6 @@
 package lt.dejavu.storage.image;
 
+import lt.dejavu.storage.image.exception.UnsupportedImageFormatException;
 import lt.dejavu.storage.image.model.ImageFormat;
 import lt.dejavu.storage.image.model.ImageInfo;
 import lt.dejavu.storage.image.service.ImageStorageService;
@@ -31,16 +32,11 @@ public class ImageApi {
     }
 
     @PostMapping("/upload")
-    public ImageInfo uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
+    public ImageInfo uploadImage(@RequestParam("file") MultipartFile file) throws IOException, UnsupportedImageFormatException {
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         ImageFormat format = ImageFormat.resolve(extension);
-        if (format == ImageFormat.UNKNOWN) {
-            // TODO: proper exception
-            throw new RuntimeException("Unknown file format");
-        }
-        if (!allowedFormats.contains(format)) {
-            // TODO: proper exception
-            throw new RuntimeException("Unsupported file format");
+        if (format == ImageFormat.UNKNOWN || !allowedFormats.contains(format)) {
+            throw new UnsupportedImageFormatException("This image format is not supported");
         }
 
         ImageInfo imageInfo = new ImageInfo();

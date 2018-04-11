@@ -1,5 +1,6 @@
 package lt.dejavu.storage.image.service;
 
+import lt.dejavu.storage.image.exception.FileNotFoundException;
 import lt.dejavu.storage.image.helper.ImageUrlBuilder;
 import lt.dejavu.storage.image.mapper.ImageInfoMapper;
 import lt.dejavu.storage.image.model.ImageInfo;
@@ -55,7 +56,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
     }
 
     @Override
-    public byte[] getImage(long id) throws IOException {
+    public byte[] getImage(long id) throws IOException, FileNotFoundException {
         return storageStrategy.getFile(id);
     }
 }
