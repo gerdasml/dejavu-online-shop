@@ -2,6 +2,7 @@
 
 spring:
   datasource:
+    hibernate-dialect: org.hibernate.dialect.MySQLDialect
     url: jdbc:mysql://localhost:3306/dejavudb
     username: root
     driver-class-name: com.mysql.cj.jdbc.Driver

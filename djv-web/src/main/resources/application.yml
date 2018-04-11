@@ -32,4 +32,21 @@ flyway:
           lastName: lastName
           type: type
           banned: banned
+      product:
+        name: product
+        columns:
+          id: id
+          name: name
+          description: description
+          category: category
+          price: price
+          creationDate: creationDate
+      category:
+        name: category
+        columns:
+          id: id
+          name: name
+          iconName: iconName
+          displayName: displayName
+          parentCategory: parentCategory
 
