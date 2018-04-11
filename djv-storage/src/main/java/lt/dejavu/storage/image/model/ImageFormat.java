@@ -19,7 +19,7 @@ public enum ImageFormat {
 
     public static ImageFormat resolve(String s) {
         try {
-            return ImageFormat.valueOf(s);
+            return ImageFormat.valueOf(s.toUpperCase());
         } catch (IllegalArgumentException e) {
             return UNKNOWN;
         }
