@@ -4,5 +4,5 @@ CREATE TABLE ${tables.product.name} (
   ${tables.product.columns.description} VARCHAR(80000),
   ${tables.product.columns.creationDate} TIMESTAMP,
   ${tables.product.columns.category} BIGINT,
-  ${tables.product.columns.price} DECIMAL,
+  ${tables.product.columns.price} DECIMAL
 );
