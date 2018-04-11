@@ -2,6 +2,7 @@ package lt.dejavu.storage.image;
 
 import lt.dejavu.storage.image.model.ImageFormat;
 import lt.dejavu.storage.image.model.ImageInfo;
+import lt.dejavu.storage.image.service.ImageStorageService;
 import lt.dejavu.storage.image.strategy.ImageStorageStrategy;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,23 +17,23 @@ import java.util.List;
 @RequestMapping("${rest.basePath}/image")
 public class ImageApi {
     @Autowired
-    private ImageStorageStrategy imageStorageStrategy;
+    private ImageStorageService imageStorageService;
 
     @Autowired
     private List<ImageFormat> allowedFormats;
 
     @GetMapping("/")
     public List<ImageInfo> getAllImages() {
-        throw new NotImplementedException();
+        return imageStorageService.getAllImageInfo();
     }
 
     @GetMapping("/{imageId}/info")
     public ImageInfo getImageInfo(@PathVariable("imageId") long id) {
-        throw new NotImplementedException();
+        return imageStorageService.getImageInfo(id);
     }
 
     @PostMapping("/upload")
-    public void uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
+    public ImageInfo uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         ImageFormat format = ImageFormat.resolve(extension);
         if(format == ImageFormat.UNKNOWN) {
@@ -43,7 +44,10 @@ public class ImageApi {
             // TODO: proper exception
             throw new RuntimeException("Unsupported file format");
         }
-        byte[] content = file.getBytes();
-        imageStorageStrategy.saveFile(content, 10, format.getExtension());
+
+        ImageInfo imageInfo = new ImageInfo();
+        imageInfo.setExtension(format.getExtension());
+        imageInfo.setFilename(FilenameUtils.getName(file.getOriginalFilename()));
+        return imageStorageService.saveImage(file.getBytes(), imageInfo);
     }
 }

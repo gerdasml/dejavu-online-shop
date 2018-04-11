@@ -1,5 +1,6 @@
 package lt.dejavu.storage.image;
 
+import lt.dejavu.storage.image.service.ImageStorageService;
 import lt.dejavu.storage.image.strategy.ImageStorageStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("${rest.basePath}/image")
 public class ImageController {
     @Autowired
-    private ImageStorageStrategy imageStorageStrategy;
+    private ImageStorageService imageStorageService;
 
     @GetMapping(
             path = "/{imageId}",
@@ -21,6 +22,6 @@ public class ImageController {
     )
     @ResponseBody
     public byte[] getImage(@PathVariable("imageId") long imageId) {
-        return imageStorageStrategy.getFile(imageId);
+        return imageStorageService.getImage(imageId);
     }
 }
