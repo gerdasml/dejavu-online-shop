@@ -1,3 +1,6 @@
+# This file should hold all the configuration that does not depend on
+# the environment in which the app is running
+
 databaseSchema: dejavu
 
 rest:
@@ -13,18 +16,6 @@ auth:
       - GET /api/user/*
       - GET /api/user/
       - POST /api/user/*/ban
-
-spring:
-  datasource:
-    url: jdbc:h2:mem:dejavu_dev;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
-      path: /dejavu_dev
-      # h2 console available at http://localhost:8080/dejavu_dev
 
 flyway:
   placeholders:

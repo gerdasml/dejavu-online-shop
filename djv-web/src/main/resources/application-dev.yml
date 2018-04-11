@@ -1,0 +1,13 @@
+# This file should contain development-specific configuration
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:dejavu_dev;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /dejavu_dev
+      # h2 console available at http://localhost:8080/dejavu_dev

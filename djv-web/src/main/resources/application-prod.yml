@@ -1,5 +1,4 @@
-rest:
-  basePath: /api
+# This file should contain prod-specific configuration
 
 spring:
   datasource:
