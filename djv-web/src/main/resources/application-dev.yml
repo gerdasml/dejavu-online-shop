@@ -21,3 +21,4 @@ flyway:
 
 storage:
   basePath: @project.build.directory@\files\images
+  # basePath resolves to djv-web/target/files/images
