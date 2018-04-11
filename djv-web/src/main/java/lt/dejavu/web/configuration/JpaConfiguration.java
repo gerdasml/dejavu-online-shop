@@ -1,4 +1,4 @@
-package lt.dejavu.storage.image.configuration;
+package lt.dejavu.web.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,8 +15,8 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "lt.dejavu.storage.image.repository")
-public class JpaImageConfiguration {
+@EnableJpaRepositories(basePackages = "lt.dejavu")
+public class JpaConfiguration {
     @Autowired
     private DataSource dataSource;
 
@@ -31,7 +31,7 @@ public class JpaImageConfiguration {
         vendorAdapter.setGenerateDdl(false);
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
-        em.setPackagesToScan("lt.dejavu.storage.image.model.db");
+        em.setPackagesToScan("lt.dejavu");
         em.setJpaVendorAdapter(vendorAdapter);
         return em;
     }
