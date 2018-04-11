@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @EnableConfigurationProperties({StorageProperties.class})
 public class StorageConfiguration {
     @Bean
-    StorageStrategy storageStrategy(StorageProperties properties) {
+    StorageStrategy storageStrategy(StorageProperties properties) throws IOException {
         return new FileSystemStorageStrategy(properties.getBasePath());
     }
 

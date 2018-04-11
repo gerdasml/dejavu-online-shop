@@ -2,6 +2,7 @@ package lt.dejavu.storage.image.service;
 
 import lt.dejavu.storage.image.model.ImageInfo;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ImageStorageService {
@@ -9,7 +10,7 @@ public interface ImageStorageService {
 
     ImageInfo getImageInfo(long id);
 
-    ImageInfo saveImage(byte[] contents, ImageInfo info);
+    ImageInfo saveImage(byte[] contents, ImageInfo info) throws IOException;
 
-    byte[] getImage(long id);
+    byte[] getImage(long id) throws IOException;
 }

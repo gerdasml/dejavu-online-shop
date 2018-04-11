@@ -9,6 +9,7 @@ import lt.dejavu.storage.image.strategy.StorageStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -44,7 +45,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
     }
 
     @Override
-    public ImageInfo saveImage(byte[] contents, ImageInfo info) {
+    public ImageInfo saveImage(byte[] contents, ImageInfo info) throws IOException {
         info.setUploadDateTime(Timestamp.from(Instant.now()));
         Image image = imageInfoMapper.mapToImage(info);
         long id = imageRepository.saveImage(image);
@@ -54,7 +55,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
     }
 
     @Override
-    public byte[] getImage(long id) {
+    public byte[] getImage(long id) throws IOException {
         return storageStrategy.getFile(id);
     }
 }

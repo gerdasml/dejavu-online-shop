@@ -1,7 +1,9 @@
 package lt.dejavu.storage.image.strategy;
 
-public interface StorageStrategy {
-    void saveFile(byte[] contents, long id, String extension);
+import java.io.IOException;
 
-    byte[] getFile(long id);
+public interface StorageStrategy {
+    void saveFile(byte[] contents, long id, String extension) throws IOException;
+
+    byte[] getFile(long id) throws IOException;
 }

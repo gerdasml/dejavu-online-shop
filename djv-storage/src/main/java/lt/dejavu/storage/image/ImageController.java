@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
+
 @Controller
 @RequestMapping("${rest.basePath}/image")
 public class ImageController {
@@ -20,7 +22,7 @@ public class ImageController {
             produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE}
     )
     @ResponseBody
-    public byte[] getImage(@PathVariable("imageId") long imageId) {
+    public byte[] getImage(@PathVariable("imageId") long imageId) throws IOException {
         return imageStorageService.getImage(imageId);
     }
 }

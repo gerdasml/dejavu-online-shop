@@ -13,32 +13,22 @@ public class FileSystemStorageStrategy implements StorageStrategy {
 
     private final String basePath;
 
-    public FileSystemStorageStrategy(String basePath) {
+    public FileSystemStorageStrategy(String basePath) throws IOException {
         this.basePath = basePath;
         Path path = Paths.get(basePath);
-        try {
-            Files.createDirectories(path.getParent());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Files.createDirectories(path.getParent());
     }
 
     @Override
-    public void saveFile(byte[] contents, long id, String extension) {
+    public void saveFile(byte[] contents, long id, String extension) throws IOException {
         final String fileName = id + "." + extension;
         Path path = Paths.get(basePath, fileName);
-        try {
-            OutputStream out = new BufferedOutputStream(new FileOutputStream(path.toString()));
-            out.write(contents);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(path.toString()));
+        out.write(contents);
     }
 
     @Override
-    public byte[] getFile(long id) {
+    public byte[] getFile(long id) throws IOException {
         File file = Arrays.stream(Objects.requireNonNull(new File(basePath).listFiles()))
                           .filter(f -> FilenameUtils.removeExtension(f.getName()).equals(String.valueOf(id)))
                           .findFirst()
@@ -47,12 +37,6 @@ public class FileSystemStorageStrategy implements StorageStrategy {
             // TODO: proper exception
             throw new RuntimeException("File not found");
         }
-        try {
-            return Files.readAllBytes(file.toPath());
-        } catch (IOException e) {
-            // TODO: propert exception
-            e.printStackTrace();
-            return null;
-        }
+        return Files.readAllBytes(file.toPath());
     }
 }
