@@ -1,16 +1,14 @@
 package lt.dejavu.storage.strategy;
 
+import lt.dejavu.storage.model.ImageFormat;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.stream.Stream;
+import java.util.Objects;
 
 public class FileSystemStorageStrategy implements StorageStrategy {
 
@@ -21,8 +19,8 @@ public class FileSystemStorageStrategy implements StorageStrategy {
     }
 
     @Override
-    public void saveFile(byte[] contents, int id, String extension) {
-        final String fileName = id + "." + extension;
+    public void saveFile(byte[] contents, int id, ImageFormat format) {
+        final String fileName = id + "." + format.getExtension();
         Path path = Paths.get(basePath, fileName);
         try {
             OutputStream out = new BufferedOutputStream(new FileOutputStream(path.toString()));
@@ -36,17 +34,18 @@ public class FileSystemStorageStrategy implements StorageStrategy {
 
     @Override
     public byte[] getFile(int id) {
-        File file = Arrays.stream(new File(basePath).listFiles())
-                          .filter(f -> FilenameUtils.removeExtension(f.getName()).equalsIgnoreCase(String.valueOf(id)))
+        File file = Arrays.stream(Objects.requireNonNull(new File(basePath).listFiles()))
+                          .filter(f -> FilenameUtils.removeExtension(f.getName()).equals(String.valueOf(id)))
                           .findFirst()
                           .orElse(null);
-        if(file == null) {
+        if (file == null) {
             // TODO: proper exception
             throw new RuntimeException("File not found");
         }
         try {
             return Files.readAllBytes(file.toPath());
         } catch (IOException e) {
+            // TODO: propert exception
             e.printStackTrace();
             return null;
         }
