@@ -16,6 +16,7 @@ auth:
       - GET /api/user/*
       - GET /api/user/
       - POST /api/user/*/ban
+      - POST /api/image/upload
 
 flyway:
   placeholders:
