@@ -19,5 +19,5 @@ flyway:
       text: VARCHAR(80000)
       bool: BIT
 
-fileStorage:
+storage:
   rootDirectory: @project.build.directory@

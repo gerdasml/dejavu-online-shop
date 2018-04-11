@@ -13,5 +13,5 @@ flyway:
       text: TEXT
       bool: BIT(1)
 
-fileStorage:
+storage:
   rootDirectoy: /path/to/files
