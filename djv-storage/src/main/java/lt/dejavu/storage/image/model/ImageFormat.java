@@ -1,8 +1,5 @@
 package lt.dejavu.storage.image.model;
 
-import lombok.Getter;
-
-@Getter
 public enum ImageFormat {
     PNG("png"),
     JPG("jpg"),
@@ -12,6 +9,10 @@ public enum ImageFormat {
 
     ImageFormat(String extension) {
         this.extension = extension;
+    }
+
+    public String getExtension() {
+        return extension;
     }
 
     public static ImageFormat resolve(String s) {
