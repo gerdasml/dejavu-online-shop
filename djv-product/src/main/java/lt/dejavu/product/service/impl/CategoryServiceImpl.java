@@ -46,14 +46,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     private Category resolveParentCategory(CreateCategoryRequest categoryRequest) {
-        if (categoryRequest.getParentCategory() != null) {
-            Category parentCategory = categoryRepository.getCategory(categoryRequest.getParentCategory());
-            if (parentCategory == null) {
-                //TODO proper error or migrate to pure hibernate
-                throw new IllegalArgumentException("cannot find categoryId with parent id: " + categoryRequest.getParentCategory());
-            }
-            return parentCategory;
+        if (categoryRequest.getParentCategory() == null) {
+            return null;
         }
-        return null;
+        Category parentCategory = categoryRepository.getCategory(categoryRequest.getParentCategory());
+        if (parentCategory == null) {
+            //TODO proper error or migrate to pure hibernate
+            throw new IllegalArgumentException("cannot find categoryId with parent id: " + categoryRequest.getParentCategory());
+        }
+        return parentCategory;
     }
 }

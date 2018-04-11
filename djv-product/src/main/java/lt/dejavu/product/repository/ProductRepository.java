@@ -11,5 +11,5 @@ public interface ProductRepository {
 
     List<Product> getProductsByCategory(long categoryId);
 
-    Long saveProduct(Product product);
+    long saveProduct(Product product);
 }

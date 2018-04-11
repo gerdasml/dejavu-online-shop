@@ -38,7 +38,7 @@ public class ProductRepositoryImpl implements ProductRepository  {
     }
 
     @Override
-    public Long saveProduct(Product product) {
+    public long saveProduct(Product product) {
         em.persist(product);
         return product.getId();
     }

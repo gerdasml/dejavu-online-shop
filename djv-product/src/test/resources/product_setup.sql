@@ -3,6 +3,6 @@ CREATE TABLE product (
   name VARCHAR(255) UNIQUE NOT NULL,
   description VARCHAR(80000),
   creationDate TIMESTAMP,
-  category INT,
+  categoryId INT,
   price DECIMAL,
 );

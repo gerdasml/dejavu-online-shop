@@ -44,14 +44,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Category resolveProductCategory(CreateProductRequest request){
-        if (request.getCategoryId() != null) {
-            Category category = categoryRepository.getCategory(request.getCategoryId());
-            if (category == null) {
-                //TODO proper error
-                throw new IllegalArgumentException("cannot find categoryId with id: " + request.getCategoryId());
-            }
-            return category;
+        if (request.getCategoryId() == null) {
+            return null;
         }
-        return null;
+        Category category = categoryRepository.getCategory(request.getCategoryId());
+        if (category == null) {
+            //TODO proper error
+            throw new IllegalArgumentException("cannot find categoryId with id: " + request.getCategoryId());
+        }
+        return category;
     }
 }

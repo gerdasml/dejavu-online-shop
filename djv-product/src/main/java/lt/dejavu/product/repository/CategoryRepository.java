@@ -12,5 +12,5 @@ public interface CategoryRepository {
 
     List<Category> getSubCategories(long parentId);
 
-    Long saveCategory(Category category);
+    long saveCategory(Category category);
 }

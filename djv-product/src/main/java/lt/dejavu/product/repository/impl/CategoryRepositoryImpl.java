@@ -43,7 +43,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public Long saveCategory(Category category) {
+    public long saveCategory(Category category) {
         em.persist(category);
         return category.getId();
     }
