@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("${rest.basePath}")
 public class ShopRestController {
-    @RequestMapping(value = "/health", method= RequestMethod.GET)
+    @RequestMapping(value = "/health", method = RequestMethod.GET)
     public boolean healthCheck() {
         return true;
     }
