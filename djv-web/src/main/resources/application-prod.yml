@@ -1,4 +1,3 @@
-# Add VM option to enable this profile: -Dspring.profiles.active=prod
 rest:
   basePath: /api
 

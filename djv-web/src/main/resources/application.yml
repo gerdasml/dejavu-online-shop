@@ -20,6 +20,11 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
+  h2:
+    console:
+      enabled: true
+      path: /dejavu_dev
+      # h2 console available at http://localhost:8080/dejavu_dev
 
 flyway:
   placeholders:
