@@ -7,7 +7,7 @@ import java.util.List;
 public interface ImageRepository {
     List<Image> getImages();
 
-    Image getImage(int id);
+    Image getImage(long id);
 
     long saveImage(Image image);
 }

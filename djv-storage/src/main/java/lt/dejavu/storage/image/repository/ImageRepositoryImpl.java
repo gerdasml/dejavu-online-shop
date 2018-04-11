@@ -32,7 +32,7 @@ public class ImageRepositoryImpl implements ImageRepository {
     }
 
     @Override
-    public Image getImage(int id) {
+    public Image getImage(long id) {
         return em.find(Image.class, id);
     }
 

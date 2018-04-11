@@ -2,6 +2,7 @@ package lt.dejavu.storage.image.strategy;
 
 import lt.dejavu.storage.image.model.ImageFormat;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -19,8 +20,8 @@ public class FileSystemImageStorageStrategy implements ImageStorageStrategy {
     }
 
     @Override
-    public void saveFile(byte[] contents, int id, ImageFormat format) {
-        final String fileName = id + "." + format.getExtension();
+    public void saveFile(byte[] contents, long id, String extension) {
+        final String fileName = id + "." + extension;
         Path path = Paths.get(basePath, fileName);
         try {
             OutputStream out = new BufferedOutputStream(new FileOutputStream(path.toString()));
@@ -33,7 +34,7 @@ public class FileSystemImageStorageStrategy implements ImageStorageStrategy {
     }
 
     @Override
-    public byte[] getFile(int id) {
+    public byte[] getFile(long id) {
         File file = Arrays.stream(Objects.requireNonNull(new File(basePath).listFiles()))
                           .filter(f -> FilenameUtils.removeExtension(f.getName()).equals(String.valueOf(id)))
                           .findFirst()

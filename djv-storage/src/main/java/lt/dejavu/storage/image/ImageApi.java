@@ -27,7 +27,7 @@ public class ImageApi {
     }
 
     @GetMapping("/{imageId}/info")
-    public ImageInfo getImageInfo(@PathVariable("imageId") int id) {
+    public ImageInfo getImageInfo(@PathVariable("imageId") long id) {
         throw new NotImplementedException();
     }
 
@@ -44,6 +44,6 @@ public class ImageApi {
             throw new RuntimeException("Unsupported file format");
         }
         byte[] content = file.getBytes();
-        imageStorageStrategy.saveFile(content, 10, format);
+        imageStorageStrategy.saveFile(content, 10, format.getExtension());
     }
 }

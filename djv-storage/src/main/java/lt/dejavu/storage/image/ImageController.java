@@ -20,7 +20,7 @@ public class ImageController {
             produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE}
     )
     @ResponseBody
-    public byte[] getImage(@PathVariable("imageId") int imageId) {
+    public byte[] getImage(@PathVariable("imageId") long imageId) {
         return imageStorageStrategy.getFile(imageId);
     }
 }
