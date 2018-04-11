@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("${rest.basePath}/image")
+@RequestMapping("/image")
 public class ImageController {
     @Autowired
     private ImageStorageService imageStorageService;
