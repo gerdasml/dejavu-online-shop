@@ -14,10 +14,10 @@ public class FileSystemStorageStrategy implements StorageStrategy {
 
     private final String basePath;
 
-    public FileSystemStorageStrategy(String basePath) throws IOException {
+    public FileSystemStorageStrategy(String basePath) {
         this.basePath = basePath;
-        Path path = Paths.get(basePath);
-        Files.createDirectories(path.getParent());
+        File dir = new File(basePath);
+        dir.mkdirs();
     }
 
     @Override
