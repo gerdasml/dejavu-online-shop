@@ -1,8 +1,8 @@
-package lt.dejavu.storage;
+package lt.dejavu.storage.image;
 
-import lt.dejavu.storage.model.ImageFormat;
-import lt.dejavu.storage.model.ImageInfo;
-import lt.dejavu.storage.strategy.ImageStorageStrategy;
+import lt.dejavu.storage.image.model.ImageFormat;
+import lt.dejavu.storage.image.model.ImageInfo;
+import lt.dejavu.storage.image.strategy.ImageStorageStrategy;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

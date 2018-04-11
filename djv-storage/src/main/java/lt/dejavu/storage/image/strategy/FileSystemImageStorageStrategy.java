@@ -1,6 +1,6 @@
-package lt.dejavu.storage.strategy;
+package lt.dejavu.storage.image.strategy;
 
-import lt.dejavu.storage.model.ImageFormat;
+import lt.dejavu.storage.image.model.ImageFormat;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;

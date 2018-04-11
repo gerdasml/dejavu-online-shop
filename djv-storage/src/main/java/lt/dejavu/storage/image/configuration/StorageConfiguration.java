@@ -1,9 +1,9 @@
-package lt.dejavu.storage.configuration;
+package lt.dejavu.storage.image.configuration;
 
-import lt.dejavu.storage.configuration.properties.StorageProperties;
-import lt.dejavu.storage.model.ImageFormat;
-import lt.dejavu.storage.strategy.FileSystemImageStorageStrategy;
-import lt.dejavu.storage.strategy.ImageStorageStrategy;
+import lt.dejavu.storage.image.configuration.properties.StorageProperties;
+import lt.dejavu.storage.image.model.ImageFormat;
+import lt.dejavu.storage.image.strategy.FileSystemImageStorageStrategy;
+import lt.dejavu.storage.image.strategy.ImageStorageStrategy;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

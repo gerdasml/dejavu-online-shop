@@ -1,4 +1,4 @@
-package lt.dejavu.storage.configuration.properties;
+package lt.dejavu.storage.image.configuration.properties;
 
 import lombok.Getter;
 import lombok.Setter;

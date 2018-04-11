@@ -1,6 +1,6 @@
-package lt.dejavu.storage.repository;
+package lt.dejavu.storage.image.repository;
 
-import lt.dejavu.storage.model.ImageInfo;
+import lt.dejavu.storage.image.model.ImageInfo;
 
 import java.util.List;
 

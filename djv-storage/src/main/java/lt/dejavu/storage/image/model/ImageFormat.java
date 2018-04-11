@@ -1,4 +1,4 @@
-package lt.dejavu.storage.model;
+package lt.dejavu.storage.image.model;
 
 import lombok.Getter;
 import org.springframework.http.MediaType;
