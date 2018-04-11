@@ -1,5 +1,6 @@
 package lt.dejavu.storage.image;
 
+import lt.dejavu.storage.image.exception.FileNotFoundException;
 import lt.dejavu.storage.image.exception.UnsupportedImageFormatException;
 import lt.dejavu.storage.image.model.ImageFormat;
 import lt.dejavu.storage.image.model.ImageInfo;
@@ -27,7 +28,7 @@ public class ImageApi {
     }
 
     @GetMapping("/{imageId}/info")
-    public ImageInfo getImageInfo(@PathVariable("imageId") long id) {
+    public ImageInfo getImageInfo(@PathVariable("imageId") long id) throws FileNotFoundException {
         return imageStorageService.getImageInfo(id);
     }
 

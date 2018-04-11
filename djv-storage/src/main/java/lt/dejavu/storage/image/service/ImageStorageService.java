@@ -9,7 +9,7 @@ import java.util.List;
 public interface ImageStorageService {
     List<ImageInfo> getAllImageInfo();
 
-    ImageInfo getImageInfo(long id);
+    ImageInfo getImageInfo(long id) throws FileNotFoundException;
 
     ImageInfo saveImage(byte[] contents, ImageInfo info) throws IOException;
 
