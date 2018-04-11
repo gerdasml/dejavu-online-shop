@@ -3,8 +3,8 @@ rest:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:dejavu_dev;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE # TODO: Put an actual DB here
-    driver-class-name: org.h2.Driver
-    username: sa
+    hibernate-dialect: org.hibernate.dialect.MySQLDialect
+    url: jdbc:mysql://localhost:3306/dejavudb
+    username: root
     password:
-    hibernate-dialect: org.hibernate.dialect.H2Dialect
+    driver-class-name: com.mysql.jdbc.Driver

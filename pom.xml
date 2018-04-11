@@ -45,6 +45,7 @@
         <log4j.version>1.2.14</log4j.version>
         <hibernate.version>5.2.16.Final</hibernate.version>
         <apache-commons-lang3.version>3.7</apache-commons-lang3.version>
+        <mysql-connector-java.version>6.0.6</mysql-connector-java.version>
     </properties>
 
     <dependencies>
@@ -81,6 +82,12 @@
                 <scope>runtime</scope>
                 <version>${h2.version}</version>
             </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
