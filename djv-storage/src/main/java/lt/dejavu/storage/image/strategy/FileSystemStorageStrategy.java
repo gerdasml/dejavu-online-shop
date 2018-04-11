@@ -9,11 +9,11 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class FileSystemImageStorageStrategy implements ImageStorageStrategy {
+public class FileSystemStorageStrategy implements StorageStrategy {
 
     private final String basePath;
 
-    public FileSystemImageStorageStrategy(String basePath) {
+    public FileSystemStorageStrategy(String basePath) {
         this.basePath = basePath;
     }
 

@@ -5,7 +5,7 @@ import lt.dejavu.storage.image.mapper.ImageInfoMapper;
 import lt.dejavu.storage.image.model.ImageInfo;
 import lt.dejavu.storage.image.model.db.Image;
 import lt.dejavu.storage.image.repository.ImageRepository;
-import lt.dejavu.storage.image.strategy.ImageStorageStrategy;
+import lt.dejavu.storage.image.strategy.StorageStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,14 +18,14 @@ import static java.util.stream.Collectors.toList;
 @Component
 public class ImageStorageServiceImpl implements ImageStorageService {
     private final ImageRepository imageRepository;
-    private final ImageStorageStrategy imageStorageStrategy;
+    private final StorageStrategy storageStrategy;
     private final ImageInfoMapper imageInfoMapper;
     private final ImageUrlBuilder imageUrlBuilder;
 
     @Autowired
-    public ImageStorageServiceImpl(ImageRepository imageRepository, ImageStorageStrategy imageStorageStrategy, ImageInfoMapper imageInfoMapper, ImageUrlBuilder imageUrlBuilder) {
+    public ImageStorageServiceImpl(ImageRepository imageRepository, StorageStrategy storageStrategy, ImageInfoMapper imageInfoMapper, ImageUrlBuilder imageUrlBuilder) {
         this.imageRepository = imageRepository;
-        this.imageStorageStrategy = imageStorageStrategy;
+        this.storageStrategy = storageStrategy;
         this.imageInfoMapper = imageInfoMapper;
         this.imageUrlBuilder = imageUrlBuilder;
     }
@@ -48,13 +48,13 @@ public class ImageStorageServiceImpl implements ImageStorageService {
         info.setUploadDateTime(Timestamp.from(Instant.now()));
         Image image = imageInfoMapper.mapToImage(info);
         long id = imageRepository.saveImage(image);
-        imageStorageStrategy.saveFile(contents, id, info.getExtension());
+        storageStrategy.saveFile(contents, id, info.getExtension());
         info.setUrl(imageUrlBuilder.buildUrl(id));
         return info;
     }
 
     @Override
     public byte[] getImage(long id) {
-        return imageStorageStrategy.getFile(id);
+        return storageStrategy.getFile(id);
     }
 }
