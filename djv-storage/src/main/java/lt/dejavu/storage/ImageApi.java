@@ -1,14 +1,13 @@
 package lt.dejavu.storage;
 
 import lt.dejavu.storage.model.ImageFormat;
-import lt.dejavu.storage.strategy.StorageStrategy;
+import lt.dejavu.storage.model.ImageInfo;
+import lt.dejavu.storage.strategy.ImageStorageStrategy;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,11 +16,20 @@ import java.util.List;
 @RequestMapping("${rest.basePath}/image")
 public class ImageApi {
     @Autowired
-    private StorageStrategy storageStrategy;
+    private ImageStorageStrategy imageStorageStrategy;
 
     @Autowired
     private List<ImageFormat> allowedFormats;
 
+    @GetMapping("/")
+    public List<ImageInfo> getAllImages() {
+        throw new NotImplementedException();
+    }
+
+    @GetMapping("/{imageId}/info")
+    public ImageInfo getImageInfo(@PathVariable("imageId") int id) {
+        throw new NotImplementedException();
+    }
 
     @PostMapping("/upload")
     public void uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
@@ -36,6 +44,6 @@ public class ImageApi {
             throw new RuntimeException("Unsupported file format");
         }
         byte[] content = file.getBytes();
-        storageStrategy.saveFile(content, 10, format);
+        imageStorageStrategy.saveFile(content, 10, format);
     }
 }
