@@ -1,13 +1,13 @@
 package lt.dejavu.storage.image.repository;
 
-import lt.dejavu.storage.image.model.ImageInfo;
+import lt.dejavu.storage.image.model.db.Image;
 
 import java.util.List;
 
 public interface ImageRepository {
-    List<ImageInfo> getAllImageInfo();
+    List<Image> getImages();
 
-    ImageInfo getImageInfo(int id);
+    Image getImage(int id);
 
-    int saveImageInfo(ImageInfo imageInfo);
+    long saveImage(Image image);
 }
