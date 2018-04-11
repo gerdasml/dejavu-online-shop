@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.io.IOException;
 import java.util.Date;
 
 @ControllerAdvice
@@ -24,6 +25,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ApiSecurityException.class)
     public final ResponseEntity<ExceptionDetails> handleApiSecurityException(ApiSecurityException ex, WebRequest req) {
         return buildResponse(ex, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public final ResponseEntity<ExceptionDetails> handleIOException(IOException ex, WebRequest req) {
+        IOException exc = new IOException("Please contact the admins.");
+        return buildResponse(exc, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
