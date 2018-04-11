@@ -5,5 +5,3 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/dejavudb
     username: root
-    password:
-    driver-class-name: com.mysql.jdbc.Driver
