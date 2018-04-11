@@ -20,7 +20,7 @@ public enum ImageFormat {
     public static ImageFormat resolve(String s) {
         try {
             return ImageFormat.valueOf(s);
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return UNKNOWN;
         }
     }

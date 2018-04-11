@@ -1,7 +1,6 @@
 package lt.dejavu.storage.image;
 
 import lt.dejavu.storage.image.service.ImageStorageService;
-import lt.dejavu.storage.image.strategy.ImageStorageStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

@@ -1,8 +1,6 @@
 package lt.dejavu.storage.image.strategy;
 
-import lt.dejavu.storage.image.model.ImageFormat;
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.file.Files;
