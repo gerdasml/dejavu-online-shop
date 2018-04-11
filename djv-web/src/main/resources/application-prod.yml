@@ -6,3 +6,9 @@ spring:
     url: jdbc:mysql://localhost:3306/dejavudb
     username: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+flyway:
+  placeholders:
+    types:
+      text: TEXT
+      bool: BIT(1)
