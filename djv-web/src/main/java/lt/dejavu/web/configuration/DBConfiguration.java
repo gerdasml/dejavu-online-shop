@@ -1,4 +1,4 @@
-package lt.dejavu.product.config;
+package lt.dejavu.web.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;

@@ -47,7 +47,7 @@ public class ImageApi {
 
         ImageInfo imageInfo = new ImageInfo();
         imageInfo.setExtension(format.getExtension());
-        imageInfo.setFilename(FilenameUtils.getName(file.getOriginalFilename()));
+        imageInfo.setFilename(FilenameUtils.getBaseName(file.getOriginalFilename()));
         return imageStorageService.saveImage(file.getBytes(), imageInfo);
     }
 }
