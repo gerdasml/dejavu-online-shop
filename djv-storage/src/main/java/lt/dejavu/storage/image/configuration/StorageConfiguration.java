@@ -15,12 +15,12 @@ import java.util.List;
 @EnableConfigurationProperties({StorageProperties.class})
 public class StorageConfiguration {
     @Bean
-    StorageStrategy storageStrategy(StorageProperties properties) {
+    public StorageStrategy storageStrategy(StorageProperties properties) {
         return new FileSystemStorageStrategy(properties.getBasePath());
     }
 
     @Bean
-    List<ImageFormat> allowedImageFormats() {
+    public List<ImageFormat> allowedImageFormats() {
         return Arrays.asList(ImageFormat.PNG, ImageFormat.JPG);
     }
 }

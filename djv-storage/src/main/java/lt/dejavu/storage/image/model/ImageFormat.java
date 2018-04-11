@@ -1,20 +1,17 @@
 package lt.dejavu.storage.image.model;
 
 import lombok.Getter;
-import org.springframework.http.MediaType;
 
 @Getter
 public enum ImageFormat {
-    PNG("png", MediaType.IMAGE_PNG_VALUE),
-    JPG("jpg", MediaType.IMAGE_JPEG_VALUE),
-    UNKNOWN("", "");
+    PNG("png"),
+    JPG("jpg"),
+    UNKNOWN("");
 
-    private String extension;
-    private String mediaType;
+    private final String extension;
 
-    ImageFormat(String extension, String mediaType) {
+    ImageFormat(String extension) {
         this.extension = extension;
-        this.mediaType = mediaType;
     }
 
     public static ImageFormat resolve(String s) {
