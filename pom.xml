@@ -12,6 +12,7 @@
         <module>djv-product</module>
         <module>djv-security</module>
         <module>djv-user</module>
+        <module>djv-storage</module>
     </modules>
     <packaging>pom</packaging>
 

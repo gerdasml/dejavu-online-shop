@@ -18,4 +18,7 @@ flyway:
     types:
       text: VARCHAR(80000)
       bool: BIT
-      
+
+storage:
+  basePath: @project.build.directory@\files\images
+  # basePath resolves to djv-web/target/files/images

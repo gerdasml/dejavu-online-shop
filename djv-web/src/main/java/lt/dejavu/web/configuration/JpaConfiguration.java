@@ -1,4 +1,4 @@
-package lt.dejavu.product.config;
+package lt.dejavu.web.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "lt.dejavu.product.repository")
+@EnableJpaRepositories(basePackages = "lt.dejavu")
 public class JpaConfiguration {
     @Autowired
     private DataSource dataSource;
@@ -31,7 +31,7 @@ public class JpaConfiguration {
         vendorAdapter.setGenerateDdl(false);
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
-        em.setPackagesToScan("lt.dejavu.product.model");
+        em.setPackagesToScan("lt.dejavu");
         em.setJpaVendorAdapter(vendorAdapter);
         return em;
     }
