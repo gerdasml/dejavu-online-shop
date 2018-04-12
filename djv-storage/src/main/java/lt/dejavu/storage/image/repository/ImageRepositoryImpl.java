@@ -26,8 +26,7 @@ public class ImageRepositoryImpl implements ImageRepository {
         CriteriaQuery<Image> cq = cb.createQuery(Image.class);
         Root<Image> rootEntry = cq.from(Image.class);
         CriteriaQuery<Image> all = cq.select(rootEntry);
-        TypedQuery<Image> allQuery = em.createQuery(all);
-        return allQuery.getResultList();
+        return em.createQuery(all).getResultList();
     }
 
     @Override
