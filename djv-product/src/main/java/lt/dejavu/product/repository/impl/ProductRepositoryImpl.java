@@ -28,7 +28,7 @@ public class ProductRepositoryImpl implements ProductRepository  {
     }
 
     @Override
-    public List<Product> getProductsByCategory(long categ   oryId) {
+    public List<Product> getProductsByCategory(long categoryId) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> query =  cb.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
