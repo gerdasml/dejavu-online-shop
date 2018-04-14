@@ -19,7 +19,7 @@ export class Amount extends React.Component<IMyProps, IMyState> {
             <Input type="text" placeholder="0" action>
                 <Button id="amountButtonMinus" disabled={this.state.clicks===0}
                     onClick={this.DecreaseItem}><span className="amountButton">-</span></Button>
-                <input id="amountInput" type="text" value={ this.state.clicks }
+                <input id="amountInput" type="text" value={ this.state.clicks}
                     onChange={e => this.CheckInput(e.target.value)}></input>
                 <Button id="amountButtonPlus"
                     onClick={this.IncrementItem}><span className="amountButton">+</span></Button>
