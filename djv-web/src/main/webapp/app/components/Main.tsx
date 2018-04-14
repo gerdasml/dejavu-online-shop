@@ -10,6 +10,7 @@ export const Main = () => (
         <Link to="/">Home</Link>
         <Link to="/about">About</Link>
         <Link to="/admin">Admin</Link>
+        <Link to="/cart">Cart</Link>
         <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
