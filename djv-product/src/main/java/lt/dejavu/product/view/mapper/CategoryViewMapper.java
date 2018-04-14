@@ -10,6 +10,10 @@ import java.util.stream.Collectors;
 @Component
 public class CategoryViewMapper {
 
+    public CategoryView map(Category category) {
+        return map(category, false);
+    }
+
     public CategoryView map(Category category, boolean fetched) {
         CategoryView view = new CategoryView();
         view.setId(category.getId());
@@ -20,6 +24,10 @@ public class CategoryViewMapper {
             view.setParentCategory(map(category.getParentCategory(),true ));
         }
         return view;
+    }
+
+    public List<CategoryView>  map(List<Category> categories) {
+        return map(categories, false);
     }
 
     public List<CategoryView> map(List<Category> categories, boolean fetched) {

@@ -7,6 +7,8 @@ import lt.dejavu.product.model.rest.request.CreateProductRequest;
 import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.product.service.ProductService;
+import lt.dejavu.product.view.ProductView;
+import lt.dejavu.product.view.mapper.ProductViewMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,22 +20,25 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductRequestMapper productRequestMapper;
+    private final ProductViewMapper productViewMapper;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository, ProductRequestMapper productRequestMapper){
+    public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository,
+                              ProductRequestMapper productRequestMapper, ProductViewMapper productViewMapper){
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.productRequestMapper = productRequestMapper;
+        this.productViewMapper = productViewMapper;
     }
 
     @Override
-    public Product getProduct(long id) {
-        return productRepository.getProduct(id);
+    public ProductView getProduct(long id) {
+        return productViewMapper.map(productRepository.getProduct(id));
     }
 
     @Override
-    public List<Product> getProductsByCategory(long categoryId) {
-        return productRepository.getProductsByCategory(categoryId);
+    public List<ProductView> getProductsByCategory(long categoryId) {
+        return productViewMapper.map(productRepository.getProductsByCategory(categoryId));
     }
 
     @Override

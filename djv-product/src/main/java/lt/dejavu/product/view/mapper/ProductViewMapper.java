@@ -14,6 +14,10 @@ public class ProductViewMapper {
     @Autowired
     private CategoryViewMapper categoryViewMapper;
 
+    public ProductView map(Product product) {
+        return map(product, false);
+    }
+
     public ProductView map(Product product, boolean fetched) {
         ProductView view = new ProductView();
         view.setId(product.getId());
@@ -26,7 +30,11 @@ public class ProductViewMapper {
         return view;
     }
 
-    public List<ProductView> map(List<Product> categories, boolean fetched) {
-        return categories.stream().map(c -> map(c, fetched)).collect(Collectors.toList());
+    public List<ProductView> map(List<Product> products) {
+        return map(products, false);
+    }
+
+    public List<ProductView> map(List<Product> products, boolean fetched) {
+        return products.stream().map(c -> map(c, fetched)).collect(Collectors.toList());
     }
 }

@@ -5,6 +5,8 @@ import lt.dejavu.product.model.rest.mapper.CategoryRequestMapper;
 import lt.dejavu.product.model.rest.request.CreateCategoryRequest;
 import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.service.CategoryService;
+import lt.dejavu.product.view.CategoryView;
+import lt.dejavu.product.view.mapper.CategoryViewMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,28 +16,29 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-
     private final CategoryRequestMapper categoryRequestMapper;
+    private final CategoryViewMapper categoryViewMapper;
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryRequestMapper categoryRequestMapper) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryRequestMapper categoryRequestMapper,  CategoryViewMapper categoryViewMapper) {
         this.categoryRepository = categoryRepository;
         this.categoryRequestMapper = categoryRequestMapper;
+        this.categoryViewMapper = categoryViewMapper;
     }
 
     @Override
-    public Category getCategory(long id) {
-        return categoryRepository.getCategory(id);
+    public CategoryView getCategory(long id) {
+        return categoryViewMapper.map(categoryRepository.getCategory(id));
     }
 
     @Override
-    public List<Category> getRootCategories() {
-        return categoryRepository.getRootCategories();
+    public List<CategoryView> getRootCategories() {
+        return categoryViewMapper.map(categoryRepository.getRootCategories());
     }
 
     @Override
-    public List<Category> getSubCategories(long categoryId) {
-        return categoryRepository.getSubCategories(categoryId);
+    public List<CategoryView> getSubCategories(long categoryId) {
+        return categoryViewMapper.map(categoryRepository.getSubCategories(categoryId));
     }
 
     @Override
