@@ -6,7 +6,7 @@ import "../../../../style/cart.css";
 
 export class CartStep extends React.Component {
 
-    render() {
+    render () {
         return (
             <Step.Group size="mini" id="stepGroup">
 

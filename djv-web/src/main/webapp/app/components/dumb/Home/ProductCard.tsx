@@ -1,9 +1,7 @@
 import * as React from "react";
 
-import {Card, Image, Header} from "semantic-ui-react";
+import {Card, Header, Image} from "semantic-ui-react";
 import "../../../../style/header.css";
-
-import * as api from "../../../api";
 
 import { IProduct } from "../../../model/Product";
 
