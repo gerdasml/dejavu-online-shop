@@ -1,6 +1,5 @@
 package lt.dejavu.product.repository;
 
-import lt.dejavu.product.config.JpaProductConfiguration;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.test.common.JpaDbTestBase;
 import lt.dejavu.test.common.JpaTestConfiguration;
@@ -17,7 +16,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Ignore
-@ContextConfiguration(classes={RepositoryTestConfiguration.class, JpaTestConfiguration.class, JpaProductConfiguration.class})
+@ContextConfiguration(classes={RepositoryTestConfiguration.class, JpaTestConfiguration.class})
 public class ProductRepositoryTest extends JpaDbTestBase{
 
     @Autowired
