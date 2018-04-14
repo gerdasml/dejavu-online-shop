@@ -29,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryView getCategory(long id) {
-        return categoryViewMapper.map(categoryRepository.getCategory(id));
+        return categoryViewMapper.map(getCategoryIfExist(id));
     }
 
     @Override
@@ -58,5 +58,13 @@ public class CategoryServiceImpl implements CategoryService {
             throw new CategoryNotFoundException("cannot find categoryId with parent id: " + categoryRequest.getParentCategory());
         }
         return parentCategory;
+    }
+
+    private Category getCategoryIfExist(long categoryId){
+        Category category = categoryRepository.getCategory(categoryId);
+        if (category == null) {
+            throw new CategoryNotFoundException("cannot find specified category");
+        }
+        return category;
     }
 }
