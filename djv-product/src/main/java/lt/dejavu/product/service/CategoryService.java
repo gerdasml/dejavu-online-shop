@@ -1,6 +1,6 @@
 package lt.dejavu.product.service;
 
-import lt.dejavu.product.model.rest.request.CreateCategoryRequest;
+import lt.dejavu.product.model.rest.request.CategoryRequest;
 import lt.dejavu.product.view.CategoryView;
 
 import java.util.List;
@@ -12,5 +12,5 @@ public interface CategoryService {
 
     List<CategoryView> getSubCategories(long category);
 
-    Long createCategory(CreateCategoryRequest categoryRequest);
+    Long createCategory(CategoryRequest categoryRequest);
 }

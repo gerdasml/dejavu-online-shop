@@ -1,6 +1,6 @@
 package lt.dejavu.product.api;
 
-import lt.dejavu.product.model.rest.request.CreateProductRequest;
+import lt.dejavu.product.model.rest.request.ProductRequest;
 import lt.dejavu.product.service.ProductService;
 import lt.dejavu.product.view.ProductView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +43,26 @@ public class ProductApi {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public Long createProduct(@RequestBody CreateProductRequest categoryRequest){
-        return productService.createProduct(categoryRequest);
+    public Long createProduct(@RequestBody ProductRequest productRequest){
+        return productService.createProduct(productRequest);
     }
 
+    @RequestMapping(
+            path = "/{productId}",
+            method = RequestMethod.PUT,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public void updateProduct(@PathVariable("productId") long productId, @RequestBody ProductRequest productRequest){
+        productService.updateProduct(productId, productRequest);
+    }
+
+    @RequestMapping(
+            path = "/{productId}",
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public void updateProduct(@PathVariable("productId") long productId){
+        productService.deleteProduct(productId);
+    }
 
 }

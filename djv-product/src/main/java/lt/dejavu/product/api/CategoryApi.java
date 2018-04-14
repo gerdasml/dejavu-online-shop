@@ -1,6 +1,6 @@
 package lt.dejavu.product.api;
 
-import lt.dejavu.product.model.rest.request.CreateCategoryRequest;
+import lt.dejavu.product.model.rest.request.CategoryRequest;
 import lt.dejavu.product.service.CategoryService;
 import lt.dejavu.product.view.CategoryView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +53,7 @@ public class CategoryApi {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public Long createCategory(@RequestBody CreateCategoryRequest categoryRequest){
+    public Long createCategory(@RequestBody CategoryRequest categoryRequest){
         return categoryService.createCategory(categoryRequest);
     }
 }

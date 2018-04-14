@@ -1,6 +1,6 @@
 package lt.dejavu.product.service;
 
-import lt.dejavu.product.model.rest.request.CreateProductRequest;
+import lt.dejavu.product.model.rest.request.ProductRequest;
 import lt.dejavu.product.view.ProductView;
 
 import java.util.List;
@@ -10,9 +10,9 @@ public interface ProductService {
 
     List<ProductView> getProductsByCategory(long categoryId);
 
-    Long createProduct(CreateProductRequest request);
+    Long createProduct(ProductRequest request);
 
     void deleteProduct(long productId);
 
-    void updateProduct(long productId, CreateProductRequest request);
+    void updateProduct(long productId, ProductRequest request);
 }

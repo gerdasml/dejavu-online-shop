@@ -3,7 +3,7 @@ package lt.dejavu.product.service.impl;
 import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.rest.mapper.CategoryRequestMapper;
-import lt.dejavu.product.model.rest.request.CreateCategoryRequest;
+import lt.dejavu.product.model.rest.request.CategoryRequest;
 import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.service.CategoryService;
 import lt.dejavu.product.view.CategoryView;
@@ -43,19 +43,19 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Long createCategory(CreateCategoryRequest categoryRequest) {
+    public Long createCategory(CategoryRequest categoryRequest) {
         Category parentCategory = resolveParentCategory(categoryRequest);
         Category category = categoryRequestMapper.mapToCategory(categoryRequest, parentCategory);
         return categoryRepository.saveCategory(category);
     }
 
-    private Category resolveParentCategory(CreateCategoryRequest categoryRequest) {
+    private Category resolveParentCategory(CategoryRequest categoryRequest) {
         if (categoryRequest.getParentCategory() == null) {
             return null;
         }
         Category parentCategory = categoryRepository.getCategory(categoryRequest.getParentCategory());
         if (parentCategory == null) {
-            throw new CategoryNotFoundException("cannot find categoryId with parent id: " + categoryRequest.getParentCategory());
+            throw new CategoryNotFoundException("cannot find category with parent id: " + categoryRequest.getParentCategory());
         }
         return parentCategory;
     }
@@ -63,7 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
     private Category getCategoryIfExist(long categoryId){
         Category category = categoryRepository.getCategory(categoryId);
         if (category == null) {
-            throw new CategoryNotFoundException("cannot find specified category");
+            throw new CategoryNotFoundException("cannot find category with id " + categoryId);
         }
         return category;
     }

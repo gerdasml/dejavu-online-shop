@@ -5,7 +5,7 @@ import lt.dejavu.product.exception.ProductNotFoundException;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.model.rest.mapper.ProductRequestMapper;
-import lt.dejavu.product.model.rest.request.CreateProductRequest;
+import lt.dejavu.product.model.rest.request.ProductRequest;
 import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.product.service.ProductService;
@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Long createProduct(CreateProductRequest request) {
+    public Long createProduct(ProductRequest request) {
         Category productCategory = resolveProductCategory(request);
         Product product = productRequestMapper.mapToProduct(request, productCategory);
         return productRepository.saveProduct(product);
@@ -59,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateProduct(long productId, CreateProductRequest request) {
+    public void updateProduct(long productId, ProductRequest request) {
         Product oldProduct = getProductIfExist(productId);
         Product newProduct = productRequestMapper.mapToProduct(request, resolveProductCategory(request));
         newProduct.setId(oldProduct.getId());
@@ -67,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    private Category resolveProductCategory(CreateProductRequest request){
+    private Category resolveProductCategory(ProductRequest request){
         if (request.getCategoryId() == null) {
             return null;
         }
@@ -77,14 +77,14 @@ public class ProductServiceImpl implements ProductService {
     private Product getProductIfExist(long productId){
         Product product = productRepository.getProduct(productId);
         if (product == null) {
-            throw new ProductNotFoundException("cannot find specified product");
+            throw new ProductNotFoundException("cannot find product with id " + productId);
         }
         return product;
     }
     private Category getCategoryIfExist(long categoryId){
         Category category = categoryRepository.getCategory(categoryId);
         if (category == null) {
-            throw new CategoryNotFoundException("cannot find specified category");
+            throw new CategoryNotFoundException("cannot find category with id " + categoryId);
         }
         return category;
     }
