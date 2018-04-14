@@ -1,0 +1,6 @@
+CREATE TABLE image (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  filename VARCHAR(255) NOT NULL,
+  extension VARCHAR(10) NOT NULL,
+  uploadedOn TIMESTAMP NOT NULL
+);
