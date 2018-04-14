@@ -21,7 +21,6 @@ export class Carousel extends React.Component {
     };
     return (
       <div>
-        <h2>Custom Paging</h2>
         <Slider {...settings}>
           <div><img src="https://s3.amazonaws.com/static.neostack.com/img/react-slick/abstract01.jpg" /></div>
           <div><img src="https://s3.amazonaws.com/static.neostack.com/img/react-slick/abstract02.jpg" /></div>
