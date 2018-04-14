@@ -9,7 +9,7 @@ import "../../../style/product.css";
 
 interface IProductRouteProps { id: number; }
 export const Product = (props: RouteComponentProps<IProductRouteProps>) => (
-    <div className="productStyle">
+    <div className="product">
         <Header size="large">Product {props.match.params.id}</Header>
         <Carousel />
     </div>
