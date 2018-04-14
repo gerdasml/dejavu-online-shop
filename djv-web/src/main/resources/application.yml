@@ -5,18 +5,25 @@ databaseSchema: dejavu
 
 rest:
   basePath: /api
+  auth: ${rest.basePath}/auth
+  category: ${rest.basePath}/category
+  health: ${rest.basePath}/health
+  image: ${rest.basePath}/image
+  product: ${rest.basePath}/product
+  user: ${rest.basePath}/user
+
 
 auth:
   secret: changeit
   rights:
     REGULAR:
-      - GET /api/user/{id}
-      - POST /api/user/{id}
+      - GET ${rest.user}/{id}
+      - POST ${rest.user}/{id}
     ADMIN:
-      - GET /api/user/*
-      - GET /api/user/
-      - POST /api/user/*/ban
-      - POST /api/image/upload
+      - GET ${rest.user}/*
+      - GET ${rest.user}/
+      - POST ${rest.user}/*/ban
+      - POST ${rest.image}/upload
 
 flyway:
   placeholders:

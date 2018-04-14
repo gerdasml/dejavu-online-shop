@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("${rest.basePath}/image")
+@RequestMapping("${rest.image}")
 public class ImageApi {
     @Autowired
     private ImageStorageService imageStorageService;

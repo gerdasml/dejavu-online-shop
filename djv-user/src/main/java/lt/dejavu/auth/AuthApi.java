@@ -13,7 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("${rest.basePath}/auth")
+@RequestMapping("${rest.auth}")
 public class AuthApi {
     @Autowired
     private AuthService authService;

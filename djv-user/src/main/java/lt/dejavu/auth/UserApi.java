@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("${rest.basePath}/user")
+@RequestMapping("${rest.user}")
 public class UserApi {
     @Autowired
     private UserService userService;

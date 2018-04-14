@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("${rest.basePath}/product")
+@RequestMapping("${rest.product}")
 public class ProductApi {
 
     @Autowired
