@@ -5,6 +5,8 @@ import lt.dejavu.product.model.rest.mapper.CategoryRequestMapper;
 import lt.dejavu.product.model.rest.request.CreateCategoryRequest;
 import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.service.CategoryService;
+import lt.dejavu.product.dto.CategoryDto;
+import lt.dejavu.product.dto.mapper.CategoryDtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,28 +16,29 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-
     private final CategoryRequestMapper categoryRequestMapper;
+    private final CategoryDtoMapper categoryDtoMapper;
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryRequestMapper categoryRequestMapper) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryRequestMapper categoryRequestMapper, CategoryDtoMapper categoryDtoMapper) {
         this.categoryRepository = categoryRepository;
         this.categoryRequestMapper = categoryRequestMapper;
+        this.categoryDtoMapper = categoryDtoMapper;
     }
 
     @Override
-    public Category getCategory(long id) {
-        return categoryRepository.getCategory(id);
+    public CategoryDto getCategory(long id) {
+        return categoryDtoMapper.map(categoryRepository.getCategory(id));
     }
 
     @Override
-    public List<Category> getRootCategories() {
-        return categoryRepository.getRootCategories();
+    public List<CategoryDto> getRootCategories() {
+        return categoryDtoMapper.map(categoryRepository.getRootCategories());
     }
 
     @Override
-    public List<Category> getSubCategories(long categoryId) {
-        return categoryRepository.getSubCategories(categoryId);
+    public List<CategoryDto> getSubCategories(long categoryId) {
+        return categoryDtoMapper.map(categoryRepository.getSubCategories(categoryId));
     }
 
     @Override

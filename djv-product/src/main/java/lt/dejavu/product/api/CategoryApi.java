@@ -1,11 +1,15 @@
 package lt.dejavu.product.api;
 
-import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.rest.request.CreateCategoryRequest;
 import lt.dejavu.product.service.CategoryService;
+import lt.dejavu.product.dto.CategoryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -21,7 +25,7 @@ public class CategoryApi {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public Category getCategory(@PathVariable("categoryId") long categoryId){
+    public CategoryDto getCategory(@PathVariable("categoryId") long categoryId){
         return categoryService.getCategory(categoryId);
     }
 
@@ -30,7 +34,7 @@ public class CategoryApi {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<Category> getRootCategories(){
+    public List<CategoryDto> getRootCategories(){
         return categoryService.getRootCategories();
     }
 
@@ -40,7 +44,7 @@ public class CategoryApi {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<Category> getSubCategories(@PathVariable("categoryId") long categoryId){
+    public List<CategoryDto> getSubCategories(@PathVariable("categoryId") long categoryId){
         return categoryService.getSubCategories(categoryId);
     }
 
