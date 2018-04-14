@@ -3,7 +3,6 @@ import * as React from "react";
 import {Card, Header, Image} from "semantic-ui-react";
 import "../../../../style/header.css";
 
-
 import { IProduct } from "../../../model/Product";
 
 interface IProductCardProps { product: IProduct; }
