@@ -40,6 +40,7 @@ public class Product {
     @Column(name = "creationDate")
     private LocalDateTime creationDate;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category")
     private Category category;
