@@ -2,6 +2,8 @@ package lt.dejavu.web;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.exception.UserNotFoundException;
+import lt.dejavu.product.exception.ProductAlreadyExistException;
+import lt.dejavu.product.exception.ProductNotFoundException;
 import lt.dejavu.storage.image.exception.FileNotFoundException;
 import lt.dejavu.storage.image.exception.StorageException;
 import lt.dejavu.storage.image.exception.UnsupportedImageFormatException;
@@ -23,6 +25,16 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public final ResponseEntity<ExceptionDetails> handleUserNotFoundException(UserNotFoundException ex, WebRequest req) {
         return buildResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public final ResponseEntity<ExceptionDetails> handleProductNotFoundException(ProductNotFoundException ex, WebRequest req) {
+        return buildResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProductAlreadyExistException.class)
+    public final ResponseEntity<ExceptionDetails> handleUserNotFoundException(ProductAlreadyExistException ex, WebRequest req) {
+        return buildResponse(ex, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(ApiSecurityException.class)

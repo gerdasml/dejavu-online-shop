@@ -1,5 +1,6 @@
 package lt.dejavu.product.service.impl;
 
+import lt.dejavu.product.exception.ProductNotFoundException;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.model.rest.mapper.ProductRequestMapper;
@@ -58,5 +59,27 @@ public class ProductServiceImpl implements ProductService {
             throw new IllegalArgumentException("cannot find categoryId with id: " + request.getCategoryId());
         }
         return category;
+    }
+
+    @Override
+    public void deleteProduct(long productId) {
+        Product product = productRepository.getProduct(productId);
+        if (product == null) {
+            throw new ProductNotFoundException("cannot find product with id" + productId);
+        }
+        productRepository.deleteProduct(product);
+    }
+
+    @Override
+    public void updateProduct(long productId, CreateProductRequest request) {
+        //TODO more lightweight existence check;
+        Product product = productRepository.getProduct(productId);
+        if (product == null) {
+            throw new ProductNotFoundException("cannot find product with id" + productId);
+        }
+        Category productCategory = resolveProductCategory(request);
+        Product newProduct = productRequestMapper.mapToProduct(request, productCategory);
+        newProduct.setId(product.getId());
+        productRepository.updateProduct(newProduct);
     }
 }
