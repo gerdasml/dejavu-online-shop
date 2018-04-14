@@ -1,4 +1,4 @@
-package lt.dejavu.product.view;
+package lt.dejavu.product.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,13 +8,13 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class ProductView {
+public class ProductDto {
 
     private long id;
     private String name;
     private String description;
     private BigDecimal price;
     private LocalDateTime creationDate;
-    private CategoryView category;
+    private CategoryDto category;
     private Long categoryId;
 }

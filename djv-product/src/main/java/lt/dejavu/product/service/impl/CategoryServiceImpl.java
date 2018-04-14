@@ -5,8 +5,8 @@ import lt.dejavu.product.model.rest.mapper.CategoryRequestMapper;
 import lt.dejavu.product.model.rest.request.CreateCategoryRequest;
 import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.service.CategoryService;
-import lt.dejavu.product.view.CategoryView;
-import lt.dejavu.product.view.mapper.CategoryViewMapper;
+import lt.dejavu.product.dto.CategoryDto;
+import lt.dejavu.product.dto.mapper.CategoryDtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,28 +17,28 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryRequestMapper categoryRequestMapper;
-    private final CategoryViewMapper categoryViewMapper;
+    private final CategoryDtoMapper categoryDtoMapper;
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryRequestMapper categoryRequestMapper,  CategoryViewMapper categoryViewMapper) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryRequestMapper categoryRequestMapper, CategoryDtoMapper categoryDtoMapper) {
         this.categoryRepository = categoryRepository;
         this.categoryRequestMapper = categoryRequestMapper;
-        this.categoryViewMapper = categoryViewMapper;
+        this.categoryDtoMapper = categoryDtoMapper;
     }
 
     @Override
-    public CategoryView getCategory(long id) {
-        return categoryViewMapper.map(categoryRepository.getCategory(id));
+    public CategoryDto getCategory(long id) {
+        return categoryDtoMapper.map(categoryRepository.getCategory(id));
     }
 
     @Override
-    public List<CategoryView> getRootCategories() {
-        return categoryViewMapper.map(categoryRepository.getRootCategories());
+    public List<CategoryDto> getRootCategories() {
+        return categoryDtoMapper.map(categoryRepository.getRootCategories());
     }
 
     @Override
-    public List<CategoryView> getSubCategories(long categoryId) {
-        return categoryViewMapper.map(categoryRepository.getSubCategories(categoryId));
+    public List<CategoryDto> getSubCategories(long categoryId) {
+        return categoryDtoMapper.map(categoryRepository.getSubCategories(categoryId));
     }
 
     @Override

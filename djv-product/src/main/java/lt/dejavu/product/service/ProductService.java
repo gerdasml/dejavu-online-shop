@@ -1,14 +1,14 @@
 package lt.dejavu.product.service;
 
 import lt.dejavu.product.model.rest.request.CreateProductRequest;
-import lt.dejavu.product.view.ProductView;
+import lt.dejavu.product.dto.ProductDto;
 
 import java.util.List;
 
 public interface ProductService {
-    ProductView getProduct(long id);
+    ProductDto getProduct(long id);
 
-    List<ProductView> getProductsByCategory(long categoryId);
+    List<ProductDto> getProductsByCategory(long categoryId);
 
     Long createProduct(CreateProductRequest request);
 }
