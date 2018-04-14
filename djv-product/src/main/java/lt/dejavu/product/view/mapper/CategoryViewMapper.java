@@ -15,13 +15,19 @@ public class CategoryViewMapper {
     }
 
     public CategoryView map(Category category, boolean fetched) {
+        if (category == null) {
+            return null;
+        }
         CategoryView view = new CategoryView();
         view.setId(category.getId());
         view.setName(category.getName());
         view.setIconName(category.getIconName());
         view.setDisplayName(category.getDisplayName());
-        if (fetched && category.getParentCategory() != null) {
-            view.setParentCategory(map(category.getParentCategory(),true ));
+        if (category.getParentCategory() != null) {
+            view.setParentCategoryId(category.getParentCategory().getId());
+            if (fetched) {
+                view.setParentCategory(map(category.getParentCategory(), true));
+            }
         }
         return view;
     }

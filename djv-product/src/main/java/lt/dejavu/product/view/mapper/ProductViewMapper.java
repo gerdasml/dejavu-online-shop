@@ -19,13 +19,19 @@ public class ProductViewMapper {
     }
 
     public ProductView map(Product product, boolean fetched) {
+        if (product == null) {
+            return null;
+        }
         ProductView view = new ProductView();
         view.setId(product.getId());
         view.setName(product.getName());
         view.setDescription(product.getDescription());
         view.setCreationDate(product.getCreationDate());
-        if (fetched && product.getCategory() != null) {
-            view.setCategory(categoryViewMapper.map(product.getCategory(),true ));
+        if (product.getCategory() != null) {
+            view.setCategoryId(product.getCategory().getId());
+            if (fetched) {
+                view.setCategory(categoryViewMapper.map(product.getCategory(),true ));
+            }
         }
         return view;
     }

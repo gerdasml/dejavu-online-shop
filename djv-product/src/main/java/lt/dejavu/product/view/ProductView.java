@@ -16,4 +16,5 @@ public class ProductView {
     private BigDecimal price;
     private LocalDateTime creationDate;
     private CategoryView category;
+    private Long categoryId;
 }

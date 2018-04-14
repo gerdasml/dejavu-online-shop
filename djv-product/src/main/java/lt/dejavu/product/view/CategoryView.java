@@ -12,6 +12,7 @@ public class CategoryView {
     private String iconName;
     private String displayName;
     private CategoryView parentCategory;
+    private Long parentCategoryId;
 
 
 }
