@@ -33,6 +33,6 @@ public class Product {
     private LocalDateTime creationDate;
 
     @ManyToOne
-    @JoinColumn(name = "categoryId")
+    @JoinColumn(name = "category")
     private Category category;
 }
