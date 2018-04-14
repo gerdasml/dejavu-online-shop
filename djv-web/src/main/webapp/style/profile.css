@@ -1,0 +1,43 @@
+#changeProfile label{
+    width: 20%;
+    text-align: right;
+}
+
+#changeProfile input, #changeProfile select{
+    width: 76%;
+}
+
+#changeProfile Button{
+    margin: 1%;
+}
+
+.profileEditing{
+    width: 100%;
+    align-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+fieldset{
+    border-radius: 5px;
+}
+
+#changePassword label{
+    width: 30%;
+    text-align: right;
+}
+
+#changePassword input{
+    width: 55%;
+    text-align: left;
+}
+
+#profileEdit{
+    display: flex;
+}
+
+#changeProfile .readOnlyFields{
+    width: 76%;
+    text-align: left;
+}
