@@ -28,6 +28,15 @@ const common = {
                 ]
             },
             {
+                test: /\.(woff2?|ttf|eot)/,
+                use: {
+                    loader: "url-loader",
+                    options: {
+                        limit: 50000
+                    }
+                }
+            },
+            {
                 test: /\.(png|jpe?g|svg|gif)$/,
                 use: [
                     {

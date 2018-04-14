@@ -5,5 +5,5 @@ CREATE TABLE ${tables.user.name} (
   ${tables.user.columns.firstName} VARCHAR(255),
   ${tables.user.columns.lastName} VARCHAR(255),
   ${tables.user.columns.type} VARCHAR(10) NOT NULL,
-  ${tables.user.columns.banned} BIT NOT NULL
+  ${tables.user.columns.banned} ${types.bool} NOT NULL
 );

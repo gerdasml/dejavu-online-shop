@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Container, Menu, Segment, Sidebar } from "semantic-ui-react";
+import { Grid, Menu } from "semantic-ui-react";
 
 import "../../../../style/drawer.css";
 import { MenuItem } from "../../smart/Menu/MenuItem";
@@ -50,36 +50,28 @@ export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
     render () {
         return (
             <div>
-                <Sidebar.Pushable className="menuSidebar">
-                <Sidebar
-                    className="drawer"
-                    direction="left"
-                    as={Menu}
-                    animation="push"
-                    width="thin"
-                    visible={this.state.visible}
-                    vertical inverted>
-                    {categories.map((x, i) =>
-                            <MenuItem
-                                        category={x}
-                                        key={i}
-                                        onHover={this.onHover}/>
-                                    )}
-                </Sidebar>
-                <Sidebar.Pusher>
-                    <Segment basic className="mainContainer">
-                        <Container className="content">
-                            <button onClick={() => this.setState({visible: !this.state.visible})}>go</button>
-                            {this.props.children}
-                        </Container>
-                    </Segment>
-                </Sidebar.Pusher>
-                </Sidebar.Pushable>
+                <Grid id="allPageContent">
+                    <Grid.Row stretched id="drawerRow">
+                        <Grid.Column width={2} id="sidebar">
+                            <Menu vertical fluid inverted id="sidebarItems">
+                                {categories.map((itemCategory, itemIndex) =>
+                                    <MenuItem
+                                                category={itemCategory}
+                                                key={itemIndex}
+                                                onHover={this.onHover}/>
+                                            )}
+                            </Menu>
+                        </Grid.Column>
+                        <Grid.Column width={14} id="mainContent">
+                        {this.props.children}
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
                 {this.state.current === undefined ? "" :
-                    <SubMenu
-                        position={this.state.current.position}
-                        category={this.state.current.category}
-                        onHover={this.onHover} />}
+                        <SubMenu
+                            position={this.state.current.position}
+                            category={this.state.current.category}
+                            onHover={this.onHover} />}
             </div>
         );
     }
