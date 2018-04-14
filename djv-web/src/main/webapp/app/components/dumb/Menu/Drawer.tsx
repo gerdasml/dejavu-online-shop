@@ -55,7 +55,6 @@ export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
                     className="drawer"
                     direction="left"
                     as={Menu}
-                    animation="push"
                     width="thin"
                     visible={this.state.visible}
                     vertical inverted>

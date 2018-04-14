@@ -6,22 +6,27 @@ import "../../../../style/carousel.css";
 export class Carousel extends React.Component {
   render() {
     const settings = {
+    customPaging: (i: number) =>
+      (
+        <a>
+          <img src={`https://s3.amazonaws.com/static.neostack.com/img/react-slick/abstract0${i + 1}.jpg`} />
+        </a>
+      ),
       dots: true,
+      dotsClass: "slick-dots slick-thumb",
       infinite: true,
       slidesToScroll: 1,
       slidesToShow: 1,
-      speed: 500,
+      speed: 500
     };
     return (
       <div>
-        <h2> Single Item</h2>
+        <h2>Custom Paging</h2>
         <Slider {...settings}>
-          <div><h3>1</h3></div>
-          <div><h3>2</h3></div>
-          <div><h3>3</h3></div>
-          <div><h3>4</h3></div>
-          <div><h3>5</h3></div>
-          <div><h3>6</h3></div>
+          <div><img src="https://s3.amazonaws.com/static.neostack.com/img/react-slick/abstract01.jpg" /></div>
+          <div><img src="https://s3.amazonaws.com/static.neostack.com/img/react-slick/abstract02.jpg" /></div>
+          <div><img src="https://s3.amazonaws.com/static.neostack.com/img/react-slick/abstract03.jpg" /></div>
+          <div><img src="https://s3.amazonaws.com/static.neostack.com/img/react-slick/abstract04.jpg" /></div>
         </Slider>
       </div>
     );
