@@ -1,5 +1,6 @@
 package lt.dejavu.product.service.impl;
 
+import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.rest.mapper.CategoryRequestMapper;
 import lt.dejavu.product.model.rest.request.CreateCategoryRequest;
@@ -54,8 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
         Category parentCategory = categoryRepository.getCategory(categoryRequest.getParentCategory());
         if (parentCategory == null) {
-            //TODO proper error or migrate to pure hibernate
-            throw new IllegalArgumentException("cannot find categoryId with parent id: " + categoryRequest.getParentCategory());
+            throw new CategoryNotFoundException("cannot find categoryId with parent id: " + categoryRequest.getParentCategory());
         }
         return parentCategory;
     }

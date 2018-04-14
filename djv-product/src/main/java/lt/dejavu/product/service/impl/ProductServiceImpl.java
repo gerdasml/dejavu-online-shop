@@ -1,5 +1,6 @@
 package lt.dejavu.product.service.impl;
 
+import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.ProductNotFoundException;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.Product;
@@ -34,11 +35,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductView getProduct(long id) {
-        return productViewMapper.map(productRepository.getProduct(id));
+
+        return productViewMapper.map(getProductIfExist(id));
     }
 
     @Override
     public List<ProductView> getProductsByCategory(long categoryId) {
+        getCategoryIfExist(categoryId);
         return productViewMapper.map(productRepository.getProductsByCategory(categoryId));
     }
 
@@ -49,37 +52,40 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.saveProduct(product);
     }
 
-    private Category resolveProductCategory(CreateProductRequest request){
-        if (request.getCategoryId() == null) {
-            return null;
-        }
-        Category category = categoryRepository.getCategory(request.getCategoryId());
-        if (category == null) {
-            //TODO proper error
-            throw new IllegalArgumentException("cannot find categoryId with id: " + request.getCategoryId());
-        }
-        return category;
-    }
-
     @Override
     public void deleteProduct(long productId) {
-        Product product = productRepository.getProduct(productId);
-        if (product == null) {
-            throw new ProductNotFoundException("cannot find product with id" + productId);
-        }
+        Product product = getProductIfExist(productId);
         productRepository.deleteProduct(product);
     }
 
     @Override
     public void updateProduct(long productId, CreateProductRequest request) {
-        //TODO more lightweight existence check;
+        Product oldProduct = getProductIfExist(productId);
+        Product newProduct = productRequestMapper.mapToProduct(request, resolveProductCategory(request));
+        newProduct.setId(oldProduct.getId());
+        productRepository.updateProduct(newProduct);
+    }
+
+
+    private Category resolveProductCategory(CreateProductRequest request){
+        if (request.getCategoryId() == null) {
+            return null;
+        }
+        return getCategoryIfExist(request.getCategoryId());
+    }
+
+    private Product getProductIfExist(long productId){
         Product product = productRepository.getProduct(productId);
         if (product == null) {
-            throw new ProductNotFoundException("cannot find product with id" + productId);
+            throw new ProductNotFoundException("cannot find specified product");
         }
-        Category productCategory = resolveProductCategory(request);
-        Product newProduct = productRequestMapper.mapToProduct(request, productCategory);
-        newProduct.setId(product.getId());
-        productRepository.updateProduct(newProduct);
+        return product;
+    }
+    private Category getCategoryIfExist(long categoryId){
+        Category category = categoryRepository.getCategory(categoryId);
+        if (category == null) {
+            throw new CategoryNotFoundException("cannot find specified category");
+        }
+        return category;
     }
 }
