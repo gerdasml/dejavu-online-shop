@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Header, Image, Card } from "semantic-ui-react";
+import { Card, Header } from "semantic-ui-react";
 
 import {products} from "../../data/products";
 import { ProductCard } from "../dumb/Home/ProductCard";

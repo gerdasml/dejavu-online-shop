@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Container, Grid, Menu, Segment, Sidebar } from "semantic-ui-react";
+import { Grid, Menu } from "semantic-ui-react";
 
 import "../../../../style/drawer.css";
 import { MenuItem } from "../../smart/Menu/MenuItem";

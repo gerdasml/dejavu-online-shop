@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "../../../../style/carousel.css";
 
 export class Carousel extends React.Component {
-  render() {
+  render () {
     const settings = {
     customPaging: (i: number) =>
       (
