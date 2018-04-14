@@ -1,5 +1,7 @@
 package lt.dejavu.product.service.impl;
 
+import lt.dejavu.product.dto.ProductDto;
+import lt.dejavu.product.dto.mapper.ProductDtoMapper;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.model.rest.mapper.ProductRequestMapper;
@@ -7,8 +9,6 @@ import lt.dejavu.product.model.rest.request.CreateProductRequest;
 import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.product.service.ProductService;
-import lt.dejavu.product.dto.ProductDto;
-import lt.dejavu.product.dto.mapper.ProductDtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository,
-                              ProductRequestMapper productRequestMapper, ProductDtoMapper productDtoMapper){
+                              ProductRequestMapper productRequestMapper, ProductDtoMapper productDtoMapper) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.productRequestMapper = productRequestMapper;
@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.saveProduct(product);
     }
 
-    private Category resolveProductCategory(CreateProductRequest request){
+    private Category resolveProductCategory(CreateProductRequest request) {
         if (request.getCategoryId() == null) {
             return null;
         }

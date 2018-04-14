@@ -17,7 +17,7 @@ public class RepositoryTestConfiguration {
     }
 
     @Bean
-    public ProductRepository productRepository(){
+    public ProductRepository productRepository() {
         return new ProductRepositoryImpl();
     }
 

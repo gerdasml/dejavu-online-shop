@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductRequestMapper {
 
-    public Product mapToProduct(CreateProductRequest productRequest, Category category){
+    public Product mapToProduct(CreateProductRequest productRequest, Category category) {
         Product product = new Product();
         product.setName(productRequest.getName());
         product.setPrice(productRequest.getPrice());

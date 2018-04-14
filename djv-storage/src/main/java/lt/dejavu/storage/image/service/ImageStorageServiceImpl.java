@@ -43,7 +43,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
     @Override
     public ImageInfo getImageInfo(long id) throws FileNotFoundException {
         Image img = imageRepository.getImage(id);
-        if(img == null) {
+        if (img == null) {
             throw new FileNotFoundException("The file with the specified ID was not found");
         }
         return imageInfoMapper.mapFromImage(img);

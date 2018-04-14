@@ -1,8 +1,8 @@
 package lt.dejavu.product.api;
 
+import lt.dejavu.product.dto.CategoryDto;
 import lt.dejavu.product.model.rest.request.CreateCategoryRequest;
 import lt.dejavu.product.service.CategoryService;
-import lt.dejavu.product.dto.CategoryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ public class CategoryApi {
             path = "/{categoryId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public CategoryDto getCategory(@PathVariable("categoryId") long categoryId){
+    public CategoryDto getCategory(@PathVariable("categoryId") long categoryId) {
         return categoryService.getCategory(categoryId);
     }
 
@@ -28,7 +28,7 @@ public class CategoryApi {
             path = "/rootCategories",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<CategoryDto> getRootCategories(){
+    public List<CategoryDto> getRootCategories() {
         return categoryService.getRootCategories();
     }
 
@@ -37,7 +37,7 @@ public class CategoryApi {
             path = "/sub/{categoryId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<CategoryDto> getSubCategories(@PathVariable("categoryId") long categoryId){
+    public List<CategoryDto> getSubCategories(@PathVariable("categoryId") long categoryId) {
         return categoryService.getSubCategories(categoryId);
     }
 
@@ -45,7 +45,7 @@ public class CategoryApi {
             path = "/create",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public Long createCategory(@RequestBody CreateCategoryRequest categoryRequest){
+    public Long createCategory(@RequestBody CreateCategoryRequest categoryRequest) {
         return categoryService.createCategory(categoryRequest);
     }
 }

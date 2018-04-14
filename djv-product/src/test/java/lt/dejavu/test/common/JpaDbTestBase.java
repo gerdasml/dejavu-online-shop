@@ -15,7 +15,7 @@ import java.io.InputStream;
 
 @Ignore
 @ActiveProfiles("test")
-@RunWith(SpringJUnit4ClassRunner.class )
+@RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class JpaDbTestBase {
 
@@ -32,9 +32,9 @@ public class JpaDbTestBase {
     protected void executeScript(String fileName) throws IOException {
         String sql = readResource(fileName);
         em.createNativeQuery(sql).executeUpdate();
-     }
+    }
 
-    protected String getGeneratedString(){
+    protected String getGeneratedString() {
         return RANDOM_STRING_PREFIX + RandomStringUtils.randomAlphanumeric(8);
     }
 }

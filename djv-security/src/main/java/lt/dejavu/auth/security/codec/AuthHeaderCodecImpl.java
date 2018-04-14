@@ -1,8 +1,8 @@
 package lt.dejavu.auth.security.codec;
 
 import lt.dejavu.auth.exception.AccessDeniedException;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 @Component

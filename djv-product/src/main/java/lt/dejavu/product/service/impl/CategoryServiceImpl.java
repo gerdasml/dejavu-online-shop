@@ -1,12 +1,12 @@
 package lt.dejavu.product.service.impl;
 
+import lt.dejavu.product.dto.CategoryDto;
+import lt.dejavu.product.dto.mapper.CategoryDtoMapper;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.rest.mapper.CategoryRequestMapper;
 import lt.dejavu.product.model.rest.request.CreateCategoryRequest;
 import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.service.CategoryService;
-import lt.dejavu.product.dto.CategoryDto;
-import lt.dejavu.product.dto.mapper.CategoryDtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

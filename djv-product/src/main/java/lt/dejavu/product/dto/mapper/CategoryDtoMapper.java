@@ -1,7 +1,7 @@
 package lt.dejavu.product.dto.mapper;
 
-import lt.dejavu.product.model.Category;
 import lt.dejavu.product.dto.CategoryDto;
+import lt.dejavu.product.model.Category;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

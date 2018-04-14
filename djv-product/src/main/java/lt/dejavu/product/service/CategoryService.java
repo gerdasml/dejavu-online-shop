@@ -1,7 +1,7 @@
 package lt.dejavu.product.service;
 
-import lt.dejavu.product.model.rest.request.CreateCategoryRequest;
 import lt.dejavu.product.dto.CategoryDto;
+import lt.dejavu.product.model.rest.request.CreateCategoryRequest;
 
 import java.util.List;
 

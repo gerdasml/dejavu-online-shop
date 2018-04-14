@@ -15,9 +15,9 @@ public class JacksonConfiguration {
     @Primary
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper()
-                                .registerModule(new ParameterNamesModule())
-                                .registerModule(new Jdk8Module())
-                                .registerModule(new JavaTimeModule());
+                .registerModule(new ParameterNamesModule())
+                .registerModule(new Jdk8Module())
+                .registerModule(new JavaTimeModule());
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         return mapper;
     }
