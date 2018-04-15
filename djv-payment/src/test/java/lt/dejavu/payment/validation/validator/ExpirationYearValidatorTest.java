@@ -2,11 +2,7 @@ package lt.dejavu.payment.validation.validator;
 
 import lt.dejavu.payment.model.Expiration;
 import lt.dejavu.payment.model.Payment;
-import lt.dejavu.payment.validation.ValidationError;
-import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.List;
 
 public class ExpirationYearValidatorTest extends SingleValidatorTestBase {
 
