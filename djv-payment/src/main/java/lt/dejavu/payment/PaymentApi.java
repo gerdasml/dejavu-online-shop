@@ -1,11 +1,19 @@
 package lt.dejavu.payment;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lt.dejavu.payment.model.Payment;
+import lt.dejavu.payment.service.PaymentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("${rest.payment}")
 public class PaymentApi {
+    @Autowired
+    private PaymentService paymentService;
 
+    @PostMapping("/pay")
+    public String pay(@RequestBody Payment payment) {
+        paymentService.pay(payment);
+        return "ok";
+    }
 }
