@@ -62,3 +62,8 @@ flyway:
           displayName: displayName
           parentCategory: parentCategory
 
+payment:
+  paymentServiceAddress: http://mock-payment-processor.appspot.com
+  credentials:
+    username: technologines
+    password: platformos
