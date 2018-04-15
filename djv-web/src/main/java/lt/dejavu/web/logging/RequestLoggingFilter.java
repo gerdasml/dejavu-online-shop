@@ -5,7 +5,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -45,7 +44,7 @@ public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
     private Map<String, String> getHeaders(HttpServletRequest request) {
         Map<String, String> headers = new HashMap<>();
         Enumeration<String> headerNames = request.getHeaderNames();
-        while(headerNames != null && headerNames.hasMoreElements()) {
+        while (headerNames != null && headerNames.hasMoreElements()) {
             String header = headerNames.nextElement();
             String value = request.getHeader(header);
             headers.put(header, value);

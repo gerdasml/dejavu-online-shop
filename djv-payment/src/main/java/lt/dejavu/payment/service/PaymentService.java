@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface PaymentService {
     void pay(Payment payment) throws PaymentException;
+
     List<ValidationError> validate(Payment payment);
 }

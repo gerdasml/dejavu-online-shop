@@ -14,15 +14,15 @@ public class CardCvvValidator extends AbstractValidator<Payment> {
     @Override
     public List<ValidationError> validate(Payment obj) {
         List<ValidationError> errors = new ArrayList<>();
-        if(obj.getCard() == null || obj.getCard().getCvv() == null) {
+        if (obj.getCard() == null || obj.getCard().getCvv() == null) {
             errors.add(error("No cvv supplied"));
             return errors;
         }
         String cvv = obj.getCard().getCvv();
-        if(cvv.length() != CVV_LENGTH) {
+        if (cvv.length() != CVV_LENGTH) {
             errors.add(error(String.format("The cvv must consist of %d digits", CVV_LENGTH)));
         }
-        if(!DIGIT_PATTERN.matcher(cvv).matches()) {
+        if (!DIGIT_PATTERN.matcher(cvv).matches()) {
             errors.add(error("The cvv must consists of digits only"));
         }
 

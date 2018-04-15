@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 @Setter
 public class PaymentException extends Exception {
     private HttpStatus responseStatus;
+
     public PaymentException(HttpStatus responseStatus, String message) {
         super(message);
         this.responseStatus = responseStatus;

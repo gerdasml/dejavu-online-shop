@@ -13,12 +13,12 @@ public class CardHolderValidator extends AbstractValidator<Payment> {
     @Override
     public List<ValidationError> validate(Payment obj) {
         List<ValidationError> errors = new ArrayList<>();
-        if(obj.getCard() == null || obj.getCard().getHolder() == null) {
+        if (obj.getCard() == null || obj.getCard().getHolder() == null) {
             errors.add(error("No holder information supplied"));
             return errors;
         }
         String holderInfo = obj.getCard().getHolder();
-        if(holderInfo.length() < MINIMUM_LENGTH || holderInfo.length() > MAXIMUM_LENGTH) {
+        if (holderInfo.length() < MINIMUM_LENGTH || holderInfo.length() > MAXIMUM_LENGTH) {
             errors.add(error(String.format("Holder information must be between %d and %d symbols, inclusive", MINIMUM_LENGTH, MAXIMUM_LENGTH)));
         }
         return errors;

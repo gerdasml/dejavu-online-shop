@@ -13,12 +13,12 @@ public class ExpirationMonthValidator extends AbstractValidator<Payment> {
     @Override
     public List<ValidationError> validate(Payment obj) {
         List<ValidationError> errors = new ArrayList<>();
-        if(obj.getExpiration() == null) {
+        if (obj.getExpiration() == null) {
             errors.add(error("No expiration month supplied"));
             return errors;
         }
         int expMonth = obj.getExpiration().getMonth();
-        if(expMonth < MINIMUM_MONTH || expMonth > MAXIMUM_MONTH) {
+        if (expMonth < MINIMUM_MONTH || expMonth > MAXIMUM_MONTH) {
             errors.add(error(String.format("Month must be between %d and %d, inclusive", MINIMUM_MONTH, MAXIMUM_MONTH)));
         }
         return errors;
