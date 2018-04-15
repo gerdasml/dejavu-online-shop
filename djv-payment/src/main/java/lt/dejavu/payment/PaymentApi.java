@@ -1,5 +1,6 @@
 package lt.dejavu.payment;
 
+import lt.dejavu.payment.exception.PaymentException;
 import lt.dejavu.payment.model.Payment;
 import lt.dejavu.payment.service.PaymentService;
 import lt.dejavu.payment.validation.ValidationError;
@@ -15,7 +16,7 @@ public class PaymentApi {
     private PaymentService paymentService;
 
     @PostMapping("/pay")
-    public String pay(@RequestBody Payment payment) {
+    public String pay(@RequestBody Payment payment) throws PaymentException {
         paymentService.pay(payment);
         return "ok";
     }
