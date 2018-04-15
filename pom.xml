@@ -13,6 +13,7 @@
         <module>djv-security</module>
         <module>djv-user</module>
         <module>djv-storage</module>
+        <module>djv-payment</module>
     </modules>
     <packaging>pom</packaging>
 
