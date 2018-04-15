@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class CardCvvValidator extends AbstractValidator<Payment> {
     private static final int CVV_LENGTH = 3;
-    private static final Pattern DIGIT_PATTERN = Pattern.compile("[0-9]+");
+    private static final Pattern DIGIT_PATTERN = Pattern.compile("[0-9]*");
 
     @Override
     public List<ValidationError> validate(Payment obj) {

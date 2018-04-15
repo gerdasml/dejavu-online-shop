@@ -12,7 +12,7 @@ import static java.util.stream.Collectors.toList;
 
 public class CardNumberValidator extends AbstractValidator<Payment> {
     private static final int NUMBER_LENGTH = 16;
-    private static final Pattern DIGIT_PATTERN = Pattern.compile("[0-9]+");
+    private static final Pattern DIGIT_PATTERN = Pattern.compile("[0-9]*");
 
     @Override
     public List<ValidationError> validate(Payment obj) {
