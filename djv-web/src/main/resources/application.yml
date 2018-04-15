@@ -3,6 +3,10 @@
 
 databaseSchema: dejavu
 
+logging:
+  level:
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+
 rest:
   basePath: /api
   auth: ${rest.basePath}/auth
