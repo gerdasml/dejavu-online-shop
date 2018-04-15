@@ -1,20 +1,14 @@
 package lt.dejavu.web.configuration;
 
+import lt.dejavu.web.logging.RequestLoggingFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.filter.CommonsRequestLoggingFilter;
+import org.springframework.web.filter.AbstractRequestLoggingFilter;
 
 @Configuration
 public class RequestLoggingFilterConfiguration {
     @Bean
-    public CommonsRequestLoggingFilter logFilter() {
-        CommonsRequestLoggingFilter filter
-                = new CommonsRequestLoggingFilter();
-        filter.setIncludeQueryString(true);
-        filter.setIncludePayload(true);
-        filter.setMaxPayloadLength(10000);
-        filter.setIncludeHeaders(true);
-        filter.setAfterMessagePrefix("REQUEST DATA: ");
-        return filter;
+    AbstractRequestLoggingFilter loggingFilter() {
+        return new RequestLoggingFilter();
     }
 }
