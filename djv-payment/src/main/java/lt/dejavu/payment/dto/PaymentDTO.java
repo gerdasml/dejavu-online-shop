@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PaymentDTO {
-    private int id;
+    private Integer id;
 
     @JsonProperty("created_at")
     private LocalDateTime createdAt;
