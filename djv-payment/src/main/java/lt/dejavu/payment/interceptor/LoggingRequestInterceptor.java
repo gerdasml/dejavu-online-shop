@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 import java.util.stream.Stream;
 
 public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
-    final static Logger log = LoggerFactory.getLogger(LoggingRequestInterceptor.class);
+    private final static Logger log = LoggerFactory.getLogger(LoggingRequestInterceptor.class);
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {

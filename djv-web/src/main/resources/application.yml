@@ -5,7 +5,8 @@ databaseSchema: dejavu
 
 logging:
   level:
-    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    lt.dejavu.web.logging.RequestLoggingFilter: DEBUG
+    lt.dejavu.payment.interceptor.LoggingRequestInterceptor: DEBUG
 
 rest:
   basePath: /api
