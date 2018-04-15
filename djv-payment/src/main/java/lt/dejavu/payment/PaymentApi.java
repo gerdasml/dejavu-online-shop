@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("${rest.payment}")
 public class PaymentApi {
-    
+
 }
