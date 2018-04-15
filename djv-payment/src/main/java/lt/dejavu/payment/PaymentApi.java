@@ -19,9 +19,8 @@ public class PaymentApi {
     private PaymentService paymentService;
 
     @PostMapping("/pay")
-    public String pay(@RequestBody Payment payment) throws PaymentException {
+    public void pay(@RequestBody Payment payment) throws PaymentException {
         paymentService.pay(payment);
-        return "ok";
     }
 
     @PostMapping("/validate")
