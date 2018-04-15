@@ -1,6 +1,7 @@
 package lt.dejavu.payment.configuration;
 
 import lt.dejavu.payment.configuration.properties.PaymentProperties;
+import lt.dejavu.payment.interceptor.LoggingRequestInterceptor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,7 @@ public class PaymentConfiguration {
                         paymentProperties.getCredentials().getUsername(),
                         paymentProperties.getCredentials().getPassword())
                 .rootUri(paymentProperties.getPaymentServiceAddress())
+                .interceptors(new LoggingRequestInterceptor())
                 .build();
     }
 }
