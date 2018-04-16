@@ -5,7 +5,8 @@ databaseSchema: dejavu
 
 logging:
   level:
-    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    lt.dejavu.web.logging.RequestLoggingFilter: DEBUG
+    lt.dejavu.payment.interceptor.LoggingRequestInterceptor: DEBUG
 
 rest:
   basePath: /api
@@ -13,6 +14,7 @@ rest:
   category: ${rest.basePath}/category
   health: ${rest.basePath}/health
   image: ${rest.basePath}/image
+  payment: ${rest.basePath}/payment
   product: ${rest.basePath}/product
   user: ${rest.basePath}/user
 
@@ -62,3 +64,8 @@ flyway:
           displayName: displayName
           parentCategory: parentCategory
 
+payment:
+  paymentServiceAddress: http://mock-payment-processor.appspot.com
+  credentials:
+    username: technologines
+    password: platformos

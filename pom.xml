@@ -13,6 +13,7 @@
         <module>djv-security</module>
         <module>djv-user</module>
         <module>djv-storage</module>
+        <module>djv-payment</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -46,6 +47,7 @@
         <hibernate.version>5.2.16.Final</hibernate.version>
         <apache-commons-lang3.version>3.7</apache-commons-lang3.version>
         <mysql-connector-java.version>6.0.6</mysql-connector-java.version>
+        <httpclient.version>4.5.3</httpclient.version>
     </properties>
 
     <dependencies>
@@ -86,6 +88,11 @@
                 <artifactId>spring-boot-starter-actuator</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.h2database</groupId>
@@ -97,6 +104,12 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql-connector-java.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
             </dependency>
 
             <dependency>
