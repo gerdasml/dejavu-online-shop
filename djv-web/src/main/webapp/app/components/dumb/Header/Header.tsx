@@ -5,6 +5,7 @@ import "../../../../style/header.css";
 import {Login} from "../Login/Login";
 
 import * as api from "../../../api";
+import { IPayment } from "../../../model/Payment";
 
 // import logo from "../../assets/dejavu-logo-transperant.png"; // "Cannot find module"
 const logo = require("../../../assets/dejavu-logo-transperant.png"); // šiuo metu veikiantis variantas
@@ -113,7 +114,25 @@ const getImage = async (id: number) => {
     return image;
 };
 
+const validatePayment = async (payment: IPayment) => {
+    const errors = await api.payment.validate(payment);
+    console.log(errors);
+    return errors;
+};
+
 getUser();
 getImages();
 getImage(1);
 getImage(2);
+validatePayment({
+    amount: 0,
+    card: {
+        cvv: "123",
+        holder: "Vardas",
+        number: "4111111111111111"
+    },
+    expiration: {
+        month: 9,
+        year: 2018
+    }
+});
