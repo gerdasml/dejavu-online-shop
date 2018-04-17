@@ -14,9 +14,11 @@ import java.util.stream.Stream;
 
 public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
     private static final Logger log = LogManager.getLogger(RequestLoggingFilter.class);
+    private static final String API_PREFIX = "/api";
 
     @Override
     protected void beforeRequest(HttpServletRequest request, String message) {
+        if(!isApiMethod(request)) return;
         String body;
         try {
             body = IOUtils.toString(request.getInputStream());
@@ -34,6 +36,7 @@ public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
 
     @Override
     protected void afterRequest(HttpServletRequest request, String message) {
+        if(!isApiMethod(request)) return;
         log.debug("========================== {} handled =====================================", getRequestDescription(request));
     }
 
@@ -50,5 +53,9 @@ public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
             headers.put(header, value);
         }
         return headers;
+    }
+
+    private boolean isApiMethod(HttpServletRequest req) {
+        return req.getRequestURI().startsWith(API_PREFIX);
     }
 }
