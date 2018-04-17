@@ -14,6 +14,7 @@
         <module>djv-user</module>
         <module>djv-storage</module>
         <module>djv-payment</module>
+        <module>djv-logging</module>
     </modules>
     <packaging>pom</packaging>
 

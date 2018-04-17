@@ -1,4 +1,4 @@
-package lt.dejavu.web.logging;
+package lt.dejavu.logging;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;

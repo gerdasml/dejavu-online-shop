@@ -1,6 +1,6 @@
-package lt.dejavu.web.configuration;
+package lt.dejavu.logging.configuration;
 
-import lt.dejavu.web.logging.RequestLoggingFilter;
+import lt.dejavu.logging.RequestLoggingFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;

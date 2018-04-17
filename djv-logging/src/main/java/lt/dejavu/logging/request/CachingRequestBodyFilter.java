@@ -1,4 +1,4 @@
-package lt.dejavu.web.logging;
+package lt.dejavu.logging.request;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
