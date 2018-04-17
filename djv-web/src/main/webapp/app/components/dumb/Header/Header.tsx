@@ -90,13 +90,13 @@ export class Header extends React.Component <{}, {}> {
 }
 
 const getUser = async () => {
-    const tkn = await api.login("admin@email.com", "password");
-    if(api.isBanned(tkn)) {
+    const tkn = await api.auth.login("admin@email.com", "password");
+    if(api.auth.isBanned(tkn)) {
         console.log("You banned bro");
         return undefined;
     }
     localStorage.setItem("accessToken", tkn.token);
-    const users = await api.getUsers();
+    const users = await api.auth.getUsers();
     console.log(users);
     return users;
 };
