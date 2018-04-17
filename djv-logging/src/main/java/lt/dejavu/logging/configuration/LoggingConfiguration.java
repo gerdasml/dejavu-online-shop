@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
 
 @Configuration
-public class RequestLoggingFilterConfiguration {
+public class LoggingConfiguration {
     @Bean
-    AbstractRequestLoggingFilter loggingFilter() {
+    AbstractRequestLoggingFilter requestLoggingFilter() {
         return new RequestLoggingFilter();
     }
 }
