@@ -96,9 +96,24 @@ const getUser = async () => {
         return undefined;
     }
     localStorage.setItem("accessToken", tkn.token);
-    const users = await api.auth.getUsers();
+    const users = await api.user.getUsers();
     console.log(users);
     return users;
 };
 
+const getImages = async () => {
+    const images = await api.image.getImages();
+    console.log(images);
+    return images;
+};
+
+const getImage = async (id: number) => {
+    const image = await api.image.getImage(id);
+    console.log(image);
+    return image;
+};
+
 getUser();
+getImages();
+getImage(1);
+getImage(2);

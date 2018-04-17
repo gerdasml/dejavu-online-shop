@@ -27,5 +27,8 @@ export const buildRequest = <T>(url: string, method: HttpMethod, payload?: T) =>
 export const fetchData = <T, K>(url: string, method: HttpMethod, payload?: T): Promise<K> => {
     const req = buildRequest(url, method, payload);
     return fetch(req.url, req.params)
-            .then(r => r.json());
+            .then(r => {
+                if(!r.ok) throw r; // TODO: investigate if this is needed
+                return r.json();
+            });
 };
