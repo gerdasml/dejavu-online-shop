@@ -5,7 +5,6 @@ import "../../../../style/header.css";
 import {Login} from "../Login/Login";
 
 import * as api from "../../../api";
-import { isError } from "../../../model/ApiResponse";
 import { Payment } from "../../../model/Payment";
 import { storeToken, clearToken } from "../../../utils/token";
 
@@ -94,7 +93,7 @@ export class Header extends React.Component <{}, {}> {
 
 const getUser = async () => {
     const tkn = await api.auth.login("admin@email.com", "password");
-    if(isError(tkn)) {
+    if(api.isError(tkn)) {
         console.error(tkn);
         return undefined;
     } else {
@@ -107,7 +106,7 @@ const getUser = async () => {
     }
     storeToken(tkn.token);
     const users = await api.user.getUsers();
-    if(isError(users)) {
+    if(api.isError(users)) {
         console.error(users);
     } else {
         console.log(users);
@@ -117,7 +116,7 @@ const getUser = async () => {
 
 const getImages = async () => {
     const images = await api.image.getImages();
-    if(isError(images)) {
+    if(api.isError(images)) {
         console.error(images);
     } else {
         console.log(images);
@@ -128,7 +127,7 @@ const getImages = async () => {
 
 const getImage = async (id: number) => {
     const image = await api.image.getImage(id);
-    if(isError(image)) {
+    if(api.isError(image)) {
         console.error(image);
     } else {
         console.log(image);
@@ -138,7 +137,7 @@ const getImage = async (id: number) => {
 
 const validatePayment = async (payment: Payment) => {
     const errors = await api.payment.validate(payment);
-    if(isError(errors)) {
+    if(api.isError(errors)) {
         console.error(errors);
     } else {
         console.log(errors);

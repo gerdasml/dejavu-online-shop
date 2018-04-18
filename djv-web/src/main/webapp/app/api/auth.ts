@@ -1,4 +1,5 @@
-import { ApiResponse } from "../model/ApiResponse";
+import { ApiResponse } from "./ApiResponse";
+
 import {fetchData, HttpMethod} from "./utils";
 
 const PATH_PREFIX = "/api/auth";

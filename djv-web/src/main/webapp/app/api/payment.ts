@@ -1,4 +1,5 @@
-import { ApiResponse } from "../model/ApiResponse";
+import { ApiResponse } from "./ApiResponse";
+
 import { Payment, ValidationError } from "../model/Payment";
 import { fetchData, HttpMethod } from "./utils";
 

@@ -1,4 +1,5 @@
-import { ApiResponse } from "../model/ApiResponse";
+import { ApiResponse } from "./ApiResponse";
+
 import { ImageInfo } from "../model/ImageInfo";
 import { fetchData, HttpMethod } from "./utils";
 

@@ -1,4 +1,5 @@
-import { ApiResponse } from "../model/ApiResponse";
+import { ApiResponse } from "./ApiResponse";
+
 import {buildAuthHeader} from "../utils/token";
 
 export enum HttpMethod {
