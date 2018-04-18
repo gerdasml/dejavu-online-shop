@@ -1,7 +1,7 @@
 import * as React from "react";
 
 
-import { IPurchase } from "../../model/Purchase";
+import { Purchase } from "../../model/Purchase";
 
 import "../../../style/cart.css";
 
@@ -9,7 +9,7 @@ import * as Step from "../dumb/Cart/Step";
 
 import { CartStep, CartStepHeader } from "../dumb/Cart/CartStepHeader";
 
-const purchases: IPurchase[] = [{
+const purchases: Purchase[] = [{
   amount: 2,
   item: {name: "something", imageUrl:"", description:"", price: 5},
   total: 100,

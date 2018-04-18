@@ -6,19 +6,19 @@ import "../../../../style/drawer.css";
 import { MenuItem } from "../../smart/Menu/MenuItem";
 
 import {categories} from "../../../data/categories";
-import { ICategory } from "../../../model/Category";
-import { ISubMenuPosition, SubMenu } from "../../smart/Menu/SubMenu";
+import { Category } from "../../../model/Category";
+import { SubMenuPosition, SubMenu } from "../../smart/Menu/SubMenu";
 
-interface ICategorySettings {
-    category: ICategory;
-    position: ISubMenuPosition;
+interface CategorySettings {
+    category: Category;
+    position: SubMenuPosition;
 }
-export interface IDrawerMenuState {
+export interface DrawerMenuState {
     visible: boolean;
-    current: ICategorySettings;
+    current: CategorySettings;
 }
 
-export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
+export class DrawerMenu extends React.Component<{}, DrawerMenuState> {
     constructor (props: {}) {
         super(props);
         this.state = {
@@ -27,7 +27,7 @@ export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
         };
     }
 
-    onHover = (cat: ICategory, pos?: ISubMenuPosition) => {
+    onHover = (cat: Category, pos?: SubMenuPosition) => {
         if(pos === undefined) {
             this.setState({
                 ...this.state,

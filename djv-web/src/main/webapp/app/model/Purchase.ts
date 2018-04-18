@@ -1,8 +1,8 @@
-import { IProduct } from "./Product";
+import { Product } from "./Product";
 
-export interface IPurchase {
+export interface Purchase {
     amount: number;
-    item: IProduct;
+    item: Product;
     total: number;
     unitPrice: number;
 }

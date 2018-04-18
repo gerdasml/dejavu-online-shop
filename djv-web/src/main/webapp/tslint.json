@@ -80,7 +80,7 @@
         "class-name": true,
         "encoding": true,
         "import-spacing": true,
-        "interface-name": true,
+        "interface-name": false,
         "interface-over-type-literal": true,
         "newline-per-chained-call": true,
         "new-parens": true,
