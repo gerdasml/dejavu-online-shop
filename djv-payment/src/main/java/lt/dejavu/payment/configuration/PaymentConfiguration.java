@@ -1,7 +1,7 @@
 package lt.dejavu.payment.configuration;
 
+import lt.dejavu.logging.LoggingRequestInterceptor;
 import lt.dejavu.payment.configuration.properties.PaymentProperties;
-import lt.dejavu.payment.interceptor.LoggingRequestInterceptor;
 import lt.dejavu.payment.model.Payment;
 import lt.dejavu.payment.validation.validator.*;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

@@ -1,4 +1,4 @@
-package lt.dejavu.web.logging;
+package lt.dejavu.logging.request;
 
 import org.apache.commons.io.IOUtils;
 

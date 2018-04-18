@@ -1,4 +1,4 @@
-package lt.dejavu.web.logging;
+package lt.dejavu.logging.request;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
