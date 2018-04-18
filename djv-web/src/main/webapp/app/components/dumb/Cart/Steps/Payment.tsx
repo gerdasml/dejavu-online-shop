@@ -6,6 +6,8 @@ import "react-credit-cards/es/styles-compiled.css";
 
 import { Form, Grid, Button } from "semantic-ui-react";
 
+import { formatCardNumber, formatExpirationDate } from "../../../../utils/cardInput";
+
 interface PaymentProps {
     onComplete: () => void;
 }
@@ -48,11 +50,11 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
         const newState = {...this.state};
         switch(field) {
             case CardField.NUMBER:
-                newState.number = value; break;
+                newState.number = formatCardNumber(value); break;
             case CardField.NAME:
                 newState.name = value; break;
             case CardField.EXPIRY:
-                newState.expiry = value; break;
+                newState.expiry = formatExpirationDate(value); break;
             case CardField.CVC:
                 newState.cvc = value; break;
         }
@@ -75,7 +77,8 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
                             placeholder="Card number"
                             name={CardField.NUMBER.toString()}
                             onFocus={this.handleInputFocus}
-                            pattern="[\d| ]{16}"
+                            pattern="[\d| ]{16,19}"
+                            value={this.state.number}
                             onChange={e => this.handleInputChange(e)}
                         />
                         <Form.Input
@@ -83,6 +86,7 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
                             placeholder="Name"
                             name={CardField.NAME.toString()}
                             onFocus={this.handleInputFocus}
+                            value={this.state.name}
                             onChange={e => this.handleInputChange(e)}
                         />
                         <Form.Group widths="equal">
@@ -92,6 +96,7 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
                                 pattern="\d\d/\d\d"
                                 name={CardField.EXPIRY.toString()}
                                 onFocus={this.handleInputFocus}
+                                value={this.state.expiry}
                                 onChange={e => this.handleInputChange(e)}
                             />
                             <Form.Input
@@ -99,6 +104,7 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
                                 placeholder="CVC"
                                 name={CardField.CVC.toString()}
                                 onFocus={this.handleInputFocus}
+                                value={this.state.cvc}
                                 onChange={e => this.handleInputChange(e)}
                             />
                         </Form.Group>
