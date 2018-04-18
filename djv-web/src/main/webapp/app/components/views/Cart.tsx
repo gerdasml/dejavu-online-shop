@@ -47,15 +47,15 @@ export class Cart extends React.Component<{}, CartState> {
             <div>
                 <CartStepHeader active={this.state.currentStep} onStepChange={this.setStep} />
                 {this.state.currentStep === CartStep.CART
-                ? <Step.Cart purchases={purchases} onComplete={this.nextStep} />
+                ? <Step.Cart purchases={purchases} onStepComplete={this.nextStep} />
                 : ""
                 }
                 {this.state.currentStep === CartStep.DELIVERY_INFO
-                ? <Step.DeliveryInfo onComplete={this.nextStep} />
+                ? <Step.DeliveryInfo onStepComplete={this.nextStep} />
                 : ""
                 }
                 {this.state.currentStep === CartStep.PAYMENT
-                ? <Step.Payment onComplete={this.nextStep} />
+                ? <Step.Payment onStepComplete={this.nextStep} />
                 : ""
                 }
             </div>

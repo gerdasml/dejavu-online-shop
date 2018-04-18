@@ -8,7 +8,7 @@ import { Amount } from "../../../dumb/Cart/Amount";
 
 interface CartProps {
     purchases: IPurchase[];
-    onComplete: () => void;
+    onStepComplete: () => void;
 }
 
 export const Cart = (props: CartProps) => (
@@ -34,7 +34,7 @@ export const Cart = (props: CartProps) => (
                 )}
             </Table.Body>
         </Table>
-        <Button icon labelPosition="right" floated="right" onClick={props.onComplete}>
+        <Button icon labelPosition="right" floated="right" onClick={props.onStepComplete}>
                 Buy
                 <Icon name="chevron right" />
         </Button>

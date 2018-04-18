@@ -9,7 +9,7 @@ import { Button, Form, List } from "semantic-ui-react";
 import { formatCardNumber, formatExpirationDate } from "../../../../utils/cardInput";
 
 interface PaymentProps {
-    onComplete: () => void;
+    onStepComplete: () => void;
 }
 
 interface PaymentState {
@@ -50,13 +50,17 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
         const newState = {...this.state};
         switch(field) {
             case CardField.NUMBER:
-                newState.number = formatCardNumber(value); break;
+                newState.number = formatCardNumber(value);
+                break;
             case CardField.NAME:
-                newState.name = value; break;
+                newState.name = value;
+                break;
             case CardField.EXPIRY:
-                newState.expiry = formatExpirationDate(value); break;
+                newState.expiry = formatExpirationDate(value);
+                break;
             case CardField.CVC:
-                newState.cvc = value; break;
+                newState.cvc = value;
+                break;
         }
         this.setState(newState);
     }
@@ -64,7 +68,7 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
     checkData = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // TODO: call api/payment/validate to validate input
-        this.props.onComplete();
+        this.props.onStepComplete();
     }
 
     render () {
