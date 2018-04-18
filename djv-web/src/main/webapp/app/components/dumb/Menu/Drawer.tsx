@@ -51,8 +51,8 @@ export class DrawerMenu extends React.Component<{}, IDrawerMenuState> {
         return (
             <div>
                 <Grid id="allPageContent">
-                    <Grid.Row stretched id="drawerRow">
-                        <Grid.Column width={2} id="sidebar">
+                    <Grid.Row id="drawerRow">
+                        <Grid.Column width={2} id="sidebar" stretched>
                             <Menu vertical fluid inverted id="sidebarItems">
                                 {categories.map((itemCategory, itemIndex) =>
                                     <MenuItem
