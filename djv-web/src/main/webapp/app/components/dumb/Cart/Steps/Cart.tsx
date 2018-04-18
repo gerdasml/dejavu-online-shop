@@ -2,12 +2,12 @@ import * as React from "react";
 
 import { Button, Icon, Table } from "semantic-ui-react";
 
-import { IPurchase } from "../../../../model/Purchase";
+import { Purchase } from "../../../../model/Purchase";
 
 import { Amount } from "../../../dumb/Cart/Amount";
 
 interface CartProps {
-    purchases: IPurchase[];
+    purchases: Purchase[];
     onStepComplete: () => void;
 }
 
