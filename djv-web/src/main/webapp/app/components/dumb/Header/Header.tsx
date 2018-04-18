@@ -6,7 +6,7 @@ import {Login} from "../Login/Login";
 
 import * as api from "../../../api";
 import { Payment } from "../../../model/Payment";
-import { storeToken, clearToken } from "../../../utils/token";
+import { storeToken } from "../../../utils/token";
 
 // import logo from "../../assets/dejavu-logo-transperant.png"; // "Cannot find module"
 const logo = require("../../../assets/dejavu-logo-transperant.png"); // šiuo metu veikiantis variantas

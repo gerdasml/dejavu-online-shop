@@ -7,7 +7,7 @@ import { MenuItem } from "../../smart/Menu/MenuItem";
 
 import {categories} from "../../../data/categories";
 import { Category } from "../../../model/Category";
-import { SubMenuPosition, SubMenu } from "../../smart/Menu/SubMenu";
+import { SubMenu, SubMenuPosition } from "../../smart/Menu/SubMenu";
 
 interface CategorySettings {
     category: Category;

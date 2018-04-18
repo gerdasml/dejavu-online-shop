@@ -1,6 +1,5 @@
 import * as React from "react";
 
-
 import { Purchase } from "../../model/Purchase";
 
 import "../../../style/cart.css";

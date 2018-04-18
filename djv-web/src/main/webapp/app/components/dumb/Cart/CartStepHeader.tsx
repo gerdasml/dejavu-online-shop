@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Icon, Step, SemanticICONS } from "semantic-ui-react";
+import { Icon, SemanticICONS, Step } from "semantic-ui-react";
 
 import "../../../../style/cart.css";
 
