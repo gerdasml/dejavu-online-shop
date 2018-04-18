@@ -1,4 +1,4 @@
-package lt.dejavu.payment.interceptor;
+package lt.dejavu.logging;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,12 +24,12 @@ public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
     }
 
     private void traceRequest(HttpRequest request, byte[] body) {
-        log.debug("--------------------------- begin request {} ---------------------------------------------", getRequestDescription(request));
+        log.debug("-------------------------- begin request {} --------------------------", getRequestDescription(request));
         log.debug("Headers     :");
         request.getHeaders().forEach((key, value) -> log.debug("    [{}] {}", key, value));
         log.debug("Request body:");
         Stream.of(new String(body).split("\n")).forEach(log::debug);
-        log.debug("-------------------------- end request {} ------------------------------------------------", getRequestDescription(request));
+        log.debug("--------------------------  end request {}  --------------------------", getRequestDescription(request));
     }
 
     private void traceResponse(ClientHttpResponse response) throws IOException {
@@ -41,14 +41,14 @@ public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
             inputStringBuilder.append('\n');
             line = bufferedReader.readLine();
         }
-        log.debug("~~~~~~~~~~~~~~~~~~~~~~~~~~~~ begin response ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        log.debug("~~~~~~~~~~~~~~~~~~~~~~~~~~ begin response ~~~~~~~~~~~~~~~~~~~~~~~~~~");
         log.debug("Status code  : {}", response.getStatusCode());
         log.debug("Status text  : {}", response.getStatusText());
         log.debug("Headers      :");
         response.getHeaders().forEach((key, value) -> log.debug("    [{}] {}", key, value));
         log.debug("Response body:");
         Stream.of(inputStringBuilder.toString().split("\n")).forEach(log::debug);
-        log.debug("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ end response ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        log.debug("~~~~~~~~~~~~~~~~~~~~~~~~~~  end response  ~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
 
     private String getRequestDescription(HttpRequest request) {
