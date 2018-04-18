@@ -6,9 +6,12 @@ import { IPurchase } from "../../../../model/Purchase";
 
 import { Amount } from "../../../dumb/Cart/Amount";
 
-interface ICartProps { purchases: IPurchase[]; }
+interface CartProps {
+    purchases: IPurchase[];
+    onComplete: () => void;
+}
 
-export const Cart = (props: ICartProps) => (
+export const Cart = (props: CartProps) => (
     <div>
         <Table striped celled>
             <Table.Header>
@@ -31,7 +34,7 @@ export const Cart = (props: ICartProps) => (
                 )}
             </Table.Body>
         </Table>
-        <Button icon labelPosition="right" floated="right">
+        <Button icon labelPosition="right" floated="right" onClick={props.onComplete}>
                 Buy
                 <Icon name="chevron right" />
         </Button>
