@@ -1,6 +1,6 @@
+import { ApiResponse } from "../model/ApiResponse";
 import { IUser } from "../model/User";
 import { fetchData, HttpMethod } from "./utils";
-import { ApiResponse } from "../model/ApiResponse";
 
 const PATH_PREFIX = "/api/user";
 

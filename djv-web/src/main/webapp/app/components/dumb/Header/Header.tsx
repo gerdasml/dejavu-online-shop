@@ -5,10 +5,7 @@ import "../../../../style/header.css";
 import {Login} from "../Login/Login";
 
 import * as api from "../../../api";
-import { IPayment } from "../../../model/Payment";
-import {IError} from "../../../model/Error";
-import { ApiResponse, isError } from "../../../model/ApiResponse";
-import { IImageInfo } from "../../../model/ImageInfo";
+import { isError } from "../../../model/ApiResponse";
 
 // import logo from "../../assets/dejavu-logo-transperant.png"; // "Cannot find module"
 const logo = require("../../../assets/dejavu-logo-transperant.png"); // šiuo metu veikiantis variantas

@@ -1,6 +1,6 @@
+import { ApiResponse } from "../model/ApiResponse";
 import { IPayment, IValidationError } from "../model/Payment";
 import { fetchData, HttpMethod } from "./utils";
-import { ApiResponse } from "../model/ApiResponse";
 
 const PATH_PREFIX = "/api/payment";
 

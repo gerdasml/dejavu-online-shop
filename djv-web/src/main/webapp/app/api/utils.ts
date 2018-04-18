@@ -1,6 +1,5 @@
-import {buildAuthHeader} from "./token";
-import { IError } from "../model/Error";
 import { ApiResponse } from "../model/ApiResponse";
+import {buildAuthHeader} from "./token";
 
 export enum HttpMethod {
     GET,
