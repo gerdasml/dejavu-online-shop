@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Button, Icon, Table } from "semantic-ui-react";
 
-import { IPurchase } from "../../model/Purchase";
+import { Purchase } from "../../model/Purchase";
 
 import { Amount } from "../dumb/Cart/Amount";
 
@@ -10,9 +10,9 @@ import { CartStep } from "../dumb/Cart/CartStep";
 
 import "../../../style/cart.css";
 
-interface ICartProps { purchases: IPurchase[]; }
+interface CartProps { purchases: Purchase[]; }
 
-const purchases: IPurchase[] = [{
+const purchases: Purchase[] = [{
   amount: 2,
   item: {name: "something", imageUrl:"", description:"", price: 5},
   total: 100,

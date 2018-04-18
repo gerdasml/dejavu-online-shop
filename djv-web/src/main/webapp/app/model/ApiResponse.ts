@@ -1,6 +1,6 @@
-import { IError } from "./Error";
+import { Error } from "./Error";
 
-export type ApiResponse<T> = T | IError;
+export type ApiResponse<T> = T | Error;
 
-export const isError = <T>(response: ApiResponse<T>): response is IError =>
-    (response as IError).type !== undefined;
+export const isError = <T>(response: ApiResponse<T>): response is Error =>
+    (response as Error).type !== undefined;

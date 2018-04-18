@@ -1,4 +1,4 @@
-export interface IImageInfo {
+export interface ImageInfo {
     extension: string;
     filename: string;
     url: string;

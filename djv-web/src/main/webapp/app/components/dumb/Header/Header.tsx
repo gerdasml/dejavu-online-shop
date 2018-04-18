@@ -6,7 +6,7 @@ import {Login} from "../Login/Login";
 
 import * as api from "../../../api";
 import { isError } from "../../../model/ApiResponse";
-import { IPayment } from "../../../model/Payment";
+import { Payment } from "../../../model/Payment";
 
 // import logo from "../../assets/dejavu-logo-transperant.png"; // "Cannot find module"
 const logo = require("../../../assets/dejavu-logo-transperant.png"); // šiuo metu veikiantis variantas
@@ -135,7 +135,7 @@ const getImage = async (id: number) => {
     return image;
 };
 
-const validatePayment = async (payment: IPayment) => {
+const validatePayment = async (payment: Payment) => {
     const errors = await api.payment.validate(payment);
     if(isError(errors)) {
         console.error(errors);

@@ -3,18 +3,18 @@ import {fetchData, HttpMethod} from "./utils";
 
 const PATH_PREFIX = "/api/auth";
 
-interface ILoginSuccessResponse {
+interface LoginSuccessResponse {
     token: string;
 }
 
-interface ILoginBannedResponse {
+interface LoginBannedResponse {
     banned: boolean;
 }
 
-type LoginResponse = ILoginSuccessResponse | ILoginBannedResponse;
+type LoginResponse = LoginSuccessResponse | LoginBannedResponse;
 
-export const isBanned = (response: LoginResponse): response is ILoginBannedResponse =>
-    (response as ILoginBannedResponse).banned !== undefined;
+export const isBanned = (response: LoginResponse): response is LoginBannedResponse =>
+    (response as LoginBannedResponse).banned !== undefined;
 
 export const login = (email: string, password: string): Promise<ApiResponse<LoginResponse>> => {
     const body = {email, password};

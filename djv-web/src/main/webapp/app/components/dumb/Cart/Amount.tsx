@@ -3,11 +3,11 @@ import { Button, Input } from "semantic-ui-react";
 
 import "../../../../style/cart.css";
 
-export interface IAmountProps {amount: number;}
-export interface IAmountState { clicks: number; }
+export interface AmountProps {amount: number;}
+export interface AmountState { clicks: number; }
 
-export class Amount extends React.Component<IAmountProps, IAmountState> {
-    constructor (props: IAmountProps) {
+export class Amount extends React.Component<AmountProps, AmountState> {
+    constructor (props: AmountProps) {
         super(props);
         this.state = {
           clicks: props.amount

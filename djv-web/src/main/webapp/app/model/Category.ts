@@ -1,6 +1,6 @@
-export interface ICategory {
+export interface Category {
     name: string;
     icon: string;
     displayName: string;
-    children: ICategory[];
+    children: Category[];
 }

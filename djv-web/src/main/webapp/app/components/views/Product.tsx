@@ -7,8 +7,8 @@ import { Carousel } from "../dumb/Product/Carousel";
 
 import "../../../style/product.css";
 
-interface IProductRouteProps { id: number; }
-export const Product = (props: RouteComponentProps<IProductRouteProps>) => (
+interface ProductRouteProps { id: number; }
+export const Product = (props: RouteComponentProps<ProductRouteProps>) => (
     <div className="product">
         <Header size="large">Product {props.match.params.id}</Header>
         <Carousel />

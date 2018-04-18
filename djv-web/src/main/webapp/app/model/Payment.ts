@@ -1,21 +1,21 @@
-export interface ICard {
+export interface Card {
     cvv: string;
     holder: string;
     number: string;
 }
 
-export interface IExpiration {
+export interface Expiration {
     year: number;
     month: number;
 }
 
-export interface IPayment {
+export interface Payment {
     amount: number;
-    card: ICard;
-    expiration: IExpiration;
+    card: Card;
+    expiration: Expiration;
 }
 
-export interface IValidationError {
+export interface ValidationError {
     location: string;
     message: string;
 }
