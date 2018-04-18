@@ -5,7 +5,6 @@ import { Button, Icon, Table } from "semantic-ui-react";
 import { IPurchase } from "../../model/Purchase";
 
 import "../../../style/cart.css";
-import { ShoppingCart } from "../smart/Cart/ShoppingCart";
 
 import * as Step from "../dumb/Cart/Step";
 
@@ -50,6 +49,10 @@ export class Cart extends React.Component<{}, CartState> {
                 }
                 {this.state.currentStep === CartStep.DELIVERY_INFO
                 ? <Step.DeliveryInfo onComplete={this.nextStep} />
+                : ""
+                }
+                {this.state.currentStep === CartStep.PAYMENT
+                ? <Step.Payment onComplete={this.nextStep} />
                 : ""
                 }
             </div>
