@@ -34,7 +34,7 @@ public class RequestLoggerImpl implements RequestLogger {
         try {
             body = IOUtils.toString(request.getInputStream());
         } catch (IOException e) {
-            log.error("Failed to read request body", e);
+            log.error("Failed to read request body: {}", e.getMessage());
             return;
         }
 
