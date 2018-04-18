@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Icon, Step } from "semantic-ui-react";
+import { Icon, Step, SemanticICONS } from "semantic-ui-react";
 
 import "../../../../style/cart.css";
 
@@ -17,6 +17,7 @@ interface StepItemProps {
     step: CartStep;
     text: string;
     onStepChange: (cs: CartStep) => void;
+    icon: string;
 }
 
 const StepItem = (props: StepItemProps) =>
@@ -27,7 +28,7 @@ const StepItem = (props: StepItemProps) =>
             link
             onClick={()=>props.onStepChange(props.step)}
         >
-            <Icon name="cart"/>
+            <Icon name={props.icon as SemanticICONS}/>
             <Step.Content>
                 <Step.Title>{props.text}</Step.Title>
             </Step.Content>
@@ -47,6 +48,7 @@ export const CartStepHeader = (props: CartStepHeaderProps) =>
                 onStepChange = {props.onStepChange}
                 step = {CartStep.CART}
                 text = "Cart"
+                icon = "cart"
             />
 
             <StepItem
@@ -54,6 +56,7 @@ export const CartStepHeader = (props: CartStepHeaderProps) =>
                 onStepChange = {props.onStepChange}
                 step = {CartStep.DELIVERY_INFO}
                 text = "Delivery Info"
+                icon = "truck"
             />
 
             <StepItem
@@ -61,6 +64,7 @@ export const CartStepHeader = (props: CartStepHeaderProps) =>
                 onStepChange = {props.onStepChange}
                 step = {CartStep.PAYMENT}
                 text = "Payment"
+                icon = "payment"
             />
 
             <StepItem
@@ -68,6 +72,7 @@ export const CartStepHeader = (props: CartStepHeaderProps) =>
                 onStepChange = {props.onStepChange}
                 step = {CartStep.CONFIRMATION}
                 text = "Confirmation"
+                icon = "info"
             />
 
             <StepItem
@@ -75,6 +80,7 @@ export const CartStepHeader = (props: CartStepHeaderProps) =>
                 onStepChange = {props.onStepChange}
                 step = {CartStep.APPROVAL}
                 text = "Approval"
+                icon = "check"
             />
         </Step.Group>
     );
