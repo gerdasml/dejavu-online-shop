@@ -1,4 +1,6 @@
 import {buildAuthHeader} from "./token";
+import { IError } from "../model/Error";
+import { ApiResponse } from "../model/ApiResponse";
 
 export enum HttpMethod {
     GET,
@@ -24,11 +26,12 @@ export const buildRequest = <T>(url: string, method: HttpMethod, payload?: T) =>
     };
 };
 
-export const fetchData = <T, K>(url: string, method: HttpMethod, payload?: T): Promise<K> => {
+export const fetchData = <T, K>(url: string, method: HttpMethod, payload?: T): Promise<ApiResponse<K>> => {
     const req = buildRequest(url, method, payload);
     return fetch(req.url, req.params)
             .then(r => {
-                if(!r.ok) throw r; // TODO: investigate if this is needed
+                if(!r.ok) throw r;
                 return r.json();
-            });
+            })
+            .catch(r => r.json());
 };
