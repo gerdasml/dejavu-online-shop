@@ -4,11 +4,6 @@ import { Icon, Step } from "semantic-ui-react";
 
 import "../../../../style/cart.css";
 
-interface CartStepProps {
-    active: CartStep;
-    onStepChange: (cs: CartStep) => void;
-}
-
 export enum CartStep {
     CART,
     DELIVERY_INFO,
@@ -17,68 +12,69 @@ export enum CartStep {
     APPROVAL
 }
 
-export const CartStepHeader = (props: CartStepProps) =>
+interface StepItemProps {
+    activeStep: CartStep;
+    step: CartStep;
+    text: string;
+    onStepChange: (cs: CartStep) => void;
+}
+
+const StepItem = (props: StepItemProps) =>
+    (
+        <Step
+            active={props.activeStep === props.step}
+            disabled={props.activeStep < props.step}
+            link
+            onClick={()=>props.onStepChange(props.step)}
+        >
+            <Icon name="cart"/>
+            <Step.Content>
+                <Step.Title>{props.text}</Step.Title>
+            </Step.Content>
+        </Step>
+    );
+
+interface CartStepHeaderProps {
+    active: CartStep;
+    onStepChange: (cs: CartStep) => void;
+}
+
+export const CartStepHeader = (props: CartStepHeaderProps) =>
     (
         <Step.Group size="mini" id="stepGroup">
+            <StepItem
+                activeStep = {props.active}
+                onStepChange = {props.onStepChange}
+                step = {CartStep.CART}
+                text = "Cart"
+            />
 
-            <Step
-                active={props.active === CartStep.CART}
-                disabled={props.active < CartStep.CART}
-                link
-                onClick={()=>props.onStepChange(CartStep.CART)}
-            >
-                <Icon name="cart"/>
-                <Step.Content>
-                    <Step.Title>Cart</Step.Title>
-                </Step.Content>
-            </Step>
+            <StepItem
+                activeStep = {props.active}
+                onStepChange = {props.onStepChange}
+                step = {CartStep.DELIVERY_INFO}
+                text = "Delivery Info"
+            />
 
-            <Step
-                active={props.active === CartStep.DELIVERY_INFO}
-                disabled={props.active < CartStep.DELIVERY_INFO}
-                link
-                onClick={()=>props.onStepChange(CartStep.DELIVERY_INFO)}
-            >
-                <Icon name="truck"/>
-                <Step.Content>
-                    <Step.Title>Delivery info</Step.Title>
-                </Step.Content>
-            </Step>
+            <StepItem
+                activeStep = {props.active}
+                onStepChange = {props.onStepChange}
+                step = {CartStep.PAYMENT}
+                text = "Payment"
+            />
 
-            <Step
-                active={props.active === CartStep.PAYMENT}
-                disabled={props.active < CartStep.PAYMENT}
-                link
-                onClick={()=>props.onStepChange(CartStep.PAYMENT)}
-            >
-                <Icon name="payment" />
-                <Step.Content>
-                    <Step.Title>Payment</Step.Title>
-                </Step.Content>
-            </Step>
+            <StepItem
+                activeStep = {props.active}
+                onStepChange = {props.onStepChange}
+                step = {CartStep.CONFIRMATION}
+                text = "Confirmation"
+            />
 
-            <Step
-                active={props.active === CartStep.CONFIRMATION}
-                disabled={props.active < CartStep.CONFIRMATION}
-                link
-                onClick={()=>props.onStepChange(CartStep.CONFIRMATION)}
-            >
-                <Icon name="info" />
-                <Step.Content>
-                    <Step.Title>Confirmation</Step.Title>
-                </Step.Content>
-            </Step>
-
-            <Step
-                active={props.active === CartStep.APPROVAL}
-                disabled={props.active < CartStep.APPROVAL}
-                link
-                onClick={()=>props.onStepChange(CartStep.APPROVAL)}
-            >
-                <Icon name="check" />
-                <Step.Content>
-                    <Step.Title>Approvement</Step.Title>
-                </Step.Content>
-            </Step>
+            <StepItem
+                activeStep = {props.active}
+                onStepChange = {props.onStepChange}
+                step = {CartStep.APPROVAL}
+                text = "Approval"
+            />
         </Step.Group>
     );
