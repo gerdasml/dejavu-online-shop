@@ -4,7 +4,7 @@ import * as React from "react";
 import * as cards from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
 
-import { Form, Grid, Button, Container, List } from "semantic-ui-react";
+import { Button, Form, List } from "semantic-ui-react";
 
 import { formatCardNumber, formatExpirationDate } from "../../../../utils/cardInput";
 
@@ -67,7 +67,7 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
         this.props.onComplete();
     }
 
-    render() {
+    render () {
         return (
             <List horizontal>
                 <List.Item>

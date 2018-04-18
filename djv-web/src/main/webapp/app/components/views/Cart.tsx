@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import { Button, Icon, Table } from "semantic-ui-react";
 
 import { IPurchase } from "../../model/Purchase";
 
