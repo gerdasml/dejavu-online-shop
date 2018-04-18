@@ -91,6 +91,12 @@ export class Header extends React.Component <{}, {}> {
     }
 }
 
+/**
+ * TODO: remove all of the functions and function calls below
+ * after the connection between front- and back end is made.
+ * These functions serve only as examples of how to use the
+ * API functions.
+ */
 const getUser = async () => {
     const tkn = await api.auth.login("admin@email.com", "password");
     if(api.isError(tkn)) {
