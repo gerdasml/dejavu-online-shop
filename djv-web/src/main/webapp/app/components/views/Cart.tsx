@@ -31,7 +31,7 @@ export class Cart extends React.Component<{}, CartState> {
 
     nextStep = () => {
         const step = this.state.currentStep;
-        if(step === CartStep.PAYMENT) {
+        if(step === CartStep.APPROVAL) {
             console.log("Finished");
             // TODO: finish this somehow
             return;
