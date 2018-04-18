@@ -29,6 +29,10 @@ export class Cart extends React.Component<{}, CartState> {
         };
     }
 
+    setStep = (step: CartStep) => {
+        this.setState({currentStep: step});
+    }
+
     nextStep = () => {
         const step = this.state.currentStep;
         if(step === CartStep.APPROVAL) {
@@ -36,13 +40,13 @@ export class Cart extends React.Component<{}, CartState> {
             // TODO: finish this somehow
             return;
         }
-        this.setState({currentStep: this.state.currentStep+1});
+        this.setStep(this.state.currentStep+1);
     }
 
     render () {
         return (
             <div>
-                <CartStepHeader active={this.state.currentStep} />
+                <CartStepHeader active={this.state.currentStep} onStepChange={this.setStep} />
                 {this.state.currentStep === CartStep.CART
                 ? <Step.Cart purchases={purchases} onComplete={this.nextStep} />
                 : ""

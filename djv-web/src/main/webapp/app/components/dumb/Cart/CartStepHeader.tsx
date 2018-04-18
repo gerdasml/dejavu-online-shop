@@ -4,7 +4,10 @@ import { Icon, Step } from "semantic-ui-react";
 
 import "../../../../style/cart.css";
 
-interface CartStepProps { active: CartStep; }
+interface CartStepProps {
+    active: CartStep;
+    onStepChange: (cs: CartStep) => void;
+}
 
 export enum CartStep {
     CART,
@@ -21,6 +24,8 @@ export const CartStepHeader = (props: CartStepProps) =>
             <Step
                 active={props.active === CartStep.CART}
                 disabled={props.active < CartStep.CART}
+                link
+                onClick={()=>props.onStepChange(CartStep.CART)}
             >
                 <Icon name="cart"/>
                 <Step.Content>
@@ -31,6 +36,8 @@ export const CartStepHeader = (props: CartStepProps) =>
             <Step
                 active={props.active === CartStep.DELIVERY_INFO}
                 disabled={props.active < CartStep.DELIVERY_INFO}
+                link
+                onClick={()=>props.onStepChange(CartStep.DELIVERY_INFO)}
             >
                 <Icon name="truck"/>
                 <Step.Content>
@@ -41,6 +48,8 @@ export const CartStepHeader = (props: CartStepProps) =>
             <Step
                 active={props.active === CartStep.PAYMENT}
                 disabled={props.active < CartStep.PAYMENT}
+                link
+                onClick={()=>props.onStepChange(CartStep.PAYMENT)}
             >
                 <Icon name="payment" />
                 <Step.Content>
@@ -51,6 +60,8 @@ export const CartStepHeader = (props: CartStepProps) =>
             <Step
                 active={props.active === CartStep.CONFIRMATION}
                 disabled={props.active < CartStep.CONFIRMATION}
+                link
+                onClick={()=>props.onStepChange(CartStep.CONFIRMATION)}
             >
                 <Icon name="info" />
                 <Step.Content>
@@ -61,6 +72,8 @@ export const CartStepHeader = (props: CartStepProps) =>
             <Step
                 active={props.active === CartStep.APPROVAL}
                 disabled={props.active < CartStep.APPROVAL}
+                link
+                onClick={()=>props.onStepChange(CartStep.APPROVAL)}
             >
                 <Icon name="check" />
                 <Step.Content>
