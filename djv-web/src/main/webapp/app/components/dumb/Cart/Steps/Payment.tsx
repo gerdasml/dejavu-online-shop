@@ -3,7 +3,7 @@ import * as React from "react";
 import Card from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
 
-import { Button, Form, List, Dimmer, Loader } from "semantic-ui-react";
+import { Button, Form, List, Dimmer, Loader, Message } from "semantic-ui-react";
 
 import { clearNumber, formatCardNumber, formatExpirationDate } from "../../../../utils/cardInput";
 
@@ -113,18 +113,7 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
 
     render () {
         return (
-            <Dimmer.Dimmable dimmed={this.state.isLoading}>
-                <Dimmer active={this.state.isLoading}>
-                    <Loader />
-                </Dimmer>
-                {this.renderForm()}
-            </Dimmer.Dimmable>
-        );
-    }
-
-    renderForm () {
-        return (
-            <List horizontal>
+            <List horizontal verticalAlign="middle">
                 <List.Item>
                     <Card
                         number={this.state.number}
@@ -135,7 +124,7 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
                     />
                 </List.Item>
                 <List.Item>
-                    <Form size="mini" onSubmit={this.checkData}>
+                    <Form size="mini" onSubmit={this.checkData} error loading={this.state.isLoading}>
                         <Form.Input
                             required
                             placeholder="Card number"
@@ -144,6 +133,7 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
                             pattern="[\d| ]{16,19}"
                             value={this.state.number}
                             onChange={e => this.handleInputChange(e)}
+                            error
                         />
                         <Form.Input
                             required
@@ -173,6 +163,10 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
                             />
                         </Form.Group>
                         <Button type="submit" fluid positive>Next</Button>
+                        <Message
+                            error
+                            content="This is an error"
+                        />
                     </Form>
                 </List.Item>
             </List>
