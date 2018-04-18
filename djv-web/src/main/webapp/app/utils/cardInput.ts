@@ -1,4 +1,4 @@
-const clearNumber = (num: string) => num.replace(/\D+/g, "");
+export const clearNumber = (num: string) => num.replace(/\D+/g, "");
 
 export const formatCardNumber = (num: string) => {
     const NUMBER_LENGTH = 16;

@@ -3,9 +3,13 @@ import * as React from "react";
 import Card from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
 
-import { Button, Form, List } from "semantic-ui-react";
+import { Button, Form, List, Dimmer, Loader } from "semantic-ui-react";
 
-import { formatCardNumber, formatExpirationDate } from "../../../../utils/cardInput";
+import { clearNumber, formatCardNumber, formatExpirationDate } from "../../../../utils/cardInput";
+
+import * as model from "../../../../model/Payment";
+
+import * as api from "../../../../api";
 
 interface PaymentProps {
     onStepComplete: () => void;
@@ -17,6 +21,8 @@ interface PaymentState {
     expiry: string;
     cvc: string;
     focused: CardField;
+
+    isLoading: boolean;
 }
 
 enum CardField {
@@ -29,10 +35,11 @@ enum CardField {
 type CardFieldStr = "number" | "name" | "expiry" | "cvc";
 
 export class Payment extends React.Component<PaymentProps, PaymentState> {
-    state = {
+    state: PaymentState = {
         cvc: "",
         expiry: "",
         focused: CardField.NUMBER,
+        isLoading: false,
         name: "",
         number: "",
     };
@@ -66,13 +73,56 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
         this.setState(newState);
     }
 
-    checkData = (e: React.FormEvent<HTMLFormElement>) => {
+    buildExpiration = (): model.Expiration => {
+        const parts = this.state.expiry.split("/");
+        const month = Number(parts[0]);
+        const year = Number("20"+parts[1]);
+        return {month, year};
+    }
+
+    buildPayment = (): model.Payment => ({
+        amount: 10, // TODO: figure out how to get this
+        card: {
+            cvv: this.state.cvc,
+            holder: this.state.name,
+            number: clearNumber(this.state.number)
+        },
+        expiration: this.buildExpiration()
+    })
+
+    sleep = async (ms: number) => await new Promise(r => setTimeout(r, ms));
+
+    checkData = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // TODO: call api/payment/validate to validate input
+        const payment = this.buildPayment();
+        this.setState({...this.state, isLoading: true});
+        const response = await api.payment.validate(payment);
+        await this.sleep(5000);
+        this.setState({...this.state, isLoading: false});
+        if(api.isError(response)) {
+            console.error(response);
+            return;
+        }
+        if(response.length !== 0) {
+            console.error(response); // TODO: show validation errors in UI
+            return;
+        }
         this.props.onStepComplete();
+        return {};
     }
 
     render () {
+        return (
+            <Dimmer.Dimmable dimmed={this.state.isLoading}>
+                <Dimmer active={this.state.isLoading}>
+                    <Loader />
+                </Dimmer>
+                {this.renderForm()}
+            </Dimmer.Dimmable>
+        );
+    }
+
+    renderForm () {
         return (
             <List horizontal>
                 <List.Item>
