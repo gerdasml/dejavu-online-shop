@@ -5,7 +5,6 @@ import lt.dejavu.logging.response.CachingResponseWrapper;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.*;
@@ -27,7 +26,7 @@ public class RequestLoggerImpl implements RequestLogger {
 
     @Override
     public void logBefore() {
-        if(!isApiCall()) {
+        if (!isApiCall()) {
             log.debug("Received {}", getRequestDescription());
             return;
         }
@@ -48,7 +47,7 @@ public class RequestLoggerImpl implements RequestLogger {
 
     @Override
     public void logAfter() {
-        if(!isApiCall()) return;
+        if (!isApiCall()) return;
         log.debug("Response headers     : ");
         getHeaders(response.getHeaderNames(), response::getHeader).forEach((key, value) -> log.debug("    [{}] {}", key, value));
         log.debug("Response body        : {}", response.getCache());
