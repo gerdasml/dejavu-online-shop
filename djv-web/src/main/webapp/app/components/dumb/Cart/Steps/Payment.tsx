@@ -4,7 +4,7 @@ import * as React from "react";
 import * as cards from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
 
-import { Form, Grid, Button } from "semantic-ui-react";
+import { Form, Grid, Button, Container, List } from "semantic-ui-react";
 
 import { formatCardNumber, formatExpirationDate } from "../../../../utils/cardInput";
 
@@ -69,8 +69,17 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
 
     render() {
         return (
-            <Grid>
-                <Grid.Column width={12}>
+            <List horizontal>
+                <List.Item>
+                    <cards.default
+                        number={this.state.number}
+                        name={this.state.name}
+                        expiry={this.state.expiry}
+                        cvc={this.state.cvc}
+                        focused={this.state.focused.toString()}
+                    />
+                </List.Item>
+                <List.Item>
                     <Form size="mini" onSubmit={this.checkData}>
                         <Form.Input
                             required
@@ -108,19 +117,10 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
                                 onChange={e => this.handleInputChange(e)}
                             />
                         </Form.Group>
-                        <Button type="submit">Next</Button>
+                        <Button type="submit" fluid positive>Next</Button>
                     </Form>
-                </Grid.Column>
-                <Grid.Column width={4}>
-                    <cards.default
-                        number={this.state.number}
-                        name={this.state.name}
-                        expiry={this.state.expiry}
-                        cvc={this.state.cvc}
-                        focused={this.state.focused.toString()}
-                    />
-                </Grid.Column>
-            </Grid>
+                </List.Item>
+            </List>
         );
     }
 }
