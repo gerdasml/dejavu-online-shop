@@ -7,6 +7,7 @@ import {Login} from "../Login/Login";
 import * as api from "../../../api";
 import { isError } from "../../../model/ApiResponse";
 import { Payment } from "../../../model/Payment";
+import { storeToken, clearToken } from "../../../utils/token";
 
 // import logo from "../../assets/dejavu-logo-transperant.png"; // "Cannot find module"
 const logo = require("../../../assets/dejavu-logo-transperant.png"); // šiuo metu veikiantis variantas
@@ -104,7 +105,7 @@ const getUser = async () => {
         console.log("You banned bro");
         return undefined;
     }
-    localStorage.setItem("accessToken", tkn.token);
+    storeToken(tkn.token);
     const users = await api.user.getUsers();
     if(isError(users)) {
         console.error(users);

@@ -1,5 +1,5 @@
 import { ApiResponse } from "../model/ApiResponse";
-import {buildAuthHeader} from "./token";
+import {buildAuthHeader} from "../utils/token";
 
 export enum HttpMethod {
     GET,
