@@ -1,8 +1,9 @@
-package lt.dejavu.logging.request;
+package lt.dejavu.logging;
 
-import lt.dejavu.logging.response.CachingPrintWriter;
+import lt.dejavu.logging.logger.RequestLogger;
+import lt.dejavu.logging.logger.RequestLoggerImpl;
+import lt.dejavu.logging.request.CachingRequestWrapper;
 import lt.dejavu.logging.response.CachingResponseWrapper;
-import lt.dejavu.logging.response.CachingServletOutputStream;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -15,19 +16,24 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class CachingRequestBodyFilter extends GenericFilterBean {
+public class LoggingFilter extends GenericFilterBean {
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
             throws IOException, ServletException {
+        // Extract HttpServletRequests
         HttpServletRequest currentRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse currentResponse = (HttpServletResponse) servletResponse;
 
+        // Wrap requests in caching implementations before executing
         CachingRequestWrapper wrappedRequest = new CachingRequestWrapper(currentRequest);
         CachingResponseWrapper wrappedResponse = new CachingResponseWrapper(currentResponse);
 
-        chain.doFilter(wrappedRequest, wrappedResponse);
+        // Create a logger
+        RequestLogger logger = new RequestLoggerImpl(wrappedRequest, wrappedResponse);
 
-        String cache = ((CachingServletOutputStream) wrappedResponse.getOutputStream()).getCache();
-        System.out.println(cache);
+        logger.logBefore();
+        chain.doFilter(wrappedRequest, wrappedResponse);
+        logger.logAfter();
     }
 }
