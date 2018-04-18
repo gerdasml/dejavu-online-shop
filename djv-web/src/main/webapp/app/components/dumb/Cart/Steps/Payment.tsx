@@ -1,7 +1,6 @@
 import * as React from "react";
 
-// This lib has no types yet :(
-import * as cards from "react-credit-cards";
+import Card from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
 
 import { Button, Form, List } from "semantic-ui-react";
@@ -26,6 +25,8 @@ enum CardField {
     EXPIRY = "expiry",
     CVC = "cvc"
 }
+
+type CardFieldStr = "number" | "name" | "expiry" | "cvc";
 
 export class Payment extends React.Component<PaymentProps, PaymentState> {
     state = {
@@ -75,12 +76,12 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
         return (
             <List horizontal>
                 <List.Item>
-                    <cards.default
+                    <Card
                         number={this.state.number}
                         name={this.state.name}
                         expiry={this.state.expiry}
                         cvc={this.state.cvc}
-                        focused={this.state.focused.toString()}
+                        focused={this.state.focused.toString() as CardFieldStr}
                     />
                 </List.Item>
                 <List.Item>
