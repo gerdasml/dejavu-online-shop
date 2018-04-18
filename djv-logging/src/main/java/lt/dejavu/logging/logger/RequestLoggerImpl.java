@@ -39,18 +39,20 @@ public class RequestLoggerImpl implements RequestLogger {
         }
 
         log.debug("========================== {} received ==========================", getRequestDescription());
-        log.debug("Request headers      :");
+        log.debug("Request headers       :");
         getHeaders(request.getHeaderNames(), request::getHeader).forEach((key, value) -> log.debug("    [{}] {}", key, value));
-        log.debug("Request body         :");
+        log.debug("Request body          :");
         Stream.of(body.split("\n")).forEach(log::debug);
     }
 
     @Override
     public void logAfter() {
         if (!isApiCall()) return;
-        log.debug("Response headers     : ");
+        log.debug("Response status code  : {}", response.getStatus());
+        log.debug("Response headers      : ");
         getHeaders(response.getHeaderNames(), response::getHeader).forEach((key, value) -> log.debug("    [{}] {}", key, value));
-        log.debug("Response body        : {}", response.getCache());
+        log.debug("Response body         : {}", response.getCache());
+
         log.debug("========================== {} handled ==========================", getRequestDescription());
     }
 
