@@ -6,6 +6,7 @@ import {Login} from "../Login/Login";
 
 import * as api from "../../../api";
 import { isError } from "../../../model/ApiResponse";
+import { IPayment } from "../../../model/Payment";
 
 // import logo from "../../assets/dejavu-logo-transperant.png"; // "Cannot find module"
 const logo = require("../../../assets/dejavu-logo-transperant.png"); // šiuo metu veikiantis variantas
@@ -90,20 +91,28 @@ export class Header extends React.Component <{}, {}> {
     }
 }
 
-/*const getUser = async () => {
+const getUser = async () => {
     const tkn = await api.auth.login("admin@email.com", "password");
-    console.log(tkn);
+    if(isError(tkn)) {
+        console.error(tkn);
+        return undefined;
+    } else {
+        console.log(tkn);
+    }
 
-    return tkn;
     if(api.auth.isBanned(tkn)) {
         console.log("You banned bro");
         return undefined;
     }
     localStorage.setItem("accessToken", tkn.token);
     const users = await api.user.getUsers();
-    console.log(users);
+    if(isError(users)) {
+        console.error(users);
+    } else {
+        console.log(users);
+    }
     return users;
-};*/
+};
 
 const getImages = async () => {
     const images = await api.image.getImages();
@@ -125,18 +134,22 @@ const getImage = async (id: number) => {
     }
     return image;
 };
-/*
+
 const validatePayment = async (payment: IPayment) => {
     const errors = await api.payment.validate(payment);
-    console.log(errors);
+    if(isError(errors)) {
+        console.error(errors);
+    } else {
+        console.log(errors);
+    }
     return errors;
-};*/
+};
 
-//getUser();
+getUser();
 getImages();
 getImage(1);
 getImage(2);
-/*validatePayment({
+validatePayment({
     amount: 0,
     card: {
         cvv: "123",
@@ -147,4 +160,4 @@ getImage(2);
         month: 9,
         year: 2018
     }
-});*/
+});
