@@ -12,6 +12,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.stream.Stream;
 
+/**
+ * This class is used for intercepting outgoing HTTP requests and logging them.
+ * In order to use it, an instance of this class has to be registered as an interceptor
+ * to the RestTemplate that is being used.
+ */
 public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
     private final static Logger log = LoggerFactory.getLogger(LoggingRequestInterceptor.class);
 
