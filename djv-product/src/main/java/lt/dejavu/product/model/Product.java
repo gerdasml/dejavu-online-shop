@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @EqualsAndHashCode
-@Table(name="product")
+@Table(name = "product")
 public class Product {
 
     @Id
@@ -32,7 +32,8 @@ public class Product {
     @Column(name = "creationDate")
     private LocalDateTime creationDate;
 
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category")
     private Category category;
 }

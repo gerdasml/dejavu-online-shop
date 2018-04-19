@@ -2,6 +2,7 @@ package lt.dejavu.web;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.exception.UserNotFoundException;
+import lt.dejavu.payment.exception.PaymentException;
 import lt.dejavu.storage.image.exception.FileNotFoundException;
 import lt.dejavu.storage.image.exception.StorageException;
 import lt.dejavu.storage.image.exception.UnsupportedImageFormatException;
@@ -38,6 +39,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UnsupportedImageFormatException.class)
     public final ResponseEntity<ExceptionDetails> handleStorageException(StorageException ex, WebRequest req) {
         return buildResponse(ex, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PaymentException.class)
+    public final ResponseEntity<ExceptionDetails> handlePaymentException(PaymentException ex, WebRequest req) {
+        return buildResponse(ex, ex.getResponseStatus());
     }
 
     @ExceptionHandler(IOException.class)

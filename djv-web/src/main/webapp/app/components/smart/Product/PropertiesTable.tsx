@@ -2,12 +2,12 @@ import * as React from "react";
 import { Icon, Table } from "semantic-ui-react";
 
 import { products } from "../../../data/products";
-import { IProduct } from "../../../model/Product";
+import { Product } from "../../../model/Product";
 
-interface IPropertiesTableProps { product: IProduct; }
+interface PropertiesTableProps { product: Product; }
 
-export class PropertiesTable extends React.Component<IPropertiesTableProps, {}> {
-    constructor (props: IPropertiesTableProps) {
+export class PropertiesTable extends React.Component<PropertiesTableProps, {}> {
+    constructor (props: PropertiesTableProps) {
         super(props);
     }
     render () {

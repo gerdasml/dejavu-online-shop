@@ -1,4 +1,4 @@
-export interface IProductProperties {
+export interface ProductProperties {
     name: string;
     value: string;
 }

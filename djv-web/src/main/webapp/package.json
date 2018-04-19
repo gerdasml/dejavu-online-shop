@@ -17,6 +17,7 @@
   "homepage": "https://github.com/gerdasml/dejavu-online-shop",
   "dependencies": {
     "@types/react": "^16.0.38",
+    "@types/react-credit-cards": "^0.7.0",
     "@types/react-dom": "^16.0.4",
     "@types/react-router-dom": "^4.2.5",
     "@types/react-slick": "^0.15.1",
@@ -26,6 +27,7 @@
     "history": "^4.7.2",
     "lodash": "^4.5.1",
     "react": "^16.2.0",
+    "react-credit-cards": "^0.7.0",
     "react-dom": "^16.2.0",
     "react-image-gallery": "^0.8.7",
     "react-redux": "^5.0.7",

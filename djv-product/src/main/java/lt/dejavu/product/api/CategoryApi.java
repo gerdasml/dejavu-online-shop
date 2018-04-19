@@ -1,6 +1,6 @@
 package lt.dejavu.product.api;
 
-import lt.dejavu.product.model.Category;
+import lt.dejavu.product.dto.CategoryDto;
 import lt.dejavu.product.model.rest.request.CreateCategoryRequest;
 import lt.dejavu.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,46 +10,42 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("${rest.basePath}/category")
+@RequestMapping("${rest.category}")
 public class CategoryApi {
 
     @Autowired
     private CategoryService categoryService;
 
-    @RequestMapping(
+    @GetMapping(
             path = "/{categoryId}",
-            method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public Category getCategory(@PathVariable("categoryId") long categoryId){
+    public CategoryDto getCategory(@PathVariable("categoryId") long categoryId) {
         return categoryService.getCategory(categoryId);
     }
 
-    @RequestMapping(
+    @GetMapping(
             path = "/rootCategories",
-            method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<Category> getRootCategories(){
+    public List<CategoryDto> getRootCategories() {
         return categoryService.getRootCategories();
     }
 
 
-    @RequestMapping(
+    @GetMapping(
             path = "/sub/{categoryId}",
-            method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<Category> getSubCategories(@PathVariable("categoryId") long categoryId){
+    public List<CategoryDto> getSubCategories(@PathVariable("categoryId") long categoryId) {
         return categoryService.getSubCategories(categoryId);
     }
 
-    @RequestMapping(
+    @PostMapping(
             path = "/create",
-            method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public Long createCategory(@RequestBody CreateCategoryRequest categoryRequest){
+    public Long createCategory(@RequestBody CreateCategoryRequest categoryRequest) {
         return categoryService.createCategory(categoryRequest);
     }
 }

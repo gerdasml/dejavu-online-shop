@@ -4,7 +4,7 @@ import {Header} from "semantic-ui-react";
 
 import {RouteComponentProps} from "react-router-dom";
 
-interface IUserRouteProps { id: number; }
-export const User = (props: RouteComponentProps<IUserRouteProps>) => (
+interface UserRouteProps { id: number; }
+export const User = (props: RouteComponentProps<UserRouteProps>) => (
     <Header size="large">User {props.match.params.id}</Header>
 );

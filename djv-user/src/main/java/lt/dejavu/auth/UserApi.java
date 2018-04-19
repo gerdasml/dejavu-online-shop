@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("${rest.basePath}/user")
+@RequestMapping("${rest.user}")
 public class UserApi {
     @Autowired
     private UserService userService;
@@ -22,9 +22,8 @@ public class UserApi {
     @Autowired
     private SecurityService securityService;
 
-    @RequestMapping(
+    @GetMapping(
             path = "/",
-            method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public List<User> getAllUsers(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) throws ApiSecurityException {
@@ -32,9 +31,8 @@ public class UserApi {
         return userService.getUsers();
     }
 
-    @RequestMapping(
+    @GetMapping(
             path = "/{userId}",
-            method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public User getUser(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId) throws ApiSecurityException {
@@ -42,18 +40,14 @@ public class UserApi {
         return userService.getUser(userId);
     }
 
-    @RequestMapping(
-            path = "/{userId}/ban",
-            method = RequestMethod.POST
-    )
+    @PostMapping(path = "/{userId}/ban")
     public void banUser(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId, @RequestParam("banned") boolean banned) throws ApiSecurityException {
         authorize(authHeader, request);
         userService.setBan(userId, banned);
     }
 
-    /*@RequestMapping (
+    /*@PostMapping (
             path = "/",
-            method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public void updateUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, REQUEST) {

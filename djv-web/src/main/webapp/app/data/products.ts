@@ -1,6 +1,6 @@
-import { IProduct } from "../model/Product";
+import { Product } from "../model/Product";
 
-export const products: IProduct[] = [
+export const products: Product[] = [
     {
         description: "Didelis teleponas",
         imageUrl: "http://159.89.106.85/image/3",

@@ -31,7 +31,7 @@ public interface UserDAO {
     @SqlQuery("SELECT " + ID + " " +
               "FROM " + TABLE_NAME + " " +
               "WHERE " + EMAIL + " = :" + EMAIL + " AND " + PASSWORD + " = :" + PASSWORD)
-    // Returns 0 if no user with these credentials is found
+        // Returns 0 if no user with these credentials is found
     int getUserId(@Bind(EMAIL) String email, @Bind(PASSWORD) String password);
 
     @SqlQuery("SELECT " + ID + ", " + EMAIL + ", " + PASSWORD + ", " + FIRST_NAME + ", " + LAST_NAME + ", " + TYPE + ", " + BANNED + " " +
@@ -39,7 +39,7 @@ public interface UserDAO {
     List<User> getUsers();
 
     @SqlUpdate("UPDATE " + TABLE_NAME + " " +
-              "SET " + BANNED + " = :" + BANNED + " " +
-              "WHERE " + ID + " = :" + ID)
+               "SET " + BANNED + " = :" + BANNED + " " +
+               "WHERE " + ID + " = :" + ID)
     void setBanned(@Bind(ID) int id, @Bind(BANNED) boolean banned);
 }

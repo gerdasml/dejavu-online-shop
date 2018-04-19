@@ -1,5 +1,7 @@
 package lt.dejavu.product.service.impl;
 
+import lt.dejavu.product.dto.ProductDto;
+import lt.dejavu.product.dto.mapper.ProductDtoMapper;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.model.rest.mapper.ProductRequestMapper;
@@ -18,22 +20,25 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductRequestMapper productRequestMapper;
+    private final ProductDtoMapper productDtoMapper;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository, ProductRequestMapper productRequestMapper){
+    public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository,
+                              ProductRequestMapper productRequestMapper, ProductDtoMapper productDtoMapper) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.productRequestMapper = productRequestMapper;
+        this.productDtoMapper = productDtoMapper;
     }
 
     @Override
-    public Product getProduct(long id) {
-        return productRepository.getProduct(id);
+    public ProductDto getProduct(long id) {
+        return productDtoMapper.map(productRepository.getProduct(id));
     }
 
     @Override
-    public List<Product> getProductsByCategory(long categoryId) {
-        return productRepository.getProductsByCategory(categoryId);
+    public List<ProductDto> getProductsByCategory(long categoryId) {
+        return productDtoMapper.map(productRepository.getProductsByCategory(categoryId));
     }
 
     @Override
@@ -43,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.saveProduct(product);
     }
 
-    private Category resolveProductCategory(CreateProductRequest request){
+    private Category resolveProductCategory(CreateProductRequest request) {
         if (request.getCategoryId() == null) {
             return null;
         }
