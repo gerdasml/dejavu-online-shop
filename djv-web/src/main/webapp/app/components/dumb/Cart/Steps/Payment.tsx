@@ -12,6 +12,7 @@ import * as model from "../../../../model/Payment";
 import * as api from "../../../../api";
 
 import "../../../../../style/payment.css";
+import { ApiError } from "../../../../api";
 
 interface PaymentProps {
     onStepComplete: () => void;
@@ -25,6 +26,7 @@ interface PaymentState {
     focused: CardField;
 
     isLoading: boolean;
+    errors: ReadonlyArray<model.ValidationError>;
 }
 
 enum CardField {
@@ -39,6 +41,7 @@ type CardFieldStr = "number" | "name" | "expiry" | "cvc";
 export class Payment extends React.Component<PaymentProps, PaymentState> {
     state: PaymentState = {
         cvc: "",
+        errors: [],
         expiry: "",
         focused: CardField.NUMBER,
         isLoading: false,
@@ -94,23 +97,50 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
 
     sleep = async (ms: number) => await new Promise(r => setTimeout(r, ms));
 
-    checkData = async (e: React.FormEvent<HTMLFormElement>) => {
+    showValidationErrors = (errors: model.ValidationError[]) => {
+        const arr = this.state.errors.concat(errors);
+        this.setState({...this.state, errors: arr});
+    }
+
+    showError = (prefix: string, err: ApiError) =>
+        this.setState({...this.state, errors: [{
+            location: "payment",
+            message: prefix + ". Error: " + err.type
+        }]})
+
+    isErrorPresent = (name: string) => this.state.errors.some(e => e.location === name);
+
+    setLoading = (isLoading: boolean) => this.setState({...this.state, isLoading});
+
+    handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        this.setLoading(true);
+        const isOk = await this.checkData();
+        this.setLoading(false);
+        if(isOk) {
+            this.props.onStepComplete();
+        }
+    }
+    checkData = async () => {
         const payment = this.buildPayment();
-        this.setState({...this.state, isLoading: true});
-        const response = await api.payment.validate(payment);
-        await this.sleep(5000);
-        this.setState({...this.state, isLoading: false});
-        if(api.isError(response)) {
-            console.error(response);
-            return;
+        const validationResponse = await api.payment.validate(payment);
+        console.log(payment, validationResponse);
+        await this.sleep(1000);
+        if(api.isError(validationResponse)) {
+            this.showError("Validation has failed", validationResponse);
+            return false;
         }
-        if(response.length !== 0) {
-            console.error(response); // TODO: show validation errors in UI
-            return;
+        if(validationResponse.length !== 0) {
+            this.showValidationErrors(validationResponse);
+            return false;
         }
-        this.props.onStepComplete();
-        return {};
+
+        const paymentResponse = await api.payment.pay(payment);
+        if(api.isError(paymentResponse)) {
+            this.showError("Payment has failed", paymentResponse);
+            return false;
+        }
+        return true;
     }
 
     render () {
@@ -127,7 +157,7 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
                         />
                     </List.Item>
                     <List.Item>
-                        <Form size="mini" onSubmit={this.checkData} loading={this.state.isLoading}>
+                        <Form size="mini" onSubmit={this.handleFormSubmit} loading={this.state.isLoading}>
                             <Form.Input
                                 required
                                 placeholder="Card number"
@@ -136,7 +166,7 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
                                 pattern="[\d| ]{16,19}"
                                 value={this.state.number}
                                 onChange={e => this.handleInputChange(e)}
-                                error
+                                error={this.isErrorPresent("card.number")}
                             />
                             <Form.Input
                                 required
@@ -145,6 +175,7 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
                                 onFocus={this.handleInputFocus}
                                 value={this.state.name}
                                 onChange={e => this.handleInputChange(e)}
+                                error={this.isErrorPresent("card.holder")}
                             />
                             <Form.Group widths="equal">
                                 <Form.Input
@@ -155,6 +186,7 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
                                     onFocus={this.handleInputFocus}
                                     value={this.state.expiry}
                                     onChange={e => this.handleInputChange(e)}
+                                    error={this.isErrorPresent("expiration.month") || this.isErrorPresent("expiration.year")}
                                 />
                                 <Form.Input
                                     required
@@ -163,16 +195,21 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
                                     onFocus={this.handleInputFocus}
                                     value={this.state.cvc}
                                     onChange={e => this.handleInputChange(e)}
+                                    error={this.isErrorPresent("card.cvv")}
                                 />
                             </Form.Group>
                             <Button type="submit" fluid positive>Next</Button>
                         </Form>
                     </List.Item>
                 </List>
-                <Message
-                    error
-                    content="This is an error"
-                />
+                {
+                    this.state.errors.map((x, i) =>
+                        <Message
+                            key={i}
+                            error
+                            content={x.message}
+                        />)
+                }
             </div>
         );
     }
