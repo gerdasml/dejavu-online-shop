@@ -11,6 +11,8 @@ import * as model from "../../../../model/Payment";
 
 import * as api from "../../../../api";
 
+import "../../../../../style/payment.css";
+
 interface PaymentProps {
     onStepComplete: () => void;
 }
@@ -113,63 +115,65 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
 
     render () {
         return (
-            <List horizontal verticalAlign="middle">
-                <List.Item>
-                    <Card
-                        number={this.state.number}
-                        name={this.state.name}
-                        expiry={this.state.expiry}
-                        cvc={this.state.cvc}
-                        focused={this.state.focused.toString() as CardFieldStr}
-                    />
-                </List.Item>
-                <List.Item>
-                    <Form size="mini" onSubmit={this.checkData} error loading={this.state.isLoading}>
-                        <Form.Input
-                            required
-                            placeholder="Card number"
-                            name={CardField.NUMBER.toString()}
-                            onFocus={this.handleInputFocus}
-                            pattern="[\d| ]{16,19}"
-                            value={this.state.number}
-                            onChange={e => this.handleInputChange(e)}
-                            error
+            <div className="paymentInputContainer">
+                <List horizontal verticalAlign="middle">
+                    <List.Item>
+                        <Card
+                            number={this.state.number}
+                            name={this.state.name}
+                            expiry={this.state.expiry}
+                            cvc={this.state.cvc}
+                            focused={this.state.focused.toString() as CardFieldStr}
                         />
-                        <Form.Input
-                            required
-                            placeholder="Name"
-                            name={CardField.NAME.toString()}
-                            onFocus={this.handleInputFocus}
-                            value={this.state.name}
-                            onChange={e => this.handleInputChange(e)}
-                        />
-                        <Form.Group widths="equal">
+                    </List.Item>
+                    <List.Item>
+                        <Form size="mini" onSubmit={this.checkData} loading={this.state.isLoading}>
                             <Form.Input
                                 required
-                                placeholder="MM/YY"
-                                pattern="\d\d/\d\d"
-                                name={CardField.EXPIRY.toString()}
+                                placeholder="Card number"
+                                name={CardField.NUMBER.toString()}
                                 onFocus={this.handleInputFocus}
-                                value={this.state.expiry}
+                                pattern="[\d| ]{16,19}"
+                                value={this.state.number}
                                 onChange={e => this.handleInputChange(e)}
+                                error
                             />
                             <Form.Input
                                 required
-                                placeholder="CVC"
-                                name={CardField.CVC.toString()}
+                                placeholder="Name"
+                                name={CardField.NAME.toString()}
                                 onFocus={this.handleInputFocus}
-                                value={this.state.cvc}
+                                value={this.state.name}
                                 onChange={e => this.handleInputChange(e)}
                             />
-                        </Form.Group>
-                        <Button type="submit" fluid positive>Next</Button>
-                        <Message
-                            error
-                            content="This is an error"
-                        />
-                    </Form>
-                </List.Item>
-            </List>
+                            <Form.Group widths="equal">
+                                <Form.Input
+                                    required
+                                    placeholder="MM/YY"
+                                    pattern="\d\d/\d\d"
+                                    name={CardField.EXPIRY.toString()}
+                                    onFocus={this.handleInputFocus}
+                                    value={this.state.expiry}
+                                    onChange={e => this.handleInputChange(e)}
+                                />
+                                <Form.Input
+                                    required
+                                    placeholder="CVC"
+                                    name={CardField.CVC.toString()}
+                                    onFocus={this.handleInputFocus}
+                                    value={this.state.cvc}
+                                    onChange={e => this.handleInputChange(e)}
+                                />
+                            </Form.Group>
+                            <Button type="submit" fluid positive>Next</Button>
+                        </Form>
+                    </List.Item>
+                </List>
+                <Message
+                    error
+                    content="This is an error"
+                />
+            </div>
         );
     }
 }
