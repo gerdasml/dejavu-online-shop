@@ -52,14 +52,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(IOException.class)
     public final ResponseEntity<ExceptionDetails> handleIOException(IOException ex, WebRequest req) {
-        log.error(ex);
+        log.error("An IOException occurred. ", ex);
         IOException exc = new IOException("Please contact the admins.");
         return buildResponse(exc, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ExceptionDetails> handleGenericException(Exception ex, WebRequest req) {
-        log.error(ex);
+        log.error("An Exception occurred. ", ex);
         return buildResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
