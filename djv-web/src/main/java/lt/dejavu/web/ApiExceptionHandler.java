@@ -1,5 +1,7 @@
 package lt.dejavu.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.exception.UserNotFoundException;
 import lt.dejavu.payment.exception.PaymentException;
@@ -21,6 +23,8 @@ import java.util.Date;
 @ControllerAdvice
 @RestController
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+    private final static Logger log = LoggerFactory.getLogger(ApiExceptionHandler.class);
+
     @ExceptionHandler(UserNotFoundException.class)
     public final ResponseEntity<ExceptionDetails> handleUserNotFoundException(UserNotFoundException ex, WebRequest req) {
         return buildResponse(ex, HttpStatus.NOT_FOUND);
@@ -48,12 +52,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(IOException.class)
     public final ResponseEntity<ExceptionDetails> handleIOException(IOException ex, WebRequest req) {
+        log.error(ex);
         IOException exc = new IOException("Please contact the admins.");
         return buildResponse(exc, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ExceptionDetails> handleGenericException(Exception ex, WebRequest req) {
+        log.error(ex);
         return buildResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
