@@ -7,6 +7,8 @@ import { ProductProperties } from "../../../model/ProductProperties";
 
 interface PropertiesTableProps { product: Product; }
 
+import "../../../../style/product.css";
+
 export class PropertiesTable extends React.Component<PropertiesTableProps, {}> {
     constructor (props: PropertiesTableProps) {
         super(props);
@@ -14,7 +16,7 @@ export class PropertiesTable extends React.Component<PropertiesTableProps, {}> {
     buildCell = (x?: ProductProperties) =>
         x === undefined
         ? <Table.Cell/>
-        : <Table.Cell title={x.name + ": " + x.value}><span style={{color:"blue", marginRight:"10px"}}>{x.name}:</span>
+        : <Table.Cell title={x.name + ": " + x.value}><span className="priceArea">{x.name}:</span>
         {x.value}</Table.Cell>
 
     render () {

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Grid, GridColumn, Header, List} from "semantic-ui-react";
+import { Grid, GridColumn, Header, Label, List} from "semantic-ui-react";
 
 import {RouteComponentProps} from "react-router-dom";
 import { Carousel } from "../dumb/Product/Carousel";
@@ -104,11 +104,7 @@ export const Product = (props: RouteComponentProps<ProductRouteProps>) => (
                             <Header size="large">Product {props.match.params.id}</Header>
                         </List.Item>
                         <List.Item>
-                            <div className="ui tag labels">
-                                <a className="ui label">
-                                    $10.25
-                                </a>
-                            </div>
+                            <Label tag>$10.00</Label>
                         </List.Item>
                     </List>
                 </Grid.Column>

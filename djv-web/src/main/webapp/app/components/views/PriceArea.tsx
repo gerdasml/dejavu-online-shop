@@ -6,14 +6,12 @@ import { Amount } from "../dumb/Cart/Amount";
 import "../../../style/product.css";
 
 export const PriceArea = () => (
-    <div>
             <List horizontal floated="right">
                 <List.Item className="productColumn">
                     <Amount amount={1}/>
                 </List.Item>
                 <List.Item >
-                    <Button className="buyButton">Į krepšelį <Icon name="in cart"/></Button>
+                    <Button className="buyButton">Add to cart<Icon name="in cart"/></Button>
                 </List.Item>
             </List>
-    </div>
 );
