@@ -1,14 +1,14 @@
 package lt.dejavu.auth.service;
 
-import lt.dejavu.auth.model.User;
+import lt.dejavu.auth.dto.UserDto;
 
 import java.util.List;
 
 public interface UserService {
-    User getUser(int userId);
+    UserDto getUser(long userId);
 
-    List<User> getUsers();
+    List<UserDto> getUsers();
 
-    void setBan(int userId, boolean isBanned);
+    void setBan(long userId, boolean isBanned);
 //    void updateUser(User newInfo);
 }

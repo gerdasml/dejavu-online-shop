@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class Token {
-    private int userId;
+    private long userId;
     private Instant expiration;
     private List<Endpoint> endpoints;
 }

@@ -2,7 +2,7 @@ package lt.dejavu.auth;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.exception.UserNotFoundException;
-import lt.dejavu.auth.model.User;
+import lt.dejavu.auth.dto.UserDto;
 import lt.dejavu.auth.model.rest.LoginRequest;
 import lt.dejavu.auth.model.rest.LoginResponse;
 import lt.dejavu.auth.model.rest.RegistrationRequest;
@@ -38,7 +38,7 @@ public class AuthApi {
     )
     // TODO: Discuss what this method should return. Currently it returns nothing on success and throws an exception on failure.
     public void register(@RequestBody RegistrationRequest request) {
-        User user = registrationRequestMapper.mapToUser(request);
-        authService.register(user);
+        UserDto userDto = registrationRequestMapper.mapToUser(request);
+        authService.register(userDto);
     }
 }
