@@ -31,6 +31,7 @@ public class User {
     private String lastName;
 
     @Column(name = "type")
+    @Enumerated(EnumType.STRING)
     private UserType type;
 
     @Column(name = "banned")
