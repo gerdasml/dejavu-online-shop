@@ -4,9 +4,9 @@ import {Header} from "semantic-ui-react";
 
 import {RouteComponentProps} from "react-router-dom";
 
-interface ICategoryRouteProps {
+interface CategoryRouteProps {
     name: string;
 }
-export const Category = (props: RouteComponentProps<ICategoryRouteProps>) => (
+export const Category = (props: RouteComponentProps<CategoryRouteProps>) => (
     <Header size="large">Category {props.match.params.name}</Header>
 );

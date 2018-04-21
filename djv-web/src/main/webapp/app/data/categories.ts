@@ -1,6 +1,6 @@
-import { ICategory } from "../model/Category";
+import { Category } from "../model/Category";
 
-export const categories: ICategory[] = [
+export const categories: Category[] = [
     {
         children: [
             {

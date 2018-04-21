@@ -16,14 +16,13 @@ import java.io.IOException;
 import java.util.List;
 
 @Ignore
-@ContextConfiguration(classes={RepositoryTestConfiguration.class, JpaTestConfiguration.class})
+@ContextConfiguration(classes = {RepositoryTestConfiguration.class, JpaTestConfiguration.class})
 public class CategoryRepositoryTest extends JpaDbTestBase {
-
-    @Autowired
-    private CategoryRepository categoryRepository;
 
     //TODO: investigate potential static problems
     private static boolean isConfigured;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Before
     public void before() throws IOException {
@@ -36,7 +35,7 @@ public class CategoryRepositoryTest extends JpaDbTestBase {
     }
 
     @Test
-    public void testSaveAndFindCategoryByID(){
+    public void testSaveAndFindCategoryByID() {
         Category expected = createSampleCategory();
         Long id = categoryRepository.saveCategory(expected);
         Assert.assertNotNull(id);
@@ -47,7 +46,7 @@ public class CategoryRepositoryTest extends JpaDbTestBase {
     }
 
     @Test
-    public void testFindSubCategories(){
+    public void testFindSubCategories() {
         Category parent = createSampleCategory();
         Long parentId = categoryRepository.saveCategory(parent);
         Category child = createSampleCategory();
@@ -57,13 +56,13 @@ public class CategoryRepositoryTest extends JpaDbTestBase {
 
         List<Category> childCategories = categoryRepository.getSubCategories(parentId);
         Assert.assertNotNull(childCategories);
-        Assert.assertEquals(childCategories.size(),1);
+        Assert.assertEquals(childCategories.size(), 1);
         assertCategoryEqual(childCategories.get(0), child);
     }
 
 
     @Test
-    public void testFindRootCategories(){
+    public void testFindRootCategories() {
         //TODO refactor into readable form
         Category rootWithGrandChild = createSampleCategory();
         long rootWithGrandChildId = categoryRepository.saveCategory(rootWithGrandChild);
@@ -84,9 +83,9 @@ public class CategoryRepositoryTest extends JpaDbTestBase {
         List<Category> rootCategories = categoryRepository.getRootCategories();
         Assert.assertNotNull(rootCategories);
         Assert.assertEquals(3, rootCategories.size());
-        Assert.assertTrue(rootCategories.stream().anyMatch(c-> (c.getId().equals(rootWithGrandChildId))));
-        Assert.assertTrue(rootCategories.stream().anyMatch(c-> (c.getId().equals(rootWithChildId))));
-        Assert.assertTrue(rootCategories.stream().anyMatch(c-> (c.getId().equals(rootWithoutChildId))));
+        Assert.assertTrue(rootCategories.stream().anyMatch(c -> (c.getId().equals(rootWithGrandChildId))));
+        Assert.assertTrue(rootCategories.stream().anyMatch(c -> (c.getId().equals(rootWithChildId))));
+        Assert.assertTrue(rootCategories.stream().anyMatch(c -> (c.getId().equals(rootWithoutChildId))));
         rootCategories.stream().filter(c -> c.getId().equals(rootWithGrandChildId)).forEach(c -> assertCategoryEqual(c, rootWithGrandChild));
         rootCategories.stream().filter(c -> c.getId().equals(rootWithChildId)).forEach(c -> assertCategoryEqual(c, rootWithChild));
         rootCategories.stream().filter(c -> c.getId().equals(rootWithoutChildId)).forEach(c -> assertCategoryEqual(c, rootWithoutChild));
@@ -103,7 +102,7 @@ public class CategoryRepositoryTest extends JpaDbTestBase {
     }
 
 
-    private void assertCategoryEqual(Category expected, Category actual){
+    private void assertCategoryEqual(Category expected, Category actual) {
         if (expected.equals(actual)) {
             return;
         }

@@ -13,6 +13,8 @@
         <module>djv-security</module>
         <module>djv-user</module>
         <module>djv-storage</module>
+        <module>djv-payment</module>
+        <module>djv-logging</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -43,18 +45,29 @@
         <apache-commons-codec.version>1.11</apache-commons-codec.version>
         <swagger.version>2.8.0</swagger.version>
         <jackson.version>2.9.4</jackson.version>
-        <log4j.version>1.2.14</log4j.version>
         <hibernate.version>5.2.16.Final</hibernate.version>
         <apache-commons-lang3.version>3.7</apache-commons-lang3.version>
         <mysql-connector-java.version>6.0.6</mysql-connector-java.version>
+        <httpclient.version>4.5.3</httpclient.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${log4j.version}</version>
-            <scope>runtime</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${spring-boot.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
 
         <dependency>
@@ -76,6 +89,11 @@
                 <artifactId>spring-boot-starter-actuator</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.h2database</groupId>
@@ -87,6 +105,12 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql-connector-java.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
             </dependency>
 
             <dependency>

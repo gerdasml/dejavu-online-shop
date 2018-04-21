@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @EqualsAndHashCode
-@Table(name="product")
+@Table(name = "product")
 public class Product {
 
     @Id

@@ -1,17 +1,17 @@
-package lt.dejavu.product.view;
+package lt.dejavu.product.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CategoryView {
+public class CategoryDto {
 
     private long id;
     private String name;
     private String iconName;
     private String displayName;
-    private CategoryView parentCategory;
+    private CategoryDto parentCategory;
     private Long parentCategoryId;
 
 

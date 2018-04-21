@@ -17,8 +17,8 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class ProductRepositoryImpl implements ProductRepository  {
-    
+public class ProductRepositoryImpl implements ProductRepository {
+
     @PersistenceContext
     private EntityManager em;
 
@@ -30,7 +30,7 @@ public class ProductRepositoryImpl implements ProductRepository  {
     @Override
     public List<Product> getProductsByCategory(long categoryId) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Product> query =  cb.createQuery(Product.class);
+        CriteriaQuery<Product> query = cb.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
         ParameterExpression<Long> categoryIdParameter = cb.parameter(Long.class);
         query.where(cb.equal(root.get(Product_.category).get(Category_.id), categoryIdParameter));

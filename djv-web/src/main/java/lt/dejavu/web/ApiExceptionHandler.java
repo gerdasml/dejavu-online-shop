@@ -1,5 +1,7 @@
 package lt.dejavu.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.exception.UserNotFoundException;
 import lt.dejavu.product.exception.CategoryAlreadyExistException;
@@ -7,6 +9,7 @@ import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.IllegalRequestDataException;
 import lt.dejavu.product.exception.ProductAlreadyExistException;
 import lt.dejavu.product.exception.ProductNotFoundException;
+import lt.dejavu.payment.exception.PaymentException;
 import lt.dejavu.storage.image.exception.FileNotFoundException;
 import lt.dejavu.storage.image.exception.StorageException;
 import lt.dejavu.storage.image.exception.UnsupportedImageFormatException;
@@ -25,6 +28,8 @@ import java.util.Date;
 @ControllerAdvice
 @RestController
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+    private final static Logger log = LoggerFactory.getLogger(ApiExceptionHandler.class);
+
     @ExceptionHandler(UserNotFoundException.class)
     public final ResponseEntity<ExceptionDetails> handleUserNotFoundException(UserNotFoundException ex, WebRequest req) {
         return buildResponse(ex, HttpStatus.NOT_FOUND);
@@ -70,14 +75,21 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponse(ex, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(PaymentException.class)
+    public final ResponseEntity<ExceptionDetails> handlePaymentException(PaymentException ex, WebRequest req) {
+        return buildResponse(ex, ex.getResponseStatus());
+    }
+
     @ExceptionHandler(IOException.class)
     public final ResponseEntity<ExceptionDetails> handleIOException(IOException ex, WebRequest req) {
+        log.error("An IOException occurred. ", ex);
         IOException exc = new IOException("Please contact the admins.");
         return buildResponse(exc, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ExceptionDetails> handleGenericException(Exception ex, WebRequest req) {
+        log.error("An Exception occurred. ", ex);
         return buildResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

@@ -3,12 +3,11 @@ import * as React from "react";
 import {Card, Header, Image} from "semantic-ui-react";
 import "../../../../style/header.css";
 
+import { Product } from "../../../model/Product";
 
-import { IProduct } from "../../../model/Product";
+interface ProductCardProps { product: Product; }
 
-interface IProductCardProps { product: IProduct; }
-
-export const ProductCard = (props: IProductCardProps) => (
+export const ProductCard = (props: ProductCardProps) => (
     <Card link>
         <Header attached>{props.product.price}€</Header>
         <Image src={props.product.imageUrl} />

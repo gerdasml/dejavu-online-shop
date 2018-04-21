@@ -2,16 +2,16 @@ import * as React from "react";
 import { Divider } from "semantic-ui-react";
 
 import "../../../../style/submenu.css";
-import { ICategory } from "../../../model/Category";
+import { Category } from "../../../model/Category";
 
-export interface ISubMenuPosition { top: number; left: number; }
-interface ISubMenuProps {
-    onHover: (c: ICategory, p?: ISubMenuPosition) => void;
-    category: ICategory;
-    position: ISubMenuPosition;
+export interface SubMenuPosition { top: number; left: number; }
+interface SubMenuProps {
+    onHover: (c: Category, p?: SubMenuPosition) => void;
+    category: Category;
+    position: SubMenuPosition;
 }
 
-const mapChildChild = (category: ICategory, key: number) =>
+const mapChildChild = (category: Category, key: number) =>
     category.children.map((x, i) =>
     <div
         className="item"
@@ -20,7 +20,7 @@ const mapChildChild = (category: ICategory, key: number) =>
     </div>
     );
 
-const mapChild = (category: ICategory) =>
+const mapChild = (category: Category) =>
     category.children.map((x, i) =>
         [<div
             className="item main"
@@ -32,7 +32,7 @@ const mapChild = (category: ICategory) =>
         .concat(mapChildChild(x,i))
     );
 
-export const SubMenu = (props: ISubMenuProps) => (
+export const SubMenu = (props: SubMenuProps) => (
     <div
         className="submenu"
         onMouseEnter={() => props.onHover(props.category, props.position)}
