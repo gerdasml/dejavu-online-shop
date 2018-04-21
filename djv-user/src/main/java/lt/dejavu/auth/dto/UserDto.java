@@ -1,14 +1,15 @@
-package lt.dejavu.auth.model;
+package lt.dejavu.auth.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import lt.dejavu.auth.model.UserType;
 
 @Getter
 @Setter
-public class User {
+public class UserDto {
     @JsonIgnore
-    private int id;
+    private long id;
     private String email;
     @JsonIgnore
     private String password;
