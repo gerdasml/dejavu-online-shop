@@ -48,4 +48,13 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         return category.getId();
     }
 
+    @Override
+    public void updateCategory(Category category) {
+        em.merge(category);
+    }
+
+    @Override
+    public void deleteCategory(Category category) {
+        em.remove(category);
+    }
 }

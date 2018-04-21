@@ -28,7 +28,7 @@ public class Category {
     @Column(name = "displayName")
     private String displayName;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "parentCategory")
     private Category parentCategory;
 }

@@ -4,6 +4,7 @@ import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.exception.UserNotFoundException;
 import lt.dejavu.product.exception.CategoryAlreadyExistException;
 import lt.dejavu.product.exception.CategoryNotFoundException;
+import lt.dejavu.product.exception.IllegalRequestDataException;
 import lt.dejavu.product.exception.ProductAlreadyExistException;
 import lt.dejavu.product.exception.ProductNotFoundException;
 import lt.dejavu.storage.image.exception.FileNotFoundException;
@@ -47,6 +48,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(CategoryAlreadyExistException.class)
     public final ResponseEntity<ExceptionDetails> handleCategoryNotFoundException(CategoryAlreadyExistException ex, WebRequest req) {
         return buildResponse(ex, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(IllegalRequestDataException.class)
+    public final ResponseEntity<ExceptionDetails> handleApiSecurityException(IllegalRequestDataException ex, WebRequest req) {
+        return buildResponse(ex, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ApiSecurityException.class)

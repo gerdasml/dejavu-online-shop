@@ -1,6 +1,7 @@
 package lt.dejavu.product.service.impl;
 
 import lt.dejavu.product.exception.CategoryNotFoundException;
+import lt.dejavu.product.exception.IllegalRequestDataException;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.rest.mapper.CategoryRequestMapper;
 import lt.dejavu.product.model.rest.request.CategoryRequest;
@@ -47,6 +48,31 @@ public class CategoryServiceImpl implements CategoryService {
         Category parentCategory = resolveParentCategory(categoryRequest);
         Category category = categoryRequestMapper.mapToCategory(categoryRequest, parentCategory);
         return categoryRepository.saveCategory(category);
+    }
+
+    @Override
+    public void updateCategory(long categoryId, CategoryRequest categoryRequest) {
+        validateNotSelfParent(categoryId, categoryRequest.getParentCategory());
+        Category oldCategory = getCategoryIfExist(categoryId);
+        Category parentCategory = resolveParentCategory(categoryRequest);
+        Category newCategory = categoryRequestMapper.mapToCategory(categoryRequest, parentCategory);
+        newCategory.setId(oldCategory.getId());
+        categoryRepository.updateCategory(newCategory);
+    }
+
+    @Override
+    public void deleteCategory(long categoryId) {
+        Category category = getCategoryIfExist(categoryId);
+        categoryRepository.deleteCategory(category);
+    }
+
+    private void validateNotSelfParent(long id, Long parentId){
+        if (parentId == null) {
+            return;
+        }
+        if (parentId.equals(id)){
+            throw new IllegalRequestDataException("category cannot be self parent");
+        }
     }
 
     private Category resolveParentCategory(CategoryRequest categoryRequest) {

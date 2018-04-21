@@ -13,4 +13,8 @@ public interface CategoryService {
     List<CategoryView> getSubCategories(long category);
 
     Long createCategory(CategoryRequest categoryRequest);
+
+    void updateCategory(long categoryId, CategoryRequest categoryRequest);
+
+    void deleteCategory(long categoryId);
 }

@@ -56,4 +56,22 @@ public class CategoryApi {
     public Long createCategory(@RequestBody CategoryRequest categoryRequest){
         return categoryService.createCategory(categoryRequest);
     }
+
+    @RequestMapping(
+            path = "/{categoryId}",
+            method = RequestMethod.PUT,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public void updateCategory(@PathVariable("categoryId") long categoryId, @RequestBody CategoryRequest categoryRequest){
+        categoryService.updateCategory(categoryId, categoryRequest);
+    }
+
+    @RequestMapping(
+            path = "/{categoryId}",
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public void deleteCategory(@PathVariable("categoryId") long categoryId){
+        categoryService.deleteCategory(categoryId);
+    }
 }

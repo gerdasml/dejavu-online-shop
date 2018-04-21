@@ -13,4 +13,8 @@ public interface CategoryRepository {
     List<Category> getSubCategories(long parentId);
 
     long saveCategory(Category category);
+
+    void updateCategory(Category category);
+
+    void deleteCategory(Category category);
 }

@@ -61,7 +61,7 @@ public class ProductApi {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public void updateProduct(@PathVariable("productId") long productId){
+    public void deleteProduct(@PathVariable("productId") long productId){
         productService.deleteProduct(productId);
     }
 
