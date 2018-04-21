@@ -36,5 +36,12 @@ public class User {
 
     @Column(name = "banned")
     private boolean banned;
+
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+
+    @Column(name = "phone")
+    private String phone;
 }
 

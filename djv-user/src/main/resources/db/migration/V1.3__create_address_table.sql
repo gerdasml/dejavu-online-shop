@@ -1,0 +1,7 @@
+CREATE TABLE address (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  street VARCHAR(255),
+  country VARCHAR(255),
+  city VARCHAR(255),
+  zipCode VARCHAR(255)
+);
