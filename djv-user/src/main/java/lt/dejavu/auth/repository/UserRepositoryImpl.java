@@ -27,7 +27,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public long getUserId(String email, String password) {
+    public Long getUserId(String email, String password) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<User> query = cb.createQuery(User.class);
         Root<User> root = query.from(User.class);
@@ -63,7 +63,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public long addUser(User user) {
+    public Long addUser(User user) {
         em.persist(user);
         return user.getId();
     }

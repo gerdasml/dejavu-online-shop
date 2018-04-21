@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserRepository {
     User getUserById(long id);
 
-    long getUserId(String email, String password);
+    Long getUserId(String email, String password);
 
     List<User> getAllUsers();
 
@@ -15,5 +15,5 @@ public interface UserRepository {
 
     void updateUserInfo(long id, User info);
 
-    long addUser(User user);
+    Long addUser(User user);
 }

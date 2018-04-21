@@ -29,8 +29,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void register(UserDto info) {
         String passHash = hasher.hash(info.getPassword());
-        long id = userRepository.getUserId(info.getEmail(), passHash);
-        if (id != 0) {
+        Long id = userRepository.getUserId(info.getEmail(), passHash);
+        if (id != null) {
             throw new UserAlreadyExistsException("A user with the specified credentials already exists");
         }
         info.setPassword(passHash);
@@ -40,8 +40,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public LoginResponse login(String email, String pass) throws ApiSecurityException, UserNotFoundException {
         String passHash = hasher.hash(pass);
-        long userId = userRepository.getUserId(email, passHash);
-        if (userId == 0) {
+        Long userId = userRepository.getUserId(email, passHash);
+        if (userId == null) {
             // User not found
             throw new UserNotFoundException("User with the specified credentials was not found");
         }
