@@ -2,3 +2,11 @@
     width: 80%;
     margin-left: 5%;
 }
+
+.productColumn{
+    justify-items: end;
+}
+
+.propertiesTable{
+    margin-bottom: 5%!important;
+}
