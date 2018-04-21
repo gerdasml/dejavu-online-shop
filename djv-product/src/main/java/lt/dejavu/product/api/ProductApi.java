@@ -41,18 +41,16 @@ public class ProductApi {
         return productService.createProduct(productRequest);
     }
 
-    @RequestMapping(
+    @PutMapping(
             path = "/{productId}",
-            method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public void updateProduct(@PathVariable("productId") long productId, @RequestBody ProductRequest productRequest){
         productService.updateProduct(productId, productRequest);
     }
 
-    @RequestMapping(
+    @DeleteMapping(
             path = "/{productId}",
-            method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public void deleteProduct(@PathVariable("productId") long productId){

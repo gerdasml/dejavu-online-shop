@@ -1,6 +1,7 @@
 package lt.dejavu.product.service.impl;
 
 import lt.dejavu.product.dto.CategoryDto;
+import lt.dejavu.product.dto.CategoryTreeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.IllegalRequestDataException;
@@ -37,6 +38,12 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDto> getRootCategories() {
         return categoryDtoMapper.map(categoryRepository.getRootCategories());
     }
+
+    @Override
+    public List<CategoryTreeDto> getCategoryTree(){
+        return categoryDtoMapper.mapToTree(categoryRepository.getAllCategories());
+    }
+
 
     @Override
     public List<CategoryDto> getSubCategories(long categoryId) {
