@@ -16,4 +16,6 @@ public class User {
     private String lastName;
     private UserType type;
     private boolean banned;
+    private Address address;
+    private String phone;
 }
