@@ -1,19 +1,19 @@
 package lt.dejavu.auth.repository;
 
-import lt.dejavu.auth.model.User;
+import lt.dejavu.auth.model.db.User;
 
 import java.util.List;
 
 public interface UserRepository {
-    User getUserById(int id);
+    User getUserById(long id);
 
-    int getUserId(String email, String password);
+    long getUserId(String email, String password);
 
     List<User> getAllUsers();
 
-    void setBanned(int id, boolean isBanned);
+    void setBanned(long id, boolean isBanned);
 
-    void updateUserInfo(int id, User info);
+    void updateUserInfo(long id, User info);
 
-    int addUser(User user);
+    long addUser(User user);
 }

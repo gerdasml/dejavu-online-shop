@@ -2,7 +2,7 @@ package lt.dejavu.auth;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.model.Endpoint;
-import lt.dejavu.auth.model.User;
+import lt.dejavu.auth.dto.UserDto;
 import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.auth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class UserApi {
             path = "/",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<User> getAllUsers(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) throws ApiSecurityException {
+    public List<UserDto> getAllUsers(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) throws ApiSecurityException {
         authorize(authHeader, request);
         return userService.getUsers();
     }
@@ -35,7 +35,7 @@ public class UserApi {
             path = "/{userId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public User getUser(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId) throws ApiSecurityException {
+    public UserDto getUser(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId) throws ApiSecurityException {
         authorize(authHeader, request);
         return userService.getUser(userId);
     }
