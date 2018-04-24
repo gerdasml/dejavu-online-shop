@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.exception.UserNotFoundException;
+import lt.dejavu.product.exception.*;
 import lt.dejavu.payment.exception.PaymentException;
 import lt.dejavu.storage.image.exception.FileNotFoundException;
 import lt.dejavu.storage.image.exception.StorageException;
@@ -28,6 +29,31 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public final ResponseEntity<ExceptionDetails> handleUserNotFoundException(UserNotFoundException ex, WebRequest req) {
         return buildResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public final ResponseEntity<ExceptionDetails> handleProductNotFoundException(ProductNotFoundException ex, WebRequest req) {
+        return buildResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProductAlreadyExistException.class)
+    public final ResponseEntity<ExceptionDetails> handleUserNotFoundException(ProductAlreadyExistException ex, WebRequest req) {
+        return buildResponse(ex, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public final ResponseEntity<ExceptionDetails> handleCategoryNotFoundException(CategoryNotFoundException ex, WebRequest req) {
+        return buildResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CategoryAlreadyExistException.class)
+    public final ResponseEntity<ExceptionDetails> handleCategoryNotFoundException(CategoryAlreadyExistException ex, WebRequest req) {
+        return buildResponse(ex, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(IllegalRequestDataException.class)
+    public final ResponseEntity<ExceptionDetails> handleApiSecurityException(IllegalRequestDataException ex, WebRequest req) {
+        return buildResponse(ex, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ApiSecurityException.class)

@@ -32,8 +32,7 @@ public class Product {
     @Column(name = "creationDate")
     private LocalDateTime creationDate;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "category")
     private Category category;
 }

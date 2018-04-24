@@ -1,7 +1,8 @@
 package lt.dejavu.product.api;
 
 import lt.dejavu.product.dto.CategoryDto;
-import lt.dejavu.product.model.rest.request.CreateCategoryRequest;
+import lt.dejavu.product.dto.CategoryTreeDto;
+import lt.dejavu.product.model.rest.request.CategoryRequest;
 import lt.dejavu.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -32,6 +33,13 @@ public class CategoryApi {
         return categoryService.getRootCategories();
     }
 
+    @GetMapping(
+            path = "/categoryTree",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public List<CategoryTreeDto> getCategoryTree() {
+        return categoryService.getCategoryTree();
+    }
 
     @GetMapping(
             path = "/sub/{categoryId}",
@@ -45,7 +53,24 @@ public class CategoryApi {
             path = "/create",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public Long createCategory(@RequestBody CreateCategoryRequest categoryRequest) {
+
+    public Long createCategory(@RequestBody CategoryRequest categoryRequest){
         return categoryService.createCategory(categoryRequest);
+    }
+
+    @PutMapping(
+            path = "/{categoryId}",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public void updateCategory(@PathVariable("categoryId") long categoryId, @RequestBody CategoryRequest categoryRequest){
+        categoryService.updateCategory(categoryId, categoryRequest);
+    }
+
+    @DeleteMapping(
+            path = "/{categoryId}",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public void deleteCategory(@PathVariable("categoryId") long categoryId){
+        categoryService.deleteCategory(categoryId);
     }
 }

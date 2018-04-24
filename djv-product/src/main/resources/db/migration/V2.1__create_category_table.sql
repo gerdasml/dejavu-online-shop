@@ -4,5 +4,5 @@ CREATE TABLE ${tables.category.name} (
   ${tables.category.columns.iconName} VARCHAR(255),
   ${tables.category.columns.displayName} VARCHAR(255),
   ${tables.category.columns.parentCategory} BIGINT,
-  FOREIGN KEY (${tables.category.columns.parentCategory}) REFERENCES ${tables.category.name}(${tables.category.columns.id})
+  CONSTRAINT FK_CATEGORY_PARENT_CATEGORY FOREIGN KEY (${tables.category.columns.parentCategory}) REFERENCES ${tables.category.name}(${tables.category.columns.id}) ON DELETE CASCADE
 );

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class CreateProductRequest {
+public class ProductRequest {
     private String name;
     private String displayName;
     private String description;

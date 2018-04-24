@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class CreateCategoryRequest {
+public class CategoryRequest {
     private String name;
     private String iconName;
     private String displayName;
