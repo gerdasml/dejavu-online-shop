@@ -77,13 +77,18 @@ export class Login extends React.Component {
                         <Grid.Column>
                             <Segment basic>
                                 <h3> Already registered user?<br/>Log in:</h3>
-                                <Form loading={this.state.loading} error={this.state.error !== ""}>
+                                <Form 
+                                    loading={this.state.loading}
+                                    error={this.state.error !== ""}
+                                    onSubmit={this.login.bind(this)}
+                                >
                                     <Form.Field>
                                         <label>Email address</label>
                                         <input
                                             type="email"
                                             placeholder="email"
                                             onChange={this.handleEmailInput.bind(this)}
+                                            required
                                         />
                                     </Form.Field>
                                     <Form.Field>
@@ -92,6 +97,7 @@ export class Login extends React.Component {
                                             type="password"
                                             placeholder="********"
                                             onChange={this.handlePasswordInput.bind(this)}
+                                            required
                                         />
                                     </Form.Field>
                                     <Message
@@ -99,7 +105,7 @@ export class Login extends React.Component {
                                         header="Login failed"
                                         content={this.state.error}
                                     />
-                                    <Button onClick={this.login.bind(this)}>
+                                    <Button type="submit">
                                         Log in
                                     </Button>
                                 </Form>
