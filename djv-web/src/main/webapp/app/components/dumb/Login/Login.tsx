@@ -14,7 +14,7 @@ interface LoginState {
     open: boolean;
 }
 
-export class Login extends React.Component {
+export class Login extends React.Component <{}, LoginState> {
     state = {
         email: "",
         error: "",
@@ -35,7 +35,7 @@ export class Login extends React.Component {
         });
     }
     handleOpen = () => this.setState({...this.state, open: true});
-    handleClose = () => this.setState({...this.state, open: false});
+    handleClose = () => this.setState({...this.state, open: false, error: ""});
     login = async (): Promise<void> => {
         this.setState({
             ...this.state, loading: true
@@ -77,7 +77,7 @@ export class Login extends React.Component {
                         <Grid.Column>
                             <Segment basic>
                                 <h3> Already registered user?<br/>Log in:</h3>
-                                <Form 
+                                <Form
                                     loading={this.state.loading}
                                     error={this.state.error !== ""}
                                     onSubmit={this.login.bind(this)}
