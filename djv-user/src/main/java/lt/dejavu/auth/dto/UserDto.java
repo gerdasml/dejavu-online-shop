@@ -9,7 +9,7 @@ import lt.dejavu.auth.model.UserType;
 @Setter
 public class UserDto {
     @JsonIgnore
-    private long id;
+    private Long id;
     private String email;
     @JsonIgnore
     private String password;
