@@ -1,5 +1,6 @@
 import { ApiResponse } from "./ApiResponse";
 
+import { User } from "../model/User";
 import {fetchData, HttpMethod} from "./utils";
 
 const PATH_PREFIX = "/api/auth";
@@ -21,3 +22,6 @@ export const login = (email: string, password: string): Promise<ApiResponse<Logi
     const body = {email, password};
     return fetchData(PATH_PREFIX + "/login", HttpMethod.POST, body);
 };
+
+export const register = (user: User): Promise<ApiResponse<void>> =>
+    fetchData(PATH_PREFIX + "/register", HttpMethod.POST, user);
