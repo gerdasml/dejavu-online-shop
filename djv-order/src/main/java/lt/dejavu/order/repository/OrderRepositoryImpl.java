@@ -4,6 +4,8 @@ import lt.dejavu.auth.model.db.User_;
 import lt.dejavu.order.model.OrderStatus;
 import lt.dejavu.order.model.db.Order;
 import lt.dejavu.order.model.db.Order_;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,6 +16,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
+@Repository
+@Transactional
 public class OrderRepositoryImpl implements OrderRepository {
     @PersistenceContext
     private EntityManager em;
