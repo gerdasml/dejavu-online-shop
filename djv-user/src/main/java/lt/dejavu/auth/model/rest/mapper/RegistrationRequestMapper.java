@@ -15,6 +15,8 @@ public class RegistrationRequestMapper {
         userDto.setFirstName(request.getFirstName());
         userDto.setLastName(request.getLastName());
         userDto.setBanned(false);
+        userDto.setPhone(request.getPhone());
+        userDto.setAddress(request.getAddress());
 
         return userDto;
     }
