@@ -38,8 +38,11 @@ public class UserRepositoryImpl implements UserRepository {
                 );
         query.where(condition);
         TypedQuery<User> q = em.createQuery(query);
-        User result = q.getSingleResult();
-        return result.getId();
+        return q.getResultList()
+                .stream()
+                .findFirst()
+                .map(User::getId)
+                .orElse(null);
     }
 
     @Override
