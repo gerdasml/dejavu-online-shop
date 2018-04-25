@@ -19,6 +19,7 @@ rest:
   category: ${rest.basePath}/category
   health: ${rest.basePath}/health
   image: ${rest.basePath}/image
+  order: ${rest.basePath}/order
   payment: ${rest.basePath}/payment
   product: ${rest.basePath}/product
   user: ${rest.basePath}/user
