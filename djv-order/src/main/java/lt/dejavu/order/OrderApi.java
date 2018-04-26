@@ -1,6 +1,8 @@
 package lt.dejavu.order;
 
 import lt.dejavu.order.dto.OrderDto;
+import lt.dejavu.order.model.rest.CreateOrderRequest;
+import lt.dejavu.order.model.rest.UpdateOrderStatusRequest;
 import lt.dejavu.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,13 +31,7 @@ public class OrderApi {
     }
 
     @PutMapping("/{orderId}")
-    public void updateOrderStatus(@PathVariable("orderId") long orderId) {
-        orderService.updateOrderStatus(orderId);
-    } // TODO: status from body
-
-    @PostMapping("/")
-    public Long createOrder() {
-        // TODO: get from body and map
-        return orderService.createOrder(...);
+    public void updateOrderStatus(@PathVariable("orderId") long orderId, @RequestBody UpdateOrderStatusRequest request) {
+        orderService.updateOrderStatus(orderId, request.getStatus());
     }
 }
