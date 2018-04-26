@@ -7,6 +7,7 @@ import lt.dejavu.auth.model.db.User;
 import lt.dejavu.order.model.OrderStatus;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @Entity
-@Table(name = "order")
+@Table(name = "purchase_order")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +30,7 @@ public class Order {
     private List<OrderItem> items;
 
     @Column(name = "creationDate")
-    private Date creationDate;
+    private Timestamp creationDate;
 
     @ManyToOne
     @JoinColumn(name = "userId")
