@@ -1,6 +1,7 @@
 package lt.dejavu.order.repository;
 
 import lt.dejavu.auth.model.db.User_;
+import lt.dejavu.order.exception.OrderNotFoundException;
 import lt.dejavu.order.model.OrderStatus;
 import lt.dejavu.order.model.db.Order;
 import lt.dejavu.order.model.db.Order_;
@@ -59,8 +60,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     public void updateOrderStatus(long orderId, OrderStatus status) {
         Order order = getOrder(orderId);
         if(order == null) {
-            // TODO: Maybe some error?
-            return;
+            throw new OrderNotFoundException("The order with the specified ID was not found");
         }
         order.setStatus(status);
         em.merge(order);
