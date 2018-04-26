@@ -66,7 +66,7 @@ public class OrderServiceImpl implements OrderService {
         order.setCreationDate(dto.getCreatedDate());
         List<OrderItem> orderItems = dto.getItems()
                                      .stream()
-                                     .map(this::buildOrderItem)
+                                     .map(item -> buildOrderItem(item, order))
                                      .collect(toList());
 
         order.setItems(orderItems);
@@ -75,11 +75,11 @@ public class OrderServiceImpl implements OrderService {
         return order.getId();
     }
 
-    private OrderItem buildOrderItem(OrderItemDto dto) {
+    private OrderItem buildOrderItem(OrderItemDto dto, Order order) {
         OrderItem item = new OrderItem();
         item.setAmount(dto.getAmount());
         item.setProduct(productRepository.getProduct(dto.getProduct().getId()));
-
+        item.setOrder(order);
         return item;
     }
 }

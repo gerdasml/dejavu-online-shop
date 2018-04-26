@@ -1,7 +1,6 @@
 package lt.dejavu.order;
 
 import lt.dejavu.order.dto.OrderDto;
-import lt.dejavu.order.model.rest.CreateOrderRequest;
 import lt.dejavu.order.model.rest.UpdateOrderStatusRequest;
 import lt.dejavu.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
