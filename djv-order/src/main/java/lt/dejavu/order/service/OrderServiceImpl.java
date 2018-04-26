@@ -4,6 +4,7 @@ import lt.dejavu.auth.model.db.User;
 import lt.dejavu.auth.repository.UserRepository;
 import lt.dejavu.order.dto.OrderDto;
 import lt.dejavu.order.dto.OrderItemDto;
+import lt.dejavu.order.exception.OrderNotFoundException;
 import lt.dejavu.order.mapper.OrderMapper;
 import lt.dejavu.order.model.OrderStatus;
 import lt.dejavu.order.model.db.Order;
@@ -46,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto getOrderById(long orderId) {
         Order order = orderRepository.getOrder(orderId);
         if(order == null) {
-            // TODO: order not found
+            throw new OrderNotFoundException("The order with the specified ID was not found");
         }
         return orderMapper.map(order);
     }
