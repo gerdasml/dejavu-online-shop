@@ -53,12 +53,13 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public void authorize(String authHeader, Endpoint endpoint) throws ApiSecurityException {
+    public long authorize(String authHeader, Endpoint endpoint) throws ApiSecurityException {
         Token token = extractTokenFromHeader(authHeader);
         boolean isAuthorized = token.getEndpoints().stream().anyMatch(e -> endpointsMatch(endpoint, e));
         if (!isAuthorized) {
             throw new AccessDeniedException("You are not authorized to access this endpoint");
         }
+        return token.getUserId();
     }
 
     private Token extractTokenFromHeader(String authHeader) throws ApiSecurityException {
