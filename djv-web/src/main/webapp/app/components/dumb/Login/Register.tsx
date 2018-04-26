@@ -4,7 +4,6 @@ import {Button, Form, Message, Modal } from "semantic-ui-react";
 
 import * as api from "../../../api";
 import { Address } from "../../../model/Address";
-import { User, UserType } from "../../../model/User";
 import { storeToken } from "../../../utils/token";
 
 import "../../../../style/login.css";
@@ -19,14 +18,11 @@ interface RegistrationState {
     address: Address;
     error: string;
     open: boolean;
-    type: UserType;
-    banned: boolean;
 }
 
 export class Register extends React.Component <{}, RegistrationState> {
     state: RegistrationState = {
         address: {},
-        banned: false,
         email: "",
         error: "",
         firstName: "",
@@ -34,8 +30,7 @@ export class Register extends React.Component <{}, RegistrationState> {
         loading: false,
         open: false,
         password: "",
-        phone: "",
-        type: UserType.REGULAR
+        phone: ""
     };
     handleEmailInput = (event: React.FormEvent<HTMLInputElement>) => {
         const value = event.currentTarget.value;
@@ -99,13 +94,11 @@ export class Register extends React.Component <{}, RegistrationState> {
         });
         const user = {
             address: {},
-            banned: this.state.banned,
             email: this.state.email,
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             password: this.state.password,
-            phone: this.state.phone,
-            type: this.state.type
+            phone: this.state.phone
         };
         const tkn = await api.auth.register(user);
         if(api.isError(tkn)) {
