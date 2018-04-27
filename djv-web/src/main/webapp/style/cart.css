@@ -16,3 +16,33 @@
 .trashIcon{
     float: right;
 }
+
+.datePicker{
+    z-index: 5;   
+}
+
+#deliveryInfoForm label{
+    width: 12%;
+    
+}
+
+#deliveryInfoForm input{
+    width: 51%;
+    height: 50%;
+    padding: 0.5%;
+}
+
+#deliveryInfoForm select{
+    width: 20%;
+    height: 50%;
+    padding: 0.5%;
+    margin-right:5%;
+}
+
+#editIcon{
+    margin-left: 1%;
+}
+
+#cityLabel{
+    width: 6% !important;
+}
