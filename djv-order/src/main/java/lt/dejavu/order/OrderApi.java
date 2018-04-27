@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("${rest.order}")
 public class OrderApi {
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @GetMapping("/{userId}/history")
     public List<OrderDto> getUserOrderHistory(@PathVariable("userId") long userId) {
