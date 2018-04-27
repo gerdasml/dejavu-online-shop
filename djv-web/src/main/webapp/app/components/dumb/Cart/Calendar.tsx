@@ -1,9 +1,7 @@
 import * as React from "react";
-import DatePicker from "react-date-picker";
 
 import "../../../../style/cart.css";
 
-import { DateRangePicker, SingleDatePicker, DayPickerRangeController } from "react-dates";
 //this is bullshit. if you want to kill yourself, do it
 
 export interface DateState { date: Date; }

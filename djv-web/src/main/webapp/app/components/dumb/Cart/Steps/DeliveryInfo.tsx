@@ -1,8 +1,7 @@
 import * as React from "react";
 
-import { Form, Icon } from "semantic-ui-react";
+import { Button, Form } from "semantic-ui-react";
 
-import { Calendar } from "../Calendar";
 
 import "../../../../../style/cart.css";
 
@@ -29,11 +28,7 @@ export const DeliveryInfo = (props: DeliveryInfoProps) => (
                 <input type="text" value="+370********" />
             </Form.Field>
             <Form.Field inline>
-                <label>Address line1</label>
-                <input type="text" value="address" />
-            </Form.Field>
-            <Form.Field inline>
-                <label>Address line2</label>
+                <label>Street Address</label>
                 <input type="text" value="address" />
             </Form.Field>
             <Form.Field inline>
@@ -52,7 +47,7 @@ export const DeliveryInfo = (props: DeliveryInfoProps) => (
                     <option value="London">London</option>
                 </select>
             </Form.Field>
+            <Button type="submit" positive onClick={props.onStepComplete}>Next</Button>
         </Form>
-        <button onClick={props.onStepComplete}>Next</button>
     </div >
 );
