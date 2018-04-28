@@ -100,10 +100,10 @@ export class Register extends React.Component <{}, RegistrationState> {
             password: this.state.password,
             phone: this.state.phone
         };
-        const tkn = await api.auth.register(user);
-        if(api.isError(tkn)) {
+        const response = await api.auth.register(user);
+        if(api.isError(response)) {
             this.setState({
-                ...this.state, error: tkn.message, loading: false
+                ...this.state, error: response.message, loading: false
             });
             return undefined;
         }
@@ -131,21 +131,21 @@ export class Register extends React.Component <{}, RegistrationState> {
                         onSubmit={this.register.bind(this)}
                     >
                         <Form.Field inline>
-                            <label>Email<span>*</span></label>
+                            <label>Email<span className="redStar">*</span></label>
                             <input  type="email"
                                     placeholder="email"
                                     onChange={this.handleEmailInput.bind(this)}
                                     required/>
                         </Form.Field>
                         <Form.Field inline>
-                            <label>Password<span>*</span></label>
+                            <label>Password<span className="redStar">*</span></label>
                             <input  type="password"
                                     placeholder="********"
                                     onChange={this.handlePasswordInput.bind(this)}
                                     required/>
                         </Form.Field>
                         <Form.Field inline>
-                            <label>Repeat password<span>*</span></label>
+                            <label>Repeat password<span className="redStar">*</span></label>
                             <input  type="password"
                                     placeholder="********"
                                     onChange={this.handlePasswordInput.bind(this)}
@@ -199,7 +199,7 @@ export class Register extends React.Component <{}, RegistrationState> {
                             header="Registration failed"
                             content={this.state.error}
                         />
-                        <Button>Cancel</Button>
+                        <Button onClick={this.handleClose.bind(this)}>Cancel</Button>
                         <Button type="submit">Register</Button>
                     </Form>
                 </Modal.Content>

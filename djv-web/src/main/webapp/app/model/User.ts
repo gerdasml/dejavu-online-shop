@@ -1,9 +1,8 @@
-// api/user.ts yra user type ir a user. reik situos issikelt
 import { Address } from "./Address";
 
 export enum UserType {
-    REGULAR,
-    ADMIN
+    "REGULAR",
+    "ADMIN"
 }
 
 export interface User {

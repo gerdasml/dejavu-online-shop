@@ -40,20 +40,20 @@ export class Login extends React.Component <{}, LoginState> {
         this.setState({
             ...this.state, loading: true
         });
-        const tkn = await api.auth.login(this.state.email, this.state.password);
-        if(api.isError(tkn)) {
+        const token = await api.auth.login(this.state.email, this.state.password);
+        if(api.isError(token)) {
             this.setState({
-                ...this.state, error: tkn.message, loading: false
+                ...this.state, error: token.message, loading: false
             });
             return undefined;
         }
-        if(api.auth.isBanned(tkn)) {
+        if(api.auth.isBanned(token)) {
             this.setState({
                 ...this.state, error: "You are banned", loading: false
             });
             return undefined;
         }
-        storeToken(tkn.token);
+        storeToken(token.token);
         this.setState({
             ...this.state, error: "", loading: false
         });
