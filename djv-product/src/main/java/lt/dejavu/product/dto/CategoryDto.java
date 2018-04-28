@@ -9,7 +9,7 @@ public class CategoryDto {
 
     private long id;
     private String name;
-    private String iconName;
+    private String icon;
     private String displayName;
     private Long parentCategoryId;
 

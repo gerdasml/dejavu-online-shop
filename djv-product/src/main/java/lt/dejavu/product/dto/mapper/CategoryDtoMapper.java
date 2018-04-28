@@ -18,7 +18,7 @@ public class CategoryDtoMapper {
         CategoryDto view = new CategoryDto();
         view.setId(category.getId());
         view.setName(category.getName());
-        view.setIconName(category.getIconName());
+        view.setIcon(category.getIconName());
         view.setDisplayName(category.getDisplayName());
         if (category.getParentCategory() != null) {
             view.setParentCategoryId(category.getParentCategory().getId());
