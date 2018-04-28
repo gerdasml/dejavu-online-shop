@@ -11,7 +11,6 @@ public class CategoryDto {
     private String name;
     private String iconName;
     private String displayName;
-    private CategoryDto parentCategory;
     private Long parentCategoryId;
 
 
