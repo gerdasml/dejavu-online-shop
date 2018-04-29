@@ -1,4 +1,3 @@
-import { Category } from "../components/views";
 import { CategoryTree } from "../model/CategoryTree";
 
 export const categories: CategoryTree[] = [
