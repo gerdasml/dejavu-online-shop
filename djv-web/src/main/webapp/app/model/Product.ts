@@ -9,5 +9,4 @@ export interface Product {
     properties?: ProductProperties[];
     creationDate?: string;
     categoryID?: number;
-    // TODO: update when product functionality is finished in back end
 }

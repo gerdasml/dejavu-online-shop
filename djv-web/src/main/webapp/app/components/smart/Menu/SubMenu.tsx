@@ -20,8 +20,8 @@ const mapChildChild = (category: CategoryTree, key: number) =>
     </div>
     );
 
-const mapChild = (category: CategoryTree) =>
-    category.children.map((x, i) =>
+const mapChild = (categoryTree: CategoryTree) =>
+    categoryTree.children.map((x, i) =>
         [<div
             className="item main"
             key={i}
