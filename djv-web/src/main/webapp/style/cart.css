@@ -50,10 +50,6 @@
     margin-left: 1%;
 }
 
-#cityLabel{
-    width: 6% !important;
-}
-
-#submitDeliveryInfo{
-    
+#deliveryInfoForm #cityLabel{
+    width: 6%;
 }
