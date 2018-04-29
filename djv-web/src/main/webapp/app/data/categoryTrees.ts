@@ -3,31 +3,31 @@ import { CategoryTree } from "../model/CategoryTree";
 export const categories: CategoryTree[] = [
     {
         category: {
-            displayName: "Elektronika",
             icon: "home",
-            name: "home",
+            identifier: "home",
+            name: "Elektronika",
             },
         children: [
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -35,24 +35,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -60,24 +60,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -85,24 +85,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -110,9 +110,9 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Kompiuteriai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Kompiuteriai",
                 },
                 children: []
             },
@@ -120,31 +120,31 @@ export const categories: CategoryTree[] = [
     },
     {
         category: {
-            displayName: "Elektronika",
             icon: "home",
-            name: "home",
+            identifier: "home",
+            name: "Elektronika",
             },
         children: [
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -152,24 +152,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -177,24 +177,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -202,24 +202,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -227,9 +227,9 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Kompiuteriai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Kompiuteriai",
                 },
                 children: []
             },
@@ -237,31 +237,31 @@ export const categories: CategoryTree[] = [
     },
     {
         category: {
-            displayName: "Elektronika",
             icon: "home",
-            name: "home",
-            },
+            identifier: "home",
+            name: "Elektronika",
+        },
         children: [
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -269,24 +269,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -294,24 +294,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -319,24 +319,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -344,9 +344,9 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Kompiuteriai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Kompiuteriai",
                 },
                 children: []
             },
@@ -354,31 +354,31 @@ export const categories: CategoryTree[] = [
     },
     {
         category: {
-            displayName: "Elektronika",
             icon: "home",
-            name: "home",
-            },
+            identifier: "home",
+            name: "Elektronika",
+        },
         children: [
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -386,24 +386,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -411,24 +411,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -436,24 +436,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -461,9 +461,9 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Kompiuteriai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Kompiuteriai",
                 },
                 children: []
             },
@@ -471,31 +471,31 @@ export const categories: CategoryTree[] = [
     },
     {
         category: {
-            displayName: "Elektronika",
             icon: "home",
-            name: "home",
+            identifier: "home",
+            name: "Elektronika",
             },
         children: [
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -503,24 +503,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -528,24 +528,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -553,24 +553,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -578,9 +578,9 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Kompiuteriai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Kompiuteriai",
                 },
                 children: []
             },
@@ -588,31 +588,31 @@ export const categories: CategoryTree[] = [
     },
     {
         category: {
-            displayName: "Elektronika",
             icon: "home",
-            name: "home",
-            },
+            identifier: "home",
+            name: "Elektronika",
+        },
         children: [
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -620,24 +620,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -645,24 +645,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -670,24 +670,24 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Telefonai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Telefonai",
                 },
                 children: [
                     {
                         category: {
-                            displayName: "Liečiamųjų ekranų",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Liečiamųjų ekranų",
                         },
                         children: [],
                     },
                     {
                         category: {
-                            displayName: "Knopkiniai",
                             icon: "home",
-                            name: "home",
+                            identifier: "home",
+                            name: "Knopkiniai",
                         },
                         children: [],
                     }
@@ -695,33 +695,33 @@ export const categories: CategoryTree[] = [
             },
             {
                 category: {
-                displayName: "Kompiuteriai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Kompiuteriai",
                 },
                 children: []
             },
             {
                 category: {
-                displayName: "Kompiuteriai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Kompiuteriai",
                 },
                 children: []
             },
             {
                 category: {
-                displayName: "Kompiuteriai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Kompiuteriai",
                 },
                 children: []
             },
             {
                 category: {
-                displayName: "Kompiuteriai",
-                icon: "home",
-                name: "home",
+                    icon: "home",
+                    identifier: "home",
+                    name: "Kompiuteriai",
                 },
                 children: []
             },
@@ -729,9 +729,9 @@ export const categories: CategoryTree[] = [
     },
     {
         category: {
-        displayName: "Kompiuteriai",
-        icon: "home",
-        name: "home",
+            icon: "home",
+            identifier: "home",
+            name: "Kompiuteriai",
         },
         children: []
     },

@@ -19,14 +19,14 @@ public class Category {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "identifier")
+    private String identifier;
 
     @Column(name = "iconName")
     private String iconName;
 
-    @Column(name = "displayName")
-    private String displayName;
+    @Column(name = "name")
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "parentCategory")

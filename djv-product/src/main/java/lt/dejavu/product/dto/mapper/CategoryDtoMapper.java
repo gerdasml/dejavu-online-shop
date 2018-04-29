@@ -20,7 +20,7 @@ public class CategoryDtoMapper {
         view.setId(category.getId());
         view.setName(category.getName());
         view.setIcon(category.getIconName());
-        view.setDisplayName(category.getDisplayName());
+        view.setIdentifier(category.getIdentifier());
         if (category.getParentCategory() != null) {
             view.setParentCategoryId(category.getParentCategory().getId());
         }

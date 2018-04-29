@@ -25,13 +25,13 @@ export class MenuItem extends React.Component<MenuItemProps, never> {
 
     render () {
         return (
-            <Menu.Item className="menu-item" name={this.props.categoryTree.category.name} onMouseEnter={() => {
+            <Menu.Item className="menu-item" name={this.props.categoryTree.category.identifier} onMouseEnter={() => {
                 this.props.onHover(this.props.categoryTree, this.getPosition());
             }}
                 onMouseLeave={() => this.props.onHover(undefined)}>
                 <div>
                     <Icon name={this.props.categoryTree.category.icon as SemanticICONS}/>
-                    {this.props.categoryTree.category.displayName}
+                    {this.props.categoryTree.category.name}
                 </div>
             </Menu.Item>
         );
