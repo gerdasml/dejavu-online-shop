@@ -23,3 +23,7 @@
 .trashIcon{
     float: right;
 }
+
+#confirmButton{
+    margin-top: 2%;
+}
