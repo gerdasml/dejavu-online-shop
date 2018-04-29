@@ -16,6 +16,7 @@ spring:
 rest:
   basePath: /api
   auth: ${rest.basePath}/auth
+  cart: ${rest.basePath}/cart
   category: ${rest.basePath}/category
   health: ${rest.basePath}/health
   image: ${rest.basePath}/image
