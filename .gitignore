@@ -3,7 +3,7 @@
 node_modules/
 target/
 !.mvn/wrapper/maven-wrapper.jar
-**/package-lock.json
+#**/package-lock.json
 
 ### STS ###
 .apt_generated
