@@ -3,11 +3,11 @@ import * as React from "react";
 import { Grid, GridColumn, Header, Label, List} from "semantic-ui-react";
 
 import {RouteComponentProps} from "react-router-dom";
-import { Carousel } from "../dumb/Product/Carousel";
-import { PropertiesTable } from "../smart/Product/PropertiesTable";
+import { Carousel } from "../../dumb/Product/Carousel";
+import { PropertiesTable } from "../../smart/Product/PropertiesTable";
 import { PriceArea } from "./PriceArea";
 
-import "../../../style/product.css";
+import "../../../../style/product.css";
 
 interface ProductRouteProps { id: number; }
 const product = {

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Card, Header } from "semantic-ui-react";
 
-import {products} from "../../data/products";
-import { ProductCard } from "../dumb/Home/ProductCard";
+import {products} from "../../../data/products";
+import { ProductCard } from "../../dumb/Home/ProductCard";
 
 export const Home = () => (
     <div>
