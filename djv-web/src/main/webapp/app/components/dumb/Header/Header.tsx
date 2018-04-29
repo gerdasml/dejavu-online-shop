@@ -1,4 +1,5 @@
 import * as React from "react";
+import {NavLink} from "react-router-dom";
 
 import {Button, Dropdown, Grid, Icon, Image, Search} from "semantic-ui-react";
 import "../../../../style/header.css";
@@ -6,12 +7,28 @@ import {Login} from "../Login/Login";
 
 import * as api from "../../../api";
 import { Payment } from "../../../model/Payment";
-import { storeToken } from "../../../utils/token";
+import { clearToken, getToken, storeToken } from "../../../utils/token";
 
 // import logo from "../../assets/dejavu-logo-transperant.png"; // "Cannot find module"
 const logo = require("../../../assets/dejavu-logo-transperant.png"); // šiuo metu veikiantis variantas
 
-export class Header extends React.Component <{}, {}> {
+interface HeaderState {
+    loggedIn: boolean;
+}
+
+export class Header extends React.Component <{}, HeaderState> {
+    constructor (p: {}) {
+        super(p);
+        this.state = {
+            loggedIn: getToken() !== undefined,
+        };
+    }
+
+    handleLogout = () => {
+        clearToken();
+        this.setState ({loggedIn: false});
+
+    }
 
     render () {
         return (
@@ -83,7 +100,40 @@ export class Header extends React.Component <{}, {}> {
                         <br/>
                         <Icon name="cart" size="big"/>
                     </Button>
-                    <Login/>
+                    {
+                        this.state.loggedIn
+                        ? <Dropdown className="headerButton"
+                        simple
+                        direction="left"
+                        trigger={
+                            <Button className="headerButton"
+                            icon
+                            size="medium"
+                            >
+                                User
+                                <br/>
+                                <Icon name="user circle outline" size="big"/>
+                            </Button>
+                        } icon={null}>
+                            <Dropdown.Menu>
+                                <Dropdown.Item
+                                    icon="address card outline"
+                                    text="View profile"
+                                    as={NavLink}
+                                    to="/profile"
+                                />
+                                <Dropdown.Divider />
+                                <Dropdown.Item
+                                    icon="sign out"
+                                    text="Log&nbsp;out"
+                                    as={NavLink}
+                                    to="/"
+                                    onClick={this.handleLogout.bind(this)}
+                                />
+                            </Dropdown.Menu>
+                        </Dropdown>
+                        : <Login onLogin={() => this.setState ({loggedIn: true}) }/>
+                    }
                 </Grid.Column>
             </Grid>
         );

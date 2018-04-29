@@ -17,8 +17,8 @@ enum EditIcons {
 }
 
 export class ProfileInfo extends React.Component<{}, ProfileState> {
-    constructor () {
-        super({});
+    constructor (p: {}) {
+        super(p);
         this.state = {
             beingEdited: false,
             editIcon: EditIcons.write,
