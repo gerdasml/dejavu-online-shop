@@ -37,6 +37,12 @@ auth:
       - GET ${rest.user}/
       - POST ${rest.user}/*/ban
       - POST ${rest.image}/upload
+      - PUT ${rest.category}/*
+      - DELETE ${rest.category}/*
+      - POST ${rest.category}/create
+      - POST ${rest.product}/
+      - PUT ${rest.product}/*
+      - DELETE ${rest.product}/*
 
 flyway:
   placeholders:
