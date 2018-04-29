@@ -1,12 +1,12 @@
 import * as React from "react";
+import { Route, Switch } from "react-router";
 
-import { Footer } from "./dumb/Footer/Footer";
-import { Header } from "./dumb/Header/Header";
-import { Main } from "./Main";
+import { AdminMain } from "./AdminMain";
+import { RegularMain } from "./RegularMain";
 
-export const Layout = () =>
-    <div>
-        <Header />
-        <Main />
-        <Footer/>
-    </div>;
+export const Layout = () => (
+    <Switch>
+        <Route path="/admin" component={AdminMain} />
+        <Route path="/" component={RegularMain} />
+    </Switch>
+);

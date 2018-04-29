@@ -11,15 +11,15 @@ public enum ImageFormat {
         this.extension = extension;
     }
 
-    public String getExtension() {
-        return extension;
-    }
-
     public static ImageFormat resolve(String s) {
         try {
             return ImageFormat.valueOf(s.toUpperCase());
         } catch (IllegalArgumentException e) {
             return UNKNOWN;
         }
+    }
+
+    public String getExtension() {
+        return extension;
     }
 }

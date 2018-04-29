@@ -1,7 +1,7 @@
 import * as React from "react";
 
-export interface IMyProps { prop1: string; }
-export interface IMyState { prop1: number; }
+export interface MyProps { prop1: string; }
+export interface MyState { prop1: number; }
 
 // Uncomment this for the other example
 /*export class StatefulComponentPropsNoState extends React.Component<IMyProps, {}> {
@@ -10,7 +10,7 @@ export interface IMyState { prop1: number; }
     }
 }*/
 
-export class StatefulComponentPropsState extends React.Component<IMyProps, IMyState> {
+export class StatefulComponentPropsState extends React.Component<MyProps, MyState> {
     render () {
         return (
             <p>

@@ -1,0 +1,52 @@
+import * as React from "react";
+import { Button, Input } from "semantic-ui-react";
+
+import "../../../../style/cart.css";
+
+export interface AmountProps {amount: number;}
+export interface AmountState { clicks: number; }
+
+export class Amount extends React.Component<AmountProps, AmountState> {
+    constructor (props: AmountProps) {
+        super(props);
+        this.state = {
+          clicks: props.amount
+        };
+      }
+
+    render () {
+        return(
+            <Input type="text" action className="mainInput">
+                <Button
+                    id="amountButtonMinus"
+                    icon="minus"
+                    disabled={this.state.clicks===0}
+                    onClick={this.decrementItem}>
+                </Button>
+                <input
+                    id="amountInput"
+                    type="text"
+                    value={ this.state.clicks}
+                    onChange={e => this.checkInput(e.target.value)}>
+                </input>
+                <Button
+                    id="amountButtonPlus"
+                    icon="plus"
+                    onClick={this.incrementItem}>
+                </Button>
+            </Input>
+        );
+    }
+    incrementItem = () => {
+        this.setState({ clicks: this.state.clicks + 1 });
+    }
+    decrementItem = () => {
+        this.setState({ clicks: this.state.clicks - 1 });
+    }
+    checkInput = (value: string) => {
+        const numValue = Number(value);
+        if(!isNaN(numValue)) {
+            this.setState({clicks:numValue});
+        }
+    }
+}

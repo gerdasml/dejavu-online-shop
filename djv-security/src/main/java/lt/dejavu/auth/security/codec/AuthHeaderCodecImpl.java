@@ -1,12 +1,13 @@
 package lt.dejavu.auth.security.codec;
 
 import lt.dejavu.auth.exception.AccessDeniedException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AuthHeaderCodecImpl implements AuthHeaderCodec {
-    private final static Logger log = Logger.getLogger(AuthHeaderCodecImpl.class);
+    private final static Logger log = LogManager.getLogger(AuthHeaderCodecImpl.class);
     private final static String HEADER_PREFIX = "Bearer ";
 
     @Override

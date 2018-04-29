@@ -1,0 +1,25 @@
+/* .mainInput input{
+    max-width: 100%;
+} */
+#amountButtonMinus, #amountInput{
+    border-top-right-radius: 0%;
+    border-bottom-right-radius: 0%;
+}
+
+#amountButtonPlus, #amountInput{
+    border-top-left-radius: 0%;
+    border-bottom-left-radius: 0%;
+    text-align: center;
+}
+
+#amountInput{
+    padding: 0%;
+}
+
+#stepGroup{
+    margin-top: 2%;
+}
+
+.trashIcon{
+    float: right;
+}

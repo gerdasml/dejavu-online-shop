@@ -1,52 +1,132 @@
-import { IProduct } from "../model/Product";
+import { Product } from "../model/Product";
 
-export const products: IProduct[] = [
+export const products: Product[] = [
     {
-        name: "Teleponas",
         description: "Didelis teleponas",
-        imageUrl: "http://via.placeholder.com/200x250",
-        price: 6969.69
+        imageUrl: "http://159.89.106.85/image/3",
+        name: "Teleponas",
+        price: 6969.69,
+        properties: [
+            {
+                name: "lopass",
+                value: "baltas"
+            },
+            {
+                name: "salikas",
+                value: "pirstines"
+            }
+        ]
     },
     {
-        name: "Keptuve",
         description: "Galima kept viska su situ daiktu",
-        imageUrl: "http://via.placeholder.com/200x250",
-        price: 419.99
+        imageUrl: "http://159.89.106.85/image/3",
+        name: "Keptuve",
+        price: 419.99,
+        properties: [
+            {
+                name: "lopass",
+                value: "juodas"
+            },
+            {
+                name: "salikas",
+                value: "kepure"
+            }
+        ]
     },
     {
-        name: "Siurblis",
         description: "It really sucks :)",
-        imageUrl: "http://via.placeholder.com/200x250",
-        price: 1234
+        imageUrl: "http://159.89.106.85/image/3",
+        name: "Siurblis",
+        price: 1234,
+        properties: [
+            {
+                name: "margarita",
+                value: "margarita"
+            },
+            {
+                name: "ah kodel",
+                value: "kiekviena ryta"
+            }
+        ]
     },
     {
-        name: "Lovike",
         description: "Galima prigult",
-        imageUrl: "http://via.placeholder.com/200x250",
-        price: 9999
+        imageUrl: "http://159.89.106.85/image/3",
+        name: "Lovike",
+        price: 9999,
+        properties: [
+            {
+                name: "du gaideliai",
+                value: "baltus zirnius kule"
+            },
+            {
+                name: "dvi visteles",
+                value: "i maluna veze"
+            }
+        ]
     },
     {
-        name: "Masiniukas",
         description: "Vroom vroom",
-        imageUrl: "http://via.placeholder.com/200x250",
-        price: 5000000
+        imageUrl: "http://159.89.106.85/image/3",
+        name: "Masiniukas",
+        price: 5000000,
+        properties: [
+            {
+                name: "johny johny",
+                value: "yes papa"
+            },
+            {
+                name: "eating sugar",
+                value: "no papa"
+            }
+        ]
     },
     {
-        name: "Diplomas",
         description: "Padeda gaut darba",
         imageUrl: "http://via.placeholder.com/200x250",
-        price: 5.19
+        name: "Diplomas",
+        price: 5.19,
+        properties: [
+            {
+                name: "lopass",
+                value: "........"
+            },
+            {
+                name: "salikas",
+                value: "......."
+            }
+        ]
     },
     {
-        name: "Knopke",
         description: "Paspaust galima",
         imageUrl: "http://via.placeholder.com/200x250",
-        price: 15.2
+        name: "Knopke",
+        price: 15.2,
+        properties: [
+            {
+                name: "......",
+                value: "baltas"
+            },
+            {
+                name: ".......",
+                value: "pirstines"
+            }
+        ]
     },
     {
-        name: "Bandele su bulviu kose",
         description: "Labai skanu ir sveika",
         imageUrl: "http://via.placeholder.com/200x250",
-        price: 12.3
+        name: "Bandele su bulviu kose",
+        price: 12.3,
+        properties: [
+            {
+                name: "vladislav",
+                value: "baby dont hertz me"
+            },
+            {
+                name: "dont hertz me",
+                value: "no morze"
+            }
+        ]
     }
 ];

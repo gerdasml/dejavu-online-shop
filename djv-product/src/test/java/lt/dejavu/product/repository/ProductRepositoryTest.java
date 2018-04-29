@@ -1,6 +1,5 @@
 package lt.dejavu.product.repository;
 
-import lt.dejavu.product.config.JpaProductConfiguration;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.test.common.JpaDbTestBase;
 import lt.dejavu.test.common.JpaTestConfiguration;
@@ -17,8 +16,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Ignore
-@ContextConfiguration(classes={RepositoryTestConfiguration.class, JpaTestConfiguration.class, JpaProductConfiguration.class})
-public class ProductRepositoryTest extends JpaDbTestBase{
+@ContextConfiguration(classes = {RepositoryTestConfiguration.class, JpaTestConfiguration.class})
+public class ProductRepositoryTest extends JpaDbTestBase {
 
     @Autowired
     private ProductRepository productRepository;
@@ -26,8 +25,8 @@ public class ProductRepositoryTest extends JpaDbTestBase{
     private boolean isConfigured;
 
     @Before
-    public void before() throws IOException{
-        if (!isConfigured){
+    public void before() throws IOException {
+        if (!isConfigured) {
             executeScript("product_setup.sql");
             isConfigured = true;
         }
@@ -35,27 +34,27 @@ public class ProductRepositoryTest extends JpaDbTestBase{
     }
 
     @Test
-    public void testFindProductByID(){
-       Product expected = createSampleProduct();
-       Long id = productRepository.saveProduct(expected);
-       Assert.assertNotNull(id);
+    public void testFindProductByID() {
+        Product expected = createSampleProduct();
+        Long id = productRepository.saveProduct(expected);
+        Assert.assertNotNull(id);
 
-       Product actual = productRepository.getProduct(id);
-       Assert.assertNotNull(id);
-       assertProductEqual(actual, expected);
+        Product actual = productRepository.getProduct(id);
+        Assert.assertNotNull(id);
+        assertProductEqual(actual, expected);
     }
 
     private Product createSampleProduct() {
         Product product = new Product();
         String randomSuffix = getGeneratedString();
-        product.setName("Test Product"  + randomSuffix);
+        product.setName("Test Product" + randomSuffix);
         product.setDescription("Test Description" + randomSuffix);
         product.setCreationDate(LocalDateTime.now());
         product.setPrice(new BigDecimal("9.99"));
         return product;
     }
 
-    private void assertProductEqual(Product actual, Product expected){
+    private void assertProductEqual(Product actual, Product expected) {
         if (actual.equals(expected)) {
             return;
         }

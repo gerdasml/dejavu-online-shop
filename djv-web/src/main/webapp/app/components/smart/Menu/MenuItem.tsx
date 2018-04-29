@@ -1,36 +1,28 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Icon, Menu, SemanticICONS } from "semantic-ui-react";
-import { ICategory } from "../../../model/Category";
-import { ISubMenuPosition } from "./SubMenu";
+import { Category } from "../../../model/Category";
+import { SubMenuPosition } from "./SubMenu";
 
-export interface IMenuItemProps {
-    category: ICategory;
-    onHover: (c: ICategory, p?: ISubMenuPosition) => void;
+export interface MenuItemProps {
+    category: Category;
+    onHover: (c: Category, p?: SubMenuPosition) => void;
 }
 
-interface IMenuItemState { rect: ClientRect; }
-
-export class MenuItem extends React.Component<IMenuItemProps, IMenuItemState> {
-    constructor (props: IMenuItemProps) {
+export class MenuItem extends React.Component<MenuItemProps, never> {
+    constructor (props: MenuItemProps) {
         super(props);
-        this.state = {
-            rect: undefined
-        };
     }
 
     getPosition () {
+        const rect = ReactDOM.findDOMNode(this)
+                            .getBoundingClientRect();
         return {
-            left: this.state.rect.left + this.state.rect.width,
-            top: this.state.rect.top,
+            left: rect.left + window.pageXOffset + rect.width,
+            top: rect.top + window.pageYOffset,
         };
     }
 
-    componentDidMount () {
-        const rect = ReactDOM.findDOMNode(this)
-                            .getBoundingClientRect();
-        this.setState({rect});
-    }
     render () {
         return (
             <Menu.Item className="menu-item" name={this.props.category.name} onMouseEnter={() => {

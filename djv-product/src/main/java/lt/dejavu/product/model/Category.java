@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @EqualsAndHashCode
-@Table(name="category")
+@Table(name = "category")
 public class Category {
 
     @Id
@@ -28,7 +28,7 @@ public class Category {
     @Column(name = "displayName")
     private String displayName;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "parentCategory")
     private Category parentCategory;
 }
