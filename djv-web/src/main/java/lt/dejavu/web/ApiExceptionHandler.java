@@ -1,5 +1,6 @@
 package lt.dejavu.web;
 
+import lt.dejavu.order.exception.OrderNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import lt.dejavu.auth.exception.ApiSecurityException;
@@ -33,6 +34,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ProductNotFoundException.class)
     public final ResponseEntity<ExceptionDetails> handleProductNotFoundException(ProductNotFoundException ex, WebRequest req) {
+        return buildResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public final ResponseEntity<ExceptionDetails> handleOrderNotFoundException(OrderNotFoundException ex, WebRequest req) {
         return buildResponse(ex, HttpStatus.NOT_FOUND);
     }
 
