@@ -4,6 +4,7 @@ import * as api from "../../../api";
 import { storeToken } from "../../../utils/token";
 import {Register} from "./Register";
 
+import "../../../../style/header.css";
 import "../../../../style/login.css";
 
 interface LoginState {
@@ -61,7 +62,9 @@ export class Login extends React.Component <{}, LoginState> {
     }
     render () {
         return (
-            <Modal trigger={<Button icon
+            <Modal trigger={<Button id="loginHeaderButton"
+                                    className="headerButton"
+                                    icon
                                     size="medium"
                                     onClick={this.handleOpen.bind(this)}
             >
