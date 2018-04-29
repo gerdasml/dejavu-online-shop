@@ -4,8 +4,8 @@ import {Grid, Header} from "semantic-ui-react";
 
 import "../../../style/profile.css";
 
-import OrderHistory from "../dumb/Profile/OrderHistory";
-import ProfileEditing from "../dumb/Profile/ProfileEditing";
+import {OrderHistory} from "../dumb/Profile/OrderHistory";
+import {ProfileInfo} from "../dumb/Profile/ProfileInfo";
 
 export class Profile extends React.Component<{},{}> {
     render () {
@@ -13,7 +13,7 @@ export class Profile extends React.Component<{},{}> {
             <Grid>
                 <Grid.Column width={6}>
                     <Header size="large">User profile information</Header>
-                    <ProfileEditing/>
+                    <ProfileInfo/>
                 </Grid.Column>
                 <Grid.Column width={10}>
                 <Header size="large">Order History</Header>

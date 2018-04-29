@@ -4,11 +4,11 @@ import {Button, Form, Icon, Modal} from "semantic-ui-react";
 
 import "../../../../style/profile.css";
 
-interface IChangePasswordState {
+interface ChangePasswordState {
     modalOpen: boolean;
 }
 
-export default class ChangePassword extends React.Component<{},{}> {
+export class ChangePassword extends React.Component<{}, ChangePasswordState> {
     state = { modalOpen: false };
 
     handleOpen = () => this.setState({ ...this.state, modalOpen: true });

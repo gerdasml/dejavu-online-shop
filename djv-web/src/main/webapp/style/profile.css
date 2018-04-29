@@ -20,7 +20,8 @@
     justify-content: center;
 }
 
-fieldset{
+#changeProfile{
+    border: 1px solid lightgray;
     border-radius: 5px;
 }
 
@@ -44,11 +45,11 @@ fieldset{
 
 #changeProfile .readOnlyFields{
     text-align: left;
-    padding-top: 9.6px;
-    padding-bottom: 9.6px;
+    /* padding-top: 9.6px; */
+    /* padding-bottom: 9.6px; */
 }
 
-#profileFormField{
+.profileFormField{
     display: flex;
     justify-content: space-between;
     align-items: center;
