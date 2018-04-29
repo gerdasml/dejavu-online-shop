@@ -5,11 +5,12 @@
 }
 
 #changeProfile input, #changeProfile select, #changeProfile .readOnlyFields{
-    width: 66%;
+    width: 60%;
+    margin-right: 2%;
 }
 
 #changeProfile Button{
-    margin: 1%;
+    margin: 2%;
 }
 
 .profileEditing{
@@ -56,7 +57,7 @@
 }
 
 #profileSave, #profileEdit{
-    margin-bottom: 7px;
+    margin: 2%;
 }
 
 #orderHistoryTable{
