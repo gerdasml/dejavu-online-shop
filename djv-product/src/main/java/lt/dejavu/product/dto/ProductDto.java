@@ -15,6 +15,7 @@ public class ProductDto {
     private String description;
     private BigDecimal price;
     private LocalDateTime creationDate;
-    private CategoryDto category;
     private Long categoryId;
+    // imageUrl
+    // productProperties
 }

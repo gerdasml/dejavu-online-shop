@@ -1,10 +1,14 @@
 import { ProductProperties } from "./ProductProperties";
 
 export interface Product {
+    id?: number;
+    identifier?: string;
     name: string;
-    imageUrl: string;
+    mainImageUrl?: string;
+    additionalImagesUrls?: string[];
     description: string;
     price: number;
-    properties: ProductProperties[];
-    // TODO: update when product functionality is finished in back end
+    properties?: ProductProperties[];
+    creationDate?: string;
+    categoryId?: number;
 }

@@ -10,7 +10,7 @@ interface ProductCardProps { product: Product; }
 export const ProductCard = (props: ProductCardProps) => (
     <Card link>
         <Header attached>{props.product.price}€</Header>
-        <Image src={props.product.imageUrl} />
+        <Image src={props.product.mainImageUrl} />
         <Card.Content>
             <Card.Header>
                 {props.product.name}
