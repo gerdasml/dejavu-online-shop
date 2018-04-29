@@ -1,6 +1,5 @@
 #headerGrid {
     background-color: #b7d2ff;
-    /* height: 10vh; */
     height: 70px;
     text-align: center;
     vertical-align: middle;
@@ -12,7 +11,6 @@
 }
 
 #logo{
-    /* height: 10vh; */
     display: block;
     height: 100%;
     margin: auto;
@@ -39,21 +37,13 @@
 }
 
 #threeHeaderButtons{
-    /* margin-top: auto; */
-    /* margin-bottom: auto; */
     height: 100%;
-    /* margin: 1%; */
     display: flex;
     justify-content: flex-end;
-    /* padding-right: 2%; */
 }
 
-#mailPhoneRow .headerInfo{
-    /* padding-top: 1%; */
-}
 
 #headerGrid .headerButton{
-    /* height: 80%; */
     margin-top: auto;
     margin-bottom: auto;
 }
