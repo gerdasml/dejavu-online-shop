@@ -1,9 +1,9 @@
 import * as React from "react";
 
 import { Button, Grid, Icon, Input, List } from "semantic-ui-react";
-import { Amount } from "../dumb/Cart/Amount";
+import { Amount } from "../../dumb/Cart/Amount";
 
-import "../../../style/product.css";
+import "../../../../style/product.css";
 
 export const PriceArea = () => (
             <List horizontal floated="right">
