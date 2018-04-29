@@ -1,8 +1,8 @@
 import { Address } from "./Address";
 
 export enum UserType {
-    "REGULAR",
-    "ADMIN"
+    REGULAR = "REGULAR",
+    ADMIN = "ADMIN"
 }
 
 export interface User {
