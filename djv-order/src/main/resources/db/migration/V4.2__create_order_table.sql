@@ -1,0 +1,8 @@
+CREATE TABLE purchase_order (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  status VARCHAR(20) NOT NULL,
+  creationDate TIMESTAMP NOT NULL,
+  userId INT NOT NULL,
+
+  FOREIGN KEY (UserId) REFERENCES user(id)
+);

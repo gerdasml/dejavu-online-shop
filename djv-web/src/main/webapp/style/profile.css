@@ -1,0 +1,65 @@
+#changeProfile label{
+    width: 30%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+#changeProfile input, #changeProfile select, #changeProfile .readOnlyFields{
+    width: 60%;
+    margin-right: 2%;
+}
+
+#changeProfile Button{
+    margin: 2%;
+}
+
+.profileEditing{
+    width: 100%;
+    align-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#changeProfile{
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
+
+#changePassword label{
+    width: 30%;
+    text-align: right;
+}
+
+#changePassword input{
+    width: 55%;
+    text-align: left;
+}
+
+#changePassword h2{
+    text-align: center;
+}
+
+#profileEdit{
+    display: flex;
+}
+
+#changeProfile .readOnlyFields{
+    text-align: left;
+    /* padding-top: 9.6px; */
+    /* padding-bottom: 9.6px; */
+}
+
+.profileFormField{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#profileSave, #profileEdit{
+    margin: 2%;
+}
+
+#orderHistoryTable{
+    text-align: center;
+}

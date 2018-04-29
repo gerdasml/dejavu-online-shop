@@ -4,7 +4,8 @@
     text-align: center;
 }
 
-#registerModal{
+#registerModal .redStar{
+    color: red;
 }
 
 #registerModal Button{

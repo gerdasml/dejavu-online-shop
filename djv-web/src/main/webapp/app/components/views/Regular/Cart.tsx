@@ -1,12 +1,12 @@
 import * as React from "react";
 
-import { Purchase } from "../../model/Purchase";
+import { Purchase } from "../../../model/Purchase";
 
-import "../../../style/cart.css";
+import "../../../../style/cart.css";
 
-import * as Step from "../dumb/Cart/Step";
+import * as Step from "../../dumb/Cart/Step";
 
-import { CartStep, CartStepHeader } from "../dumb/Cart/CartStepHeader";
+import { CartStep, CartStepHeader } from "../../dumb/Cart/CartStepHeader";
 
 const purchases: Purchase[] = [{
   amount: 2,

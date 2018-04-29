@@ -36,7 +36,6 @@ public class AuthApi {
             path = "/register",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    // TODO: Discuss what this method should return. Currently it returns nothing on success and throws an exception on failure.
     public void register(@RequestBody RegistrationRequest request) {
         UserDto userDto = registrationRequestMapper.mapToUser(request);
         authService.register(userDto);

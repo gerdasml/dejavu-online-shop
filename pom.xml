@@ -15,6 +15,7 @@
         <module>djv-storage</module>
         <module>djv-payment</module>
         <module>djv-logging</module>
+        <module>djv-order</module>
     </modules>
     <packaging>pom</packaging>
 
