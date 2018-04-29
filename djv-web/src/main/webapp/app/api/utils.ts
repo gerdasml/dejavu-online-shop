@@ -1,11 +1,18 @@
 import { ApiResponse } from "./ApiResponse";
 
+import { ApiError } from ".";
 import {buildAuthHeader} from "../utils/token";
 
 export enum HttpMethod {
     GET,
     POST
 }
+
+const buildUnknownError = (code: number, msg: string): ApiError => ({
+    message: msg + " (" + code.toString + "): Please contact the administrators of the site",
+    timestamp: new Date(),
+    type: "Unknown"
+});
 
 export const buildRequest = <T>(url: string, method: HttpMethod, payload?: T) => {
     const token = buildAuthHeader();
@@ -34,5 +41,8 @@ export const fetchData = <T, K>(url: string, method: HttpMethod, payload?: T): P
                 if(r.headers.get("content-length") === "0") return "";
                 return r.json();
             })
-            .catch(r => r.json());
+            .catch(r => {
+                if(r.headers.get("content-length") === "0") return buildUnknownError(r.status, r.statusText);
+                return r.json();
+            });
 };

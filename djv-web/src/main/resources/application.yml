@@ -8,12 +8,18 @@ logging:
     lt.dejavu.web.logging.RequestLoggingFilter: DEBUG
     lt.dejavu.payment.interceptor.LoggingRequestInterceptor: DEBUG
 
+spring:
+  datasource:
+    testOnBorrow: true
+    validationQuery: SELECT 1
+    
 rest:
   basePath: /api
   auth: ${rest.basePath}/auth
   category: ${rest.basePath}/category
   health: ${rest.basePath}/health
   image: ${rest.basePath}/image
+  order: ${rest.basePath}/order
   payment: ${rest.basePath}/payment
   product: ${rest.basePath}/product
   user: ${rest.basePath}/user

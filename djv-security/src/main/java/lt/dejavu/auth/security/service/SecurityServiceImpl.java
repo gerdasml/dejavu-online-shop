@@ -3,7 +3,7 @@ package lt.dejavu.auth.security.service;
 import lt.dejavu.auth.exception.AccessDeniedException;
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.model.Endpoint;
-import lt.dejavu.auth.model.User;
+import lt.dejavu.auth.dto.UserDto;
 import lt.dejavu.auth.security.codec.AuthHeaderCodec;
 import lt.dejavu.auth.security.codec.SignedTokenCodec;
 import lt.dejavu.auth.security.codec.TokenCodec;
@@ -39,8 +39,8 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public String generateToken(User user) throws ApiSecurityException {
-        Token token = buildToken(user);
+    public String generateToken(UserDto userDto) throws ApiSecurityException {
+        Token token = buildToken(userDto);
 
         String encodedPayload = new String(Base64.getEncoder().encode(tokenCodec.encode(token).getBytes()));
         String signature = signatureService.sign(encodedPayload);
@@ -53,12 +53,13 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public void authorize(String authHeader, Endpoint endpoint) throws ApiSecurityException {
+    public long authorize(String authHeader, Endpoint endpoint) throws ApiSecurityException {
         Token token = extractTokenFromHeader(authHeader);
         boolean isAuthorized = token.getEndpoints().stream().anyMatch(e -> endpointsMatch(endpoint, e));
         if (!isAuthorized) {
             throw new AccessDeniedException("You are not authorized to access this endpoint");
         }
+        return token.getUserId();
     }
 
     private Token extractTokenFromHeader(String authHeader) throws ApiSecurityException {
@@ -79,11 +80,11 @@ public class SecurityServiceImpl implements SecurityService {
         return real.getMethod() == pattern.getMethod() && real.getPath().matches(pattern.getPath());
     }
 
-    private Token buildToken(User user) {
+    private Token buildToken(UserDto userDto) {
         Token token = new Token();
-        token.setUserId(user.getId());
+        token.setUserId(userDto.getId());
         token.setExpiration(Instant.now().plus(Duration.ofMinutes(TOKEN_DURATION_IN_MINUTES)));
-        List<Endpoint> endpoints = accessibilityService.getAccessibleEndpoints(user);
+        List<Endpoint> endpoints = accessibilityService.getAccessibleEndpoints(userDto);
         token.setEndpoints(endpoints);
         return token;
     }

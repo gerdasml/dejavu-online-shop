@@ -42,4 +42,14 @@ public class ProductRepositoryImpl implements ProductRepository {
         em.persist(product);
         return product.getId();
     }
+
+    @Override
+    public void deleteProduct(Product product) {
+        em.remove(product);
+    }
+
+    @Override
+    public void updateProduct(Product product) {
+        em.merge(product);
+    }
 }

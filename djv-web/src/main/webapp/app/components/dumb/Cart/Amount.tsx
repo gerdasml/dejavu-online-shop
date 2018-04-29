@@ -16,13 +16,24 @@ export class Amount extends React.Component<AmountProps, AmountState> {
 
     render () {
         return(
-            <Input type="text" action>
-                <Button id="amountButtonMinus" disabled={this.state.clicks===0}
-                    onClick={this.decrementItem}><span className="amountButton">-</span></Button>
-                <input id="amountInput" type="text" value={ this.state.clicks}
-                    onChange={e => this.checkInput(e.target.value)}></input>
-                <Button id="amountButtonPlus"
-                    onClick={this.incrementItem}><span className="amountButton">+</span></Button>
+            <Input type="text" action className="mainInput">
+                <Button
+                    id="amountButtonMinus"
+                    icon="minus"
+                    disabled={this.state.clicks===0}
+                    onClick={this.decrementItem}>
+                </Button>
+                <input
+                    id="amountInput"
+                    type="text"
+                    value={ this.state.clicks}
+                    onChange={e => this.checkInput(e.target.value)}>
+                </input>
+                <Button
+                    id="amountButtonPlus"
+                    icon="plus"
+                    onClick={this.incrementItem}>
+                </Button>
             </Input>
         );
     }

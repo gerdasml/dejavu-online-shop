@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
@@ -51,4 +52,23 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         return category.getId();
     }
 
+    @Override
+    public void updateCategory(Category category) {
+        em.merge(category);
+    }
+
+    @Override
+    public void deleteCategory(Category category) {
+        em.remove(category);
+    }
+
+    @Override
+    public List<Category> getAllCategories() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Category> query = cb.createQuery(Category.class);
+        Root<Category> root = query.from(Category.class);
+        root.fetch(Category_.parentCategory, JoinType.LEFT);
+        return em.createQuery(query).getResultList();
+
+    }
 }

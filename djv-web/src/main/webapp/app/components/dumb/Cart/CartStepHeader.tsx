@@ -62,17 +62,17 @@ export const CartStepHeader = (props: CartStepHeaderProps) =>
             <StepItem
                 activeStep = {props.active}
                 onStepChange = {props.onStepChange}
-                step = {CartStep.PAYMENT}
-                text = "Payment"
-                icon = "payment"
+                step = {CartStep.CONFIRMATION}
+                text = "Confirmation"
+                icon = "info"
             />
 
             <StepItem
                 activeStep = {props.active}
                 onStepChange = {props.onStepChange}
-                step = {CartStep.CONFIRMATION}
-                text = "Confirmation"
-                icon = "info"
+                step = {CartStep.PAYMENT}
+                text = "Payment"
+                icon = "payment"
             />
 
             <StepItem

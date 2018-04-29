@@ -1,7 +1,8 @@
-// api/user.ts yra user type ir a user. reik situos issikelt
-enum UserType {
-    REGULAR,
-    ADMIN
+import { Address } from "./Address";
+
+export enum UserType {
+    REGULAR = "REGULAR",
+    ADMIN = "ADMIN"
 }
 
 export interface User {
@@ -10,4 +11,6 @@ export interface User {
     email: string;
     type: UserType;
     banned: boolean;
+    address: Address;
+    phone: string;
 }
