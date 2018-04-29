@@ -1,6 +1,8 @@
 package lt.dejavu.cart.service;
 
 import lt.dejavu.cart.dto.CartDto;
+import lt.dejavu.cart.exception.ProductAlreadyInCartException;
+import lt.dejavu.cart.exception.ProductNotInCartException;
 import lt.dejavu.cart.mapper.CartMapper;
 import lt.dejavu.cart.model.db.Cart;
 import lt.dejavu.cart.repository.CartRepository;
@@ -29,7 +31,7 @@ public class CartServiceImpl implements CartService {
     public void addToCart(long userId, long productId, int amount) {
         Cart cart = cartRepository.getCartByUserId(userId);
         if(cartRepository.getOrderItemByProductId(cart, productId) != null) {
-            // TODO: product already in cart
+            throw new ProductAlreadyInCartException("This product is already in your cart");
         }
         // TODO: add product to cart
     }
@@ -39,7 +41,7 @@ public class CartServiceImpl implements CartService {
         Cart cart = cartRepository.getCartByUserId(userId);
         OrderItem item = cartRepository.getOrderItemByProductId(cart, productId);
         if(item == null) {
-            // TODO: product not in cart
+            throw new ProductNotInCartException("This product is not in your cart");
         }
         // TODO: update product amount
     }
