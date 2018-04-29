@@ -1,7 +1,28 @@
 import * as React from "react";
+import { Grid, Header } from "semantic-ui-react";
 
-import {Header} from "semantic-ui-react";
+import { ProductName } from "./ProductName";
+import { ProductPictures } from "./ProductPictures";
+import { ProductPrice } from "./ProductPrice";
+import { ProductPropertiesTable } from "./ProductPropertiesTable";
 
 export const SingleProduct = () => (
-    <Header size="large">Single product</Header>
+    <Grid columns="two">
+        <Grid.Column>
+            <Grid.Row>
+                <ProductName />
+            </Grid.Row>
+            <Grid.Row>
+                <ProductPictures />
+            </Grid.Row>
+            <Grid.Row>
+                <ProductPropertiesTable/>
+            </Grid.Row>
+        </Grid.Column>
+        <Grid.Column>
+            <Grid.Row>
+                <ProductPrice />
+            </Grid.Row>
+        </Grid.Column>
+    </Grid>
 );
