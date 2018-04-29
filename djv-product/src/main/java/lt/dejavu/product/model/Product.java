@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -35,4 +36,26 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "category")
     private Category category;
+
+    @Column(name = "identifier")
+    private String identifier;
+
+    @Column(name = "mainImageUrl")
+    private String mainImageUrl;
+
+    @ElementCollection(fetch = FetchType.EAGER )
+    @CollectionTable(
+            name= "additional_image_url",
+            joinColumns = @JoinColumn(name = "productID")
+    )
+    @Column(name = "imageUrl")
+    private Set<String> additionalImagesUrls;
+
+    @Embedded
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name="product_property",
+            joinColumns=@JoinColumn(name="productId")
+    )
+    private Set<ProductProperty> properties;
 }
