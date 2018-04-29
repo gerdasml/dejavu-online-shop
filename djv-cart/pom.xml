@@ -10,5 +10,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>djv-cart</artifactId>
-    
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>djv-order</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>djv-product</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>
