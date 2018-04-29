@@ -1,6 +1,6 @@
 #headerGrid {
     background-color: #b7d2ff;
-    height: 10vh;
+    height: 70px;
     text-align: center;
     vertical-align: middle;
     margin: 0;
@@ -11,12 +11,14 @@
 }
 
 #logo{
+    display: block;
     height: 100%;
     margin: auto;
+    width: 70%;
 }
 
 #mailPhoneRow{
-    height: 50%;
+    height: 40%;
     display: flex;
     justify-content: space-between;
 }
@@ -31,18 +33,35 @@
 
 #searchBar{
     width: 100%;
-    height: 4vh;
+    height: auto;
 }
 
 #threeHeaderButtons{
-    margin-top: 1vh;
+    height: 100%;
     display: flex;
     justify-content: flex-end;
-    padding-right: 2%;
 }
 
-#mailPhoneRow .headerInfo{
-    padding-top: 1%;
+
+#headerGrid .headerButton{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#loginHeaderButton{
+    margin-right: 5px;
+}
+
+#infoSearchColumn{
+    vertical-align: middle;
+}
+
+#mailPhoneRow, #searchRow{
+    vertical-align: middle;
+} 
+
+#logoHeaderColumn{
+    height: 100%;
 }
 
 
