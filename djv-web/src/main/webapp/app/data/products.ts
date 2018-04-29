@@ -3,7 +3,7 @@ import { Product } from "../model/Product";
 export const products: Product[] = [
     {
         description: "Didelis teleponas",
-        imageUrl: "http://159.89.106.85/image/3",
+        mainImageUrl: "http://159.89.106.85/image/3",
         name: "Teleponas",
         price: 6969.69,
         properties: [
@@ -19,7 +19,7 @@ export const products: Product[] = [
     },
     {
         description: "Galima kept viska su situ daiktu",
-        imageUrl: "http://159.89.106.85/image/3",
+        mainImageUrl: "http://159.89.106.85/image/3",
         name: "Keptuve",
         price: 419.99,
         properties: [
@@ -35,7 +35,7 @@ export const products: Product[] = [
     },
     {
         description: "It really sucks :)",
-        imageUrl: "http://159.89.106.85/image/3",
+        mainImageUrl: "http://159.89.106.85/image/3",
         name: "Siurblis",
         price: 1234,
         properties: [
@@ -51,7 +51,7 @@ export const products: Product[] = [
     },
     {
         description: "Galima prigult",
-        imageUrl: "http://159.89.106.85/image/3",
+        mainImageUrl: "http://159.89.106.85/image/3",
         name: "Lovike",
         price: 9999,
         properties: [
@@ -67,7 +67,7 @@ export const products: Product[] = [
     },
     {
         description: "Vroom vroom",
-        imageUrl: "http://159.89.106.85/image/3",
+        mainImageUrl: "http://159.89.106.85/image/3",
         name: "Masiniukas",
         price: 5000000,
         properties: [
@@ -83,7 +83,7 @@ export const products: Product[] = [
     },
     {
         description: "Padeda gaut darba",
-        imageUrl: "http://via.placeholder.com/200x250",
+        mainImageUrl: "http://via.placeholder.com/200x250",
         name: "Diplomas",
         price: 5.19,
         properties: [
@@ -99,7 +99,7 @@ export const products: Product[] = [
     },
     {
         description: "Paspaust galima",
-        imageUrl: "http://via.placeholder.com/200x250",
+        mainImageUrl: "http://via.placeholder.com/200x250",
         name: "Knopke",
         price: 15.2,
         properties: [
@@ -115,7 +115,7 @@ export const products: Product[] = [
     },
     {
         description: "Labai skanu ir sveika",
-        imageUrl: "http://via.placeholder.com/200x250",
+        mainImageUrl: "http://via.placeholder.com/200x250",
         name: "Bandele su bulviu kose",
         price: 12.3,
         properties: [

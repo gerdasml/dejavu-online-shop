@@ -3,10 +3,11 @@ import { ProductProperties } from "./ProductProperties";
 export interface Product {
     id?: number;
     name: string;
-    imageUrl?: string;
+    mainImageUrl?: string;
+    additionalImagesUrls?: string[];
     description: string;
     price: number;
     properties?: ProductProperties[];
     creationDate?: string;
-    categoryID?: number;
+    categoryId?: number;
 }

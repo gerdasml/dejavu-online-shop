@@ -10,7 +10,7 @@ import { CartStep, CartStepHeader } from "../dumb/Cart/CartStepHeader";
 
 const purchases: Purchase[] = [{
   amount: 2,
-  item: {name: "something", imageUrl:"", description:"", price: 5, properties: []},
+  item: {name: "something", mainImageUrl:"", description:"", price: 5, properties: []},
   total: 100,
   unitPrice: 50
 }];
