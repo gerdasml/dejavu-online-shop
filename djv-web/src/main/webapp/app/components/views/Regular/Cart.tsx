@@ -16,7 +16,7 @@ const purchases: Purchase[] = [{
 },
 {
     amount: 3,
-    item: {name: "something2", imageUrl:"", description:"", price: 5, properties: []},
+    item: {name: "something2", mainImageUrl:"", description:"", price: 5, properties: []},
     total: 90,
     unitPrice: 45
   }];
