@@ -14,8 +14,8 @@ public class ProductDtoMapper {
     private final ProductPropertiesDtoMapper propertiesMapper;
 
     @Autowired
-    public ProductDtoMapper(ProductPropertiesDtoMapper propertiesMapper) {
-        this.propertiesMapper = propertiesMapper;
+    public ProductDtoMapper(ProductPropertiesDtoMapper productPropertiesDtoMapper) {
+        this.propertiesMapper = productPropertiesDtoMapper;
     }
 
     public ProductDto map(Product product) {

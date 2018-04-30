@@ -11,17 +11,17 @@ import java.util.stream.Collectors;
 @Component
 public class ProductPropertiesDtoMapper {
 
-    public ProductPropertyDto map(ProductProperty product) {
-        if (product == null) {
+    public ProductPropertyDto map(ProductProperty productProperty) {
+        if (productProperty == null) {
             return null;
         }
         ProductPropertyDto dto = new ProductPropertyDto();
-        dto.setName(product.getName());
-        dto.setValue(product.getValue());
+        dto.setName(productProperty.getName());
+        dto.setValue(productProperty.getValue());
         return dto;
     }
 
-    public List<ProductPropertyDto> map(Collection<ProductProperty> products) {
-        return products.stream().map(this::map).collect(Collectors.toList());
+    public List<ProductPropertyDto> map(Collection<ProductProperty> productProperties) {
+        return productProperties.stream().map(this::map).collect(Collectors.toList());
     }
 }

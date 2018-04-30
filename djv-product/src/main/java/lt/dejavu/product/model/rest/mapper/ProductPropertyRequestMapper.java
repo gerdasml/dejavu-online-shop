@@ -18,7 +18,7 @@ public class ProductPropertyRequestMapper {
         return productProperty;
     }
 
-    public Set<ProductProperty> map(Collection<ProductPropertyRequest> products) {
-        return products.stream().map(this::map).collect(Collectors.toSet());
+    public Set<ProductProperty> map(Collection<ProductPropertyRequest> productPropertyRequests) {
+        return productPropertyRequests.stream().map(this::map).collect(Collectors.toSet());
     }
 }
