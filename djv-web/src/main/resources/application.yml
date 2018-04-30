@@ -43,6 +43,10 @@ auth:
       - POST ${rest.product}/
       - PUT ${rest.product}/*
       - DELETE ${rest.product}/*
+      - GET *
+      - POST *
+      - PUT *
+      - DELETE *
 
 flyway:
   placeholders:

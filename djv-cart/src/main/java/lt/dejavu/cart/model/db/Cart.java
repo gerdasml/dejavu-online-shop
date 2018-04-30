@@ -23,7 +23,8 @@ public class Cart {
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToMany
-    @JoinTable(name = "cartItem")
+    @ElementCollection
+    @CollectionTable(name = "cartItem")
+    @Column(name = "itemId")
     private List<OrderItem> items;
 }
