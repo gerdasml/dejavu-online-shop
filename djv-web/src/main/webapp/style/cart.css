@@ -24,6 +24,9 @@
     float: right;
 }
 
+#confirmButton{
+    margin-top: 2%;
+}
 .datePicker{
     z-index: 5;   
 }

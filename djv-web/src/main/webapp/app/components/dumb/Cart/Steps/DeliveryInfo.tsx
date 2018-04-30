@@ -2,7 +2,6 @@ import * as React from "react";
 
 import { Button, Form } from "semantic-ui-react";
 
-
 import "../../../../../style/cart.css";
 
 interface DeliveryInfoProps {

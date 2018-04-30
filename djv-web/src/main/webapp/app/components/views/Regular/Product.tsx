@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Grid, GridColumn, Header, Label, List} from "semantic-ui-react";
+import { Grid, Header, Label, List} from "semantic-ui-react";
 
 import {RouteComponentProps} from "react-router-dom";
 import { Carousel } from "../../dumb/Product/Carousel";
