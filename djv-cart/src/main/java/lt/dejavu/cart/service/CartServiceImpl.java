@@ -42,12 +42,12 @@ public class CartServiceImpl implements CartService {
     @Override
     public void addToCart(long userId, long productId, int amount) {
         Cart cart = getCartOrCreate(userId);
-        if(cartRepository.getOrderItemByProductId(cart, productId) != null) {
+        if(cartRepository.getOrderItemByProductId(cart, productId).isPresent()) {
             throw new ProductAlreadyInCartException("This product is already in your cart");
         }
         Product product = productRepository.getProduct(productId);
         if(product == null) {
-            throw new ProductNotFoundException("The product with the specified ID was nto found");
+            throw new ProductNotFoundException("The product with the specified ID was not found");
         }
         cartRepository.addOrderItem(cart, product, amount);
     }
@@ -72,7 +72,6 @@ public class CartServiceImpl implements CartService {
 
     private Cart getCartOrCreate(long userId) {
         Optional<Cart> cartOpt = cartRepository.getCartByUserId(userId);
-        Cart cart;
         if(!cartOpt.isPresent()) {
             User user = userRepository.getUserById(userId);
             if(user == null) throw new UserNotFoundException("The user with the specified id was not found");
