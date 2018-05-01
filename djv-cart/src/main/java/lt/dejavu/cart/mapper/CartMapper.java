@@ -3,9 +3,13 @@ package lt.dejavu.cart.mapper;
 import lt.dejavu.auth.mapper.UserMapper;
 import lt.dejavu.cart.dto.CartDto;
 import lt.dejavu.cart.model.db.Cart;
+import lt.dejavu.order.dto.OrderItemDto;
 import lt.dejavu.order.mapper.OrderItemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
@@ -22,13 +26,13 @@ public class CartMapper {
 
     public CartDto map(Cart cart) {
         CartDto dto = new CartDto();
+        List<OrderItemDto> items = cart.getItems()
+                                       .stream()
+                                       .map(orderItemMapper::map)
+                                       .collect(toList());
         dto.setUser(userMapper.map(cart.getUser()));
-        dto.setItems(
-            cart.getItems()
-                .stream()
-                .map(orderItemMapper::map)
-                .collect(toList())
-        );
+        dto.setItems(items);
+        dto.setTotal(items.stream().map(OrderItemDto::getTotal).reduce(BigDecimal.ZERO, BigDecimal::add));
 
         return dto;
     }
