@@ -46,7 +46,7 @@ public class Product {
     @ElementCollection(fetch = FetchType.EAGER )
     @CollectionTable(
             name= "additional_image_url",
-            joinColumns = @JoinColumn(name = "productID")
+            joinColumns = @JoinColumn(name = "productId")
     )
     @Column(name = "imageUrl")
     private Set<String> additionalImagesUrls;
