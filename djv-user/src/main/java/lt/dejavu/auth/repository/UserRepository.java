@@ -13,7 +13,7 @@ public interface UserRepository {
 
     void setBanned(long id, boolean isBanned);
 
-    void updateUserInfo(long id, User info);
+    void updateUserInfo(long userId, User newUser);
 
     Long addUser(User user);
 }

@@ -40,13 +40,8 @@ public class UserServiceImpl implements UserService {
         userRepository.setBanned(userId, isBanned);
     }
 
-    /*@Override
-    public void updateUser(User newInfo) {
-        // TODO: investigate this question
-        // How to know which fields to update and which to leave as-is?
-        // One possibility: send in the previous info as well as the new one
-        // This way we could construct a new User object by combining the two versions
-        User user = userRepository.getUserByToken(token);
-        userRepository.updateUserInfo(user.getId(), newInfo);
-    }*/
+    @Override
+    public void updateUser(long userId, UserDto newInfo) {
+        userRepository.updateUserInfo(userId, userMapper.map(newInfo));
+    }
 }
