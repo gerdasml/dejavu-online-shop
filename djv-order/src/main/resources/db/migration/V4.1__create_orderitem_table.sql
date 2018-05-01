@@ -4,5 +4,5 @@ CREATE TABLE orderItem (
   productId BIGINT NOT NULL,
   orderId BIGINT NOT NULL,
 
-  FOREIGN KEY (ProductId) REFERENCES product(id)
+  FOREIGN KEY (productId) REFERENCES product(id)
 );
