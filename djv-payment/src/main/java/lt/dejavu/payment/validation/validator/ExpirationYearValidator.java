@@ -12,11 +12,11 @@ public class ExpirationYearValidator extends AbstractValidator<Payment> {
     @Override
     public List<ValidationError> validate(Payment obj) {
         List<ValidationError> errors = new ArrayList<>();
-        if (obj.getExpiration() == null) {
+        if (obj.getCard() == null || obj.getCard().getExpiration() == null) {
             errors.add(error("No expiration year supplied"));
             return errors;
         }
-        int expYear = obj.getExpiration().getYear();
+        int expYear = obj.getCard().getExpiration().getYear();
         if (expYear < MINIMUM_YEAR) {
             errors.add(error("Expiration year is too far in the past"));
         }

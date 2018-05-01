@@ -12,8 +12,8 @@ public class PaymentMapper {
         PaymentDTO paymentDTO = new PaymentDTO();
         paymentDTO.setAmount(payment.getAmount());
         paymentDTO.setCvv(payment.getCard().getCvv());
-        paymentDTO.setExpirationMonth(payment.getExpiration().getMonth());
-        paymentDTO.setExpirationYear(payment.getExpiration().getYear());
+        paymentDTO.setExpirationMonth(payment.getCard().getExpiration().getMonth());
+        paymentDTO.setExpirationYear(payment.getCard().getExpiration().getYear());
         paymentDTO.setHolder(payment.getCard().getHolder());
         paymentDTO.setNumber(payment.getCard().getNumber());
 
@@ -21,19 +21,19 @@ public class PaymentMapper {
     }
 
     public Payment map(PaymentDTO paymentDTO) {
-        Card card = new Card();
-        card.setCvv(paymentDTO.getCvv());
-        card.setHolder(paymentDTO.getHolder());
-        card.setNumber(paymentDTO.getNumber());
-
         Expiration expiration = new Expiration();
         expiration.setMonth(paymentDTO.getExpirationMonth());
         expiration.setYear(paymentDTO.getExpirationYear());
 
+        Card card = new Card();
+        card.setCvv(paymentDTO.getCvv());
+        card.setHolder(paymentDTO.getHolder());
+        card.setNumber(paymentDTO.getNumber());
+        card.setExpiration(expiration);
+
         Payment payment = new Payment();
         payment.setAmount(paymentDTO.getAmount());
         payment.setCard(card);
-        payment.setExpiration(expiration);
 
         return payment;
     }

@@ -8,5 +8,4 @@ import lombok.Setter;
 public class Payment {
     private int amount;
     private Card card;
-    private Expiration expiration;
 }
