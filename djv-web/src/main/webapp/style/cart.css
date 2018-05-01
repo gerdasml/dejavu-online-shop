@@ -24,7 +24,7 @@
     float: right;
 }
 
-#confirmButton{
+#confirmButton, #continueButton{
     margin-top: 2%;
 }
 .datePicker{
@@ -55,4 +55,9 @@
 
 #deliveryInfoForm #cityLabel{
     width: 6%;
+}
+
+#approvalText{
+    text-align: center;
+    margin-top: 5%;
 }

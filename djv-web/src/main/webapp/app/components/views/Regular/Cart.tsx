@@ -67,6 +67,10 @@ export class Cart extends React.Component<{}, CartState> {
                 ? <Step.Payment onStepComplete={this.nextStep} />
                 : ""
                 }
+                {this.state.currentStep === CartStep.APPROVAL
+                ? <Step.Approval onStepComplete={this.nextStep} />
+                : ""
+                }
             </div>
         );
     }
