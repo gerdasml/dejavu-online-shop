@@ -26,7 +26,7 @@ public class CartRepositoryImpl implements CartRepository {
     private EntityManager em;
 
     @Override
-    public Cart getCartByUserId(long userId) {
+    public Optional<Cart> getCartByUserId(long userId) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Cart> query = cb.createQuery(Cart.class);
         Root<Cart> root = query.from(Cart.class);
@@ -36,8 +36,7 @@ public class CartRepositoryImpl implements CartRepository {
 
         return q.getResultList()
                 .stream()
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
     @Override
@@ -84,7 +83,7 @@ public class CartRepositoryImpl implements CartRepository {
 
     @Override
     public void deleteCart(long userId) {
-        Cart cart = getCartByUserId(userId);
-        em.remove(cart);
+        Optional<Cart> cartOpt = getCartByUserId(userId);
+        cartOpt.ifPresent(cart -> em.remove(cart));
     }
 }

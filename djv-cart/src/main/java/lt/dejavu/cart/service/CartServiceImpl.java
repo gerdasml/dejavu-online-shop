@@ -1,5 +1,8 @@
 package lt.dejavu.cart.service;
 
+import lt.dejavu.auth.exception.UserNotFoundException;
+import lt.dejavu.auth.model.db.User;
+import lt.dejavu.auth.repository.UserRepository;
 import lt.dejavu.cart.dto.CartDto;
 import lt.dejavu.cart.exception.ProductAlreadyInCartException;
 import lt.dejavu.cart.exception.ProductNotInCartException;
@@ -19,24 +22,26 @@ import java.util.Optional;
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
     private final CartMapper cartMapper;
 
     @Autowired
-    public CartServiceImpl(CartRepository cartRepository, ProductRepository productRepository, CartMapper cartMapper) {
+    public CartServiceImpl(CartRepository cartRepository, ProductRepository productRepository, UserRepository userRepository, CartMapper cartMapper) {
         this.cartRepository = cartRepository;
         this.productRepository = productRepository;
+        this.userRepository = userRepository;
         this.cartMapper = cartMapper;
     }
 
     @Override
     public CartDto getCart(long userId) {
-        Cart cart = cartRepository.getCartByUserId(userId);
+        Cart cart = getCartOrCreate(userId);
         return cartMapper.map(cart);
     }
 
     @Override
     public void addToCart(long userId, long productId, int amount) {
-        Cart cart = cartRepository.getCartByUserId(userId);
+        Cart cart = getCartOrCreate(userId);
         if(cartRepository.getOrderItemByProductId(cart, productId) != null) {
             throw new ProductAlreadyInCartException("This product is already in your cart");
         }
@@ -49,7 +54,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void updateAmount(long userId, long productId, int amount) {
-        Cart cart = cartRepository.getCartByUserId(userId);
+        Cart cart = getCartOrCreate(userId);
         Optional<OrderItem> itemOpt = cartRepository.getOrderItemByProductId(cart, productId);
         if(!itemOpt.isPresent()) {
             throw new ProductNotInCartException("This product is not in your cart");
@@ -61,7 +66,18 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void removeProduct(long userId, long productId) {
-        Cart cart = cartRepository.getCartByUserId(userId);
+        Cart cart = getCartOrCreate(userId);
         cartRepository.removeItem(cart, productId);
+    }
+
+    private Cart getCartOrCreate(long userId) {
+        Optional<Cart> cartOpt = cartRepository.getCartByUserId(userId);
+        Cart cart;
+        if(!cartOpt.isPresent()) {
+            User user = userRepository.getUserById(userId);
+            if(user == null) throw new UserNotFoundException("The user with the specified id was not found");
+            return cartRepository.createEmptyCart(user);
+        }
+        return cartOpt.get();
     }
 }

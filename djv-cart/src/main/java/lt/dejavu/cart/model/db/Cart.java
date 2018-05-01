@@ -23,8 +23,11 @@ public class Cart {
     @JoinColumn(name = "userId")
     private User user;
 
-    @ElementCollection
-    @CollectionTable(name = "cartItem")
-    @Column(name = "itemId")
+    @OneToMany
+    @JoinTable(
+        name = "cartItem",
+        joinColumns = @JoinColumn(name = "cartId"),
+        inverseJoinColumns = @JoinColumn(name = "itemId")
+    )
     private List<OrderItem> items;
 }

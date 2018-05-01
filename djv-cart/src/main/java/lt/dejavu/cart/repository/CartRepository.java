@@ -8,7 +8,7 @@ import lt.dejavu.product.model.Product;
 import java.util.Optional;
 
 public interface CartRepository {
-    Cart getCartByUserId(long userId);
+    Optional<Cart> getCartByUserId(long userId);
 
     Optional<OrderItem> getOrderItemByProductId(Cart cart, long productId);
 
