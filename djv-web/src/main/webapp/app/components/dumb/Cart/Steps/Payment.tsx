@@ -3,7 +3,7 @@ import * as React from "react";
 import Card from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
 
-import { Button, Dimmer, Form, List, Loader, Message } from "semantic-ui-react";
+import { Button, Form, List, Message } from "semantic-ui-react";
 
 import { clearNumber, formatCardNumber, formatExpirationDate } from "../../../../utils/cardInput";
 

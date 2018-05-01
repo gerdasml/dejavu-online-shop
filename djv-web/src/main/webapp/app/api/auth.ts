@@ -1,7 +1,6 @@
 import { Address } from "../model/Address";
 import { ApiResponse } from "./ApiResponse";
 
-import { User } from "../model/User";
 import {fetchData, HttpMethod} from "./utils";
 
 const PATH_PREFIX = "/api/auth";
