@@ -3,6 +3,7 @@ package lt.dejavu.order.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lt.dejavu.auth.dto.UserDto;
+import lt.dejavu.auth.model.db.Address;
 import lt.dejavu.order.model.OrderStatus;
 
 import java.math.BigDecimal;
@@ -17,4 +18,5 @@ public class OrderDto {
     private UserDto userDto;
     private List<OrderItemDto> items;
     private BigDecimal total;
+    private Address shippingAddress;
 }

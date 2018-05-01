@@ -91,19 +91,20 @@ public class CartServiceImpl implements CartService {
     public void checkout(long userId, Card cardInfo, Address shippingAddress) throws PaymentException {
         CartDto cart = getCart(userId);
         Payment payment = buildPayment(cart, cardInfo);
-        OrderDto order = buildOrder(cart);
+        OrderDto order = buildOrder(cart, shippingAddress);
 
         paymentService.pay(payment);
         orderService.createOrder(order);
         cartRepository.deleteCart(userId);
     }
 
-    private OrderDto buildOrder(CartDto cart) {
+    private OrderDto buildOrder(CartDto cart, Address shippingAddress) {
         OrderDto order = new OrderDto();
         order.setCreatedDate(Timestamp.from(Instant.now()));
         order.setUserDto(cart.getUser());
         order.setItems(cart.getItems());
         order.setStatus(OrderStatus.CREATED);
+        order.setShippingAddress(shippingAddress);
 
         return order;
     }

@@ -28,6 +28,7 @@ public class OrderMapper {
         dto.setCreatedDate(order.getCreationDate());
         dto.setStatus(order.getStatus());
         dto.setUserDto(userMapper.map(order.getUser()));
+        dto.setShippingAddress(order.getShippingAddress());
         List<OrderItemDto> items = itemMapper.map(order.getItems());
         dto.setItems(items);
         dto.setTotal(items.stream().map(OrderItemDto::getTotal).reduce(BigDecimal.ZERO, BigDecimal::add));
