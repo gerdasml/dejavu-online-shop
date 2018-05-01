@@ -52,7 +52,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public long saveOrder(Order order) {
         em.persist(order);
-        order.getItems().forEach(item -> em.persist(item));
+        order.getItems().forEach(em::persist);
         return order.getId();
     }
 

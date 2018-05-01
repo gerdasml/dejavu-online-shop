@@ -23,7 +23,7 @@ public class Cart {
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
         name = "cartItem",
         joinColumns = @JoinColumn(name = "cartId"),
