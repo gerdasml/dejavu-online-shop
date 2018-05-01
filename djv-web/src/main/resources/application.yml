@@ -16,6 +16,7 @@ spring:
 rest:
   basePath: /api
   auth: ${rest.basePath}/auth
+  cart: ${rest.basePath}/cart
   category: ${rest.basePath}/category
   health: ${rest.basePath}/health
   image: ${rest.basePath}/image
@@ -36,6 +37,16 @@ auth:
       - GET ${rest.user}/
       - POST ${rest.user}/*/ban
       - POST ${rest.image}/upload
+      - PUT ${rest.category}/*
+      - DELETE ${rest.category}/*
+      - POST ${rest.category}/create
+      - POST ${rest.product}/
+      - PUT ${rest.product}/*
+      - DELETE ${rest.product}/*
+      - GET *
+      - POST *
+      - PUT *
+      - DELETE *
 
 flyway:
   placeholders:
