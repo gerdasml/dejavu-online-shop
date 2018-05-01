@@ -1,6 +1,5 @@
 package lt.dejavu.payment;
 
-import lt.dejavu.payment.exception.PaymentException;
 import lt.dejavu.payment.model.Payment;
 import lt.dejavu.payment.service.PaymentService;
 import lt.dejavu.payment.validation.ValidationError;
@@ -17,11 +16,6 @@ import java.util.List;
 public class PaymentApi {
     @Autowired
     private PaymentService paymentService;
-
-    @PostMapping("/pay")
-    public void pay(@RequestBody Payment payment) throws PaymentException {
-        paymentService.pay(payment);
-    }
 
     @PostMapping("/validate")
     public List<ValidationError> validate(@RequestBody Payment payment) {
