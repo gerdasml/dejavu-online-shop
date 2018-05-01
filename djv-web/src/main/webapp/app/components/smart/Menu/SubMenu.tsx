@@ -16,7 +16,7 @@ const mapChildChild = (category: CategoryTree, key: number) =>
     <div
         className="item"
         key={key.toString()+"_"+i.toString()}>
-            {x.category.displayName}
+            {x.category.name}
     </div>
     );
 
@@ -26,7 +26,7 @@ const mapChild = (categoryTree: CategoryTree) =>
             className="item main"
             key={i}
         >
-            {x.category.displayName}
+            {x.category.name}
                 <Divider fitted className="divider"/>
         </div>]
         .concat(mapChildChild(x,i))
@@ -40,7 +40,7 @@ export const SubMenu = (props: SubMenuProps) => (
         style={{top: props.position.top, left: props.position.left}}
     >
         <div className="item category-name">
-            {props.categoryTree.category.displayName}
+            {props.categoryTree.category.name}
         </div>
         {mapChild(props.categoryTree)}
     </div>

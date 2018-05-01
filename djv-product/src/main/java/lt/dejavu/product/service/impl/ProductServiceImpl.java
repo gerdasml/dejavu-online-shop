@@ -35,11 +35,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto getProduct(long id) {
-        return productDtoMapper.map(productRepository.getProduct(id));
+        return productDtoMapper.map(getProductIfExist(id));
     }
 
     @Override
     public List<ProductDto> getProductsByCategory(long categoryId) {
+        getCategoryIfExist(categoryId);
         return productDtoMapper.map(productRepository.getProductsByCategory(categoryId));
     }
 
@@ -75,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
     private Product getProductIfExist(long productId){
         Product product = productRepository.getProduct(productId);
         if (product == null) {
-            throw new ProductNotFoundException("cannot find product with id " + productId);
+            throw new ProductNotFoundException(productId);
         }
         return product;
     }

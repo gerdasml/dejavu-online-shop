@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto getCategory(long id) {
-        return categoryDtoMapper.map(categoryRepository.getCategory(id));
+        return categoryDtoMapper.map(getCategoryIfExist(id));
     }
 
     @Override
@@ -96,7 +96,7 @@ public class CategoryServiceImpl implements CategoryService {
     private Category getCategoryIfExist(long categoryId){
         Category category = categoryRepository.getCategory(categoryId);
         if (category == null) {
-            throw new CategoryNotFoundException("cannot find category with id " + categoryId);
+            throw new CategoryNotFoundException(categoryId);
         }
         return category;
     }

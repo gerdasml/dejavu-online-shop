@@ -7,11 +7,9 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 @ToString
-public class CategoryRequest {
-    private String name;
-    private String iconName;
-    private String identifier;
-    private Long parentCategory;
+@EqualsAndHashCode
+public class ProductPropertyRequest {
+    String name;
+    String value;
 }
