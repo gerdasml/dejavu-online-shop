@@ -15,15 +15,15 @@ export class Header extends React.Component <{}, {}> {
 
     render () {
         return (
-            <Grid className="header" id="headerGrid">
-                <Grid.Column width={2}>
+            <Grid id="headerGrid">
+                <Grid.Column width={2} id="logoHeaderColumn">
                     <Image id="logo"
                            title="dejavu"
                            src={logo}
-                           alt="Neveikia"
+                           alt="dejavu online shop logo"
                     />
                 </Grid.Column>
-                <Grid.Column width={8}>
+                <Grid.Column width={8} id="infoSearchColumn">
                     <Grid.Row id="mailPhoneRow">
                         <div    className="headerInfo"
                                 id="mail">
@@ -48,43 +48,42 @@ export class Header extends React.Component <{}, {}> {
                         </Search>
                     </Grid.Row>
                 </Grid.Column>
-                <Grid.Column width={6}>
-                    <div id="threeHeaderButtons">
-                        <Dropdown   simple
-                                    className="headerButton"
-                                    trigger={
-                            <Button icon
-                                    size="medium"
-                            >
-                                ABOUT
-                                <br/>
-                                <Icon name="info" size="big"/>
-                            </Button>
-                        } icon={null}>
-                            <Dropdown.Menu>
-                                <Dropdown.Item icon="question" text="F.A.Q." />
-                                <Dropdown.Divider />
-                                <Dropdown.Item icon="ship" text="Shipping" />
-                                <Dropdown.Divider />
-                                <Dropdown.Item icon="shopping basket" text="How to buy?" />
-                                <Dropdown.Divider />
-                                <Dropdown.Item icon="exclamation" text="RULES" />
-                                <Dropdown.Divider />
-                                <Dropdown.Item icon="wait" text="Warranty" />
-                                <Dropdown.Divider />
-                                <Dropdown.Item icon="info" text="About Us" />
-                            </Dropdown.Menu>
-                        </Dropdown>
+                <Grid.Column width={6} id="threeHeaderButtons">
+                    <Dropdown   className="headerButton"
+                                simple
+                                trigger={
                         <Button className="headerButton"
                                 icon
                                 size="medium"
-                                >
-                            CART
+                        >
+                            ABOUT
                             <br/>
-                            <Icon name="cart" size="big"/>
+                            <Icon name="info" size="big"/>
                         </Button>
-                        <Login/>
-                    </div>
+                    } icon={null}>
+                        <Dropdown.Menu>
+                            <Dropdown.Item icon="question" text="F.A.Q." />
+                            <Dropdown.Divider />
+                            <Dropdown.Item icon="ship" text="Shipping" />
+                            <Dropdown.Divider />
+                            <Dropdown.Item icon="shopping basket" text="How to buy?" />
+                            <Dropdown.Divider />
+                            <Dropdown.Item icon="exclamation" text="RULES" />
+                            <Dropdown.Divider />
+                            <Dropdown.Item icon="wait" text="Warranty" />
+                            <Dropdown.Divider />
+                            <Dropdown.Item icon="info" text="About Us" />
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    <Button className="headerButton"
+                            icon
+                            size="medium"
+                            >
+                        CART
+                        <br/>
+                        <Icon name="cart" size="big"/>
+                    </Button>
+                    <Login/>
                 </Grid.Column>
             </Grid>
         );

@@ -7,8 +7,8 @@ import "../../../../style/cart.css";
 export enum CartStep {
     CART,
     DELIVERY_INFO,
-    PAYMENT,
     CONFIRMATION,
+    PAYMENT,
     APPROVAL
 }
 

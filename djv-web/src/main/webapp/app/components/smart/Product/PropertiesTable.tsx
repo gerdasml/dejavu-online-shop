@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Icon, Table } from "semantic-ui-react";
+import { Table } from "semantic-ui-react";
 
-import { products } from "../../../data/products";
 import { Product } from "../../../model/Product";
 import { ProductProperties } from "../../../model/ProductProperties";
 

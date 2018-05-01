@@ -5,12 +5,12 @@ import { Grid, Menu } from "semantic-ui-react";
 import "../../../../style/drawer.css";
 import { MenuItem } from "../../smart/Menu/MenuItem";
 
-import {categories} from "../../../data/categories";
-import { Category } from "../../../model/Category";
+import {categories} from "../../../data/categoryTrees";
+import { CategoryTree } from "../../../model/CategoryTree";
 import { SubMenu, SubMenuPosition } from "../../smart/Menu/SubMenu";
 
 interface CategorySettings {
-    category: Category;
+    categoryTree: CategoryTree;
     position: SubMenuPosition;
 }
 export interface DrawerMenuState {
@@ -27,7 +27,7 @@ export class DrawerMenu extends React.Component<{}, DrawerMenuState> {
         };
     }
 
-    onHover = (cat: Category, pos?: SubMenuPosition) => {
+    onHover = (cat: CategoryTree, pos?: SubMenuPosition) => {
         if(pos === undefined) {
             this.setState({
                 ...this.state,
@@ -37,7 +37,7 @@ export class DrawerMenu extends React.Component<{}, DrawerMenuState> {
             this.setState({
                 ...this.state,
                 current: {
-                    category: cat,
+                    categoryTree: cat,
                     position: {
                         left: pos.left,
                         top: pos.top,
@@ -56,7 +56,7 @@ export class DrawerMenu extends React.Component<{}, DrawerMenuState> {
                             <Menu vertical fluid inverted id="sidebarItems">
                                 {categories.map((itemCategory, itemIndex) =>
                                     <MenuItem
-                                                category={itemCategory}
+                                                categoryTree={itemCategory}
                                                 key={itemIndex}
                                                 onHover={this.onHover}/>
                                             )}
@@ -70,7 +70,7 @@ export class DrawerMenu extends React.Component<{}, DrawerMenuState> {
                 {this.state.current === undefined ? "" :
                         <SubMenu
                             position={this.state.current.position}
-                            category={this.state.current.category}
+                            categoryTree={this.state.current.categoryTree}
                             onHover={this.onHover} />}
             </div>
         );
