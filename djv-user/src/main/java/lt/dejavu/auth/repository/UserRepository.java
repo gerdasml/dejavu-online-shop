@@ -11,9 +11,9 @@ public interface UserRepository {
 
     List<User> getAllUsers();
 
-    void setBanned(long id, boolean isBanned);
+    void setBanned(User user, boolean isBanned);
 
-    void updateUserInfo(long userId, User newUser);
+    void updateUserInfo(User oldUser, User newUser);
 
     Long addUser(User user);
 }

@@ -56,14 +56,12 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void setBanned(long id, boolean isBanned) {
-        User user = em.find(User.class, id);
+    public void setBanned(User user, boolean isBanned) {
         user.setBanned(isBanned);
     }
 
     @Override
-    public void updateUserInfo(long userId, User newUser) {
-        User oldUser = getUserById(userId);
+    public void updateUserInfo(User oldUser, User newUser) {
         mergeInformation(oldUser, newUser);
         em.merge(newUser.getAddress());
         em.merge(newUser);

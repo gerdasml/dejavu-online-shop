@@ -1,7 +1,9 @@
 package lt.dejavu.auth.service;
 
 import lt.dejavu.auth.dto.UserDto;
+import lt.dejavu.auth.exception.UserNotFoundException;
 import lt.dejavu.auth.mapper.UserMapper;
+import lt.dejavu.auth.model.db.User;
 import lt.dejavu.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUser(long userId) {
-        return userMapper.map(userRepository.getUserById(userId));
+        User user = tryGetUser(userId);
+        return userMapper.map(user);
     }
 
     @Override
@@ -37,11 +40,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void setBan(long userId, boolean isBanned) {
-        userRepository.setBanned(userId, isBanned);
+        User user = tryGetUser(userId);
+        userRepository.setBanned(user, isBanned);
     }
 
     @Override
     public void updateUser(long userId, UserDto newInfo) {
-        userRepository.updateUserInfo(userId, userMapper.map(newInfo));
+        User user = tryGetUser(userId);
+        userRepository.updateUserInfo(user, userMapper.map(newInfo));
+    }
+
+    private User tryGetUser(long userId) {
+        User user = userRepository.getUserById(userId);
+        if (user == null) {
+            throw new UserNotFoundException("The user with the specified id was not found");
+        }
+        return user;
     }
 }
