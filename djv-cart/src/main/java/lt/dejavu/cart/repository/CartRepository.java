@@ -10,8 +10,6 @@ import java.util.Optional;
 public interface CartRepository {
     Optional<Cart> getCartByUserId(long userId);
 
-    Optional<OrderItem> getOrderItemByProductId(Cart cart, long productId);
-
     void removeItem(Cart cart, long productId);
 
     void addOrderItem(Cart cart, Product product, int amount);

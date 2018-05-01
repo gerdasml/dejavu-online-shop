@@ -4,6 +4,7 @@ import lt.dejavu.auth.model.db.User;
 import lt.dejavu.auth.model.db.User_;
 import lt.dejavu.cart.model.db.Cart;
 import lt.dejavu.cart.model.db.Cart_;
+import lt.dejavu.cart.util.CartUtil;
 import lt.dejavu.order.model.db.OrderItem;
 import lt.dejavu.product.model.Product;
 import org.springframework.stereotype.Repository;
@@ -40,16 +41,8 @@ public class CartRepositoryImpl implements CartRepository {
     }
 
     @Override
-    public Optional<OrderItem> getOrderItemByProductId(Cart cart, long productId) {
-        return cart.getItems()
-                   .stream()
-                   .filter(item -> item.getProduct().getId() == productId)
-                   .findFirst();
-    }
-
-    @Override
     public void removeItem(Cart cart, long productId) {
-        Optional<OrderItem> item = getOrderItemByProductId(cart, productId);
+        Optional<OrderItem> item = CartUtil.getOrderItemByProductId(cart, productId);
         if (item.isPresent()) {
             cart.getItems().remove(item.get());
             em.remove(item.get());

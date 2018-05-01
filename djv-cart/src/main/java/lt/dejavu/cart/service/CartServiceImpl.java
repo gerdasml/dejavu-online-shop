@@ -9,6 +9,7 @@ import lt.dejavu.cart.exception.ProductNotInCartException;
 import lt.dejavu.cart.mapper.CartMapper;
 import lt.dejavu.cart.model.db.Cart;
 import lt.dejavu.cart.repository.CartRepository;
+import lt.dejavu.cart.util.CartUtil;
 import lt.dejavu.order.model.db.OrderItem;
 import lt.dejavu.product.exception.ProductNotFoundException;
 import lt.dejavu.product.model.Product;
@@ -42,7 +43,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void addToCart(long userId, long productId, int amount) {
         Cart cart = getCartOrCreate(userId);
-        if(cartRepository.getOrderItemByProductId(cart, productId).isPresent()) {
+        if(CartUtil.getOrderItemByProductId(cart, productId).isPresent()) {
             throw new ProductAlreadyInCartException("This product is already in your cart");
         }
         Product product = productRepository.getProduct(productId);
@@ -55,7 +56,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void updateAmount(long userId, long productId, int amount) {
         Cart cart = getCartOrCreate(userId);
-        Optional<OrderItem> itemOpt = cartRepository.getOrderItemByProductId(cart, productId);
+        Optional<OrderItem> itemOpt = CartUtil.getOrderItemByProductId(cart, productId);
         if(!itemOpt.isPresent()) {
             throw new ProductNotInCartException("This product is not in your cart");
         }
