@@ -15,7 +15,7 @@ import java.util.List;
 public class OrderDto {
     private OrderStatus status;
     private Timestamp createdDate;
-    private UserDto userDto;
+    private UserDto user;
     private List<OrderItemDto> items;
     private BigDecimal total;
     private Address shippingAddress;

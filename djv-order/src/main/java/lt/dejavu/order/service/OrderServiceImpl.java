@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Long createOrder(OrderDto dto) {
         Order order = new Order();
-        User user = userRepository.getUserById(dto.getUserDto().getId());
+        User user = userRepository.getUserById(dto.getUser().getId());
         order.setUser(user);
 
         order.setStatus(dto.getStatus());
