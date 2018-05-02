@@ -1,5 +1,6 @@
 package lt.dejavu.auth.repository;
 
+import lt.dejavu.auth.model.db.Address;
 import lt.dejavu.auth.model.db.User;
 import lt.dejavu.auth.model.db.User_;
 import org.springframework.stereotype.Repository;
@@ -55,20 +56,39 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void setBanned(long id, boolean isBanned) {
-        User user = em.find(User.class, id);
+    public void setBanned(User user, boolean isBanned) {
         user.setBanned(isBanned);
     }
 
     @Override
-    public void updateUserInfo(long id, User info) {
-        throw new NotImplementedException();
+    public void updateUserInfo(User oldUser, User newUser) {
+        mergeInformation(oldUser, newUser);
+        em.merge(newUser.getAddress());
+        em.merge(newUser);
     }
 
     @Override
     public Long addUser(User user) {
+        if(user.getAddress() == null) {
+            user.setAddress(new Address());
+        }
         em.persist(user.getAddress());
         em.persist(user);
         return user.getId();
+    }
+
+    private void mergeInformation(User oldUser, User newUser) {
+        newUser.setId(oldUser.getId());
+        newUser.setPassword(oldUser.getPassword());
+        newUser.setType(oldUser.getType());
+        newUser.setBanned(oldUser.isBanned());
+        newUser.setEmail(oldUser.getEmail());
+
+        if(newUser.getAddress() == null) {
+            newUser.setAddress(new Address());
+        }
+        if(oldUser.getAddress() != null) {
+            newUser.getAddress().setId(oldUser.getAddress().getId());
+        }
     }
 }
