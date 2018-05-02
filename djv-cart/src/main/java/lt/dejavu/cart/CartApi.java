@@ -5,7 +5,9 @@ import lt.dejavu.auth.model.Endpoint;
 import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.cart.dto.CartDto;
 import lt.dejavu.cart.model.rest.CartRequest;
+import lt.dejavu.cart.model.rest.CheckoutRequest;
 import lt.dejavu.cart.service.CartService;
+import lt.dejavu.payment.exception.PaymentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,7 @@ public class CartApi {
 
     @Autowired
     private CartService cartService;
+
     @GetMapping("/")
     public CartDto getCart(HttpServletRequest request,
                            @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader
@@ -32,7 +35,7 @@ public class CartApi {
     public void addToCart(HttpServletRequest request,
                           @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
                           @RequestBody CartRequest requestData
-                          ) throws ApiSecurityException {
+                         ) throws ApiSecurityException {
         long userId = authorize(authHeader, request);
         cartService.addToCart(userId, requestData.getProductId(), requestData.getAmount());
     }
@@ -53,6 +56,15 @@ public class CartApi {
                              ) throws ApiSecurityException {
         long userId = authorize(authHeader, request);
         cartService.removeProduct(userId, productId);
+    }
+
+    @PostMapping("/checkout")
+    public void checkout(HttpServletRequest request,
+                         @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
+                         @RequestBody CheckoutRequest checkoutRequest
+                        ) throws ApiSecurityException, PaymentException {
+        long userId = authorize(authHeader, request);
+        cartService.checkout(userId, checkoutRequest.getCard(), checkoutRequest.getShippingAddress());
     }
 
     private Endpoint buildEndpoint(HttpServletRequest request) {

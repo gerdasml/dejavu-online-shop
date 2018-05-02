@@ -1,5 +1,6 @@
 package lt.dejavu.payment.validation.validator;
 
+import lt.dejavu.payment.model.Card;
 import lt.dejavu.payment.model.Expiration;
 import lt.dejavu.payment.model.Payment;
 import org.junit.Test;
@@ -33,8 +34,12 @@ public class ExpirationYearValidatorTest extends SingleValidatorTestBase {
     private Payment createPayment(int year) {
         Expiration exp = new Expiration();
         exp.setYear(year);
+
+        Card card = new Card();
+        card.setExpiration(exp);
+
         Payment p = new Payment();
-        p.setExpiration(exp);
+        p.setCard(card);
 
         return p;
     }

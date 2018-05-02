@@ -6,6 +6,7 @@ import lt.dejavu.product.dto.mapper.ProductDtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -23,6 +24,7 @@ public class OrderItemMapper {
         OrderItemDto dto = new OrderItemDto();
         dto.setAmount(item.getAmount());
         dto.setProduct(productDtoMapper.map(item.getProduct()));
+        dto.setTotal(item.getProduct().getPrice().multiply(BigDecimal.valueOf(item.getAmount())));
 
         return dto;
     }

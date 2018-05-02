@@ -3,6 +3,7 @@ package lt.dejavu.order.model.db;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lt.dejavu.auth.model.db.Address;
 import lt.dejavu.auth.model.db.User;
 import lt.dejavu.order.model.OrderStatus;
 
@@ -34,4 +35,12 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
+
+    @OneToOne
+    @JoinTable(
+        name = "order_address",
+        joinColumns = @JoinColumn(name = "orderId"),
+        inverseJoinColumns = @JoinColumn(name = "addressId")
+    )
+    private Address shippingAddress;
 }

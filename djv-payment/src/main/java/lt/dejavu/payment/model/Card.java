@@ -9,4 +9,5 @@ public class Card {
     private String number;
     private String holder;
     private String cvv;
+    private Expiration expiration;
 }
