@@ -24,6 +24,7 @@ import lt.dejavu.product.model.Product;
 import lt.dejavu.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -88,6 +89,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
     public void checkout(long userId, Card cardInfo, Address shippingAddress) throws PaymentException {
         CartDto cart = getCart(userId);
         Payment payment = buildPayment(cart, cardInfo);
