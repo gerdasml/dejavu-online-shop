@@ -8,7 +8,7 @@ export interface ImageCropperState {
     src: any;
 }
 
-export class ImageCropper extends React.Component<{}, ImageCropperState> {
+export class ImageCropper extends React.Component<any, ImageCropperState> {
     cropper: any;
     constructor (props: any) {
         super(props);
@@ -17,9 +17,19 @@ export class ImageCropper extends React.Component<{}, ImageCropperState> {
             open: false,
             src: undefined
         };
+        this.readImage(props.image);
         this.cropImage = this.cropImage.bind(this);
         this.onChange = this.onChange.bind(this);
     }
+
+    readImage = (image: File) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.setState({ ...this.state, src: reader.result });
+        };
+        reader.readAsDataURL(image);
+    }
+
     onChange (e: any) {
         e.preventDefault();
         let files;
@@ -39,10 +49,14 @@ export class ImageCropper extends React.Component<{}, ImageCropperState> {
         if (typeof this.cropper.getCroppedCanvas() === "undefined") {
             return;
         }
+        const newImg = this.cropper
+                           .getCroppedCanvas()
+                           .toDataURL();
         this.setState({
-            cropResult: this.cropper.getCroppedCanvas()
-                                    .toDataURL(),
+            cropResult: newImg,
         });
+
+        this.props.onChange(newImg);
     }
 
     render () {
@@ -54,7 +68,7 @@ export class ImageCropper extends React.Component<{}, ImageCropperState> {
             <br />
             <Cropper
                 ref={(elem: any) => {this.cropper = elem;}}
-                src="https://vignette.wikia.nocookie.net/austinally/images/1/14/Random_picture_of_shark.png/revision/latest?cb=20150911004230"
+                src={this.state.src}
                 style={{height: 400, width: "100%"}}
                 aspectRatio={16 / 9}
                 guides={false}
