@@ -89,10 +89,10 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
         amount: 10, // TODO: figure out how to get this
         card: {
             cvv: this.state.cvc,
+            expiration: this.buildExpiration(),
             holder: this.state.name,
             number: clearNumber(this.state.number)
         },
-        expiration: this.buildExpiration()
     })
 
     sleep = async (ms: number) => await new Promise(r => setTimeout(r, ms));

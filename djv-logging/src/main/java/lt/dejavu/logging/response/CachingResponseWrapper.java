@@ -14,8 +14,8 @@ public class CachingResponseWrapper extends HttpServletResponseWrapper {
     }
 
     @Override
-    public PrintWriter getWriter() {
-        return new PrintWriter(stream);
+    public PrintWriter getWriter() throws IOException {
+        return new PrintWriter(getOutputStream());
     }
 
     @Override
