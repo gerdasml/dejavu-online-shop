@@ -158,11 +158,11 @@ validatePayment({
     amount: 0,
     card: {
         cvv: "123",
+        expiration: {
+            month: 9,
+            year: 2018
+        },
         holder: "Vardas",
         number: "4111111111111111"
     },
-    expiration: {
-        month: 9,
-        year: 2018
-    }
 });
