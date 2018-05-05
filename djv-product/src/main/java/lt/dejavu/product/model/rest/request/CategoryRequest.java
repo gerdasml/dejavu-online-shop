@@ -12,6 +12,6 @@ import lombok.ToString;
 public class CategoryRequest {
     private String name;
     private String iconName;
-    private String displayName;
+    private String identifier;
     private Long parentCategory;
 }

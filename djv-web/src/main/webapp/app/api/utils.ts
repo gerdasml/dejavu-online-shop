@@ -5,7 +5,9 @@ import {buildAuthHeader} from "../utils/token";
 
 export enum HttpMethod {
     GET,
-    POST
+    POST,
+    PUT,
+    DELETE
 }
 
 const buildUnknownError = (code: number, msg: string): ApiError => ({

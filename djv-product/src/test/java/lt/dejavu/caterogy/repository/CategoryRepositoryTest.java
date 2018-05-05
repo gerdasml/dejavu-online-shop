@@ -97,7 +97,7 @@ public class CategoryRepositoryTest extends JpaDbTestBase {
         String randomSuffix = getGeneratedString();
         category.setName("Test Category" + randomSuffix);
         category.setIconName("Test icon name" + randomSuffix);
-        category.setDisplayName("Test display name" + randomSuffix);
+        category.setIdentifier("Test display name" + randomSuffix);
         return category;
     }
 
@@ -109,7 +109,7 @@ public class CategoryRepositoryTest extends JpaDbTestBase {
         Assert.assertNotNull(actual);
         Assert.assertNotNull(expected);
         Assert.assertEquals(expected.getName(), actual.getName());
-        Assert.assertEquals(expected.getDisplayName(), actual.getDisplayName());
+        Assert.assertEquals(expected.getIdentifier(), actual.getIdentifier());
         Assert.assertEquals(expected.getIconName(), actual.getIconName());
         Assert.assertEquals(expected.getParentCategory(), actual.getParentCategory());
     }

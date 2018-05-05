@@ -9,9 +9,8 @@ public class CategoryDto {
 
     private long id;
     private String name;
-    private String iconName;
-    private String displayName;
-    private CategoryDto parentCategory;
+    private String icon;
+    private String identifier;
     private Long parentCategoryId;
 
 

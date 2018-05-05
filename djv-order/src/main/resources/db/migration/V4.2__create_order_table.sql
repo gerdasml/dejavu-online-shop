@@ -4,5 +4,5 @@ CREATE TABLE purchase_order (
   creationDate TIMESTAMP NOT NULL,
   userId INT NOT NULL,
 
-  FOREIGN KEY (UserId) REFERENCES user(id)
+  FOREIGN KEY (userId) REFERENCES user(id)
 );

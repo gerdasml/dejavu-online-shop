@@ -16,6 +16,7 @@
         <module>djv-payment</module>
         <module>djv-logging</module>
         <module>djv-order</module>
+        <module>djv-cart</module>
     </modules>
     <packaging>pom</packaging>
 

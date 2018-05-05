@@ -4,7 +4,6 @@ import {Button, Form, Message, Modal } from "semantic-ui-react";
 
 import * as api from "../../../api";
 import { Address } from "../../../model/Address";
-import { storeToken } from "../../../utils/token";
 
 import "../../../../style/login.css";
 

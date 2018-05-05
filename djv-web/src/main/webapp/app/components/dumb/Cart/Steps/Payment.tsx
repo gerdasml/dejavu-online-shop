@@ -3,7 +3,7 @@ import * as React from "react";
 import Card from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
 
-import { Button, Dimmer, Form, List, Loader, Message } from "semantic-ui-react";
+import { Button, Form, List, Message } from "semantic-ui-react";
 
 import { clearNumber, formatCardNumber, formatExpirationDate } from "../../../../utils/cardInput";
 
@@ -132,12 +132,6 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
         }
         if(validationResponse.length !== 0) {
             this.showValidationErrors(validationResponse);
-            return false;
-        }
-
-        const paymentResponse = await api.payment.pay(payment);
-        if(api.isError(paymentResponse)) {
-            this.showError("Payment has failed", paymentResponse);
             return false;
         }
         return true;
