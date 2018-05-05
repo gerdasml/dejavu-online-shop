@@ -13,21 +13,13 @@ interface ImageUploadProps {
     onUpdate: (files: ImageInfo[]) => void;
 }
 
-interface ImageUploadState {
-    images: UploadFile[];
-}
-
 const cloneFile = (old: RcFile, newData: string) => {
     const f = dataUriToFile(newData, old) as RcFile;
     f.uid = old.uid;
     return f;
 };
 
-export class ImageUpload extends React.Component<ImageUploadProps, ImageUploadState> {
-    state: ImageUploadState = {
-        images: []
-    };
-
+export class ImageUpload extends React.Component<ImageUploadProps, never> {
     upload = async (info: any) => {
         const img = info.file;
         const response = await api.image.uploadImage(img);
@@ -39,9 +31,9 @@ export class ImageUpload extends React.Component<ImageUploadProps, ImageUploadSt
     }
 
     handleChange = (info: UploadChangeParam) => {
-        const goodFiles = info.fileList.filter(f => f.status === "done"); // success?
+        const isGood = (f: UploadFile) => f.response as ImageInfo;
+        const goodFiles = info.fileList.filter(isGood);
         this.props.onUpdate(goodFiles.map(x => x.response));
-        console.log(info);
     }
 
     handleBefore = async (file: RcFile): Promise<RcFile> =>
