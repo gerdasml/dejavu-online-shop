@@ -1,8 +1,6 @@
 import * as React from "react";
 import Cropper from "react-cropper";
 
-import "cropperjs/dist/cropper.css";
-
 import { Button, Modal } from "semantic-ui-react";
 
 import { ImageCropper } from "./ImageCropper";
