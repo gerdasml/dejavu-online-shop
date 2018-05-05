@@ -33,6 +33,7 @@ auth:
       - GET ${rest.user}/{id}
       - POST ${rest.user}/{id}
       - POST ${rest.user}/
+      - GET ${rest.order}/history 
     ADMIN:
       - GET ${rest.user}/*
       - GET ${rest.user}/
@@ -44,6 +45,7 @@ auth:
       - POST ${rest.product}/
       - PUT ${rest.product}/*
       - DELETE ${rest.product}/*
+      # TODO: maybe the declarations below are enough? 
       - GET *
       - POST *
       - PUT *

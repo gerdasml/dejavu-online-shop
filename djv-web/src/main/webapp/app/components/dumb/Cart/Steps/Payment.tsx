@@ -134,12 +134,6 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
             this.showValidationErrors(validationResponse);
             return false;
         }
-
-        const paymentResponse = await api.payment.pay(payment);
-        if(api.isError(paymentResponse)) {
-            this.showError("Payment has failed", paymentResponse);
-            return false;
-        }
         return true;
     }
 

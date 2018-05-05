@@ -103,7 +103,7 @@ public class CartServiceImpl implements CartService {
     private OrderDto buildOrder(CartDto cart, Address shippingAddress) {
         OrderDto order = new OrderDto();
         order.setCreatedDate(Timestamp.from(Instant.now()));
-        order.setUserDto(cart.getUser());
+        order.setUser(cart.getUser());
         order.setItems(cart.getItems());
         order.setStatus(OrderStatus.CREATED);
         order.setShippingAddress(shippingAddress);
