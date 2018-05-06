@@ -7,10 +7,7 @@ import { Spin } from "antd";
 import { OrderSummary } from "../../../../model/Order";
 
 import * as api from "../../../../api";
-
-export const Users = () => (
-    <Header size="large">Users</Header>
-);
+import { OrderSummaryTable } from "./Table/OrderSummaryTable";
 
 interface UsersState {
     isLoading: boolean;
@@ -31,15 +28,10 @@ export class Users extends React.Component<never, UsersState> {
         this.setState({summaries: response, isLoading: false});
     }
 
-    renderLoading () {
-        return (
-            <Spin size="large" />
-        );
-    }
+    renderLoading = () => <Spin size="large" />;
 
-    renderLoaded () {
+    renderLoaded = () => <OrderSummaryTable summaries={this.state.summaries} />;
 
-    }
     render () {
         const { isLoading } = this.state;
         return (
