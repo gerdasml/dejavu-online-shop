@@ -16,7 +16,7 @@ export const SingleProduct = () => (
                 <ProductPictures />
             </Grid.Row>
             <Grid.Row>
-                <ProductPropertiesTable/>
+                <ProductPropertiesTable properties={[{name: "te", value: "st"}]}/>
             </Grid.Row>
         </Grid.Column>
         <Grid.Column>
