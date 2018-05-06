@@ -40,15 +40,6 @@ public class UserApi {
         return userService.getUser(userId);
     }
 
-    @GetMapping(
-            path = "/profile",
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
-    )
-    public UserDto getUserProfile(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) throws ApiSecurityException {
-        long userId = authorize(authHeader, request);
-        return userService.getUser(userId);
-    }
-
     @PostMapping(path = "/{userId}/ban")
     public void banUser(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId, @RequestParam("banned") boolean banned) throws ApiSecurityException {
         authorize(authHeader, request);
