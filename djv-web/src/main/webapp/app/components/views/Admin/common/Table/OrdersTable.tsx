@@ -5,6 +5,7 @@ import { Address } from "../../../../../model/Address";
 import { Order, OrderItem, OrderStatus } from "../../../../../model/Order";
 import { Product } from "../../../../../model/Product";
 import { User } from "../../../../../model/User";
+import { OrderStatusCell } from "./OrderStatusCell";
 import { OrderTable } from "./OrderTable";
 
 import { stringifyAddress } from "../../../../../utils/common";
@@ -17,6 +18,7 @@ interface OrderRecord {
     items: OrderItem[];
     shippingAddress: Address;
     user: User;
+    id: number;
 }
 
 interface OrdersTableProps {
@@ -28,6 +30,7 @@ class OrdersRecordColumn extends Table.Column<OrderRecord> {}
 
 const convertToRecord = (order: Order, i: number): OrderRecord => ({
     date: new Date(Date.parse(order.createdDate.toString())),
+    id: order.id,
     items: order.items,
     key: i,
     shippingAddress: order.shippingAddress,
@@ -56,6 +59,7 @@ export const OrdersTable = (props: OrdersTableProps) => (
             key="status"
             title="Status"
             dataIndex="status"
+            render={(_, record) => <OrderStatusCell orderId={record.id} status={record.status} />}
         />
         <OrdersRecordColumn
             key="shipping"
