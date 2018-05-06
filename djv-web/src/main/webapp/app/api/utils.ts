@@ -3,9 +3,13 @@ import { ApiResponse } from "./ApiResponse";
 import { ApiError } from ".";
 import {buildAuthHeader} from "../utils/token";
 
-export enum HttpMethod {
-    GET,
-    POST
+interface Headers {
+    [header: string]: string;
+}
+
+interface Request {
+    url: string;
+    params: RequestInit;
 }
 
 const buildUnknownError = (code: number, msg: string): ApiError => ({
@@ -14,18 +18,37 @@ const buildUnknownError = (code: number, msg: string): ApiError => ({
     type: "Unknown"
 });
 
-export const buildRequest = <T>(url: string, method: HttpMethod, payload?: T) => {
+// =========> Exported members <==========
+export enum HttpMethod {
+    GET    = "GET",
+    POST   = "POST",
+    PUT    = "PUT",
+    DELETE = "DELETE"
+}
+
+export const buildRequest = <T>(url: string, method: HttpMethod, payload?: T): Request => {
     const token = buildAuthHeader();
-    const headers: { [header: string]: string } = {};
+    const headers: Headers = {};
     headers.accept = "application/json";
-    if (method === HttpMethod.POST) headers["content-type"] = "application/json";
     if (token !== null) headers.authorization = token;
 
-    const params = {
-        body: JSON.stringify(payload),
-        headers,
-        method: HttpMethod[method]
-    };
+    let params: RequestInit;
+    if (payload instanceof FormData) {
+        params = {
+            body: payload,
+            headers,
+            method: method.toString()
+        };
+    } else {
+        params = {
+            body: JSON.stringify(payload),
+            headers,
+            method: method.toString()
+        };
+        if (method !== HttpMethod.GET) {
+            headers["content-type"] = "application/json";
+        }
+    }
 
     return {
         params,

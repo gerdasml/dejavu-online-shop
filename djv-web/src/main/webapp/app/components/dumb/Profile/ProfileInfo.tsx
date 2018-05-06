@@ -2,7 +2,7 @@ import * as React from "react";
 
 import "../../../../style/profile.css";
 
-import {Button, Form, Grid, Header, Icon, Modal, SemanticICONS} from "semantic-ui-react";
+import {Button, Form, Icon} from "semantic-ui-react";
 
 import {ChangePassword} from "../../dumb/Profile/ChangePassword";
 

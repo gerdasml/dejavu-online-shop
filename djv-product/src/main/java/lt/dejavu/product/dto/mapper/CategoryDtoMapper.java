@@ -5,6 +5,7 @@ import lt.dejavu.product.dto.CategoryTreeDto;
 import lt.dejavu.product.model.Category;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,7 @@ public class CategoryDtoMapper {
         view.setId(category.getId());
         view.setName(category.getName());
         view.setIcon(category.getIconName());
-        view.setDisplayName(category.getDisplayName());
+        view.setIdentifier(category.getIdentifier());
         if (category.getParentCategory() != null) {
             view.setParentCategoryId(category.getParentCategory().getId());
         }
@@ -32,7 +33,7 @@ public class CategoryDtoMapper {
 
     public List<CategoryTreeDto> mapToTree(List<Category> categories) {
         if (categories == null || categories.isEmpty()) {
-           return null;
+           return Collections.emptyList();
         }
         return categories.stream()
                 .filter(category -> category.getParentCategory() == null)

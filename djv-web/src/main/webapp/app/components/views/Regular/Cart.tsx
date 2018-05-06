@@ -13,7 +13,13 @@ const purchases: Purchase[] = [{
   item: {name: "something", mainImageUrl:"", description:"", price: 5, properties: []},
   total: 100,
   unitPrice: 50
-}];
+},
+{
+    amount: 3,
+    item: {name: "something2", mainImageUrl:"", description:"", price: 5, properties: []},
+    total: 90,
+    unitPrice: 45
+  }];
 
 interface CartState {
     currentStep: CartStep;
@@ -53,8 +59,16 @@ export class Cart extends React.Component<{}, CartState> {
                 ? <Step.DeliveryInfo onStepComplete={this.nextStep} />
                 : ""
                 }
+                {this.state.currentStep === CartStep.CONFIRMATION
+                ? <Step.Confirmation purchases={purchases} onStepComplete={this.nextStep}/>
+                : ""
+                }
                 {this.state.currentStep === CartStep.PAYMENT
                 ? <Step.Payment onStepComplete={this.nextStep} />
+                : ""
+                }
+                {this.state.currentStep === CartStep.APPROVAL
+                ? <Step.Approval onStepComplete={this.nextStep} />
                 : ""
                 }
             </div>

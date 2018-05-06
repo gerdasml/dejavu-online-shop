@@ -40,19 +40,31 @@ public class UserApi {
         return userService.getUser(userId);
     }
 
+    @GetMapping(
+            path = "/profile",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public UserDto getUserProfile(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) throws ApiSecurityException {
+        long userId = authorize(authHeader, request);
+        return userService.getUser(userId);
+    }
+
     @PostMapping(path = "/{userId}/ban")
     public void banUser(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId, @RequestParam("banned") boolean banned) throws ApiSecurityException {
         authorize(authHeader, request);
         userService.setBan(userId, banned);
     }
 
-    /*@PostMapping (
+    @PostMapping (
             path = "/",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public void updateUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, REQUEST) {
-        UUID token = AuthHelper.extractTokenFromHeader(authHeader);
-    }*/
+    public void updateUser(HttpServletRequest request,
+                           @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
+                           @RequestBody UserDto userInfo) throws ApiSecurityException {
+        long userId = authorize(authHeader, request);
+        userService.updateUser(userId, userInfo);
+    }
 
     private Endpoint buildEndpoint(HttpServletRequest request) {
         Endpoint endpoint = new Endpoint();
@@ -61,7 +73,7 @@ public class UserApi {
         return endpoint;
     }
 
-    private void authorize(String authHeader, HttpServletRequest request) throws ApiSecurityException {
-        securityService.authorize(authHeader, buildEndpoint(request));
+    private long authorize(String authHeader, HttpServletRequest request) throws ApiSecurityException {
+        return securityService.authorize(authHeader, buildEndpoint(request));
     }
 }

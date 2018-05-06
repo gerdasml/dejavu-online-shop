@@ -34,7 +34,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         Root<Product> root = query.from(Product.class);
         ParameterExpression<Long> categoryIdParameter = cb.parameter(Long.class);
         query.where(cb.equal(root.get(Product_.category).get(Category_.id), categoryIdParameter));
-        return em.createQuery(query).getResultList();
+        return em.createQuery(query).setParameter(categoryIdParameter, categoryId).getResultList();
     }
 
     @Override

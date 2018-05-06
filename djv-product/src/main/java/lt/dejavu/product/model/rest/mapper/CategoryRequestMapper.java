@@ -10,10 +10,8 @@ public class CategoryRequestMapper {
         Category category = new Category();
         category.setName(categoryRequest.getName());
         category.setIconName(categoryRequest.getIconName());
-        category.setDisplayName(categoryRequest.getDisplayName());
+        category.setIdentifier(categoryRequest.getIdentifier());
         category.setParentCategory(parentCategory);
         return category;
     }
-
-
 }
