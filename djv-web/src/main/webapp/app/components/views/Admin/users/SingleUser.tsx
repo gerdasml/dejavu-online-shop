@@ -5,8 +5,8 @@ import { notification, Spin } from "antd";
 import { Order } from "../../../../model/Order";
 import { User } from "../../../../model/User";
 
-import { OrderTable } from "./Table/OrderTable";
 import { OrdersTable } from "./Table/OrdersTable";
+import { OrderTable } from "./Table/OrderTable";
 
 import * as api from "../../../../api";
 
