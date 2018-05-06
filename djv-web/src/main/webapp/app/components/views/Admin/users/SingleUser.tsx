@@ -26,13 +26,11 @@ export class SingleUser extends React.Component<RouteComponentProps<SingleUserPr
         const userResponse = await api.user.getUser(this.props.match.params.id);
         if (api.isError(userResponse)) {
             notification.error({message: "Failed to fetch user data", description: userResponse.message});
-            console.error(userResponse);
             return;
         }
         const ordersResponse = await api.order.getUserOrderHistory(this.props.match.params.id);
         if (api.isError(ordersResponse)) {
             notification.error({message: "Failed to fetch orders data", description: ordersResponse.message});
-            console.error(ordersResponse);
             return;
         }
 
