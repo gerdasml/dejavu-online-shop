@@ -28,16 +28,12 @@ export class Users extends React.Component<never, UsersState> {
         this.setState({summaries: response, isLoading: false});
     }
 
-    renderLoading = () => <Spin size="large" />;
-
-    renderLoaded = () => <OrderSummaryTable summaries={this.state.summaries} />;
-
     render () {
         const { isLoading } = this.state;
         return (
-            <div>
-                { isLoading ? this.renderLoading() : this.renderLoaded() }
-            </div>
+            <Spin spinning={isLoading} size="large">
+                <OrderSummaryTable summaries={this.state.summaries} />
+            </Spin>
         );
     }
 }
