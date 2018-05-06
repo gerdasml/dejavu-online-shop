@@ -4,13 +4,9 @@ import { Table } from "antd";
 import { OrderItem } from "../../../../../model/Order";
 import { Product } from "../../../../../model/Product";
 
-interface OrderItemRecord {
-    key: number;
-    amount: number;
-    total: number;
-    price: number;
-    product: Product;
-}
+import { addKey, WithKey } from "../../../../../utils/table";
+
+type OrderItemRecord = OrderItem & WithKey;
 
 interface OrderTableProps {
     items: OrderItem[];
@@ -20,18 +16,10 @@ class OrderRecordTable extends Table<OrderItemRecord> {}
 
 class OrderRecordColumn extends Table.Column<OrderItemRecord> {}
 
-const convertToRecord = (item: OrderItem, i: number): OrderItemRecord => ({
-    amount: item.amount,
-    key: i,
-    price: item.product.price,
-    product: item.product,
-    total: item.total,
-});
-
 export const OrderTable = (props: OrderTableProps) => (
     <OrderRecordTable
         bordered={true}
-        dataSource={props.items.map(convertToRecord)}
+        dataSource={props.items.map(addKey)}
         pagination={{pageSize: 25, hideOnSinglePage: true}}>
         <OrderRecordColumn
             key = "product"
@@ -41,7 +29,7 @@ export const OrderTable = (props: OrderTableProps) => (
         <OrderRecordColumn
             key = "price"
             title = "Unit price"
-            dataIndex="price"
+            render={(_, record) => record.product.price}
         />
         <OrderRecordColumn
             key = "amount"

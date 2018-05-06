@@ -5,15 +5,9 @@ import { Button, Table, Tag } from "antd";
 
 import { OrderSummary } from "../../../../../model/Order";
 
-interface Summary {
-    key: number;
-    email: string;
-    orderCount: number;
-    totalSpending: number;
-    averageSpending: number;
-    isBanned: boolean;
-    userId: number;
-}
+import { addKey, WithKey } from "../../../../../utils/table";
+
+type Summary = OrderSummary & WithKey;
 
 interface OrderSummaryTableProps {
     summaries: OrderSummary[];
@@ -23,19 +17,9 @@ class SummaryTable extends Table<Summary> {}
 
 class SummaryColumn extends Table.Column<Summary> {}
 
-const convertToDataSource = (summaries: OrderSummary, i: number): Summary => ({
-    averageSpending: summaries.averageSpending,
-    email: summaries.user.email,
-    isBanned: summaries.user.banned,
-    key: i,
-    orderCount: summaries.orderCount,
-    totalSpending: summaries.totalSpending,
-    userId: summaries.user.id,
-});
-
 export const OrderSummaryTable = (props: OrderSummaryTableProps) => (
     <SummaryTable
-        dataSource={props.summaries.map(convertToDataSource)}
+        dataSource={props.summaries.map(addKey)}
         pagination={{pageSize: 25, hideOnSinglePage: true}}>
         <SummaryColumn
                     key="email"
@@ -58,13 +42,13 @@ export const OrderSummaryTable = (props: OrderSummaryTableProps) => (
                     key="isBanned"
                     title="Is banned?"
                     render={(_, record) =>
-                        record.isBanned
+                        record.user.banned
                         ? <Tag color="red">Yes</Tag>
                         : <Tag color="green">No</Tag>} />
         <SummaryColumn
                     key="moreInfo"
                     render={(_, record) =>
-                        <NavLink to={`/admin/user/${record.userId}`}>
+                        <NavLink to={`/admin/user/${record.user.id}`}>
                             <Button shape="circle" icon="info"/>
                         </NavLink>
                     } />

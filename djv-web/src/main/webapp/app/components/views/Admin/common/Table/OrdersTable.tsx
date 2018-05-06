@@ -8,17 +8,9 @@ import { OrderStatusCell } from "./OrderStatusCell";
 import { OrderTable } from "./OrderTable";
 
 import { stringifyAddress } from "../../../../../utils/common";
+import { addKey, WithKey } from "../../../../../utils/table";
 
-interface OrderRecord {
-    key: number;
-    date: Date;
-    status: OrderStatus;
-    total: number;
-    items: OrderItem[];
-    shippingAddress: Address;
-    user: User;
-    id: number;
-}
+type OrderRecord = Order & WithKey;
 
 interface OrdersTableProps {
     orders: Order[];
@@ -27,27 +19,18 @@ interface OrdersTableProps {
 class OrdersRecordTable extends Table<OrderRecord> {}
 class OrdersRecordColumn extends Table.Column<OrderRecord> {}
 
-const convertToRecord = (order: Order, i: number): OrderRecord => ({
-    date: new Date(Date.parse(order.createdDate.toString())),
-    id: order.id,
-    items: order.items,
-    key: i,
-    shippingAddress: order.shippingAddress,
-    status: order.status,
-    total: order.total,
-    user: order.user,
-});
+const dateToString = (d: Date) => new Date(Date.parse(d.toString())).toLocaleDateString();
 
 export const OrdersTable = (props: OrdersTableProps) => (
     <OrdersRecordTable
         bordered={true}
-        dataSource={props.orders.map(convertToRecord)}
+        dataSource={props.orders.map(addKey)}
         pagination={{pageSize: 25, hideOnSinglePage: true}}
         expandedRowRender={(record: OrderRecord) => <OrderTable items={record.items} />}>
         <OrdersRecordColumn
             key="date"
             title="Date"
-            render={(_, record) => record.date.toLocaleDateString()}
+            render={(_, record) => dateToString(record.createdDate)}
         />
         <OrdersRecordColumn
             key="user"
