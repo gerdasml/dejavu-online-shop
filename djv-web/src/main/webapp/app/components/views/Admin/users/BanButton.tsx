@@ -27,7 +27,7 @@ export class BanButton extends React.Component<BanButtonProps, BanButtonState> {
 
     applyBan = async (ban: boolean) => {
         const response = await api.user.banUser(this.props.user.id, ban);
-        if(api.isError(response)) {
+        if (api.isError(response)) {
             notification.error({ message: "Failed to update user ban state", description: response.message });
             return;
         }
@@ -48,7 +48,7 @@ export class BanButton extends React.Component<BanButtonProps, BanButtonState> {
 
         const { isBanned, isLoading } = this.state;
 
-        if(isBanned) {
+        if (isBanned) {
             confirmText = "Are you sure you want to unban this user?";
             buttonText = "Unban";
             buttonAction = () => this.handleBan(false);

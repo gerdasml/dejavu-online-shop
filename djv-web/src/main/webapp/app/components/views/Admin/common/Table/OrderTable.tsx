@@ -1,8 +1,7 @@
 import * as React from "react";
 
 import { Table } from "antd";
-import { Address } from "../../../../../model/Address";
-import { Order, OrderItem, OrderStatus } from "../../../../../model/Order";
+import { OrderItem } from "../../../../../model/Order";
 import { Product } from "../../../../../model/Product";
 
 interface OrderItemRecord {

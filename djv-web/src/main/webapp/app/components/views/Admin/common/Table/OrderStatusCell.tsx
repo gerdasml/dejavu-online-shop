@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { Icon, Input, Table, Select, notification, Spin } from "antd";
-import { Order, OrderStatus } from "../../../../../model/Order";
+import { Icon, notification, Select, Spin } from "antd";
+import { OrderStatus } from "../../../../../model/Order";
 
 import * as api from "../../../../../api";
 
@@ -33,7 +33,7 @@ export class OrderStatusCell extends React.Component<OrderStatusCellProps, Order
 
     async applyChange (status: OrderStatus) {
         const response = await api.order.updateOrderStatus(this.props.orderId, status);
-        if(api.isError(response)) {
+        if (api.isError(response)) {
             notification.error({message: "Failed to update status", description: response.message});
             return;
         }

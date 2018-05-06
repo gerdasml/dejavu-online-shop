@@ -1,7 +1,7 @@
 import * as React from "react";
 import { NavLink } from "react-router-dom";
 
-import { Button, Pagination, Table, Tag } from "antd";
+import { Button, Table, Tag } from "antd";
 
 import { OrderSummary } from "../../../../../model/Order";
 

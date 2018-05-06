@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import {Header} from "semantic-ui-react";
 
 import { notification, Spin } from "antd";
 
