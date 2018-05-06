@@ -1,4 +1,5 @@
 import * as React from "react";
+import { NavLink } from "react-router-dom";
 
 import { Button, Pagination, Table, Tag } from "antd";
 
@@ -11,6 +12,7 @@ interface Summary {
     totalSpending: number;
     averageSpending: number;
     isBanned: boolean;
+    userId: number;
 }
 
 interface OrderSummaryTableProps {
@@ -28,6 +30,7 @@ const convertToDataSource = (summaries: OrderSummary, i: number): Summary => ({
     key: i,
     orderCount: summaries.orderCount,
     totalSpending: summaries.totalSpending,
+    userId: summaries.user.id,
 });
 
 export const OrderSummaryTable = (props: OrderSummaryTableProps) => (
@@ -60,6 +63,10 @@ export const OrderSummaryTable = (props: OrderSummaryTableProps) => (
                         : <Tag color="green">No</Tag>} />
         <SummaryColumn
                     key="moreInfo"
-                    render={(_, record) => <Button shape="circle" icon="info" />} />
+                    render={(_, record) =>
+                        <NavLink to={`/admin/user/${record.userId}`}>
+                            <Button shape="circle" icon="info"/>
+                        </NavLink>
+                    } />
     </SummaryTable>
 );
