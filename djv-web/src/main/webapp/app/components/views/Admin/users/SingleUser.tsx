@@ -1,7 +1,7 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
-import { notification, Spin, Badge, Tag } from "antd";
+import { notification, Spin, Badge, Tag, Popconfirm } from "antd";
 import { Order } from "../../../../model/Order";
 import { User, UserType } from "../../../../model/User";
 
@@ -10,6 +10,7 @@ import { OrderTable } from "./Table/OrderTable";
 
 import * as api from "../../../../api";
 import { stringifyAddress } from "../../../../utils/common";
+import { BanButton } from "./BanButton";
 
 interface SingleUserProps {
     id: number;
@@ -66,6 +67,16 @@ export class SingleUser extends React.Component<RouteComponentProps<SingleUserPr
                     <h3><b>Name: </b>{this.showString(user.firstName)} {this.showString(user.lastName)}</h3>
                     <h3><b>Phone: </b>{this.showString(user.phone)}</h3>
                     <h3><b>Address: </b>{this.showString(stringifyAddress(user.address))}</h3>
+                    { user.type !== UserType.ADMIN
+                    ?
+                    <h3><b>Actions: </b>
+                        <BanButton
+                            user={user}
+                            onSwitch={() => this.setState({...this.state, user: {...user, banned: !user.banned}})}
+                        />
+                    </h3>
+                    : ""
+                    }
                     <h3><b>Orders:</b></h3>
                 </span>
                 : ""
