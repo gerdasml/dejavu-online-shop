@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Grid, Header } from "semantic-ui-react";
 
+import { ProductDescription } from "./ProductDescription";
+import { ProductDropdown } from "./ProductDropdown";
 import { ProductName } from "./ProductName";
 import { ProductPictures } from "./ProductPictures";
 import { ProductPrice } from "./ProductPrice";
@@ -22,6 +24,12 @@ export const SingleProduct = () => (
         <Grid.Column>
             <Grid.Row>
                 <ProductPrice />
+            </Grid.Row>
+            <Grid.Row>
+                <ProductDescription />
+            </Grid.Row>
+            <Grid.Row>
+                <ProductDropdown />
             </Grid.Row>
         </Grid.Column>
     </Grid>
