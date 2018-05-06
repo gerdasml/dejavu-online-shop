@@ -1,18 +1,18 @@
-export interface Card {
-    cvv: string;
-    holder: string;
-    number: string;
-}
-
 export interface Expiration {
     year: number;
     month: number;
 }
 
+export interface Card {
+    cvv: string;
+    holder: string;
+    number: string;
+    expiration: Expiration;
+}
+
 export interface Payment {
     amount: number;
     card: Card;
-    expiration: Expiration;
 }
 
 export interface ValidationError {

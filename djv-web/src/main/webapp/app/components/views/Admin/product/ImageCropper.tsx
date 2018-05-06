@@ -1,82 +1,69 @@
 import * as React from "react";
 import Cropper from "react-cropper";
+
+import { Col, Row } from "antd";
+
 import "cropperjs/dist/cropper.css";
 
 export interface ImageCropperState {
-    cropResult: any;
+    cropResult?: string;
     open: boolean;
-    src: any;
+    src?: string;
 }
 
-export class ImageCropper extends React.Component<{}, ImageCropperState> {
-    cropper: any;
-    constructor (props: any) {
+interface ImageCropperProps {
+    image: File;
+    onChange: (dataUrl: string) => void;
+}
+
+export class ImageCropper extends React.Component<ImageCropperProps, ImageCropperState> {
+    cropper: Cropper;
+    constructor (props: ImageCropperProps) {
         super(props);
         this.state = {
-            cropResult: undefined,
-            open: false,
-            src: undefined
+            open: false
         };
+        this.readImage(props.image);
         this.cropImage = this.cropImage.bind(this);
-        this.onChange = this.onChange.bind(this);
     }
-    onChange (e: any) {
-        e.preventDefault();
-        let files;
-        if (e.dataTransfer) {
-            files = e.dataTransfer.files;
-        } else if (e.target) {
-            files = e.target.files;
-        }
+
+    readImage = (image: File) => {
         const reader = new FileReader();
         reader.onload = () => {
             this.setState({ ...this.state, src: reader.result });
         };
-        reader.readAsDataURL(files[0]);
+        reader.readAsDataURL(image);
     }
 
     cropImage () {
         if (typeof this.cropper.getCroppedCanvas() === "undefined") {
             return;
         }
+        const newImg = this.cropper
+                           .getCroppedCanvas()
+                           .toDataURL();
         this.setState({
-            cropResult: this.cropper.getCroppedCanvas()
-                                    .toDataURL(),
+            cropResult: newImg,
         });
+
+        this.props.onChange(newImg);
     }
 
     render () {
         return (
-        <div>
-            <div style={{ width: "100%" }}>
-            <input type="file" onChange={this.onChange} />
-            <br />
-            <br />
-            <Cropper
-                ref={(elem: any) => {this.cropper = elem;}}
-                src="https://vignette.wikia.nocookie.net/austinally/images/1/14/Random_picture_of_shark.png/revision/latest?cb=20150911004230"
-                style={{height: 400, width: "100%"}}
-                aspectRatio={16 / 9}
-                guides={false}
-                crop={this.cropImage} />
-            </div>
-            <div>
-            <div className="box" style={{ width: "50%", float: "right" }}>
-                <h1>Preview</h1>
-                <div className="img-preview" style={{ width: "100%", float: "left", height: 300 }} />
-            </div>
-            <div className="box" style={{ width: "50%", float: "right" }}>
-                <h1>
-                <span>Crop</span>
-                <button onClick={this.cropImage} style={{ float: "right" }}>
-                    Crop Image
-                </button>
-                </h1>
-                <img style={{ width: "100%" }} src={this.state.cropResult}/>
-            </div>
-            </div>
-            <br style={{ clear: "both" }} />
-        </div>
+            <Row type="flex" align="middle" justify="space-between">
+                <Col span={12}>
+                    <Cropper
+                        ref={(elem: HTMLImageElement & Cropper) => {this.cropper = elem;}}
+                        src={this.state.src}
+                        aspectRatio={16 / 9}
+                        guides={false}
+                        crop={this.cropImage} />
+                </Col>
+                <Col span={12}>
+                    <img style={{ width: "100%" }} src={this.state.cropResult}/>
+                </Col>
+            </Row>
         );
     }
 }

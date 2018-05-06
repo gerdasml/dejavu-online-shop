@@ -29,7 +29,7 @@ export class ProductPicturesModal extends React.Component<{}, ImageState> {
                 onClose={this.handleClose.bind(this)}
             >
                 <Modal.Content>
-                    <ImageCropper/>
+                    <ImageCropper onChange={f=>{}} image={undefined} />
                 </Modal.Content>
             </Modal>
         );
