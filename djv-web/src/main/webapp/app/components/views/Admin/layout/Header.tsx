@@ -20,22 +20,22 @@ export class MenuHeader extends React.Component<{}, MenuHeaderState> {
             <Menu.Item
                 name="orders"
                 active={activeItem === "orders"}
-                as={NavLink} to="orders"
+                as={NavLink} to="/admin/orders"
                 onClick={this.handleItemClick.bind(this)} />
             <Menu.Item
                 name="users"
                 active={activeItem === "users"}
-                as={NavLink} to="users"
+                as={NavLink} to="/admin/users"
                 onClick={this.handleItemClick.bind(this)} />
             <Menu.Item
                 name="products"
                 active={activeItem === "products"}
-                as={NavLink} to="product"
+                as={NavLink} to="/admin/product"
                 onClick={this.handleItemClick.bind(this)} />
             <Menu.Item
                 name="categories"
                 active={activeItem === "categories"}
-                as={NavLink} to="categories"
+                as={NavLink} to="/admin/categories"
                 onClick={this.handleItemClick.bind(this)}/>
             <Menu.Menu position="right">
                 <Menu.Item
