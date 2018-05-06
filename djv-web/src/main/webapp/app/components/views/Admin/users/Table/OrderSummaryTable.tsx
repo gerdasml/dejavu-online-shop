@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Pagination, Table, Button } from "antd";
+import { Pagination, Table, Button, Tag } from "antd";
 
 import { OrderSummary } from "../../../../../model/Order";
 
@@ -54,7 +54,10 @@ export const OrderSummaryTable = (props: OrderSummaryTableProps) => (
         <SummaryColumn
                     key="isBanned"
                     title="Is banned?"
-                    render={(_, record) => record.isBanned ? "Yes" : "No"} />
+                    render={(_, record) =>
+                        record.isBanned
+                        ? <Tag color="red">Yes</Tag>
+                        : <Tag color="green">No</Tag>} />
         <SummaryColumn
                     key="moreInfo"
                     render={(_, record) => <Button shape="circle" icon="info" />} />
