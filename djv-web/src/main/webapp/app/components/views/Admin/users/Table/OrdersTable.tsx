@@ -6,6 +6,7 @@ import { Order, OrderItem, OrderStatus } from "../../../../../model/Order";
 import { Product } from "../../../../../model/Product";
 import { User } from "../../../../../model/User";
 import { OrderTable } from "./OrderTable";
+import { stringifyAddress } from "../../../../../utils/common";
 
 interface OrderRecord {
     key: number;
@@ -33,9 +34,6 @@ const convertToRecord = (order: Order, i: number): OrderRecord => ({
     total: order.total,
     user: order.user,
 });
-
-const stringifyAddress = (addr: Address) =>
-    `${addr.street}, ${addr.zipCode} ${addr.city}, ${addr.country}`;
 
 export const OrdersTable = (props: OrdersTableProps) => (
     <OrdersRecordTable
