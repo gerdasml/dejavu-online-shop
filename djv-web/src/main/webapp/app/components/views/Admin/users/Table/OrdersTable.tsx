@@ -39,6 +39,7 @@ const stringifyAddress = (addr: Address) =>
 
 export const OrdersTable = (props: OrdersTableProps) => (
     <OrdersRecordTable
+        bordered={true}
         dataSource={props.orders.map(convertToRecord)}
         pagination={{pageSize: 25, hideOnSinglePage: true}}
         expandedRowRender={(record: OrderRecord) => <OrderTable items={record.items} />}>

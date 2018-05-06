@@ -31,6 +31,7 @@ const convertToRecord = (item: OrderItem, i: number): OrderItemRecord => ({
 
 export const OrderTable = (props: OrderTableProps) => (
     <OrderRecordTable
+        bordered={true}
         dataSource={props.items.map(convertToRecord)}
         pagination={{pageSize: 25, hideOnSinglePage: true}}>
         <OrderRecordColumn
