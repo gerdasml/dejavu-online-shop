@@ -2,10 +2,13 @@ import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
 import { notification, Spin } from "antd";
+import { Order } from "../../../../model/Order";
 import { User } from "../../../../model/User";
 
+import { OrderTable } from "./Table/OrderTable";
+import { OrdersTable } from "./Table/OrdersTable";
+
 import * as api from "../../../../api";
-import { Order } from "../../../../model/Order";
 
 interface SingleUserProps {
     id: number;
@@ -14,12 +17,13 @@ interface SingleUserProps {
 interface SingleUserState {
     isLoading: boolean;
     user?: User;
-    orders?: Order[];
+    orders: Order[];
 }
 
 export class SingleUser extends React.Component<RouteComponentProps<SingleUserProps>, SingleUserState> {
     state: SingleUserState = {
-        isLoading: true
+        isLoading: true,
+        orders: []
     };
 
     async componentDidMount () {
@@ -42,7 +46,7 @@ export class SingleUser extends React.Component<RouteComponentProps<SingleUserPr
         return (
             <Spin spinning={isLoading} size="large">
                 <p>{JSON.stringify(user)}</p>
-                <p>{JSON.stringify(orders)}</p>
+                <OrdersTable orders={orders} />
             </Spin>
         );
     }
