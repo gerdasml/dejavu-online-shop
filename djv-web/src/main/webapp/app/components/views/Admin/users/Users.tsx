@@ -5,9 +5,9 @@ import {Header} from "semantic-ui-react";
 import { notification, Spin } from "antd";
 
 import { OrderSummary } from "../../../../model/Order";
+import { OrderSummaryTable } from "../common/Table/OrderSummaryTable";
 
 import * as api from "../../../../api";
-import { OrderSummaryTable } from "./Table/OrderSummaryTable";
 
 interface UsersState {
     isLoading: boolean;

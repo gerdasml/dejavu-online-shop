@@ -1,12 +1,12 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
-import { notification, Spin, Badge, Tag, Popconfirm } from "antd";
+import { Badge, notification, Popconfirm, Spin, Tag } from "antd";
 import { Order } from "../../../../model/Order";
 import { User, UserType } from "../../../../model/User";
 
-import { OrdersTable } from "./Table/OrdersTable";
-import { OrderTable } from "./Table/OrderTable";
+import { OrdersTable } from "../common/Table/OrdersTable";
+import { OrderTable } from "../common/Table/OrderTable";
 
 import * as api from "../../../../api";
 import { stringifyAddress } from "../../../../utils/common";
