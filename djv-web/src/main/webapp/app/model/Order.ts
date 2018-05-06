@@ -16,6 +16,7 @@ export interface OrderItem {
 }
 
 export interface Order {
+    id: number;
     createdDate: Date;
     shippingAddress: Address;
     status: OrderStatus;
