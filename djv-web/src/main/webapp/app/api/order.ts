@@ -13,7 +13,7 @@ export const getOrder = (id: number): Promise<ApiResponse<Order>> =>
     fetchData(PATH_PREFIX + "/" + id.toString(), HttpMethod.GET);
 
 export const getUserOrderHistory = (userId: number): Promise<ApiResponse<Order[]>> =>
-    fetchData(PATH_PREFIX + "/" + userId.toString(), HttpMethod.GET);
+    fetchData(PATH_PREFIX + "/" + userId.toString() + "/history", HttpMethod.GET);
 
 export const getOrderHistory = (): Promise<ApiResponse<Order[]>> =>
     fetchData(PATH_PREFIX + "/history", HttpMethod.GET);
