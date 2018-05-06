@@ -1,11 +1,7 @@
 import * as React from "react";
 
-import {Header, Input} from "semantic-ui-react";
+import { Input } from "antd";
 
 export const ProductName = () => (
-    <Input
-        label={{ basic: true, content: "Product name:" }}
-        labelPosition="left"
-        placeholder="Enter product name..."
-  />
+      <Input addonBefore="Product name:" placeholder="Enter product name..." />
 );
