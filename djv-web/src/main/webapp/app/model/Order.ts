@@ -23,3 +23,10 @@ export interface Order {
     user: User;
     items: OrderItem[];
 }
+
+export interface OrderSummary {
+    user: User;
+    orderCount: number;
+    totalSpending: number;
+    averageSpending: number;
+}
