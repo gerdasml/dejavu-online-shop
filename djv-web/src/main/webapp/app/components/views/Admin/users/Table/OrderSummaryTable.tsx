@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Pagination, Table, Button, Tag } from "antd";
+import { Button, Pagination, Table, Tag } from "antd";
 
 import { OrderSummary } from "../../../../../model/Order";
 

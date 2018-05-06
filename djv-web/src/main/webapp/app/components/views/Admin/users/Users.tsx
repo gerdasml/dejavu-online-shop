@@ -2,7 +2,7 @@ import * as React from "react";
 
 import {Header} from "semantic-ui-react";
 
-import { Spin } from "antd";
+import { notification, Spin } from "antd";
 
 import { OrderSummary } from "../../../../model/Order";
 
@@ -23,6 +23,7 @@ export class Users extends React.Component<never, UsersState> {
     async componentWillMount () {
         const response = await api.order.getOrderSummary();
         if (api.isError(response)) {
+            notification.error({message: "Failed to fetch data", description: response.message});
             return;
         }
         this.setState({summaries: response, isLoading: false});
