@@ -12,25 +12,21 @@ import { ProductPropertiesTable } from "./ProductPropertiesTable";
 
 export interface SingleProductState {
     name: string;
-    price: number;
+    price?: number;
     pictures: string[];
     description: string;
     properties: ProductProperties[];
-    category: number;
-    subcategory: number;
-    subsubcategory: number;
+    category?: number;
+    subcategory?: number;
+    subsubcategory?: number;
 }
 
 export class SingleProduct extends React.Component<{},SingleProductState> {
     state: SingleProductState = {
-        category: 0,
         description: "",
         name: "",
         pictures: [],
-        price: 0,
         properties: [],
-        subcategory: 0,
-        subsubcategory: 0,
     };
 
     render () {
