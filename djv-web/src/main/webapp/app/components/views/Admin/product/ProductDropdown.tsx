@@ -29,7 +29,7 @@ export class ProductDropdown extends React.Component<ProductDropdownProps,Produc
   render () {
     return (
       <Dropdown overlay={menu}>
-        <Button
+        <Button //loading={true} // TODO: show dropdown as loading while info is not ready
           value={this.state.category}
           onChange={this.handleChange.bind(this)}
         >
