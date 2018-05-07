@@ -9,27 +9,14 @@ export interface ProductPicturesProps {
     onChange: (s: string[]) => void;
 }
 
-export interface ProductPicturesState {
-    pictures: string[];
-}
-
-export class ProductPictures extends React.Component<ProductPicturesProps, ProductPicturesState> {
-    state: ProductPicturesState = { pictures: this.props.pictures };
-    handleChange (e: React.ChangeEvent<HTMLInputElement>) {
-        const value = e.target.value;
-        this.setState({...this.state, pictures: value});
-        this.props.onChange(value);
-    }
-    render () {
-        return (
-            <Grid>
-                <Grid.Row>
-                    {/* <ProductPicturesModal /> */}
-                    <ImageUpload
-                        onUpdate={imgs => this.props.onChange(imgs.map(x => x.url))}
-                        onChange={this.handleChange.bind(this)}/>
-                </Grid.Row>
-            </Grid>
-        );
-    }
-}
+export const ProductPictures = (props: ProductPicturesProps) => (
+    <Grid>
+        <Grid.Row>
+            {/* <ProductPicturesModal /> */}
+            <ImageUpload
+                images={props.pictures}
+                onUpdate={imgs => props.onChange(imgs.map(x => x.url))}
+            />
+        </Grid.Row>
+    </Grid>
+);

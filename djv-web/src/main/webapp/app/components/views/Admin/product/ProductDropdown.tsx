@@ -22,7 +22,7 @@ const menu = (
 export class ProductDropdown extends React.Component<ProductDropdownProps,ProductDropdownState> {
   state: ProductDropdownState = { category: this.props.category };
   handleChange (e: React.ChangeEvent<HTMLInputElement>) {
-        const value = e.target.value;
+        const value = +e.target.value;
         this.setState({...this.state, category: value});
         this.props.onChange(value);
   }

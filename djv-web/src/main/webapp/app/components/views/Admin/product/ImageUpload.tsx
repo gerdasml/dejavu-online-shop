@@ -11,6 +11,11 @@ import { ImageCropper } from "../../Admin/product/ImageCropper";
 
 interface ImageUploadProps {
     onUpdate: (files: ImageInfo[]) => void;
+    images: string[];
+}
+
+interface ImageUploadState {
+    imageList: UploadFile[];
 }
 
 const cloneFile = (old: RcFile, newData: string) => {
@@ -19,7 +24,21 @@ const cloneFile = (old: RcFile, newData: string) => {
     return f;
 };
 
-export class ImageUpload extends React.Component<ImageUploadProps, never> {
+const urlToUploadFile = (url: string, idx: number): UploadFile => ({
+    name: "",
+    response: {url},
+    size: 0,
+    status: "done",
+    type: "",
+    uid: -idx,
+    url,
+});
+
+export class ImageUpload extends React.Component<ImageUploadProps, ImageUploadState> {
+    state: ImageUploadState = {
+        imageList: this.props.images.map(urlToUploadFile)
+    };
+
     upload = async (info: any) => {
         const img = info.file;
         const response = await api.image.uploadImage(img);
@@ -34,6 +53,7 @@ export class ImageUpload extends React.Component<ImageUploadProps, never> {
         const isGood = (f: UploadFile) => f.response as ImageInfo;
         const goodFiles = info.fileList.filter(isGood);
         this.props.onUpdate(goodFiles.map(x => x.response));
+        this.setState({imageList: info.fileList});
     }
 
     handleBefore = async (file: RcFile): Promise<RcFile> =>
@@ -57,7 +77,8 @@ export class ImageUpload extends React.Component<ImageUploadProps, never> {
 
     render () {
         return (
-            <Upload onChange={this.handleChange.bind(this)}
+            <Upload fileList={this.state.imageList}
+                    onChange={this.handleChange.bind(this)}
                     beforeUpload={this.handleBefore.bind(this)}
                     customRequest={this.upload.bind(this)}
                     listType="picture-card">

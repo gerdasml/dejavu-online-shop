@@ -22,18 +22,31 @@ export interface SingleProductState {
 }
 
 export class SingleProduct extends React.Component<{},SingleProductState> {
+    state: SingleProductState = {
+        category: 0,
+        description: "",
+        name: "",
+        pictures: ["http://via.placeholder.com/350x250","http://via.placeholder.com/350x250"],
+        price: 0,
+        properties: [],
+        subcategory: 0,
+        subsubcategory: 0,
+    };
+
     render () {
         return (
             <Grid>
                 <Grid.Row>
                     <Grid.Column width="eight">
                         <ProductName
+                            name={this.state.name}
                             onChange={newName => this.setState({
                                 ...this.state, name: newName
                             })}/>
                     </Grid.Column>
                     <Grid.Column width="eight">
                         <ProductPrice
+                            price={this.state.price}
                             onChange={newPrice => this.setState({
                                 ...this.state, price: newPrice
                             })}/>
@@ -42,12 +55,14 @@ export class SingleProduct extends React.Component<{},SingleProductState> {
                 <Grid.Row>
                     <Grid.Column width="eight">
                         <ProductPictures
+                            pictures={this.state.pictures}
                             onChange={newPictures => this.setState({
                                 ...this.state, pictures: newPictures
                             })}/>
                     </Grid.Column>
                     <Grid.Column width="eight">
                         <ProductDescription
+                            description={this.state.description}
                             onChange={newDescription => this.setState({
                                 ...this.state, description: newDescription
                             })}/>
@@ -57,20 +72,24 @@ export class SingleProduct extends React.Component<{},SingleProductState> {
                     <Grid.Column width="eight">
                         <ProductPropertiesTable
                             properties={[{name: "te", value: "st"}]}
-                            onChange={newProperties => this.setState({
-                                ...this.state, properties: newProperties
-                            })}/>
+                            // onChange={newProperties => this.setState({
+                            //     ...this.state, properties: newProperties
+                            // })}
+                            />
                     </Grid.Column>
                     <Grid.Column width="eight">
                         <ProductDropdown
+                            category={this.state.category}
                             onChange={newCategory => this.setState({
                                 ...this.state, category: newCategory
                             })}/>
                         <ProductDropdown
+                            category={this.state.subcategory}
                             onChange={newSubcategory => this.setState({
                                 ...this.state, subcategory: newSubcategory
                             })}/>
                         <ProductDropdown
+                            category={this.state.subsubcategory}
                             onChange={newSubsubcategory => this.setState({
                                 ...this.state, subsubcategory: newSubsubcategory
                             })}/>
