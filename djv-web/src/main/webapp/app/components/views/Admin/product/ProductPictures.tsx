@@ -9,14 +9,6 @@ export class ProductPictures extends React.Component<{}, {}> {
         return (
             <Grid>
                 <Grid.Row>
-                    <Image.Group>
-                        <Image src="http://via.placeholder.com/100x100" />
-                        <Image src="http://via.placeholder.com/100x100" />
-                        <Image src="http://via.placeholder.com/100x100" />
-                        <Image src="http://via.placeholder.com/100x100" />
-                    </Image.Group>
-                </Grid.Row>
-                <Grid.Row>
                     {/* <ProductPicturesModal /> */}
                     <ImageUpload onUpdate={imgs => console.log(imgs)} />
                 </Grid.Row>

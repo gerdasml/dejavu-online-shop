@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Grid, Header } from "semantic-ui-react";
 
+import { Button } from "antd";
 import { ProductDescription } from "./ProductDescription";
 import { ProductDropdown } from "./ProductDropdown";
 import { ProductName } from "./ProductName";
@@ -9,28 +10,35 @@ import { ProductPrice } from "./ProductPrice";
 import { ProductPropertiesTable } from "./ProductPropertiesTable";
 
 export const SingleProduct = () => (
-    <Grid columns="two">
-        <Grid.Column>
-            <Grid.Row>
+    <Grid>
+        <Grid.Row>
+            <Grid.Column width="eight">
                 <ProductName />
-            </Grid.Row>
-            <Grid.Row>
-                <ProductPictures />
-            </Grid.Row>
-            <Grid.Row>
-                <ProductPropertiesTable properties={[{name: "te", value: "st"}]}/>
-            </Grid.Row>
-        </Grid.Column>
-        <Grid.Column>
-            <Grid.Row>
+            </Grid.Column>
+            <Grid.Column width="eight">
                 <ProductPrice />
-            </Grid.Row>
-            <Grid.Row>
+            </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+            <Grid.Column width="eight">
+                <ProductPictures />
+            </Grid.Column>
+            <Grid.Column width="eight">
                 <ProductDescription />
-            </Grid.Row>
-            <Grid.Row>
+            </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+            <Grid.Column width="eight">
+                <ProductPropertiesTable properties={[{name: "te", value: "st"}]}/>
+            </Grid.Column>
+            <Grid.Column width="eight">
                 <ProductDropdown />
-            </Grid.Row>
-        </Grid.Column>
+                <ProductDropdown />
+                <ProductDropdown />
+            </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+            <Button>Save</Button>
+        </Grid.Row>
     </Grid>
 );
