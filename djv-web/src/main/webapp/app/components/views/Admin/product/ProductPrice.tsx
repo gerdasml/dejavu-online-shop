@@ -13,14 +13,13 @@ export interface ProductPriceState {
 
 export class ProductPrice extends React.Component<ProductPriceProps,ProductPriceState> {
     state: ProductPriceState = { price: this.props.price };
-    handleChange (e: React.ChangeEvent<HTMLInputElement>) {
-        const value = +(e.target.value);
+    handleChange (value: number) {
         this.setState({...this.state, price: value});
         this.props.onChange(value);
     }
     render () {
         return (
-            <Input
+            <Input // TODO: maybe InputNumber?
                 placeholder="Enter product price"
                 prefix={<Icon type="tag" />}
                 value={this.state.price}
