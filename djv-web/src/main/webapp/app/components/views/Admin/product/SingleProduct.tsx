@@ -26,7 +26,7 @@ export class SingleProduct extends React.Component<{},SingleProductState> {
         category: 0,
         description: "",
         name: "",
-        pictures: ["http://via.placeholder.com/350x250","http://via.placeholder.com/350x250"],
+        pictures: [],
         price: 0,
         properties: [],
         subcategory: 0,
