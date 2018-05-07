@@ -1,3 +1,4 @@
+// reikia padaryti veikiancia password'o keitimo sistema su irasymu i backa.
 import * as React from "react";
 
 import {Button, Form, Icon, Modal} from "semantic-ui-react";

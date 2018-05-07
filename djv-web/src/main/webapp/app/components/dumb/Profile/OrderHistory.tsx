@@ -1,3 +1,4 @@
+// reikia padaryti userio orderio gavima is orderAPI ir gautus orderius atvaizduoti.
 import * as React from "react";
 
 import {Header, Icon, Menu, Rating, Table} from "semantic-ui-react";
