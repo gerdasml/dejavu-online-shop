@@ -10,3 +10,6 @@ const PATH_PREFIX = "/api/product";
 
 export const getProductByCategory = (id: number): Promise<ApiResponse<Product>> =>
     fetchData(PATH_PREFIX + "/" + id.toString() + "/info", HttpMethod.GET);
+
+export const createProduct = (product: Product): Promise<ApiResponse<number>> =>
+    fetchData(PATH_PREFIX + "/", HttpMethod.POST, product);
