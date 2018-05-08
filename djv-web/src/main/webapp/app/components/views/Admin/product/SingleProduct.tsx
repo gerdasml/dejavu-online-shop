@@ -26,7 +26,7 @@ export class SingleProduct extends React.Component<{},SingleProductState> {
         description: "",
         name: "",
         pictures: [],
-        properties: [],
+        properties: [{name: "te", value: "st"}],
     };
 
     render () {
@@ -67,10 +67,10 @@ export class SingleProduct extends React.Component<{},SingleProductState> {
                 <Grid.Row>
                     <Grid.Column width="eight">
                         <ProductPropertiesTable
-                            properties={[{name: "te", value: "st"}]}
-                            // onChange={newProperties => this.setState({
-                            //     ...this.state, properties: newProperties
-                            // })}
+                            properties={this.state.properties}
+                            onChange={newProperties => this.setState({
+                                ...this.state, properties: newProperties
+                            })}
                             />
                     </Grid.Column>
                     <Grid.Column width="eight">
@@ -89,6 +89,9 @@ export class SingleProduct extends React.Component<{},SingleProductState> {
                             onChange={newSubsubcategory => this.setState({
                                 ...this.state, subsubcategory: newSubsubcategory
                             })}/>
+                        <div>
+                            {JSON.stringify(this.state)}
+                        </div>
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>

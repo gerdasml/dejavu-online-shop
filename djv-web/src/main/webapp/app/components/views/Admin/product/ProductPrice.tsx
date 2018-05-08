@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Icon, Input } from "antd";
+import { Icon, InputNumber } from "antd";
 
 export interface ProductPriceProps {
     price: number;
@@ -19,9 +19,8 @@ export class ProductPrice extends React.Component<ProductPriceProps,ProductPrice
     }
     render () {
         return (
-            <Input // TODO: maybe InputNumber?
-                placeholder="Enter product price"
-                prefix={<Icon type="tag" />}
+            <InputNumber
+                formatter={value => `$ ${value}`}
                 value={this.state.price}
                 onChange={this.handleChange.bind(this)}
             />

@@ -5,6 +5,7 @@ import { ColumnProps } from "antd/lib/table";
 
 interface EditableCellProps {
     value: string;
+    onChange: (s: string) => void;
 }
 
 interface EditableCellState {
@@ -21,6 +22,7 @@ export class EditableCell extends React.Component<EditableCellProps, EditableCel
     handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
         this.setState({...this.state, value: val});
+        this.props.onChange(val);
     }
 
     finishEdit = () => {
