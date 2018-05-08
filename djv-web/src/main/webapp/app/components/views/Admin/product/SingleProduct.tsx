@@ -19,8 +19,6 @@ export interface SingleProductState {
     description: string;
     properties: ProductProperties[];
     category?: number;
-    subcategory?: number;
-    subsubcategory?: number;
     categories: CategoryTree[];
 }
 
@@ -39,16 +37,6 @@ export class SingleProduct extends React.Component<{},SingleProductState> {
             return;
         }
         this.setState({...this.state, categories});
-    }
-    getSubCategories(categories: CategoryTree[], categoryId?: number) {
-        if(categories === undefined || categoryId === undefined) {
-            return [];
-        }
-        const cat = categories.filter(x => x.category.id === categoryId)[0];
-        if(cat === undefined) {
-            return [];
-        }
-        return cat.children;
     }
     render () {
         return (
@@ -96,27 +84,10 @@ export class SingleProduct extends React.Component<{},SingleProductState> {
                     </Grid.Column>
                     <Grid.Column width="eight">
                         <ProductDropdown
-                            categories={this.state.categories.map(x => x.category)}
+                            categories={this.state.categories}
                             onChange={newCategory => this.setState({
                                 ...this.state, category: newCategory
                             })}/>
-                        <ProductDropdown
-                            categories={this.getSubCategories(this.state.categories, this.state.category)
-                                            .map(x => x.category)}
-                            onChange={newCategory => this.setState({
-                                ...this.state, subcategory: newCategory
-                            })}/>
-                        <ProductDropdown
-                            categories={this.getSubCategories(this.getSubCategories
-                                (this.state.categories, this.state.category),
-                                this.state.subcategory)
-                                .map(x => x.category)}
-                            onChange={newCategory => this.setState({
-                                ...this.state, subsubcategory: newCategory
-                            })}/>
-                        <div>
-                            {JSON.stringify(this.state)}
-                        </div>
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
