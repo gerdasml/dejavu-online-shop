@@ -25,6 +25,7 @@ public class OrderMapper {
 
     public OrderDto map(Order order) {
         OrderDto dto = new OrderDto();
+        dto.setId(order.getId());
         dto.setCreatedDate(order.getCreationDate());
         dto.setStatus(order.getStatus());
         dto.setUser(userMapper.map(order.getUser()));
