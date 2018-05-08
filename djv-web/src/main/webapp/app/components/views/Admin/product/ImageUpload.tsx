@@ -39,6 +39,11 @@ export class ImageUpload extends React.Component<ImageUploadProps, ImageUploadSt
         imageList: this.props.images.map(urlToUploadFile)
     };
 
+    componentWillReceiveProps (nextProps: ImageUploadProps) {
+        if(nextProps.images.length !== 0) return;
+        this.setState({imageList: nextProps.images.map(urlToUploadFile)});
+    }
+
     upload = async (info: any) => {
         const img = info.file;
         const response = await api.image.uploadImage(img);
