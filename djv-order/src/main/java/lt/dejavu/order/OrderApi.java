@@ -4,6 +4,7 @@ import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.model.Endpoint; 
 import lt.dejavu.auth.service.SecurityService; 
 import lt.dejavu.order.dto.OrderDto;
+import lt.dejavu.order.dto.OrderSummaryDto;
 import lt.dejavu.order.model.rest.UpdateOrderStatusRequest;
 import lt.dejavu.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +62,15 @@ public class OrderApi {
                                   @RequestBody UpdateOrderStatusRequest updateRequest) throws ApiSecurityException { 
         authorize(authHeader, request); 
         orderService.updateOrderStatus(orderId, updateRequest.getStatus()); 
-    } 
+    }
+
+    @GetMapping("/summary")
+    public List<OrderSummaryDto> getOrderSummary(HttpServletRequest request,
+                                                @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader
+                                                ) throws ApiSecurityException {
+        authorize(authHeader, request);
+        return orderService.getOrderSummary();
+    }
  
     private Endpoint buildEndpoint(HttpServletRequest request) { 
         Endpoint endpoint = new Endpoint(); 
