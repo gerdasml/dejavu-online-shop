@@ -1,3 +1,4 @@
+// tslint:disable:max-classes-per-file
 import * as React from "react";
 
 import { Button, Icon, Input, Table } from "antd";
@@ -18,11 +19,8 @@ interface PropertiesTableState {
 }
 
 class PropertiesTable extends Table<Property> {}
-
-// tslint:disable-next-line:max-classes-per-file
 class PropertyColumn extends Table.Column<Property> {}
 
-// tslint:disable-next-line:max-classes-per-file
 export class ProductPropertiesTable extends React.Component<PropertiesTableProps, PropertiesTableState> {
     state: PropertiesTableState = {
         properties: this.props.properties.map(addKey)
