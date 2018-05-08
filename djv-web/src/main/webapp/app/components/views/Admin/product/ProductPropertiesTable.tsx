@@ -27,6 +27,13 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
     state: PropertiesTableState = {
         properties: this.props.properties.map(addKey)
     };
+
+    componentWillReceiveProps (nextProps: PropertiesTableProps) {
+        if(nextProps.properties.length === 0) {
+            this.setState({properties: nextProps.properties.map(addKey)});
+        }
+    }
+
     handleAddRow () {
         const p = this.state.properties;
         const lastKey = p.length === 0 ? -1 : p[p.length-1].key;
