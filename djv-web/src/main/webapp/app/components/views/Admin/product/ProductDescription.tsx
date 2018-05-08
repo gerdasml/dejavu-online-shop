@@ -7,22 +7,16 @@ export interface ProductDescriptionProps {
     onChange: (s: string) => void;
 }
 
-export interface ProductDescriptionState {
-    description: string;
-}
-
-export class ProductDescription extends React.Component<ProductDescriptionProps,ProductDescriptionState> {
-    state: ProductDescriptionState = { description: this.props.description };
+export class ProductDescription extends React.Component<ProductDescriptionProps,{}> {
     handleChange (e: React.ChangeEvent<HTMLInputElement>) {
         const value = e.target.value;
-        this.setState({...this.state, description: value});
         this.props.onChange(value);
     }
     render () {
         return (
             <Input
                 placeholder="Enter product description here"
-                value={this.state.description}
+                value={this.props.description}
                 onChange={this.handleChange.bind(this)}
             />
         );
