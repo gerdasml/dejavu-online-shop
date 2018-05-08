@@ -40,6 +40,12 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
 
     componentWillReceiveProps (nextProps: ProductFormProps) {
         if (nextProps.product) {
+            // HACK: chain two state changes. This is required to properly clear
+            // all the child components' states (e.g. image upload)
+            this.setState({
+                pictures: [],
+                properties: []
+            }, () =>
             this.setState({
                 categories: [],
                 category: nextProps.product.categoryId,
@@ -48,7 +54,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                 pictures: [nextProps.product.mainImageUrl,...nextProps.product.additionalImagesUrls],
                 price: nextProps.product.price,
                 properties: nextProps.product.properties,
-            });
+            }));
         }
     }
 
