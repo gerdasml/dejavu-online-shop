@@ -17,12 +17,7 @@ interface HeaderState {
 }
 
 export class Header extends React.Component <{}, HeaderState> {
-    constructor (p: {}) {
-        super(p);
-        this.state = {
-            loggedIn: getToken() !== undefined,
-        };
-    }
+    state = {loggedIn: getToken() !== undefined};
 
     handleLogout = () => {
         clearToken();
