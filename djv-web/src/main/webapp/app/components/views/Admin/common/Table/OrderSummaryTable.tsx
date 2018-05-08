@@ -25,7 +25,7 @@ export const OrderSummaryTable = (props: OrderSummaryTableProps) => (
         <SummaryColumn
                     key="email"
                     title="Email"
-                    dataIndex="email" />
+                    render={(_, record) => record.user.email} />
         <SummaryColumn
                     key="orderCount"
                     title="# of orders"
