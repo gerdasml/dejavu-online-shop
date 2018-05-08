@@ -1,7 +1,9 @@
 import * as React from "react";
 import { Grid, Header } from "semantic-ui-react";
 
-import { Button } from "antd";
+import { Button, notification } from "antd";
+import * as api from "../../../../api";
+import { CategoryTree } from "../../../../model/CategoryTree";
 import { ProductProperties } from "../../../../model/ProductProperties";
 import { ProductDescription } from "./ProductDescription";
 import { ProductDropdown } from "./ProductDropdown";
@@ -17,18 +19,25 @@ export interface SingleProductState {
     description: string;
     properties: ProductProperties[];
     category?: number;
-    subcategory?: number;
-    subsubcategory?: number;
+    categories: CategoryTree[];
 }
 
 export class SingleProduct extends React.Component<{},SingleProductState> {
     state: SingleProductState = {
+        categories: [],
         description: "",
         name: "",
         pictures: [],
-        properties: [],
+        properties: [{name: "te", value: "st"}]
     };
-
+    async componentWillMount () {
+        const categories = await api.category.getCategoryTree();
+        if(api.isError(categories)) {
+            notification.error({message: "Failed to fetch category data", description: categories.message});
+            return;
+        }
+        this.setState({...this.state, categories});
+    }
     render () {
         return (
             <Grid>
@@ -67,27 +76,17 @@ export class SingleProduct extends React.Component<{},SingleProductState> {
                 <Grid.Row>
                     <Grid.Column width="eight">
                         <ProductPropertiesTable
-                            properties={[{name: "te", value: "st"}]}
-                            // onChange={newProperties => this.setState({
-                            //     ...this.state, properties: newProperties
-                            // })}
+                            properties={this.state.properties}
+                            onChange={newProperties => this.setState({
+                                ...this.state, properties: newProperties
+                            })}
                             />
                     </Grid.Column>
                     <Grid.Column width="eight">
                         <ProductDropdown
-                            category={this.state.category}
+                            categories={this.state.categories}
                             onChange={newCategory => this.setState({
                                 ...this.state, category: newCategory
-                            })}/>
-                        <ProductDropdown
-                            category={this.state.subcategory}
-                            onChange={newSubcategory => this.setState({
-                                ...this.state, subcategory: newSubcategory
-                            })}/>
-                        <ProductDropdown
-                            category={this.state.subsubcategory}
-                            onChange={newSubsubcategory => this.setState({
-                                ...this.state, subsubcategory: newSubsubcategory
                             })}/>
                     </Grid.Column>
                 </Grid.Row>

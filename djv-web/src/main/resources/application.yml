@@ -33,7 +33,12 @@ auth:
       - GET ${rest.user}/{id}
       - POST ${rest.user}/{id}
       - POST ${rest.user}/
-      - GET ${rest.order}/history 
+      - GET ${rest.order}/history
+      - GET ${rest.cart}/
+      - POST ${rest.cart}/
+      - PUT ${rest.cart}/
+      - DELETE ${rest.cart}/*
+      - POST ${rest.cart}/checkout
     ADMIN:
       - GET ${rest.user}/*
       - GET ${rest.user}/

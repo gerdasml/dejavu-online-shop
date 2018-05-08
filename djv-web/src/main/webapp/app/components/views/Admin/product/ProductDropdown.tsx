@@ -1,42 +1,27 @@
 import * as React from "react";
 
-import { Button, Dropdown, Icon, Menu } from "antd";
+import { Button, Cascader, Icon, Select } from "antd";
+import { CascaderOptionType } from "antd/lib/cascader";
+import { Category } from "../../../../model/Category";
+import { CategoryTree } from "../../../../model/CategoryTree";
 
 export interface ProductDropdownProps {
-  category: number;
-  onChange: (n: number) => void;
+  categories: CategoryTree[];
+  onChange: (n?: number) => void;
 }
 
-export interface ProductDropdownState {
-  category: number;
-}
+const mapToOption = (c: CategoryTree): CascaderOptionType => ({
+    children: c.children ? c.children.map(mapToOption) : [],
+    label: c.category.name,
+    value: c.category.id.toString()
+});
 
-const menu = (
-    <Menu>
-      <Menu.Item key="1">1st menu item</Menu.Item>
-      <Menu.Item key="2">2nd menu item</Menu.Item>
-      <Menu.Item key="3">3rd item</Menu.Item>
-    </Menu>
-  );
+export const ProductDropdown = (props: ProductDropdownProps) => (
+  <Cascader
+    onChange={values => values.length === 0 ? undefined : props.onChange(+values[values.length-1])}
+    //TODO: move style to css file
+    options={props.categories.map(mapToOption)}
+    placeholder="Select category">
+  </Cascader>
+);
 
-export class ProductDropdown extends React.Component<ProductDropdownProps,ProductDropdownState> {
-  state: ProductDropdownState = { category: this.props.category };
-  handleChange (e: React.ChangeEvent<HTMLInputElement>) {
-        const value = +e.target.value;
-        this.setState({...this.state, category: value});
-        this.props.onChange(value);
-  }
-  render () {
-    return (
-      <Dropdown overlay={menu}>
-        <Button //loading={true} // TODO: show dropdown as loading while info is not ready
-          value={this.state.category}
-          onChange={this.handleChange.bind(this)}
-        >
-          Button <Icon
-                    type="down"/>
-        </Button>
-      </Dropdown>
-    );
-  }
-}

@@ -10,6 +10,7 @@ type Property = ProductProperties & WithKey;
 
 interface PropertiesTableProps {
     properties: ProductProperties[];
+    onChange: (pp: ProductProperties[]) => void;
 }
 
 interface PropertiesTableState {
@@ -31,10 +32,27 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
         const lastKey = p.length === 0 ? -1 : p[p.length-1].key;
         const newProp: Property = {name: "", value: "", key: lastKey+1};
         this.setState({properties: [...p, newProp]});
+        this.updateParent([...p, newProp]);
     }
     handleRemoveRow (keyToDelete: number) {
         const newProp = this.state.properties.filter(x => x.key !== keyToDelete);
         this.setState({properties: newProp});
+        this.updateParent(newProp);
+    }
+    updatePropertyName (index: number, name: string) {
+        const newProps = [...this.state.properties];
+        newProps[index].name = name;
+        this.setState({properties: newProps});
+        this.updateParent(newProps);
+    }
+    updatePropertyValue (index: number, value: string) {
+        const newProps = [...this.state.properties];
+        newProps[index].value = value;
+        this.setState({properties: newProps});
+        this.updateParent(newProps);
+    }
+    updateParent (newProps: Property[]) {
+        this.props.onChange(newProps.map(x => x as ProductProperties));
     }
     render () {
         return (
@@ -43,11 +61,21 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
                     <PropertyColumn
                         key="name"
                         title="Name"
-                        render={(text, record, index) => <EditableCell value={record.name}/>} />
+                        render={(text, record, index) =>
+                            <EditableCell
+                                value={record.name}
+                                onChange={s=>this.updatePropertyName(index, s)}
+                            />}
+                        />
                     <PropertyColumn
                         key="value"
                         title="Value"
-                        render={(text, record, index) => <EditableCell value={record.value}/>} />
+                        render={(text, record, index) =>
+                            <EditableCell
+                                value={record.value}
+                                onChange={s=>this.updatePropertyValue(index, s)}
+                            />}
+                        />
                     <PropertyColumn
                         key="remove"
                         render={(_, record) => <Button
