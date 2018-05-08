@@ -7,15 +7,9 @@ export interface ProductNameProps {
       onChange: (s: string) => void;
 }
 
-export interface ProductNameState {
-      name: string;
-}
-
-export class ProductName extends React.Component<ProductNameProps,ProductNameState> {
-      state: ProductNameState = { name: this.props.name };
+export class ProductName extends React.Component<ProductNameProps,never> {
       handleChange (e: React.ChangeEvent<HTMLInputElement>) {
             const value = e.target.value;
-            this.setState({...this.state, name: value});
             this.props.onChange(value);
       }
       render () {
@@ -23,7 +17,7 @@ export class ProductName extends React.Component<ProductNameProps,ProductNameSta
                   <Input
                         addonBefore="Product name:"
                         placeholder="Enter product name..."
-                        value={this.state.name}
+                        value={this.props.name}
                         onChange={this.handleChange.bind(this)}/>
             );
       }

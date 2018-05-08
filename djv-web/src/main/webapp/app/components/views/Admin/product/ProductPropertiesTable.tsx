@@ -52,7 +52,7 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
         this.updateParent(newProps);
     }
     updateParent (newProps: Property[]) {
-        this.props.onChange(newProps.map(x => x as ProductProperties));
+        this.props.onChange(newProps.map(x => ({name: x.name, value: x.value})));
     }
     render () {
         return (
