@@ -15,8 +15,8 @@ export const AdminMain = () => (
     <div>
         <MenuHeader/>
         <Switch>
-            <Route path="/admin/product/:id" component={SingleProduct}/>
             <Route path="/admin/product/create" component={CreateProduct}/>
+            <Route path="/admin/product/:id" component={SingleProduct}/>
             <Route path="/admin/orders" component={Orders}/>
             <Route path="/admin/users" component={Users}/>
             <Route path="/admin/user/:id" component={SingleUser} />
