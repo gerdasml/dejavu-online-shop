@@ -43,6 +43,7 @@ export class EditableCell extends React.Component<EditableCellProps, EditableCel
                 value={value}
                 onChange={this.handleChange}
                 onPressEnter={this.finishEdit}
+                onBlur={this.finishEdit}
               />
               <Icon
                 type="check"
