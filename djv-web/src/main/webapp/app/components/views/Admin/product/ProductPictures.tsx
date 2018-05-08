@@ -10,12 +10,8 @@ export interface ProductPicturesProps {
 }
 
 export const ProductPictures = (props: ProductPicturesProps) => (
-    <Grid>
-        <Grid.Row>
-            <ImageUpload
-                images={props.pictures}
-                onUpdate={imgs => props.onChange(imgs.map(x => x.url))}
-            />
-        </Grid.Row>
-    </Grid>
+    <ImageUpload
+        images={props.pictures}
+        onUpdate={imgs => props.onChange(imgs.map(x => x.url))}
+    />
 );
