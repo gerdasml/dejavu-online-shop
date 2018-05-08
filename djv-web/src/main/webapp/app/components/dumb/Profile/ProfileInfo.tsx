@@ -32,7 +32,6 @@ export class ProfileInfo extends React.Component<{}, ProfileState> {
 
     async componentDidMount () {
         const userInfo = await api.user.getProfile();
-        console.log(userInfo);
         if(api.isError(userInfo)) {
             this.setState({
                 ...this.state,
@@ -54,7 +53,6 @@ export class ProfileInfo extends React.Component<{}, ProfileState> {
             ...this.state,
             beingEdited: !this.state.beingEdited,
         });
-        console.log(this.state.changedUser);
     }
 
     async saveChanges () {
@@ -140,86 +138,92 @@ export class ProfileInfo extends React.Component<{}, ProfileState> {
         return(
             <Form size="mini" id="changeProfile" loading={this.state.isLoading}>
                 <div className="profileEditing">
-                    {
-                        this.state.beingEdited
-                        ? <Button.Group id="profileSave">
-                              <Button negative onClick= {() => this.cancelChanges()}>Cancel</Button>
-                              <Button.Or />
-                              <Button positive onClick= {() => this.saveChanges()}>Save</Button>
-                          </Button.Group>
-                        : <Button
-                                    id="profileEdit"
-                                    icon labelPosition="left"
-                                    onClick= {() => this.enableEditing()}
-                          >
-                              <Icon name="write" />
-                              Edit
-                          </Button>
+                    { this.state.beingEdited
+                    ?
+                    <Button.Group id="profileSave">
+                        <Button negative onClick= {() => this.cancelChanges()}>Cancel</Button>
+                        <Button.Or />
+                        <Button positive onClick= {() => this.saveChanges()}>Save</Button>
+                    </Button.Group>
+                    :
+                    <Button
+                        id="profileEdit"
+                        icon labelPosition="left"
+                        onClick= {() => this.enableEditing()}
+                    >
+                        <Icon name="write" />
+                        Edit
+                    </Button>
                     }
                 </div>
                 <Form.Field inline className="profileFormField">
                     <label>First name:</label>
-                    {
-                        this.state.beingEdited
-                        ? <input className="editableFields" type="text" placeholder="First Name"
-                            onChange = {this.handleFirstNameInput.bind(this)}
-                            defaultValue={this.state.isLoading ? "" : this.state.user.firstName}
-                        />
-                        : <label className="readOnlyFields" >
-                            {this.state.isLoading ? "Cia turi but vardas..." : this.state.user.firstName}
-                          </label>
+                    { this.state.beingEdited
+                    ?
+                    <input className="editableFields" type="text" placeholder="First Name"
+                        onChange = {this.handleFirstNameInput.bind(this)}
+                        defaultValue={this.state.isLoading ? "" : this.state.user.firstName}
+                    />
+                    :
+                    <label className="readOnlyFields" >
+                        {this.state.isLoading ? "Cia turi but vardas..." : this.state.user.firstName}
+                    </label>
                     }
                 </Form.Field>
                 <Form.Field inline className="profileFormField">
                     <label>Last name:</label>
-                    {
-                        this.state.beingEdited
-                        ? <input className="editableFields" type="text" placeholder="Last Name"
-                            onChange = {this.handleLastNameInput.bind(this)}
-                            defaultValue={this.state.isLoading ? "" : this.state.user.lastName}
-                        />
-                        : <label className="readOnlyFields" >
-                            {this.state.isLoading ? "Cia turi but pavarde..." : this.state.user.lastName}
-                        </label>
+                    { this.state.beingEdited
+                    ?
+                    <input className="editableFields" type="text" placeholder="Last Name"
+                        onChange = {this.handleLastNameInput.bind(this)}
+                        defaultValue={this.state.isLoading ? "" : this.state.user.lastName}
+                    />
+                    :
+                    <label className="readOnlyFields" >
+                        {this.state.isLoading ? "Cia turi but pavarde..." : this.state.user.lastName}
+                    </label>
                     }
                 </Form.Field>
                 <Form.Field inline className="profileFormField">
                     <label>Email:</label>
-                    {
-                        this.state.beingEdited
-                        ? <input className="editableFields" type="email" placeholder="email"
-                            onChange = {this.handleEmailInput.bind(this)}
-                            defaultValue={this.state.isLoading ? "" : this.state.user.email}
-                        />
-                        : <label className="readOnlyFields" >
-                            {this.state.isLoading ? "Cia turi but pastas..." : this.state.user.email}
-                        </label>
+                    { this.state.beingEdited
+                    ?
+                    <input className="editableFields" type="email" placeholder="email"
+                        onChange = {this.handleEmailInput.bind(this)}
+                        defaultValue={this.state.isLoading ? "" : this.state.user.email}
+                    />
+                    :
+                    <label className="readOnlyFields" >
+                        {this.state.isLoading ? "Cia turi but pastas..." : this.state.user.email}
+                    </label>
                     }
                 </Form.Field>
                 <Form.Field inline className="profileFormField">
                     <label>Phone number:</label>
-                    {
-                        this.state.beingEdited
-                        ? <input className="editableFields" type="text" placeholder="+370********"
-                            onChange = {this.handlePhoneInput.bind(this)}
-                            defaultValue={this.state.isLoading ? "" : this.state.user.phone}
-                        />
-                        : <label className="readOnlyFields" >
-                            {this.state.isLoading ? "Cia turi but numeris..." : this.state.user.phone}
-                        </label>
+                    { this.state.beingEdited
+                    ?
+                    <input className="editableFields" type="text" placeholder="+370********"
+                        onChange = {this.handlePhoneInput.bind(this)}
+                        defaultValue={this.state.isLoading ? "" : this.state.user.phone}
+                    />
+                    :
+                    <label className="readOnlyFields" >
+                        {this.state.isLoading ? "Cia turi but numeris..." : this.state.user.phone}
+                    </label>
                     }
                 </Form.Field>
                 <Form.Field inline className="profileFormField">
                     <label>Street:</label>
-                    {
-                        this.state.beingEdited
-                        ? <input className="editableFields" type="text" placeholder="street"
-                            onChange = {this.handleStreetInput.bind(this)}
-                            defaultValue={this.state.isLoading ? "" : this.state.user.address.street}
-                        />
-                        : <label className="readOnlyFields" >
-                            {this.state.isLoading ? "Cia turi but gatve..." : this.state.user.address.street}
-                        </label>
+                    { this.state.beingEdited
+                    ?
+                    <input className="editableFields" type="text" placeholder="street"
+                        onChange = {this.handleStreetInput.bind(this)}
+                        defaultValue={this.state.isLoading ? "" : this.state.user.address.street}
+                    />
+                    :
+                    <label className="readOnlyFields" >
+                        {this.state.isLoading ? "Cia turi but gatve..." : this.state.user.address.street}
+                    </label>
                     }
                 </Form.Field>
                 <Form.Field inline className="profileFormField">
@@ -242,12 +246,12 @@ export class ProfileInfo extends React.Component<{}, ProfileState> {
                         this.state.beingEdited
                         ? <select className="editableFields"
                             onChange = {this.handleCountryInput.bind(this)}>
-                            {
-                                this.state.isLoading
-                                ? undefined
-                                : <option value={this.state.user.address.country}>
-                                    {this.state.user.address.country}
-                                </option>}
+                            { this.state.isLoading
+                            ? undefined
+                            : <option value={this.state.user.address.country}>
+                                {this.state.user.address.country}
+                            </option>
+                            }
                              <option value="Lithuania">Lithuania</option>
                              <option value="United Kingdom">United Kingdom</option>
                          </select>
@@ -258,14 +262,13 @@ export class ProfileInfo extends React.Component<{}, ProfileState> {
                 </Form.Field>
                 <Form.Field inline className="profileFormField">
                     <label>Zip Code:</label>
-                    {
-                        this.state.beingEdited
-                        ? <input className="editableFields" type="text" placeholder="zip code"
-                            onChange = {this.handleZipCodeInput.bind(this)}
-                            defaultValue={this.state.isLoading ? "" : this.state.user.address.zipCode}/>
-                        : <label className="readOnlyFields" >
-                            {this.state.isLoading ? "Cia turi but pasto kodas..." : this.state.user.address.zipCode}
-                        </label>
+                    { this.state.beingEdited
+                    ? <input className="editableFields" type="text" placeholder="zip code"
+                        onChange = {this.handleZipCodeInput.bind(this)}
+                        defaultValue={this.state.isLoading ? "" : this.state.user.address.zipCode}/>
+                    : <label className="readOnlyFields" >
+                        {this.state.isLoading ? "Cia turi but pasto kodas..." : this.state.user.address.zipCode}
+                    </label>
                     }
                 </Form.Field>
                 <hr/>

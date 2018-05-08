@@ -50,7 +50,7 @@ export class ChangePassword extends React.Component<{}, ChangePasswordState> {
                         <Button onClick={this.handleClose} color="green" inverted>
                             <Icon name="checkmark" />
                             Save
-                            </Button>
+                        </Button>
                     </Form>
                 </Modal.Content>
             </Modal>
