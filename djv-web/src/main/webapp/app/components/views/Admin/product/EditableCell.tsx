@@ -27,7 +27,6 @@ export class EditableCell extends React.Component<EditableCellProps, EditableCel
 
     finishEdit = () => {
         this.setState({...this.state, isBeingEdited: false});
-        // TODO:  call this.props.onChange in the future
     }
 
     startEdit = () => {
