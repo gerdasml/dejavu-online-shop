@@ -15,7 +15,11 @@ interface LoginState {
     open: boolean;
 }
 
-export class Login extends React.Component <{}, LoginState> {
+interface LoginProps {
+    onLogin: () => void;
+}
+
+export class Login extends React.Component <LoginProps, LoginState> {
     state = {
         email: "",
         error: "",
@@ -59,6 +63,7 @@ export class Login extends React.Component <{}, LoginState> {
             ...this.state, error: "", loading: false
         });
         this.handleClose();
+        this.props.onLogin();
     }
     render () {
         return (
@@ -70,7 +75,7 @@ export class Login extends React.Component <{}, LoginState> {
             >
                 LOG&nbsp;IN
                 <br/>
-                <Icon name="user circle outline" size="big"/>
+                <Icon name="sign in" size="big"/>
             </Button>}
             open={this.state.open}
             onClose={this.handleClose.bind(this)}

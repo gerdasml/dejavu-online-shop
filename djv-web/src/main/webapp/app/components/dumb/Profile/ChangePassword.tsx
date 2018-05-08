@@ -1,3 +1,4 @@
+// TODO: reikia padaryti veikiancia password'o keitimo sistema su irasymu i backa.
 import * as React from "react";
 
 import {Button, Form, Icon, Modal} from "semantic-ui-react";
@@ -49,7 +50,7 @@ export class ChangePassword extends React.Component<{}, ChangePasswordState> {
                         <Button onClick={this.handleClose} color="green" inverted>
                             <Icon name="checkmark" />
                             Save
-                            </Button>
+                        </Button>
                     </Form>
                 </Modal.Content>
             </Modal>
