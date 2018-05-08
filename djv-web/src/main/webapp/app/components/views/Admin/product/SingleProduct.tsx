@@ -75,19 +75,20 @@ export class SingleProduct extends React.Component<{},SingleProductState> {
                     </Grid.Column>
                     <Grid.Column width="eight">
                         <ProductDropdown
-                            category={this.state.category}
+                            categories={[{id: 1, parentId: 1, identifier: "bla", iconName: "medis", name: "medis"},
+                                         {id: 2, parentId: 1, identifier: "blabla", iconName: "medis2", name: "medis2"}]}
                             onChange={newCategory => this.setState({
                                 ...this.state, category: newCategory
                             })}/>
                         <ProductDropdown
-                            category={this.state.subcategory}
-                            onChange={newSubcategory => this.setState({
-                                ...this.state, subcategory: newSubcategory
+                            categories={[{id: 1, parentId: 1, identifier: "bla", iconName: "medis", name: "medis"}]}
+                            onChange={newCategory => this.setState({
+                                ...this.state, subcategory: newCategory
                             })}/>
                         <ProductDropdown
-                            category={this.state.subsubcategory}
-                            onChange={newSubsubcategory => this.setState({
-                                ...this.state, subsubcategory: newSubsubcategory
+                            categories={[{id: 1, parentId: 1, identifier: "bla", iconName: "medis", name: "medis"}]}
+                            onChange={newCategory => this.setState({
+                                ...this.state, subsubcategory: newCategory
                             })}/>
                         <div>
                             {JSON.stringify(this.state)}

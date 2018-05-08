@@ -1,42 +1,23 @@
 import * as React from "react";
 
-import { Button, Dropdown, Icon, Menu } from "antd";
+import { Button, Icon, Select } from "antd";
+import { Category } from "../../../../model/Category";
 
 export interface ProductDropdownProps {
-  category: number;
+  categories: Category[];
   onChange: (n: number) => void;
 }
 
-export interface ProductDropdownState {
-  category: number;
-}
+export const ProductDropdown = (props: ProductDropdownProps) => (
+  <Select
+    onChange={props.onChange}
+    placeholder="Select a category"
+    //TODO: move style to css file
+    style={{ width: 200 }}>
+    {props.categories.map(x =>
+      <Select.Option value={x.id}>
+        {x.name}
+      </Select.Option>)}
+  </Select>
+);
 
-const menu = (
-    <Menu>
-      <Menu.Item key="1">1st menu item</Menu.Item>
-      <Menu.Item key="2">2nd menu item</Menu.Item>
-      <Menu.Item key="3">3rd item</Menu.Item>
-    </Menu>
-  );
-
-export class ProductDropdown extends React.Component<ProductDropdownProps,ProductDropdownState> {
-  state: ProductDropdownState = { category: this.props.category };
-  handleChange (e: React.ChangeEvent<HTMLInputElement>) {
-        const value = +e.target.value;
-        this.setState({...this.state, category: value});
-        this.props.onChange(value);
-  }
-  render () {
-    return (
-      <Dropdown overlay={menu}>
-        <Button //loading={true} // TODO: show dropdown as loading while info is not ready
-          value={this.state.category}
-          onChange={this.handleChange.bind(this)}
-        >
-          Button <Icon
-                    type="down"/>
-        </Button>
-      </Dropdown>
-    );
-  }
-}
