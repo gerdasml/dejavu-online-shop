@@ -7,17 +7,10 @@ export interface ProductPriceProps {
     onChange: (n: number) => void;
 }
 
-export class ProductPrice extends React.Component<ProductPriceProps,{}> {
-    handleChange (value: number) {
-        this.props.onChange(value);
-    }
-    render () {
-        return (
-            <InputNumber
-                formatter={value => `$ ${value}`}
-                value={this.props.price}
-                onChange={this.handleChange.bind(this)}
-            />
-        );
-    }
-}
+export const ProductPrice = (props: ProductPriceProps) => (
+    <InputNumber
+        formatter={value => `$ ${value}`}
+        value={props.price}
+        onChange={props.onChange}
+    />
+);

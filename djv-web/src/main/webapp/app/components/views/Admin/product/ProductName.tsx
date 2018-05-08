@@ -7,18 +7,10 @@ export interface ProductNameProps {
       onChange: (s: string) => void;
 }
 
-export class ProductName extends React.Component<ProductNameProps,never> {
-      handleChange (e: React.ChangeEvent<HTMLInputElement>) {
-            const value = e.target.value;
-            this.props.onChange(value);
-      }
-      render () {
-            return (
-                  <Input
-                        addonBefore="Product name:"
-                        placeholder="Enter product name..."
-                        value={this.props.name}
-                        onChange={this.handleChange.bind(this)}/>
-            );
-      }
-}
+export const ProductName = (props: ProductNameProps) => (
+    <Input
+        addonBefore="Product name:"
+        placeholder="Enter product name..."
+        value={props.name}
+        onChange={e => props.onChange(e.target.value)}/>
+);
