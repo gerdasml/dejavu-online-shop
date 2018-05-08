@@ -9,8 +9,9 @@ export interface ProductPriceProps {
 
 export const ProductPrice = (props: ProductPriceProps) => (
     <InputNumber
-        formatter={value => `$ ${value}`}
+        formatter={value => `${value} €`}
         value={props.price}
         onChange={props.onChange}
+        min={0}
     />
 );
