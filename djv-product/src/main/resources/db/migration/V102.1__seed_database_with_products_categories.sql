@@ -79,7 +79,7 @@ insert into `product` (`id`, `category`, `creationDate`, `description`, `identif
 insert into additional_image_url (productId, imageUrl) values (1, '/image/2'),(1, '/image/3'),(1, '/image/4'),(2, '/image/6');
 
 insert into product_property (productId, name, value) values
---https://www.amazon.com/LG-gram-Thin-Light-Laptop/dp/B077YSVKQK
+      -- https://www.amazon.com/LG-gram-Thin-Light-Laptop/dp/B077YSVKQK
       (1, 'Screen Size', '15.6 inches'),
       (1, 'Max Screen Resolution','1920 x 1080 pixels'),
       (1, 'Processor','1.8 GHz Intel Core i7'),
@@ -99,7 +99,7 @@ insert into product_property (productId, name, value) values
       (1, 'Hard Drive Interface','Solid State'),
       (1, 'Optical Drive Type','None'),
       (1, 'Batteries','1 Lithium ion batteries required. (included) '),
-      --https://www.amazon.com/dp/B0774Z5VJN/ref=twister_B07C7JC4NC?_encoding=UTF8&psc=1
+      -- https://www.amazon.com/dp/B0774Z5VJN/ref=twister_B07C7JC4NC?_encoding=UTF8&psc=1
       (2, 'Screen Size','13.3 inches'),
       (2, 'Processor','1.8 GHz Core i5-2300'),
       (2, 'RAM','8 GB DDR3 SDRAM'),
@@ -122,10 +122,9 @@ insert into product_property (productId, name, value) values
 
 insert into `image` (`id`, `filename`, `extension`, `uploadedOn`) values
     (1,'image-1','jpg',CURRENT_TIMESTAMP()),
-    (3,'image-2','jpg',CURRENT_TIMESTAMP()),
-    (4,'image-3','jpg',CURRENT_TIMESTAMP()),
-    (2,'image-4','jpg',CURRENT_TIMESTAMP()),
+    (2,'image-2','jpg',CURRENT_TIMESTAMP()),
+    (3,'image-3','jpg',CURRENT_TIMESTAMP()),
+    (4,'image-4','jpg',CURRENT_TIMESTAMP()),
     (5,'image-5','jpg',CURRENT_TIMESTAMP()),
     (6,'image-6','jpg',CURRENT_TIMESTAMP()),
     (7,'image-7','jpg',CURRENT_TIMESTAMP());
-    
