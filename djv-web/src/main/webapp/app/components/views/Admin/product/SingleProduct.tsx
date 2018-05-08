@@ -1,7 +1,9 @@
 import * as React from "react";
 import { Grid, Header } from "semantic-ui-react";
 
-import { Button } from "antd";
+import { Button, notification } from "antd";
+import * as api from "../../../../api";
+import { CategoryTree } from "../../../../model/CategoryTree";
 import { ProductProperties } from "../../../../model/ProductProperties";
 import { ProductDescription } from "./ProductDescription";
 import { ProductDropdown } from "./ProductDropdown";
@@ -19,16 +21,35 @@ export interface SingleProductState {
     category?: number;
     subcategory?: number;
     subsubcategory?: number;
+    categories: CategoryTree[];
 }
 
 export class SingleProduct extends React.Component<{},SingleProductState> {
     state: SingleProductState = {
+        categories: [],
         description: "",
         name: "",
         pictures: [],
-        properties: [{name: "te", value: "st"}],
+        properties: [{name: "te", value: "st"}]
     };
-
+    async componentWillMount () {
+        const categories = await api.category.getCategoryTree();
+        if(api.isError(categories)) {
+            notification.error({message: "Failed to fetch category data", description: categories.message});
+            return;
+        }
+        this.setState({...this.state, categories});
+    }
+    getSubCategories(categories: CategoryTree[], categoryId?: number) {
+        if(categories === undefined || categoryId === undefined) {
+            return [];
+        }
+        const cat = categories.filter(x => x.category.id === categoryId)[0];
+        if(cat === undefined) {
+            return [];
+        }
+        return cat.children;
+    }
     render () {
         return (
             <Grid>
@@ -75,18 +96,21 @@ export class SingleProduct extends React.Component<{},SingleProductState> {
                     </Grid.Column>
                     <Grid.Column width="eight">
                         <ProductDropdown
-                            categories={[{id: 1, parentId: 1, identifier: "bla", iconName: "medis", name: "medis"},
-                                         {id: 2, parentId: 1, identifier: "blabla", iconName: "medis2", name: "medis2"}]}
+                            categories={this.state.categories.map(x => x.category)}
                             onChange={newCategory => this.setState({
                                 ...this.state, category: newCategory
                             })}/>
                         <ProductDropdown
-                            categories={[{id: 1, parentId: 1, identifier: "bla", iconName: "medis", name: "medis"}]}
+                            categories={this.getSubCategories(this.state.categories, this.state.category)
+                                            .map(x => x.category)}
                             onChange={newCategory => this.setState({
                                 ...this.state, subcategory: newCategory
                             })}/>
                         <ProductDropdown
-                            categories={[{id: 1, parentId: 1, identifier: "bla", iconName: "medis", name: "medis"}]}
+                            categories={this.getSubCategories(this.getSubCategories
+                                (this.state.categories, this.state.category),
+                                this.state.subcategory)
+                                .map(x => x.category)}
                             onChange={newCategory => this.setState({
                                 ...this.state, subsubcategory: newCategory
                             })}/>
