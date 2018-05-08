@@ -8,9 +8,10 @@ export interface ProductDescriptionProps {
 }
 
 export const ProductDescription = (props: ProductDescriptionProps) => (
-    <Input
+    <Input.TextArea
         placeholder="Enter product description here"
         value={props.description}
         onChange={e => props.onChange(e.target.value)}
+        rows={5}
     />
 );
