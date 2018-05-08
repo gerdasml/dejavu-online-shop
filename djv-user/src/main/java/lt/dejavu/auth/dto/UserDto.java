@@ -9,7 +9,6 @@ import lt.dejavu.auth.model.db.Address;
 @Getter
 @Setter
 public class UserDto {
-    @JsonIgnore
     private Long id;
     private String email;
     @JsonIgnore
