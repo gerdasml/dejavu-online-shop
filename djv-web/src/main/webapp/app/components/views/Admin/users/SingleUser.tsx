@@ -27,13 +27,23 @@ export class SingleUser extends React.Component<RouteComponentProps<SingleUserPr
         orders: []
     };
 
+    // required to load data on initial render
     async componentDidMount () {
-        const userResponse = await api.user.getUser(this.props.match.params.id);
+        await this.loadData(this.props);
+    }
+
+    // required to load data on each url change
+    async componentWillReceiveProps (nextProps: RouteComponentProps<SingleUserProps>) {
+        await this.loadData(nextProps);
+    }
+
+    async loadData (props: RouteComponentProps<SingleUserProps>) {
+        const userResponse = await api.user.getUser(props.match.params.id);
         if (api.isError(userResponse)) {
             notification.error({message: "Failed to fetch user data", description: userResponse.message});
             return;
         }
-        const ordersResponse = await api.order.getUserOrderHistory(this.props.match.params.id);
+        const ordersResponse = await api.order.getUserOrderHistory(props.match.params.id);
         if (api.isError(ordersResponse)) {
             notification.error({message: "Failed to fetch orders data", description: ordersResponse.message});
             return;

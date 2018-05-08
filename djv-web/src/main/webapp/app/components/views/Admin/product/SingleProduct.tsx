@@ -18,8 +18,18 @@ interface SingleProductProps {
 export class SingleProduct extends React.Component<RouteComponentProps<SingleProductProps>,SingleProductState> {
     state: SingleProductState = {};
 
+    // required to load data on initial render
+    async componentDidMount () {
+        await this.loadData(this.props);
+    }
+
+    // required to load data on each url change
     async componentWillReceiveProps (nextProps: RouteComponentProps<SingleProductProps>) {
-        const response = await api.product.getProduct(nextProps.match.params.id);
+        await this.loadData(nextProps);
+    }
+
+    async loadData (props: RouteComponentProps<SingleProductProps>) {
+        const response = await api.product.getProduct(props.match.params.id);
         if (api.isError(response)) {
             notification.error({ message: "Failed to fetch product data", description: response.message });
             return;
