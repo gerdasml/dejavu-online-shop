@@ -164,6 +164,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                     </Grid.Column>
                     <Grid.Column width="eight">
                         <ProductDropdown
+                            selected={this.state.category}
                             categories={this.state.categories}
                             onChange={newCategory => this.setState({
                                 ...this.state, category: newCategory

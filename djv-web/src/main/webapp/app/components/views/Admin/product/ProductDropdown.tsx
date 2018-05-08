@@ -8,6 +8,7 @@ import { CategoryTree } from "../../../../model/CategoryTree";
 export interface ProductDropdownProps {
     categories: CategoryTree[];
     onChange: (n?: number) => void;
+    selected?: number;
 }
 
 const mapToOption = (c: CategoryTree): CascaderOptionType => ({
@@ -16,10 +17,20 @@ const mapToOption = (c: CategoryTree): CascaderOptionType => ({
     value: c.category.id.toString()
 });
 
+const buildDefaultValue = (categories: CategoryTree[], id?: number): string[] => {
+    if (id === undefined) return [];
+    const result = categories.filter(x => x.category.id === id || buildDefaultValue(x.children, id).length !== 0)[0];
+    if (result === undefined) return [];
+    if (result.category.id === id) return [id.toString()];
+    const res = [result.category.id.toString(), ...buildDefaultValue(result.children, id)];
+    return res;
+};
+
 export const ProductDropdown = (props: ProductDropdownProps) => (
     <Cascader
         onChange={values => values.length === 0 ? undefined : props.onChange(+values[values.length-1])}
         options={props.categories.map(mapToOption)}
         placeholder="Select category"
+        value={buildDefaultValue(props.categories, props.selected)}
     />
 );
