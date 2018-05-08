@@ -68,6 +68,35 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
            this.state.category) return true;
         return false;
     }
+
+    async createProduct (product: Product) {
+        const response = await api.product.createProduct(product);
+        if(api.isError(response)) {
+            notification.error({message: "Failed to save data", description: response.message});
+            return;
+        }
+        notification.success({message: "Data was saved successfully.",
+                                    description: "Your new product will apear in the list of products."});
+        this.setState({
+            category: undefined,
+            description: "",
+            name: "",
+            pictures: [],
+            price: undefined,
+            properties: [],
+        });
+    }
+
+    updateProduct = async (id: number, product: Product) => {
+        const response = await api.product.updateProduct(id, product);
+        if(api.isError(response)) {
+            notification.error({message: "Failed to save data", description: response.message});
+            return;
+        }
+        notification.success({message: "Data was saved successfully.",
+                                    description: "The data of this product has been updated"});
+    }
+
     async handleSave () {
         if (this.isValid()) {
             const product: Product = {
@@ -80,21 +109,11 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                 price: this.state.price,
                 properties: this.state.properties
             };
-            const response = await api.product.createProduct(product);
-            if(api.isError(response)) {
-                notification.error({message: "Failed to save data", description: response.message});
-                return;
+            if (this.props.product === undefined) {
+                await this.createProduct(product);
+            } else {
+                await this.updateProduct(this.props.product.id, product);
             }
-            notification.success({message: "Data was saved successfully.",
-                                    description: "Your new product will apear in the list of products."});
-            this.setState({
-                category: undefined,
-                description: "",
-                name: "",
-                pictures: [],
-                price: undefined,
-                properties: [],
-            });
             return;
         }
         notification.warning({message: "Failed to save product", description: "Not all fields are filled"});

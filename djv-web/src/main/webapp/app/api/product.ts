@@ -16,3 +16,6 @@ export const createProduct = (product: Product): Promise<ApiResponse<number>> =>
 
 export const getProduct = (id: number): Promise<ApiResponse<Product>> =>
     fetchData(PATH_PREFIX + "/" + id.toString(), HttpMethod.GET);
+
+export const updateProduct = (id: number, product: Product): Promise<ApiResponse<void>> =>
+    fetchData(PATH_PREFIX + "/" + id.toString(), HttpMethod.PUT, product);
