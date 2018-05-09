@@ -10,6 +10,7 @@ import { Category } from "../../../../model/Category";
 
 interface CategoriesState {
     categories: CategoryTree[];
+    selectedCategory?: Category;
 }
 
 export class Categories extends React.Component<never, CategoriesState> {
@@ -48,7 +49,9 @@ export class Categories extends React.Component<never, CategoriesState> {
                 <CategoryTreeView
                     categories={this.state.categories}
                     onCategoryMove={(cat, parent) => this.handleParentUpdate(cat, parent)}
+                    onSelect={cat => this.setState({...this.state, selectedCategory: cat})}
                 />
+                <div>{JSON.stringify(this.state.selectedCategory)}</div>
             </Spin>
         );
     }

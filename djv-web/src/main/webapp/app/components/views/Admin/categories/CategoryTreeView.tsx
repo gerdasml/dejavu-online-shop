@@ -9,6 +9,7 @@ import { CategoryTree } from "../../../../model/CategoryTree";
 interface CategoryTreeViewProps {
     categories: CategoryTree[];
     onCategoryMove: (category: Category, newParent?: number) => void;
+    onSelect: (category?: Category) => void;
 }
 
 const toTreeNode = (category: CategoryTree): any => {
@@ -40,6 +41,11 @@ export class CategoryTreeView extends React.Component<CategoryTreeViewProps, nev
         const toCategory = findCategoryFromTree(this.props.categories, to);
         this.props.onCategoryMove(fromCategory, onGap ? toCategory.parentCategoryId : toCategory.id);
     }
+    handleSelect (vals: string[]) {
+        const id = vals && vals.length > 0 ? +vals[vals.length-1] : undefined;
+        const cat = findCategoryFromTree(this.props.categories, id);
+        this.props.onSelect(cat);
+    }
     render () {
         return (
             <Tree
@@ -47,7 +53,7 @@ export class CategoryTreeView extends React.Component<CategoryTreeViewProps, nev
                 draggable
                 onDrop={(info: any) =>
                     this.handleDrop(+info.dragNode.props.eventKey, +info.node.props.eventKey, info.dropToGap)}
-                onSelect={info => console.log("SELECT", info)}
+                onSelect={this.handleSelect.bind(this)}
             >
                 {this.props.categories.map(toTreeNode)}
             </Tree>
