@@ -29,7 +29,6 @@ interface CartState {
     currentStep: CartStep;
     error?: string;
     isLoading: boolean;
-    // purchases: OrderItem[];
     cart: CartModel;
 }
 
@@ -37,11 +36,14 @@ export class Cart extends React.Component<{}, CartState> {
     constructor (props: {}) {
         super(props);
         this.state = {
-            cart: undefined,
+            cart: {
+                items: [],
+                total: 0,
+                user: undefined,
+            },
             currentStep: CartStep.CART,
             error: undefined,
             isLoading: true,
-            // purchases: [],
         };
     }
 
@@ -54,14 +56,6 @@ export class Cart extends React.Component<{}, CartState> {
                 isLoading: false,
             });
         } else {
-            // console.log(cartInfo);
-            /*cartInfo.items.forEach( (x,_) => // reikia key={i} panaudot, kad warningo nebutu
-                this.state.purchases.push({
-                    amount: x.amount,
-                    product: x.product,
-                    total: x.total
-                })
-            );*/
             this.setState({
                 ...this.state,
                 cart: cartInfo,
