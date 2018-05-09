@@ -1,5 +1,5 @@
 // tslint:disable:max-line-length
-interface IconSet {
+export interface IconSet {
     name: string;
     values: string[];
 }
