@@ -272,7 +272,7 @@ export class ProfileInfo extends React.Component<{}, ProfileState> {
                     }
                 </Form.Field>
                 <hr/>
-                <ChangePassword/>
+                <ChangePassword />
             </Form>
         );
     }
