@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {Button, Form, Icon, Modal, Message} from "semantic-ui-react";
+import {Button, Form, Icon, Message, Modal} from "semantic-ui-react";
 
 import * as api from "../../../api";
 
