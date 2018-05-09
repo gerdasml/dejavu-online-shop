@@ -13,7 +13,7 @@ interface Request {
 }
 
 const buildUnknownError = (code: number, msg: string): ApiError => ({
-    message: msg + " (" + code.toString + "): Please contact the administrators of the site",
+    message: msg + " (" + code.toString() + "): Please contact the administrators of the site",
     timestamp: new Date(),
     type: "Unknown"
 });
@@ -65,6 +65,7 @@ export const fetchData = <T, K>(url: string, method: HttpMethod, payload?: T): P
                 return r.json();
             })
             .catch(r => {
+                if (r.headers === undefined) return buildUnknownError(500, r);
                 if(r.headers.get("content-length") === "0") return buildUnknownError(r.status, r.statusText);
                 return r.json();
             });
