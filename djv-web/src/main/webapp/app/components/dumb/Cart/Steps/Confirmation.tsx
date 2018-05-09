@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Button, Icon, List, Table } from "semantic-ui-react";
 import "../../../../../style/cart.css";
-import { Purchase } from "../../../../model/Purchase";
+import { OrderItem } from "../../../../model/Order";
 
 interface ConfirmationProps {
-    purchases: Purchase[];
+    purchases: OrderItem[];
     onStepComplete: () => void;
 }
 
@@ -46,8 +46,8 @@ export const Confirmation = (props: ConfirmationProps) => (
             <Table.Body>
                 {props.purchases.map(p =>
                     <Table.Row>
-                        <Table.Cell>{p.item.name}</Table.Cell>
-                        <Table.Cell>{p.item.price}€</Table.Cell>
+                        <Table.Cell>{p.product.name}</Table.Cell>
+                        <Table.Cell>{p.product.price}€</Table.Cell>
                         <Table.Cell>{p.amount}</Table.Cell>
                         <Table.Cell>{p.total}€</Table.Cell>
                     </Table.Row>

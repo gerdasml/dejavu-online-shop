@@ -2,12 +2,12 @@ import * as React from "react";
 
 import { Button, Icon, Table } from "semantic-ui-react";
 
-import { Purchase } from "../../../../model/Purchase";
+import { Cart as CartModel } from "../../../../model/Cart";
 
 import { Amount } from "../../../dumb/Cart/Amount";
 
 interface CartProps {
-    purchases: Purchase[];
+    cart: CartModel;
     onStepComplete: () => void;
 }
 
@@ -24,14 +24,22 @@ export const Cart = (props: CartProps) => (
             </Table.Header>
 
             <Table.Body>
-                {props.purchases.map(p =>
-                    <Table.Row>
-                        <Table.Cell>{p.item.name}</Table.Cell>
-                        <Table.Cell>{p.item.price}€</Table.Cell>
-                        <Table.Cell><Amount amount={p.amount}/></Table.Cell>
-                        <Table.Cell>{p.total}€</Table.Cell>
-                    </Table.Row>
-                )}
+                { props.cart !== undefined
+                ?
+                props.cart.items.map(p =>
+                        <Table.Row>
+                            <Table.Cell>{p.product.name}</Table.Cell>
+                            <Table.Cell>{p.product.price}€</Table.Cell>
+                            <Table.Cell><Amount amount={p.amount}/></Table.Cell>
+                            <Table.Cell>{p.total}€</Table.Cell>
+                        </Table.Row>
+                    )
+                : ""
+                }
+                <Table.Row>
+                    <Table.Cell colSpan={3} textAlign="right"><h4>Overall:</h4></Table.Cell>
+                    <Table.Cell>{props.cart.total}€</Table.Cell>
+                </Table.Row>
             </Table.Body>
         </Table>
         <Button icon labelPosition="right" floated="right" onClick={props.onStepComplete}>
