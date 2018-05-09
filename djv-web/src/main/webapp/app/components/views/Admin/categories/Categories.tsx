@@ -1,14 +1,13 @@
 import * as React from "react";
 
-import { Col, message, notification, Row, Spin, Button } from "antd";
+import { Button, Col, message, notification, Row, Spin } from "antd";
 
 import * as api from "../../../../api";
 
 import { Category } from "../../../../model/Category";
 import { CategoryTree } from "../../../../model/CategoryTree";
-import { CategoryTreeView } from "./CategoryTreeView";
 import { CategoryForm } from "./CategoryForm";
-import { IconSelect } from "./IconSelect";
+import { CategoryTreeView } from "./CategoryTreeView";
 
 interface CategoriesState {
     categories: CategoryTree[];

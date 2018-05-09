@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button, Card, Collapse } from "antd";
+import { Button, Collapse } from "antd";
 import { Icon, SemanticICONS } from "semantic-ui-react";
 
 import { icons, IconSet } from "../../../../data/icons";

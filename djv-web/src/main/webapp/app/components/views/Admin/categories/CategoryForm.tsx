@@ -1,11 +1,11 @@
 import * as React from "react";
 
-import { Button, Input, Form, Modal, Row, Col, Popconfirm } from "antd";
+import { Button, Col, Input, Modal, Popconfirm, Row } from "antd";
 
 import { Category } from "../../../../model/Category";
 
-import { toUrlFriendlyString } from "../../../../utils/common";
 import { Icon, SemanticICONS } from "semantic-ui-react";
+import { toUrlFriendlyString } from "../../../../utils/common";
 import { IconSelect } from "./IconSelect";
 
 interface CategoryFormProps {
