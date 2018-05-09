@@ -11,3 +11,6 @@ export const getCategoryTree = (): Promise<ApiResponse<CategoryTree[]>> =>
 
 export const updateCategory = (id: number, category: Category): Promise<ApiResponse<void>> =>
     fetchData(PATH_PREFIX + "/" + id.toString(), HttpMethod.PUT, category);
+
+export const deleteCategory = (id: number): Promise<ApiResponse<void>> =>
+    fetchData(PATH_PREFIX + "/" + id.toString(), HttpMethod.DELETE);
