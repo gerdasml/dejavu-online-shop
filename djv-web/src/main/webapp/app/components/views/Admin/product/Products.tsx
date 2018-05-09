@@ -35,6 +35,11 @@ export class Products extends React.Component<never, ProductsState> {
         this.setState({products: productResponse, categories: categoriesResponse, isLoading: false});
     }
 
+    async handleDelete (id: number) {
+        await api.product.deleteProduct(id);
+        this.setState({...this.state, products: this.state.products.filter(p => p.id !== id)});
+    }
+
     render () {
         const { isLoading } = this.state;
         return (
@@ -42,7 +47,11 @@ export class Products extends React.Component<never, ProductsState> {
                 <NavLink to={`/admin/product/create`}>
                     <Button>Add new product</Button>
                 </NavLink>
-                <ProductTable products={this.state.products} categories={this.state.categories}/>
+                <ProductTable
+                    products={this.state.products}
+                    categories={this.state.categories}
+                    onDelete={idToDelete => this.handleDelete(idToDelete)}
+                    />
             </Spin>
         );
     }

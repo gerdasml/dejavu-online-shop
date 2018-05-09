@@ -47,7 +47,6 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                 properties: []
             }, () =>
             this.setState({
-                categories: [],
                 category: nextProps.product.categoryId,
                 description: nextProps.product.description,
                 name: nextProps.product.name,

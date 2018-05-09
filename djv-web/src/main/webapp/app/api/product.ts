@@ -22,3 +22,6 @@ export const getProduct = (id: number): Promise<ApiResponse<Product>> =>
 
 export const updateProduct = (id: number, product: Product): Promise<ApiResponse<void>> =>
     fetchData(PATH_PREFIX + "/" + id.toString(), HttpMethod.PUT, product);
+
+export const deleteProduct = (id: number): Promise<ApiResponse<void>> =>
+    fetchData(PATH_PREFIX + "/" + id.toString(), HttpMethod.DELETE);
