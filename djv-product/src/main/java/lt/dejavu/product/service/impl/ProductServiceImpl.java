@@ -14,6 +14,7 @@ import lt.dejavu.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -48,6 +49,7 @@ public class ProductServiceImpl implements ProductService {
     public Long createProduct(ProductRequest request) {
         Category productCategory = resolveProductCategory(request);
         Product product = productRequestMapper.mapToProduct(request, productCategory);
+        product.setCreationDate(LocalDateTime.now());
         return productRepository.saveProduct(product);
     }
 
