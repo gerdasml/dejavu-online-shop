@@ -25,11 +25,13 @@ export class Products extends React.Component<never, ProductsState> {
         const [productResponse, categoriesResponse] =
             await Promise.all([api.product.getAllProducts(), api.category.getCategoryTree()]);
         if (api.isError(productResponse)) {
-            notification.error({message: "Failed to fetch data", description: productResponse.message});
+            notification.error({message: "Failed to fetch product data", description: productResponse.message});
+            this.setState({isLoading: false});
             return;
         }
         if(api.isError(categoriesResponse)) {
-            notification.error({message: "Failed to fetch data", description: categoriesResponse.message});
+            notification.error({message: "Failed to fetch category data", description: categoriesResponse.message});
+            this.setState({isLoading: false});
             return;
         }
         this.setState({products: productResponse, categories: categoriesResponse, isLoading: false});

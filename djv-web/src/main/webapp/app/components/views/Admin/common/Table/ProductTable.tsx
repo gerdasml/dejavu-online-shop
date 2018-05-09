@@ -1,9 +1,10 @@
+// tslint:disable:max-classes-per-file
 import * as React from "react";
 
-import { Button, Icon, Popconfirm, Table } from "antd";
+import { Button, Popconfirm, Table } from "antd";
 import { NavLink } from "react-router-dom";
 import { Product } from "../../../../../model/Product";
-import { addKey, WithKey } from "../../../../../utils/table";
+import { WithKey } from "../../../../../utils/table";
 
 import "../../../../../../style/product.css";
 import { CategoryTree } from "../../../../../model/CategoryTree";
@@ -19,10 +20,8 @@ interface ProductTableProps {
 
 class ProductRecordTable extends Table<ProductRecord> {}
 
-// tslint:disable-next-line:max-classes-per-file
 class ProductRecordColumn extends Table.Column<ProductRecord> {}
 
-// tslint:disable-next-line:max-classes-per-file
 export const ProductTable = (props: ProductTableProps) => (
     <ProductRecordTable
         bordered={true}
@@ -31,7 +30,7 @@ export const ProductTable = (props: ProductTableProps) => (
         <ProductRecordColumn
             key = "picture"
             title = "Picture"
-            render={(_, record) => <img className="product-photo-table" src={record.mainImageUrl} />}
+            render={(_, record) => <img className="product-table-photo" src={record.mainImageUrl} />}
         />
         <ProductRecordColumn
             key = "name"

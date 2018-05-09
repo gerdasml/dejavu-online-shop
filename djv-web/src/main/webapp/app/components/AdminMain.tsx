@@ -4,7 +4,6 @@ import { Route, Switch } from "react-router";
 import { Products } from "../components/views/Admin/product/Products";
 import { Admin } from "./views/Admin";
 import { Categories } from "./views/Admin/categories/Categories";
-import { ProductTable } from "./views/Admin/common/Table/ProductTable";
 import { MenuHeader } from "./views/Admin/layout/Header";
 import { Orders } from "./views/Admin/orders/Orders";
 import { CreateProduct } from "./views/Admin/product/CreateProduct";
