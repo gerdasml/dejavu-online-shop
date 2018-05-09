@@ -59,7 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void updateCategory(long categoryId, CategoryRequest categoryRequest) {
-        validateNotSelfParent(categoryId, categoryRequest.getParentCategory());
+        validateNotSelfParent(categoryId, categoryRequest.getParentCategoryId());
         Category oldCategory = getCategoryIfExist(categoryId);
         Category parentCategory = resolveParentCategory(categoryRequest);
         Category newCategory = categoryRequestMapper.mapToCategory(categoryRequest, parentCategory);
@@ -83,12 +83,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     private Category resolveParentCategory(CategoryRequest categoryRequest) {
-        if (categoryRequest.getParentCategory() == null) {
+        if (categoryRequest.getParentCategoryId() == null) {
             return null;
         }
-        Category parentCategory = categoryRepository.getCategory(categoryRequest.getParentCategory());
+        Category parentCategory = categoryRepository.getCategory(categoryRequest.getParentCategoryId());
         if (parentCategory == null) {
-            throw new CategoryNotFoundException("cannot find category with parent id: " + categoryRequest.getParentCategory());
+            throw new CategoryNotFoundException("cannot find category with parent id: " + categoryRequest.getParentCategoryId());
         }
         return parentCategory;
     }
