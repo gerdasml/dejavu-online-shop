@@ -25,6 +25,12 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
         isModalVisible: false
     };
 
+    componentWillReceiveProps (nextProps: CategoryFormProps) {
+        if(nextProps.category) {
+            this.setState({name: nextProps.category.name, icon: nextProps.category.icon, isModalVisible: false});
+        }
+    }
+
     isValid () {
         return this.state.name && this.state.icon;
     }
@@ -44,6 +50,7 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
                         <Input
                             size="large"
                             placeholder="Category name"
+                            value={this.state.name}
                             onChange={e => this.setState({...this.state, name: e.target.value})}
                         />
                     </Col>
