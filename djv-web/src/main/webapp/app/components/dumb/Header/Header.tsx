@@ -88,6 +88,8 @@ export class Header extends React.Component <{}, HeaderState> {
                     <Button className="headerButton"
                             icon
                             size="medium"
+                            as={NavLink}
+                            to="/cart"
                             >
                         CART
                         <br/>
