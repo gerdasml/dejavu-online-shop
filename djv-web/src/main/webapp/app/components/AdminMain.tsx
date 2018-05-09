@@ -5,6 +5,7 @@ import { Products } from "../components/views/Admin/product/Products";
 import { Admin } from "./views/Admin";
 import { Categories } from "./views/Admin/categories/Categories";
 import { MenuHeader } from "./views/Admin/layout/Header";
+import { LoginForm } from "./views/Admin/login/LoginForm";
 import { Orders } from "./views/Admin/orders/Orders";
 import { CreateProduct } from "./views/Admin/product/CreateProduct";
 import { SingleProduct } from "./views/Admin/product/SingleProduct";
@@ -12,11 +13,14 @@ import { SingleUser } from "./views/Admin/users/SingleUser";
 import { Users } from "./views/Admin/users/Users";
 import { NotFound } from "./views/NotFound";
 
+const isLoggedInAsAdmin = () => false;
+
 export const AdminMain = () => (
+    isLoggedInAsAdmin ()
+    ?
     <div>
         <MenuHeader/>
         <Switch>
-            <Route path="/admin/products" component={Products}/>
             <Route path="/admin/product/create" component={CreateProduct}/>
             <Route path="/admin/product/:id" component={SingleProduct}/>
             <Route path="/admin/orders" component={Orders}/>
@@ -27,4 +31,5 @@ export const AdminMain = () => (
             <Route component={NotFound} />
         </Switch>
     </div>
+    : <LoginForm />
 );
