@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Icon, InputNumber } from "antd";
+import { InputNumber } from "antd";
 
 export interface ProductPriceProps {
     price: number;

@@ -1,7 +1,6 @@
 import * as React from "react";
 
-import { Button, Icon, Input, Table } from "antd";
-import { ColumnProps } from "antd/lib/table";
+import { Icon, Input } from "antd";
 
 interface EditableCellProps {
     value: string;

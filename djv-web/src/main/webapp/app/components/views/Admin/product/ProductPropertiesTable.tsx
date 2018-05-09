@@ -1,7 +1,7 @@
 // tslint:disable:max-classes-per-file
 import * as React from "react";
 
-import { Button, Icon, Input, Table } from "antd";
+import { Button, Icon, Table } from "antd";
 import { ProductProperties } from "../../../../model/ProductProperties";
 
 import { addKey, WithKey } from "../../../../utils/table";

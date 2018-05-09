@@ -2,9 +2,7 @@
 import * as React from "react";
 
 import { Table } from "antd";
-import { Address } from "../../../../../model/Address";
-import { Order, OrderItem, OrderStatus } from "../../../../../model/Order";
-import { User } from "../../../../../model/User";
+import { Order } from "../../../../../model/Order";
 import { OrderStatusCell } from "./OrderStatusCell";
 import { OrderTable } from "./OrderTable";
 

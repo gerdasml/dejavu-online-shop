@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Icon, Input } from "antd";
+import { Input } from "antd";
 
 export interface ProductDescriptionProps {
     description: string;

@@ -3,7 +3,6 @@ import * as React from "react";
 
 import { Table } from "antd";
 import { OrderItem } from "../../../../../model/Order";
-import { Product } from "../../../../../model/Product";
 
 import { addKey, WithKey } from "../../../../../utils/table";
 

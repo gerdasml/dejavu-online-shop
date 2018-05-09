@@ -1,8 +1,7 @@
 import * as React from "react";
 
-import { Button, Cascader, Icon, Select } from "antd";
+import { Cascader } from "antd";
 import { CascaderOptionType } from "antd/lib/cascader";
-import { Category } from "../../../../model/Category";
 import { CategoryTree } from "../../../../model/CategoryTree";
 
 export interface ProductDropdownProps {

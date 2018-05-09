@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button, Icon, message, Modal, Upload } from "antd";
+import { Icon, Modal, Upload } from "antd";
 import { RcFile, UploadChangeParam, UploadFile } from "antd/lib/upload/interface";
 import * as api from "../../../../api";
 

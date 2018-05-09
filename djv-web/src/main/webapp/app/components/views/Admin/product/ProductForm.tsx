@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Grid, Header } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 
 import { Button, notification } from "antd";
 import * as api from "../../../../api";
