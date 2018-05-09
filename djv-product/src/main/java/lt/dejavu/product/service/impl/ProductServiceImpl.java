@@ -35,6 +35,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductDto> getAllProducts() {
+        return productDtoMapper.map(productRepository.getAllProducts());
+    }
+
+    @Override
     public ProductDto getProduct(long id) {
         return productDtoMapper.map(getProductIfExist(id));
     }

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Route, Switch } from "react-router";
 
+import { Products } from "../components/views/Admin/product/Products";
 import { Admin } from "./views/Admin";
 import { Categories } from "./views/Admin/categories/Categories";
 import { MenuHeader } from "./views/Admin/layout/Header";
@@ -15,6 +16,7 @@ export const AdminMain = () => (
     <div>
         <MenuHeader/>
         <Switch>
+            <Route path="/admin/products" component={Products}/>
             <Route path="/admin/product/create" component={CreateProduct}/>
             <Route path="/admin/product/:id" component={SingleProduct}/>
             <Route path="/admin/orders" component={Orders}/>
