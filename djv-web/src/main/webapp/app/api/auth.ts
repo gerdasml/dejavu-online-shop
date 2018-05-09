@@ -35,5 +35,5 @@ export const login = (email: string, password: string): Promise<ApiResponse<Logi
 export const register = (user: RegistrationRequest): Promise<ApiResponse<void>> =>
     fetchData(PATH_PREFIX + "/register", HttpMethod.POST, user);
 
-export const changePassword = (newPassword: string): Promise<ApiResponse<void>> =>
-    fetchData(PATH_PREFIX + "/changePassword", HttpMethod.POST, newPassword);
+export const changePassword = (currentPassword: string, newPassword: string): Promise<ApiResponse<void>> =>
+    fetchData(PATH_PREFIX + "/changePassword", HttpMethod.POST, {currentPassword, newPassword});
