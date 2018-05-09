@@ -1,12 +1,13 @@
 import * as React from "react";
 
-import { notification, Spin } from "antd";
+import { Col, message, notification, Row, Spin } from "antd";
 
 import * as api from "../../../../api";
 
+import { Category } from "../../../../model/Category";
 import { CategoryTree } from "../../../../model/CategoryTree";
 import { CategoryTreeView } from "./CategoryTreeView";
-import { Category } from "../../../../model/Category";
+import { CategoryForm } from "./CategoryForm";
 
 interface CategoriesState {
     categories: CategoryTree[];
@@ -39,19 +40,25 @@ export class Categories extends React.Component<never, CategoriesState> {
             notification.error({message: "Failed to update category data", description: response.message});
             return;
         }
-        notification.success({message: "Operation successful", description: "Successfully moved category"});
+        message.success("Successfully moved category");
         await this.loadData();
     }
 
     render () {
         return (
             <Spin spinning={this.state.categories.length === 0}>
-                <CategoryTreeView
-                    categories={this.state.categories}
-                    onCategoryMove={(cat, parent) => this.handleParentUpdate(cat, parent)}
-                    onSelect={cat => this.setState({...this.state, selectedCategory: cat})}
-                />
-                <div>{JSON.stringify(this.state.selectedCategory)}</div>
+                <Row>
+                    <Col span={10}>
+                        <CategoryTreeView
+                            categories={this.state.categories}
+                            onCategoryMove={(cat, parent) => this.handleParentUpdate(cat, parent)}
+                            onSelect={cat => this.setState({...this.state, selectedCategory: cat})}
+                        />
+                    </Col>
+                    <Col span={this.state.selectedCategory ? 14 : 0}>
+                        <CategoryForm category={this.state.selectedCategory} onSave={()=>{}} onDelete={() => {}} />
+                    </Col>
+                </Row>
             </Spin>
         );
     }
