@@ -1,6 +1,7 @@
 import * as React from "react";
 
-import { Table } from "antd";
+import { Button, Icon, Table } from "antd";
+import { NavLink } from "react-router-dom";
 import { Product } from "../../../../../model/Product";
 import { addKey, WithKey } from "../../../../../utils/table";
 
@@ -48,7 +49,14 @@ export const ProductTable = (props: ProductTableProps) => (
         />
         <ProductRecordColumn
             key = "editRemove"
-            dataIndex="buttons"
+            render={(_, record) =>
+                <div>
+                    <NavLink to={`/admin/product/${record.id}`}>
+                        <Button icon="edit"/>
+                    </NavLink>
+                    <Button icon="delete" />
+                </div>
+            }
         />
     </ProductRecordTable>
 );

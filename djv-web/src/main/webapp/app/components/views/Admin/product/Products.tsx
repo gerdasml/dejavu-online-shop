@@ -1,7 +1,8 @@
 import * as React from "react";
 
-import { notification, Spin } from "antd";
+import { Button, notification, Spin } from "antd";
 
+import { NavLink } from "react-router-dom";
 import * as api from "../../../../api";
 import { CategoryTree } from "../../../../model/CategoryTree";
 import { Product } from "../../../../model/Product";
@@ -38,6 +39,9 @@ export class Products extends React.Component<never, ProductsState> {
         const { isLoading } = this.state;
         return (
             <Spin spinning={isLoading} size="large">
+                <NavLink to={`/admin/product/create`}>
+                    <Button>Add new product</Button>
+                </NavLink>
                 <ProductTable products={this.state.products} categories={this.state.categories}/>
             </Spin>
         );
