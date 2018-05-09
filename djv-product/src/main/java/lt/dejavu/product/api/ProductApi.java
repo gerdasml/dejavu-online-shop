@@ -17,6 +17,14 @@ public class ProductApi {
     private ProductService productService;
 
     @GetMapping(
+            path="/",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public List<ProductDto> getAllProducts() {
+        return productService.getAllProducts();
+    }
+
+    @GetMapping(
             path = "/{productId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )

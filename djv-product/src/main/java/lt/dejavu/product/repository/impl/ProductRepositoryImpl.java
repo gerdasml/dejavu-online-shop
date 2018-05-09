@@ -23,6 +23,16 @@ public class ProductRepositoryImpl implements ProductRepository {
     private EntityManager em;
 
     @Override
+    public List<Product> getAllProducts() {
+        // TODO: extract this code to some common place, because we'll probably need it in multiple places
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Product> cq = cb.createQuery(Product.class);
+        Root<Product> rootEntry = cq.from(Product.class);
+        CriteriaQuery<Product> all = cq.select(rootEntry);
+        return em.createQuery(all).getResultList();
+    }
+
+    @Override
     public Product getProduct(long id) {
         return em.find(Product.class, id);
     }

@@ -8,6 +8,8 @@ public interface ProductRepository {
 
     Product getProduct(long id);
 
+    List<Product> getAllProducts();
+
     List<Product> getProductsByCategory(long categoryId);
 
     long saveProduct(Product product);
