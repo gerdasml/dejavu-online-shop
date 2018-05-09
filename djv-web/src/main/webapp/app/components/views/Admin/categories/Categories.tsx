@@ -53,6 +53,7 @@ export class Categories extends React.Component<never, CategoriesState> {
             return;
         }
         message.success("Successfully updated category");
+        this.setState({...this.state, selectedCategory: category});
         await this.loadData();
     }
 
