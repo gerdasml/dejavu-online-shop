@@ -1,0 +1,3 @@
+.modalWrapper {
+    width: 80% !important; /* Impossible to do without !important, since default styles are inline */
+}

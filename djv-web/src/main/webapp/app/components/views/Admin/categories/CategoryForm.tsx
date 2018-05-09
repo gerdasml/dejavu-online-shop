@@ -8,6 +8,8 @@ import { Icon, SemanticICONS } from "semantic-ui-react";
 import { toUrlFriendlyString } from "../../../../utils/common";
 import { IconSelect } from "./IconSelect";
 
+import "../../../../../style/admin/category.css";
+
 interface CategoryFormProps {
     category: Category;
     onSave: (category: Category) => void;
@@ -86,7 +88,7 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
                     title="Icon selection"
                     visible={this.state.isModalVisible}
                     onCancel={() => this.setState({...this.state, isModalVisible: false})}
-                    width="80%"
+                    className="modalWrapper"
                     style={{top: 0}}
                 >
                     <IconSelect onSelect={icon => this.setState({...this.state, icon, isModalVisible: false})} />

@@ -41,8 +41,8 @@ export class CategoryTreeView extends React.Component<CategoryTreeViewProps, nev
         const toCategory = findCategoryFromTree(this.props.categories, to);
         this.props.onCategoryMove(fromCategory, onGap ? toCategory.parentCategoryId : toCategory.id);
     }
-    handleSelect (vals: string[]) {
-        const id = vals && vals.length > 0 ? +vals[vals.length-1] : undefined;
+    handleSelect (selectedVaues: string[]) {
+        const id = selectedVaues && selectedVaues.length > 0 ? +selectedVaues[selectedVaues.length-1] : undefined;
         const cat = findCategoryFromTree(this.props.categories, id);
         this.props.onSelect(cat);
     }
