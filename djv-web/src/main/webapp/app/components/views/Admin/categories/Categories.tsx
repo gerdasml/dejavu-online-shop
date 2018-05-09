@@ -45,6 +45,28 @@ export class Categories extends React.Component<never, CategoriesState> {
         await this.loadData();
     }
 
+    async handleSave (category: Category) {
+        const {id, ...newCategory} = category;
+        const response = await api.category.updateCategory(id, newCategory);
+        if (api.isError(response)) {
+            notification.error({ message: "Failed to update category data", description: response.message});
+            return;
+        }
+        message.success("Successfully updated category");
+        await this.loadData();
+    }
+
+    async handleDelete (id: number) {
+        const response = await api.category.deleteCategory(id);
+        if (api.isError(response)) {
+            notification.error({ message: "Failed to delete category", description: response.message});
+            return;
+        }
+        message.success("Successfully removed category");
+        this.setState({...this.state, selectedCategory: undefined});
+        await this.loadData();
+    }
+
     render () {
         return (
             <Spin spinning={this.state.categories.length === 0}>
@@ -59,8 +81,8 @@ export class Categories extends React.Component<never, CategoriesState> {
                     <Col span={this.state.selectedCategory ? 14 : 0}>
                         <CategoryForm
                             category={this.state.selectedCategory}
-                            onSave={cat=>console.log("SAVING", cat)}
-                            onDelete={id => console.log("DELETING", id)} />
+                            onSave={this.handleSave.bind(this)}
+                            onDelete={this.handleDelete.bind(this)} />
                     </Col>
                 </Row>
             </Spin>
