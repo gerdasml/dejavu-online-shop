@@ -59,7 +59,7 @@ insert into `category` (`id`, `iconName`, `identifier`, `name`, `parentCategory`
   ( 200        , 'soccer'           , 'sports'                       ,'Sports equipment'       , null),
   ( 250        , 'car'              , 'vehicle-parts'                ,'Vehicle parts'          , null),
   ( 300        , 'book'             , 'books'                        ,'Books'                  , null),
-  ( 350        , 'puzzle piece'     , 'toys'                         ,'Toys'                   , null),
+  ( 350        , 'puzzle'           , 'toys'                         ,'Toys'                   , null),
   ( 400        , 'configure'        , 'tools'                        ,'Tools'                  , null);
 
 

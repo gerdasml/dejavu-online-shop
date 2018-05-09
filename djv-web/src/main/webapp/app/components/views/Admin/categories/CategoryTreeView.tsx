@@ -12,7 +12,7 @@ interface CategoryTreeViewProps {
 }
 
 const toTreeNode = (category: CategoryTree): any => {
-    const title = `${category.category.name} (${category.category.id})`;
+    const title = category.category.name;
     const key = category.category.id;
     const children = category.children.map(toTreeNode);
     const icon = category.category.icon ? <Icon name={category.category.icon as SemanticICONS} /> : undefined;
