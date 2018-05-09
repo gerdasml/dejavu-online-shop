@@ -87,6 +87,7 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
                     visible={this.state.isModalVisible}
                     onCancel={() => this.setState({...this.state, isModalVisible: false})}
                     width="80%"
+                    style={{top: 0}}
                 >
                     <IconSelect onSelect={icon => this.setState({...this.state, icon, isModalVisible: false})} />
                 </Modal>

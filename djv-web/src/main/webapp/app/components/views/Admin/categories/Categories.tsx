@@ -50,11 +50,11 @@ export class Categories extends React.Component<never, CategoriesState> {
         let errorMessage;
         let successMessage;
         if (id) {
-            response = await api.category.updateCategory(id, category);
+            response = await api.category.updateCategory(id, newCategory);
             errorMessage = "Failed to update category data";
             successMessage = "Successfully updated category";
         } else {
-            response = await api.category.createCategory(category);
+            response = await api.category.createCategory(newCategory);
             errorMessage = "Failed to create category";
             successMessage = "Successfully created category";
         }
