@@ -6,6 +6,7 @@ import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.exception.UserAlreadyExistsException;
 import lt.dejavu.auth.exception.UserNotFoundException;
 import lt.dejavu.auth.mapper.UserMapper;
+import lt.dejavu.auth.model.db.User;
 import lt.dejavu.auth.model.rest.LoginResponse;
 import lt.dejavu.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +55,13 @@ public class AuthServiceImpl implements AuthService {
             response.setToken(securityService.generateToken(userDto));
         }
         return response;
+    }
+
+    @Override
+    public void updatePassword(long userId, String newPassword) {
+        String passHash = hasher.hash(newPassword);
+        User user = userRepository.getUserById(userId);
+        User newUser = user.toBuilder().password(passHash).build();
+        userRepository.updateUserInfo(user, newUser, true);
     }
 }

@@ -9,4 +9,6 @@ public interface AuthService {
     void register(UserDto info);
 
     LoginResponse login(String email, String pass) throws ApiSecurityException, UserNotFoundException;
+
+    void updatePassword(long userId, String newPassword);
 }

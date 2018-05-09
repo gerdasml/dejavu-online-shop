@@ -62,7 +62,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void updateUserInfo(User oldUser, User newUser) {
-        mergeInformation(oldUser, newUser);
+        updateUserInfo(oldUser, newUser, false);
+    }
+
+    @Override
+    public void updateUserInfo(User oldUser, User newUser, boolean updatePassword) {
+        mergeInformation(oldUser, newUser, updatePassword);
         em.merge(newUser.getAddress());
         em.merge(newUser);
     }
@@ -77,9 +82,11 @@ public class UserRepositoryImpl implements UserRepository {
         return user.getId();
     }
 
-    private void mergeInformation(User oldUser, User newUser) {
+    private void mergeInformation(User oldUser, User newUser, boolean updatePassword) {
         newUser.setId(oldUser.getId());
-        newUser.setPassword(oldUser.getPassword());
+        if (!updatePassword) {
+            newUser.setPassword(oldUser.getPassword());
+        }
         newUser.setType(oldUser.getType());
         newUser.setBanned(oldUser.isBanned());
         newUser.setEmail(oldUser.getEmail());
