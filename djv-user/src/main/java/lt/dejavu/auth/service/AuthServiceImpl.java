@@ -3,6 +3,7 @@ package lt.dejavu.auth.service;
 import lt.dejavu.auth.codec.Hasher;
 import lt.dejavu.auth.dto.UserDto;
 import lt.dejavu.auth.exception.ApiSecurityException;
+import lt.dejavu.auth.exception.IncorrectPasswordException;
 import lt.dejavu.auth.exception.UserAlreadyExistsException;
 import lt.dejavu.auth.exception.UserNotFoundException;
 import lt.dejavu.auth.mapper.UserMapper;
@@ -58,10 +59,16 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void updatePassword(long userId, String newPassword) {
-        String passHash = hasher.hash(newPassword);
+    public void updatePassword(long userId, String currentPassword, String newPassword) {
+        String currentPassHash = hasher.hash(currentPassword);
+        String newPassHash = hasher.hash(newPassword);
         User user = userRepository.getUserById(userId);
-        User newUser = user.toBuilder().password(passHash).build();
+
+        if(!user.getPassword().equals(currentPassHash)) {
+            throw new IncorrectPasswordException();
+        }
+
+        User newUser = user.toBuilder().password(newPassHash).build();
         userRepository.updateUserInfo(user, newUser, true);
     }
 }

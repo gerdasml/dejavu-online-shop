@@ -10,5 +10,5 @@ public interface AuthService {
 
     LoginResponse login(String email, String pass) throws ApiSecurityException, UserNotFoundException;
 
-    void updatePassword(long userId, String newPassword);
+    void updatePassword(long userId, String currentPassword, String newPassword);
 }

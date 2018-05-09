@@ -1,5 +1,6 @@
 package lt.dejavu.web;
 
+import lt.dejavu.auth.exception.IncorrectPasswordException;
 import lt.dejavu.order.exception.OrderNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public final ResponseEntity<ExceptionDetails> handleUserNotFoundException(UserNotFoundException ex, WebRequest req) {
         return buildResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(IncorrectPasswordException.class)
+    public final ResponseEntity<ExceptionDetails> handleIncorrectPasswordException(IncorrectPasswordException ex, WebRequest req) {
+        return buildResponse(ex, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(ProductNotFoundException.class)

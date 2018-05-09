@@ -4,6 +4,7 @@ import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.exception.UserNotFoundException;
 import lt.dejavu.auth.dto.UserDto;
 import lt.dejavu.auth.model.Endpoint;
+import lt.dejavu.auth.model.rest.ChangePasswordRequest;
 import lt.dejavu.auth.model.rest.LoginRequest;
 import lt.dejavu.auth.model.rest.LoginResponse;
 import lt.dejavu.auth.model.rest.RegistrationRequest;
@@ -49,9 +50,9 @@ public class AuthApi {
     @PostMapping(path = "/changePassword")
     public void changePassword(HttpServletRequest request,
                                @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
-                               @RequestBody String newPassword) throws ApiSecurityException {
+                               @RequestBody ChangePasswordRequest passwordRequest) throws ApiSecurityException {
         long userId = authorize(authHeader, request);
-        authService.updatePassword(userId, newPassword);
+        authService.updatePassword(userId, passwordRequest.getCurrentPassword(), passwordRequest.getNewPassword());
     }
 
     private Endpoint buildEndpoint(HttpServletRequest request) {
