@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router";
 
 import { Admin } from "./views/Admin";
 import { Categories } from "./views/Admin/categories/Categories";
+import { ProductTable } from "./views/Admin/common/Table/ProductTable";
 import { MenuHeader } from "./views/Admin/layout/Header";
 import { Orders } from "./views/Admin/orders/Orders";
 import { CreateProduct } from "./views/Admin/product/CreateProduct";
@@ -15,6 +16,7 @@ export const AdminMain = () => (
     <div>
         <MenuHeader/>
         <Switch>
+            <Route path="/admin/products" component={ProductTable}/>
             <Route path="/admin/product/create" component={CreateProduct}/>
             <Route path="/admin/product/:id" component={SingleProduct}/>
             <Route path="/admin/orders" component={Orders}/>
