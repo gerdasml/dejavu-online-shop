@@ -56,11 +56,11 @@ insert into `category` (`id`, `iconName`, `identifier`, `name`, `parentCategory`
           ( 123, ''                 , 'coffee-tables'                , 'Coffee tables'         , 121),
           ( 124, ''                 , 'drawers'                      , 'Drawers'               , 121),
   ( 150        , 'leaf'             , 'garden'                       ,'Garden'                 , null),
-  ( 200        , 'basketball ball'  , 'sports'                       ,'Sports equipment'       , null),
+  ( 200        , 'soccer'           , 'sports'                       ,'Sports equipment'       , null),
   ( 250        , 'car'              , 'vehicle-parts'                ,'Vehicle parts'          , null),
   ( 300        , 'book'             , 'books'                        ,'Books'                  , null),
-  ( 350        , 'puzzle piece'     , 'toys'                         ,'Toys'                   , null),
-  ( 400        , 'gear'             , 'tools'                        ,'Tools'                  , null);
+  ( 350        , 'puzzle'           , 'toys'                         ,'Toys'                   , null),
+  ( 400        , 'configure'        , 'tools'                        ,'Tools'                  , null);
 
 
 

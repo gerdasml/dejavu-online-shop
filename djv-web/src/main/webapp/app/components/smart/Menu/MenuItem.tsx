@@ -30,7 +30,7 @@ export class MenuItem extends React.Component<MenuItemProps, never> {
             }}
                 onMouseLeave={() => this.props.onHover(undefined)}>
                 <div>
-                    <Icon name={this.props.categoryTree.category.iconName as SemanticICONS}/>
+                    <Icon name={this.props.categoryTree.category.icon as SemanticICONS}/>
                     {this.props.categoryTree.category.name}
                 </div>
             </Menu.Item>
