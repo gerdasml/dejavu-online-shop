@@ -38,6 +38,7 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
     buildCategory = (): Category => ({
         ...this.props.category,
         icon: this.state.icon,
+        identifier: toUrlFriendlyString(this.state.name),
         name: this.state.name,
     })
 
@@ -71,12 +72,15 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
                     >
                         Save
                     </Button>
+                    { this.props.category && this.props.category.id
+                    ?
                     <Popconfirm
                         title="Are you sure you want to delete this category?"
                         onConfirm={() => this.props.onDelete(this.props.category.id)}
                     >
                         <Button type="danger">Delete category</Button>
                     </Popconfirm>
+                    : ""}
                 </Row>
                 <Modal
                     title="Icon selection"

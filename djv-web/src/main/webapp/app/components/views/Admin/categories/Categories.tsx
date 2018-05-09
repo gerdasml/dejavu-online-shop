@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Col, message, notification, Row, Spin } from "antd";
+import { Col, message, notification, Row, Spin, Button } from "antd";
 
 import * as api from "../../../../api";
 
@@ -47,12 +47,24 @@ export class Categories extends React.Component<never, CategoriesState> {
 
     async handleSave (category: Category) {
         const {id, ...newCategory} = category;
-        const response = await api.category.updateCategory(id, newCategory);
+        let response;
+        let errorMessage;
+        let successMessage;
+        if (id) {
+            response = await api.category.updateCategory(id, category);
+            errorMessage = "Failed to update category data";
+            successMessage = "Successfully updated category";
+        } else {
+            response = await api.category.createCategory(category);
+            errorMessage = "Failed to create category";
+            successMessage = "Successfully created category";
+        }
+
         if (api.isError(response)) {
-            notification.error({ message: "Failed to update category data", description: response.message});
+            notification.error({ message: errorMessage, description: response.message});
             return;
         }
-        message.success("Successfully updated category");
+        message.success(successMessage);
         this.setState({...this.state, selectedCategory: category});
         await this.loadData();
     }
@@ -73,6 +85,19 @@ export class Categories extends React.Component<never, CategoriesState> {
             <Spin spinning={this.state.categories.length === 0}>
                 <Row>
                     <Col span={10}>
+                        <Button
+                            icon="plus"
+                            onClick={() => this.setState({
+                                ...this.state,
+                                selectedCategory: {
+                                    icon: undefined,
+                                    identifier: undefined,
+                                    name: undefined,
+                                }
+                            })}
+                        >
+                            Add category
+                        </Button>
                         <CategoryTreeView
                             categories={this.state.categories}
                             onCategoryMove={(cat, parent) => this.handleParentUpdate(cat, parent)}
