@@ -15,3 +15,8 @@
     color: blue; 
     margin-right:5px;
 }
+
+.product-photo-table {
+    height: 5vh;
+    width: auto;
+}

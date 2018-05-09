@@ -4,10 +4,15 @@ import { Table } from "antd";
 import { Product } from "../../../../../model/Product";
 import { addKey, WithKey } from "../../../../../utils/table";
 
+import "../../../../../../style/product.css";
+import { CategoryTree } from "../../../../../model/CategoryTree";
+import { findCategoryFromTree } from "../../../../../utils/categories";
+
 type ProductRecord = Product & WithKey;
 
 interface ProductTableProps {
     products: Product[];
+    categories: CategoryTree[];
 }
 
 class ProductRecordTable extends Table<ProductRecord> {}
@@ -24,7 +29,7 @@ export const ProductTable = (props: ProductTableProps) => (
         <ProductRecordColumn
             key = "picture"
             title = "Picture"
-            render={(_, record) => record.mainImageUrl}
+            render={(_, record) => <img className="product-photo-table" src={record.mainImageUrl} />}
         />
         <ProductRecordColumn
             key = "name"
@@ -34,7 +39,7 @@ export const ProductTable = (props: ProductTableProps) => (
         <ProductRecordColumn
             key = "category"
             title = "Category"
-            render={(_, record) => record.categoryId}
+            render={(_, record) => findCategoryFromTree(props.categories, record.categoryId).name}
         />
         <ProductRecordColumn
             key = "price"
