@@ -2,10 +2,12 @@ import * as React from "react";
 
 import { Tree } from "antd";
 
+import { Category } from "../../../../model/Category";
 import { CategoryTree } from "../../../../model/CategoryTree";
 
 interface CategoryTreeViewProps {
     categories: CategoryTree[];
+    onCategoryMove: (category: Category, newParent?: number) => void;
 }
 
 const toTreeNode = (category: CategoryTree): any => {
@@ -19,13 +21,33 @@ const toTreeNode = (category: CategoryTree): any => {
     );
 };
 
-export const CategoryTreeView = (props: CategoryTreeViewProps) => (
-    <Tree
-        draggable
-        onDragEnter={info => console.log("START", info)}
-        onDrop={(info: any) => console.log("STOP", info.node.props.eventKey, " -> ", info.dragNode.props.eventKey, info.node.props.pos, info.dropPosition, info.dropToGap)}
-        onSelect={info => console.log("SELECT", info)}
-    >
-        {props.categories.map(toTreeNode)}
-    </Tree>
-);
+const findCategoryFromTree = (tree: CategoryTree[], id: number): Category => {
+    const cat: CategoryTree = tree.filter(t => t.category.id === id || findCategoryFromTree(t.children, id))[0];
+    if(cat === undefined) {
+        return undefined;
+    }
+    if (cat.category.id === id) {
+        return cat.category;
+    }
+    return findCategoryFromTree(cat.children, id);
+};
+
+export class CategoryTreeView extends React.Component<CategoryTreeViewProps, never> {
+    handleDrop (from: number, to: number, onGap?: boolean) {
+        const fromCategory = findCategoryFromTree(this.props.categories, from);
+        const toCategory = findCategoryFromTree(this.props.categories, to);
+        this.props.onCategoryMove(fromCategory, onGap ? toCategory.parentCategoryId : toCategory.id);
+    }
+    render () {
+        return (
+            <Tree
+                draggable
+                onDrop={(info: any) =>
+                    this.handleDrop(+info.dragNode.props.eventKey, +info.node.props.eventKey, info.dropToGap)}
+                onSelect={info => console.log("SELECT", info)}
+            >
+                {this.props.categories.map(toTreeNode)}
+            </Tree>
+        );
+    }
+}
