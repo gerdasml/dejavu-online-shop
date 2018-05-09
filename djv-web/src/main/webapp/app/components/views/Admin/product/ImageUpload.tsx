@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Icon, Modal, Upload } from "antd";
+import { Icon, Modal, notification, Upload } from "antd";
 import { RcFile, UploadChangeParam, UploadFile } from "antd/lib/upload/interface";
 import * as api from "../../../../api";
 
@@ -56,6 +56,11 @@ export class ImageUpload extends React.Component<ImageUploadProps, ImageUploadSt
     }
 
     handleChange = (info: UploadChangeParam) => {
+        if (info.file.status === "error") {
+            notification.error({message: "Failed to upload image", description: info.file.response});
+            this.setState({imageList: info.fileList.filter(x => x.uid !== info.file.uid)});
+            return;
+        }
         const isGood = (f: UploadFile) => f.response as ImageInfo;
         const goodFiles = info.fileList.filter(isGood);
         this.props.onUpdate(goodFiles.map(x => x.response));
