@@ -8,6 +8,7 @@ import { Category } from "../../../../model/Category";
 import { CategoryTree } from "../../../../model/CategoryTree";
 import { CategoryTreeView } from "./CategoryTreeView";
 import { CategoryForm } from "./CategoryForm";
+import { IconSelect } from "./IconSelect";
 
 interface CategoriesState {
     categories: CategoryTree[];
@@ -56,7 +57,10 @@ export class Categories extends React.Component<never, CategoriesState> {
                         />
                     </Col>
                     <Col span={this.state.selectedCategory ? 14 : 0}>
-                        <CategoryForm category={this.state.selectedCategory} onSave={()=>{}} onDelete={() => {}} />
+                        <CategoryForm
+                            category={this.state.selectedCategory}
+                            onSave={cat=>console.log("SAVING", cat)}
+                            onDelete={id => console.log("DELETING", id)} />
                     </Col>
                 </Row>
             </Spin>

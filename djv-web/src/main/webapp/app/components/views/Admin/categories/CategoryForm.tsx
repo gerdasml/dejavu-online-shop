@@ -1,11 +1,12 @@
 import * as React from "react";
 
-import { Button, Form, Input } from "antd";
-import { FormComponentProps } from "antd/lib/form/Form";
+import { Button, Input, Form, Modal, Row, Col, Popconfirm } from "antd";
 
 import { Category } from "../../../../model/Category";
 
 import { toUrlFriendlyString } from "../../../../utils/common";
+import { Icon, SemanticICONS } from "semantic-ui-react";
+import { IconSelect } from "./IconSelect";
 
 interface CategoryFormProps {
     category: Category;
@@ -13,45 +14,72 @@ interface CategoryFormProps {
     onDelete: (id: number) => void;
 }
 
-class CategoryFormInner extends React.Component<CategoryFormProps & FormComponentProps, never> {
-    handleSubmit (e: any) {
-        e.preventDefault();
-        const props = this.props;
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                const cat: Category = {
-                    icon: values.icon,
-                    id: props.category.id,
-                    identifier: toUrlFriendlyString(values.name),
-                    name: values.name,
-                    parentCategoryId: props.category.parentCategoryId,
-                };
-                props.onSave(cat);
-            }
-        });
+interface CategoryFormState {
+    name?: string;
+    icon?: string;
+    isModalVisible: boolean;
+}
+
+export class CategoryForm extends React.Component<CategoryFormProps, CategoryFormState> {
+    state: CategoryFormState = {
+        isModalVisible: false
+    };
+
+    isValid () {
+        return this.state.name && this.state.icon;
     }
+
+    buildCategory = (): Category => ({
+        ...this.props.category,
+        icon: this.state.icon,
+        name: this.state.name,
+    })
+
     render () {
-        const { getFieldDecorator } = this.props.form;
         return (
-            <Form onSubmit={this.handleSubmit.bind(this)}>
-                <Form.Item>
-                    {getFieldDecorator("name", {
-                        rules: [{required: true, message: "Please enter a category name"}]
-                    })(
-                        <Input placeholder="Category name" />
-                    )}
-                </Form.Item>
-                <Form.Item>
-                    {getFieldDecorator("icon", {
-                        rules: [{required: true, message: "Please choose an icon"}]
-                    })(
-                        <Input placeholder="Icon" />
-                    )}
-                </Form.Item>
-                <Button type="primary" htmlType="submit">Save</Button>
-            </Form>
+            <div>
+                <Row type="flex" align="middle">
+                    <Col span={6}><h3>Category name:</h3></Col>
+                    <Col span={18}>
+                        <Input
+                            size="large"
+                            placeholder="Category name"
+                            onChange={e => this.setState({...this.state, name: e.target.value})}
+                        />
+                    </Col>
+                </Row>
+                <Row type="flex" align="middle">
+                    <Col span={6}><h3>Icon:</h3></Col>
+                    <Col span={18}>
+                        <Button onClick={() => this.setState({...this.state, isModalVisible: true})}>
+                            {this.state.icon ? <Icon name={this.state.icon as SemanticICONS} /> : "Select..."}
+                        </Button>
+                    </Col>
+                </Row>
+                <Row type="flex" align="middle">
+                    <Button
+                        disabled={!this.isValid()}
+                        onClick={() => this.props.onSave(this.buildCategory())}
+                        type="primary"
+                    >
+                        Save
+                    </Button>
+                    <Popconfirm
+                        title="Are you sure you want to delete this category?"
+                        onConfirm={() => this.props.onDelete(this.props.category.id)}
+                    >
+                        <Button type="danger">Delete category</Button>
+                    </Popconfirm>
+                </Row>
+                <Modal
+                    title="Icon selection"
+                    visible={this.state.isModalVisible}
+                    onCancel={() => this.setState({...this.state, isModalVisible: false})}
+                    width="80%"
+                >
+                    <IconSelect onSelect={icon => this.setState({...this.state, icon, isModalVisible: false})} />
+                </Modal>
+            </div>
         );
     }
 }
-
-export const CategoryForm = Form.create<CategoryFormProps>()(CategoryFormInner);
