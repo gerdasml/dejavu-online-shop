@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { Tree } from "antd";
+import { Icon, SemanticICONS } from "semantic-ui-react";
 
 import { Category } from "../../../../model/Category";
 import { CategoryTree } from "../../../../model/CategoryTree";
@@ -14,8 +15,9 @@ const toTreeNode = (category: CategoryTree): any => {
     const title = `${category.category.name} (${category.category.id})`;
     const key = category.category.id;
     const children = category.children.map(toTreeNode);
+    const icon = category.category.icon ? <Icon name={category.category.icon as SemanticICONS} /> : undefined;
     return (
-        <Tree.TreeNode title={title} key={key}>
+        <Tree.TreeNode title={title} key={key} icon={icon}>
             {children}
         </Tree.TreeNode>
     );
@@ -41,6 +43,7 @@ export class CategoryTreeView extends React.Component<CategoryTreeViewProps, nev
     render () {
         return (
             <Tree
+                showIcon
                 draggable
                 onDrop={(info: any) =>
                     this.handleDrop(+info.dragNode.props.eventKey, +info.node.props.eventKey, info.dropToGap)}
