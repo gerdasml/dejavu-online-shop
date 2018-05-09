@@ -14,3 +14,6 @@ export const updateCategory = (id: number, category: Category): Promise<ApiRespo
 
 export const deleteCategory = (id: number): Promise<ApiResponse<void>> =>
     fetchData(PATH_PREFIX + "/" + id.toString(), HttpMethod.DELETE);
+
+export const createCategory = (category: Category): Promise<ApiResponse<void>> =>
+    fetchData(PATH_PREFIX + "/", HttpMethod.POST, category);
