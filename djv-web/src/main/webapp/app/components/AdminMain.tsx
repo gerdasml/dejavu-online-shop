@@ -5,6 +5,8 @@ import { notification, Spin } from "antd";
 
 import * as api from "../api";
 import { Products } from "../components/views/Admin/product/Products";
+import { UserType } from "../model/User";
+import { clearToken, storeToken } from "../utils/token";
 import { Admin } from "./views/Admin";
 import { Categories } from "./views/Admin/categories/Categories";
 import { MenuHeader } from "./views/Admin/layout/Header";
@@ -15,8 +17,6 @@ import { SingleProduct } from "./views/Admin/product/SingleProduct";
 import { SingleUser } from "./views/Admin/users/SingleUser";
 import { Users } from "./views/Admin/users/Users";
 import { NotFound } from "./views/NotFound";
-import { UserType } from "../model/User";
-import { storeToken, clearToken } from "../utils/token";
 
 const isLoggedInAsAdmin = async () => {
     const userResponse = await api.user.getProfile();
