@@ -25,9 +25,9 @@ public class Cart {
 
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
-        name = "cartItem",
-        joinColumns = @JoinColumn(name = "cartId"),
-        inverseJoinColumns = @JoinColumn(name = "itemId")
+            name = "cartItem",
+            joinColumns = @JoinColumn(name = "cartId"),
+            inverseJoinColumns = @JoinColumn(name = "itemId")
     )
     private List<OrderItem> items;
 }

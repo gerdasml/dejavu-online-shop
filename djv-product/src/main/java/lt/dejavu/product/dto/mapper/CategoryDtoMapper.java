@@ -33,11 +33,11 @@ public class CategoryDtoMapper {
 
     public List<CategoryTreeDto> mapToTree(List<Category> categories) {
         if (categories == null || categories.isEmpty()) {
-           return Collections.emptyList();
+            return Collections.emptyList();
         }
         return categories.stream()
-                .filter(category -> category.getParentCategory() == null)
-                .map(rootCategory ->  mapToTree(rootCategory, categories)).collect(Collectors.toList());
+                         .filter(category -> category.getParentCategory() == null)
+                         .map(rootCategory -> mapToTree(rootCategory, categories)).collect(Collectors.toList());
 
     }
 
@@ -50,7 +50,7 @@ public class CategoryDtoMapper {
 
     private List<CategoryTreeDto> mapToTree(Long parentCategoryId, List<Category> allCategories) {
         return allCategories.stream()
-                .filter(category -> category.getParentCategory()!= null && parentCategoryId.equals(category.getParentCategory().getId()))
-                .map(childCategory ->  mapToTree(childCategory, allCategories)).collect(Collectors.toList());
+                            .filter(category -> category.getParentCategory() != null && parentCategoryId.equals(category.getParentCategory().getId()))
+                            .map(childCategory -> mapToTree(childCategory, allCategories)).collect(Collectors.toList());
     }
 }

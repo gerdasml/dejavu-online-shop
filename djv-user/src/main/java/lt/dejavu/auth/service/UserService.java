@@ -10,5 +10,6 @@ public interface UserService {
     List<UserDto> getUsers();
 
     void setBan(long userId, boolean isBanned);
+
     void updateUser(long userId, UserDto newInfo);
 }
