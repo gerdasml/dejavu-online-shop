@@ -13,7 +13,9 @@ import lt.dejavu.auth.security.model.Token;
 import lt.dejavu.auth.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Base64;
@@ -53,13 +55,25 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public long authorize(String authHeader, Endpoint endpoint) throws ApiSecurityException {
+    public long authorizeEndpoint(String authHeader, Endpoint endpoint) throws ApiSecurityException {
         Token token = extractTokenFromHeader(authHeader);
         boolean isAuthorized = token.getEndpoints().stream().anyMatch(e -> endpointsMatch(endpoint, e));
         if (!isAuthorized) {
             throw new AccessDeniedException("You are not authorized to access this endpoint");
         }
         return token.getUserId();
+    }
+
+    @Override
+    public long authorize(String authHeader, HttpServletRequest request) throws ApiSecurityException {
+        return this.authorizeEndpoint(authHeader, buildEndpoint(request));
+    }
+
+    private Endpoint buildEndpoint(HttpServletRequest request) {
+        Endpoint endpoint = new Endpoint();
+        endpoint.setMethod(RequestMethod.valueOf(request.getMethod()));
+        endpoint.setPath(request.getRequestURI());
+        return endpoint;
     }
 
     private Token extractTokenFromHeader(String authHeader) throws ApiSecurityException {

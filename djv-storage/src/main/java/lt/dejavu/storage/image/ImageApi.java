@@ -67,6 +67,6 @@ public class ImageApi {
     }
 
     private void authorize(String authHeader, HttpServletRequest request) throws ApiSecurityException {
-        securityService.authorize(authHeader, buildEndpoint(request));
+        securityService.authorizeEndpoint(authHeader, buildEndpoint(request));
     }
 }

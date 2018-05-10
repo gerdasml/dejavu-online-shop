@@ -74,6 +74,6 @@ public class UserApi {
     }
 
     private long authorize(String authHeader, HttpServletRequest request) throws ApiSecurityException {
-        return securityService.authorize(authHeader, buildEndpoint(request));
+        return securityService.authorizeEndpoint(authHeader, buildEndpoint(request));
     }
 }
