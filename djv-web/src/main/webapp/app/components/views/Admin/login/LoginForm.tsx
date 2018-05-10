@@ -20,7 +20,6 @@ export class LoginForm extends React.Component<LoginFormsProps, LoginFormsState>
             <div>
                 <Input
                     placeholder="Enter your username"
-                    //TODO: move to css
                     prefix={<Icon type="user" className="login-form-icon" />}
                     onChange={e => this.setState({...this.state, email: e.target.value})}
                 />
