@@ -26,7 +26,7 @@ public class OrderApi {
 
     @GetMapping("/{userId}/history")
     public List<OrderDto> getUserOrderHistory(HttpServletRequest request, 
-                                              @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, 
+                                              @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
                                               @PathVariable("userId") long userId) throws ApiSecurityException { 
         securityService.authorize(authHeader, request); 
         return orderService.getUserOrderHistory(userId); 
@@ -34,21 +34,21 @@ public class OrderApi {
  
     @GetMapping("/history") 
     public List<OrderDto> getOrderHistory(HttpServletRequest request, 
-                                          @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) throws ApiSecurityException { 
+                                          @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader) throws ApiSecurityException {
         long userId = securityService.authorize(authHeader, request);
         return orderService.getUserOrderHistory(userId);
     }
 
     @GetMapping("/")
     public List<OrderDto> getAllOrders(HttpServletRequest request, 
-                                       @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) throws ApiSecurityException { 
+                                       @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         return orderService.getAllOrders();
     }
 
     @GetMapping("/{orderId}")
     public OrderDto getOrderById(HttpServletRequest request, 
-                                 @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, 
+                                 @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
                                  @PathVariable("orderId") long orderId) throws ApiSecurityException {
         securityService.authorize(authHeader, request); 
         return orderService.getOrderById(orderId);
@@ -56,7 +56,7 @@ public class OrderApi {
 
     @PutMapping("/{orderId}")
     public void updateOrderStatus(HttpServletRequest request, 
-                                  @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, 
+                                  @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
                                   @PathVariable("orderId") long orderId, 
                                   @RequestBody UpdateOrderStatusRequest updateRequest) throws ApiSecurityException { 
         securityService.authorize(authHeader, request); 
@@ -65,7 +65,7 @@ public class OrderApi {
 
     @GetMapping("/summary")
     public List<OrderSummaryDto> getOrderSummary(HttpServletRequest request,
-                                                @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader
+                                                @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader
                                                 ) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         return orderService.getOrderSummary();

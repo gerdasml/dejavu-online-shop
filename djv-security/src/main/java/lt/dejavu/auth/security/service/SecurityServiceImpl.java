@@ -56,6 +56,9 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public long authorizeEndpoint(String authHeader, Endpoint endpoint) throws ApiSecurityException {
+        if (authHeader == null) {
+            throw new AccessDeniedException("You are not logged in");
+        }
         Token token = extractTokenFromHeader(authHeader);
         boolean isAuthorized = token.getEndpoints().stream().anyMatch(e -> endpointsMatch(endpoint, e));
         if (!isAuthorized) {

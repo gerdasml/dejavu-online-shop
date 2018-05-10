@@ -30,7 +30,7 @@ export const buildRequest = <T>(url: string, method: HttpMethod, payload?: T): R
     const token = buildAuthHeader();
     const headers: Headers = {};
     headers.accept = "application/json";
-    if (token !== null) headers.authorization = token;
+    if (token !== undefined) headers.authorization = token;
 
     let params: RequestInit;
     if (payload instanceof FormData) {

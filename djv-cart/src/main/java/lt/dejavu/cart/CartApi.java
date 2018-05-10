@@ -25,7 +25,7 @@ public class CartApi {
 
     @GetMapping("/")
     public CartDto getCart(HttpServletRequest request,
-                           @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader
+                           @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader
                           ) throws ApiSecurityException {
         long userId = securityService.authorize(authHeader, request);
         return cartService.getCart(userId);
@@ -33,7 +33,7 @@ public class CartApi {
 
     @PostMapping("/")
     public void addToCart(HttpServletRequest request,
-                          @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
+                          @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
                           @RequestBody CartRequest requestData
                          ) throws ApiSecurityException {
         long userId = securityService.authorize(authHeader, request);
@@ -42,7 +42,7 @@ public class CartApi {
 
     @PutMapping("/")
     public void updateAmount(HttpServletRequest request,
-                             @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
+                             @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
                              @RequestBody CartRequest requestData
                             ) throws ApiSecurityException {
         long userId = securityService.authorize(authHeader, request);
@@ -51,7 +51,7 @@ public class CartApi {
 
     @DeleteMapping("/{productId}")
     public void removeProduct(HttpServletRequest request,
-                              @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
+                              @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
                               @PathVariable("productId") long productId
                              ) throws ApiSecurityException {
         long userId = securityService.authorize(authHeader, request);
@@ -60,7 +60,7 @@ public class CartApi {
 
     @PostMapping("/checkout")
     public void checkout(HttpServletRequest request,
-                         @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
+                         @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
                          @RequestBody CheckoutRequest checkoutRequest
                         ) throws ApiSecurityException, PaymentException {
         long userId = securityService.authorize(authHeader, request);

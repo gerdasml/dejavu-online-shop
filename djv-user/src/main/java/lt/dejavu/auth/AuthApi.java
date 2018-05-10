@@ -49,7 +49,7 @@ public class AuthApi {
 
     @PostMapping(path = "/changePassword")
     public void changePassword(HttpServletRequest request,
-                               @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
+                               @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
                                @RequestBody ChangePasswordRequest passwordRequest) throws ApiSecurityException {
         long userId = securityService.authorize(authHeader, request);
         authService.updatePassword(userId, passwordRequest.getCurrentPassword(), passwordRequest.getNewPassword());

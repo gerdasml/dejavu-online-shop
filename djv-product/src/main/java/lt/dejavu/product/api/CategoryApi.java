@@ -63,7 +63,7 @@ public class CategoryApi {
     )
 
     public Long createCategory(HttpServletRequest request,
-                               @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
+                               @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
                                @RequestBody CategoryRequest categoryRequest) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         return categoryService.createCategory(categoryRequest);
@@ -74,7 +74,7 @@ public class CategoryApi {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public void updateCategory(HttpServletRequest request,
-                               @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
+                               @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
                                @PathVariable("categoryId") long categoryId,
                                @RequestBody CategoryRequest categoryRequest) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
@@ -86,7 +86,7 @@ public class CategoryApi {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public void deleteCategory(HttpServletRequest request,
-                               @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
+                               @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
                                @PathVariable("categoryId") long categoryId) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         categoryService.deleteCategory(categoryId);

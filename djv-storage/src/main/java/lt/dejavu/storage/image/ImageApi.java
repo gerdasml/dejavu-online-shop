@@ -42,7 +42,7 @@ public class ImageApi {
 
     @PostMapping("/upload")
     public ImageInfo uploadImage(HttpServletRequest request,
-                                 @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
+                                 @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
                                  @RequestParam("file") MultipartFile file) throws IOException, UnsupportedImageFormatException, ApiSecurityException {
         securityService.authorize(authHeader, request);
 
