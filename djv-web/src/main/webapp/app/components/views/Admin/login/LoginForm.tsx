@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { Button, Icon, Input, notification } from "antd";
 import * as api from "../../../../api";
+import { UserType } from "../../../../model/User";
 
 export interface LoginFormsState {
     isAdmin: boolean;
@@ -9,10 +10,15 @@ export interface LoginFormsState {
     password: string;
 }
 
-export class LoginForm extends React.Component<{}, LoginFormsState> {
-    isAdmin = false;
-    email = "";
-    password = "";
+export interface LoginFormsProps {
+    onLogin: (email: string, password: string) => void;
+}
+export class LoginForm extends React.Component<LoginFormsProps, LoginFormsState> {
+    state: LoginFormsState = {
+        email: "",
+        isAdmin: false,
+        password: ""
+    };
     handleEmailInput = (event: React.FormEvent<HTMLInputElement>) => {
         const value = event.currentTarget.value;
         this.setState({
@@ -24,14 +30,6 @@ export class LoginForm extends React.Component<{}, LoginFormsState> {
         this.setState({
             ...this.state, password: value
         });
-    }
-    async handleLogin (email: string, password: string) {
-        const response = await api.auth.login(email, password);
-        if(api.isError(response)) {
-            notification.error({message: response.message, description: "The error occured"});
-            return;
-        }
-        this.setState({isAdmin: true});
     }
     render () {
         return (
@@ -48,7 +46,7 @@ export class LoginForm extends React.Component<{}, LoginFormsState> {
                     prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)"}}/>}
                     onChange={this.handlePasswordInput.bind(this)}
                 />
-                <Button onClick={() => this.handleLogin(this.state.email, this.state.password)}>Log in</Button>
+                <Button onClick={() => this.props.onLogin(this.state.email, this.state.password)}>Log in</Button>
             </div>
         );
     }
