@@ -1,8 +1,6 @@
 package lt.dejavu.auth.model.db;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lt.dejavu.auth.model.UserType;
 
 import javax.persistence.*;
@@ -11,6 +9,9 @@ import javax.persistence.*;
 @Setter
 @Entity
 @EqualsAndHashCode
+@Builder(toBuilder=true)
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "user")
 public class User {
     @Id
