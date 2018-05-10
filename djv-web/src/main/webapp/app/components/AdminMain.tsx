@@ -31,5 +31,5 @@ export const AdminMain = () => (
             <Route component={NotFound} />
         </Switch>
     </div>
-    : <LoginForm />
+    : <LoginForm/>
 );
