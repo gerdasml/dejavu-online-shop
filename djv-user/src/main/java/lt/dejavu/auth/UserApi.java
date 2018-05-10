@@ -27,7 +27,7 @@ public class UserApi {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public List<UserDto> getAllUsers(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) throws ApiSecurityException {
-        authorize(authHeader, request);
+        securityService.authorize(authHeader, request);
         return userService.getUsers();
     }
 
@@ -36,7 +36,7 @@ public class UserApi {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public UserDto getUser(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId) throws ApiSecurityException {
-        authorize(authHeader, request);
+        securityService.authorize(authHeader, request);
         return userService.getUser(userId);
     }
 
@@ -45,13 +45,13 @@ public class UserApi {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public UserDto getUserProfile(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) throws ApiSecurityException {
-        long userId = authorize(authHeader, request);
+        long userId = securityService.authorize(authHeader, request);
         return userService.getUser(userId);
     }
 
     @PostMapping(path = "/{userId}/ban")
     public void banUser(HttpServletRequest request, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable("userId") int userId, @RequestParam("banned") boolean banned) throws ApiSecurityException {
-        authorize(authHeader, request);
+        securityService.authorize(authHeader, request);
         userService.setBan(userId, banned);
     }
 
@@ -62,18 +62,7 @@ public class UserApi {
     public void updateUser(HttpServletRequest request,
                            @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
                            @RequestBody UserDto userInfo) throws ApiSecurityException {
-        long userId = authorize(authHeader, request);
+        long userId = securityService.authorize(authHeader, request);
         userService.updateUser(userId, userInfo);
-    }
-
-    private Endpoint buildEndpoint(HttpServletRequest request) {
-        Endpoint endpoint = new Endpoint();
-        endpoint.setMethod(RequestMethod.valueOf(request.getMethod()));
-        endpoint.setPath(request.getRequestURI());
-        return endpoint;
-    }
-
-    private long authorize(String authHeader, HttpServletRequest request) throws ApiSecurityException {
-        return securityService.authorizeEndpoint(authHeader, buildEndpoint(request));
     }
 }

@@ -44,7 +44,7 @@ public class ImageApi {
     public ImageInfo uploadImage(HttpServletRequest request,
                                  @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
                                  @RequestParam("file") MultipartFile file) throws IOException, UnsupportedImageFormatException, ApiSecurityException {
-        authorize(authHeader, request);
+        securityService.authorize(authHeader, request);
 
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         ImageFormat format = ImageFormat.resolve(extension);
@@ -56,17 +56,5 @@ public class ImageApi {
         imageInfo.setExtension(format.getExtension());
         imageInfo.setFilename(FilenameUtils.getBaseName(file.getOriginalFilename()));
         return imageStorageService.saveImage(file.getBytes(), imageInfo);
-    }
-
-    // TODO: move these two methods to some common place
-    private Endpoint buildEndpoint(HttpServletRequest request) {
-        Endpoint endpoint = new Endpoint();
-        endpoint.setMethod(RequestMethod.valueOf(request.getMethod()));
-        endpoint.setPath(request.getRequestURI());
-        return endpoint;
-    }
-
-    private void authorize(String authHeader, HttpServletRequest request) throws ApiSecurityException {
-        securityService.authorizeEndpoint(authHeader, buildEndpoint(request));
     }
 }

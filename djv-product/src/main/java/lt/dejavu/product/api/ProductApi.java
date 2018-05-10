@@ -56,7 +56,7 @@ public class ProductApi {
     public Long createProduct(HttpServletRequest request,
                               @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
                               @RequestBody ProductRequest productRequest) throws ApiSecurityException {
-        authorize(authHeader, request);
+        securityService.authorize(authHeader, request);
         return productService.createProduct(productRequest);
     }
 
@@ -68,7 +68,7 @@ public class ProductApi {
                               @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
                               @PathVariable("productId") long productId,
                               @RequestBody ProductRequest productRequest) throws ApiSecurityException {
-        authorize(authHeader, request);
+        securityService.authorize(authHeader, request);
         productService.updateProduct(productId, productRequest);
     }
 
@@ -79,18 +79,7 @@ public class ProductApi {
     public void deleteProduct(HttpServletRequest request,
                               @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
                               @PathVariable("productId") long productId) throws ApiSecurityException {
-        authorize(authHeader, request);
+        securityService.authorize(authHeader, request);
         productService.deleteProduct(productId);
-    }
-
-    private Endpoint buildEndpoint(HttpServletRequest request) {
-        Endpoint endpoint = new Endpoint();
-        endpoint.setMethod(RequestMethod.valueOf(request.getMethod()));
-        endpoint.setPath(request.getRequestURI());
-        return endpoint;
-    }
-
-    private long authorize(String authHeader, HttpServletRequest request) throws ApiSecurityException {
-        return securityService.authorizeEndpoint(authHeader, buildEndpoint(request));
     }
 }

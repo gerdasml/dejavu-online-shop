@@ -51,18 +51,7 @@ public class AuthApi {
     public void changePassword(HttpServletRequest request,
                                @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
                                @RequestBody ChangePasswordRequest passwordRequest) throws ApiSecurityException {
-        long userId = authorize(authHeader, request);
+        long userId = securityService.authorize(authHeader, request);
         authService.updatePassword(userId, passwordRequest.getCurrentPassword(), passwordRequest.getNewPassword());
-    }
-
-    private Endpoint buildEndpoint(HttpServletRequest request) {
-        Endpoint endpoint = new Endpoint();
-        endpoint.setMethod(RequestMethod.valueOf(request.getMethod()));
-        endpoint.setPath(request.getRequestURI());
-        return endpoint;
-    }
-
-    private long authorize(String authHeader, HttpServletRequest request) throws ApiSecurityException {
-        return securityService.authorizeEndpoint(authHeader, buildEndpoint(request));
     }
 }

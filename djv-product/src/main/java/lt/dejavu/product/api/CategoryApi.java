@@ -65,7 +65,7 @@ public class CategoryApi {
     public Long createCategory(HttpServletRequest request,
                                @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
                                @RequestBody CategoryRequest categoryRequest) throws ApiSecurityException {
-        authorize(authHeader, request);
+        securityService.authorize(authHeader, request);
         return categoryService.createCategory(categoryRequest);
     }
 
@@ -77,7 +77,7 @@ public class CategoryApi {
                                @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
                                @PathVariable("categoryId") long categoryId,
                                @RequestBody CategoryRequest categoryRequest) throws ApiSecurityException {
-        authorize(authHeader, request);
+        securityService.authorize(authHeader, request);
         categoryService.updateCategory(categoryId, categoryRequest);
     }
 
@@ -88,18 +88,7 @@ public class CategoryApi {
     public void deleteCategory(HttpServletRequest request,
                                @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
                                @PathVariable("categoryId") long categoryId) throws ApiSecurityException {
-        authorize(authHeader, request);
+        securityService.authorize(authHeader, request);
         categoryService.deleteCategory(categoryId);
-    }
-
-    private Endpoint buildEndpoint(HttpServletRequest request) {
-        Endpoint endpoint = new Endpoint();
-        endpoint.setMethod(RequestMethod.valueOf(request.getMethod()));
-        endpoint.setPath(request.getRequestURI());
-        return endpoint;
-    }
-
-    private long authorize(String authHeader, HttpServletRequest request) throws ApiSecurityException {
-        return securityService.authorizeEndpoint(authHeader, buildEndpoint(request));
     }
 }

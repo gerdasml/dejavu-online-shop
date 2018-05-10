@@ -28,30 +28,29 @@ public class OrderApi {
     public List<OrderDto> getUserOrderHistory(HttpServletRequest request, 
                                               @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, 
                                               @PathVariable("userId") long userId) throws ApiSecurityException { 
-        authorize(authHeader, request); 
+        securityService.authorize(authHeader, request); 
         return orderService.getUserOrderHistory(userId); 
     } 
  
     @GetMapping("/history") 
     public List<OrderDto> getOrderHistory(HttpServletRequest request, 
                                           @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) throws ApiSecurityException { 
-        long userId = authorize(authHeader, request);
+        long userId = securityService.authorize(authHeader, request);
         return orderService.getUserOrderHistory(userId);
     }
 
     @GetMapping("/")
     public List<OrderDto> getAllOrders(HttpServletRequest request, 
                                        @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) throws ApiSecurityException { 
-        authorize(authHeader, request);
+        securityService.authorize(authHeader, request);
         return orderService.getAllOrders();
     }
 
     @GetMapping("/{orderId}")
     public OrderDto getOrderById(HttpServletRequest request, 
                                  @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, 
-                                 @PathVariable("orderId") long orderId) throws ApiSecurityException { 
-        // TODO: should a user be able to access this? 
-        authorize(authHeader, request); 
+                                 @PathVariable("orderId") long orderId) throws ApiSecurityException {
+        securityService.authorize(authHeader, request); 
         return orderService.getOrderById(orderId);
     }
 
@@ -60,7 +59,7 @@ public class OrderApi {
                                   @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, 
                                   @PathVariable("orderId") long orderId, 
                                   @RequestBody UpdateOrderStatusRequest updateRequest) throws ApiSecurityException { 
-        authorize(authHeader, request); 
+        securityService.authorize(authHeader, request); 
         orderService.updateOrderStatus(orderId, updateRequest.getStatus()); 
     }
 
@@ -68,18 +67,7 @@ public class OrderApi {
     public List<OrderSummaryDto> getOrderSummary(HttpServletRequest request,
                                                 @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader
                                                 ) throws ApiSecurityException {
-        authorize(authHeader, request);
+        securityService.authorize(authHeader, request);
         return orderService.getOrderSummary();
-    }
- 
-    private Endpoint buildEndpoint(HttpServletRequest request) { 
-        Endpoint endpoint = new Endpoint(); 
-        endpoint.setMethod(RequestMethod.valueOf(request.getMethod())); 
-        endpoint.setPath(request.getRequestURI()); 
-        return endpoint; 
-    } 
- 
-    private long authorize(String authHeader, HttpServletRequest request) throws ApiSecurityException { 
-        return securityService.authorizeEndpoint(authHeader, buildEndpoint(request));
     }
 }

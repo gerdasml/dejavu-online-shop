@@ -27,7 +27,7 @@ public class CartApi {
     public CartDto getCart(HttpServletRequest request,
                            @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader
                           ) throws ApiSecurityException {
-        long userId = authorize(authHeader, request);
+        long userId = securityService.authorize(authHeader, request);
         return cartService.getCart(userId);
     }
 
@@ -36,7 +36,7 @@ public class CartApi {
                           @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
                           @RequestBody CartRequest requestData
                          ) throws ApiSecurityException {
-        long userId = authorize(authHeader, request);
+        long userId = securityService.authorize(authHeader, request);
         cartService.addToCart(userId, requestData.getProductId(), requestData.getAmount());
     }
 
@@ -45,7 +45,7 @@ public class CartApi {
                              @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
                              @RequestBody CartRequest requestData
                             ) throws ApiSecurityException {
-        long userId = authorize(authHeader, request);
+        long userId = securityService.authorize(authHeader, request);
         cartService.updateAmount(userId, requestData.getProductId(), requestData.getAmount());
     }
 
@@ -54,7 +54,7 @@ public class CartApi {
                               @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
                               @PathVariable("productId") long productId
                              ) throws ApiSecurityException {
-        long userId = authorize(authHeader, request);
+        long userId = securityService.authorize(authHeader, request);
         cartService.removeProduct(userId, productId);
     }
 
@@ -63,18 +63,7 @@ public class CartApi {
                          @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
                          @RequestBody CheckoutRequest checkoutRequest
                         ) throws ApiSecurityException, PaymentException {
-        long userId = authorize(authHeader, request);
+        long userId = securityService.authorize(authHeader, request);
         cartService.checkout(userId, checkoutRequest.getCard(), checkoutRequest.getShippingAddress());
-    }
-
-    private Endpoint buildEndpoint(HttpServletRequest request) {
-        Endpoint endpoint = new Endpoint();
-        endpoint.setMethod(RequestMethod.valueOf(request.getMethod()));
-        endpoint.setPath(request.getRequestURI());
-        return endpoint;
-    }
-
-    private long authorize(String authHeader, HttpServletRequest request) throws ApiSecurityException {
-        return securityService.authorizeEndpoint(authHeader, buildEndpoint(request));
     }
 }
