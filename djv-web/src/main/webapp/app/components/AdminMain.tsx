@@ -16,7 +16,7 @@ import { SingleUser } from "./views/Admin/users/SingleUser";
 import { Users } from "./views/Admin/users/Users";
 import { NotFound } from "./views/NotFound";
 import { UserType } from "../model/User";
-import { storeToken } from "../utils/token";
+import { storeToken, clearToken } from "../utils/token";
 
 const isLoggedInAsAdmin = async () => {
     const userResponse = await api.user.getProfile();
@@ -39,8 +39,12 @@ export class AdminMain extends React.Component<{},AdminMainState> {
     };
     async handlelogin (email: string, password: string) {
         this.setState({...this.state, isLoading: true});
-        if(await this.executeLogin(email, password) && await isLoggedInAsAdmin()) {
+        if(await this.executeLogin(email, password)) {
+            if(await isLoggedInAsAdmin()) {
                 this.setState({...this.state, isAdmin: true});
+            } else {
+                notification.error({message: "Failed to authenticate", description: "You are not authorized."});
+            }
         }
         this.setState({...this.state, isLoading: false});
     }
@@ -63,6 +67,10 @@ export class AdminMain extends React.Component<{},AdminMainState> {
         }
         this.setState({...this.state, isLoading: false});
     }
+    handleLogout () {
+        clearToken();
+        this.setState({...this.state, isAdmin: false});
+    }
     render () {
         return (
             <Spin spinning={this.state.isLoading}>
@@ -70,7 +78,7 @@ export class AdminMain extends React.Component<{},AdminMainState> {
                 this.state.isAdmin
                 ?
                 <div>
-                    <MenuHeader/>
+                    <MenuHeader onLogout={this.handleLogout.bind(this)}/>
                     <Switch>
                         <Route path="/admin/products" component={Products}/>
                         <Route path="/admin/product/create" component={CreateProduct}/>
