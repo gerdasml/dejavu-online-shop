@@ -64,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
         String newPassHash = hasher.hash(newPassword);
         User user = userRepository.getUserById(userId);
 
-        if(!user.getPassword().equals(currentPassHash)) {
+        if (!user.getPassword().equals(currentPassHash)) {
             throw new IncorrectPasswordException();
         }
 

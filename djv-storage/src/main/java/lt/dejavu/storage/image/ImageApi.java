@@ -1,7 +1,6 @@
 package lt.dejavu.storage.image;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
-import lt.dejavu.auth.model.Endpoint;
 import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.storage.image.exception.FileNotFoundException;
 import lt.dejavu.storage.image.exception.UnsupportedImageFormatException;
@@ -42,7 +41,7 @@ public class ImageApi {
 
     @PostMapping("/upload")
     public ImageInfo uploadImage(HttpServletRequest request,
-                                 @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
+                                 @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
                                  @RequestParam("file") MultipartFile file) throws IOException, UnsupportedImageFormatException, ApiSecurityException {
         securityService.authorize(authHeader, request);
 

@@ -16,7 +16,7 @@ public class ProductRequestMapper {
         this.productPropertyMapper = productPropertyMapper;
     }
 
-    public Product mapToProduct(ProductRequest productRequest, Category category){
+    public Product mapToProduct(ProductRequest productRequest, Category category) {
         Product product = new Product();
         product.setName(productRequest.getName());
         product.setIdentifier(productRequest.getIdentifier());

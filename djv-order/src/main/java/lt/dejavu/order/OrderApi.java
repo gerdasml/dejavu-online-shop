@@ -1,8 +1,7 @@
 package lt.dejavu.order;
 
-import lt.dejavu.auth.exception.ApiSecurityException; 
-import lt.dejavu.auth.model.Endpoint; 
-import lt.dejavu.auth.service.SecurityService; 
+import lt.dejavu.auth.exception.ApiSecurityException;
+import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.order.dto.OrderDto;
 import lt.dejavu.order.dto.OrderSummaryDto;
 import lt.dejavu.order.model.rest.UpdateOrderStatusRequest;
@@ -12,7 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.List;
 
 @RestController
@@ -21,51 +19,51 @@ public class OrderApi {
     @Autowired
     private OrderService orderService;
 
-    @Autowired 
+    @Autowired
     private SecurityService securityService;
 
     @GetMapping("/{userId}/history")
-    public List<OrderDto> getUserOrderHistory(HttpServletRequest request, 
-                                              @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
-                                              @PathVariable("userId") long userId) throws ApiSecurityException { 
-        securityService.authorize(authHeader, request); 
-        return orderService.getUserOrderHistory(userId); 
-    } 
- 
-    @GetMapping("/history") 
-    public List<OrderDto> getOrderHistory(HttpServletRequest request, 
-                                          @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader) throws ApiSecurityException {
+    public List<OrderDto> getUserOrderHistory(HttpServletRequest request,
+                                              @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
+                                              @PathVariable("userId") long userId) throws ApiSecurityException {
+        securityService.authorize(authHeader, request);
+        return orderService.getUserOrderHistory(userId);
+    }
+
+    @GetMapping("/history")
+    public List<OrderDto> getOrderHistory(HttpServletRequest request,
+                                          @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) throws ApiSecurityException {
         long userId = securityService.authorize(authHeader, request);
         return orderService.getUserOrderHistory(userId);
     }
 
     @GetMapping("/")
-    public List<OrderDto> getAllOrders(HttpServletRequest request, 
-                                       @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader) throws ApiSecurityException {
+    public List<OrderDto> getAllOrders(HttpServletRequest request,
+                                       @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         return orderService.getAllOrders();
     }
 
     @GetMapping("/{orderId}")
-    public OrderDto getOrderById(HttpServletRequest request, 
-                                 @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
+    public OrderDto getOrderById(HttpServletRequest request,
+                                 @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
                                  @PathVariable("orderId") long orderId) throws ApiSecurityException {
-        securityService.authorize(authHeader, request); 
+        securityService.authorize(authHeader, request);
         return orderService.getOrderById(orderId);
     }
 
     @PutMapping("/{orderId}")
-    public void updateOrderStatus(HttpServletRequest request, 
-                                  @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
-                                  @PathVariable("orderId") long orderId, 
-                                  @RequestBody UpdateOrderStatusRequest updateRequest) throws ApiSecurityException { 
-        securityService.authorize(authHeader, request); 
-        orderService.updateOrderStatus(orderId, updateRequest.getStatus()); 
+    public void updateOrderStatus(HttpServletRequest request,
+                                  @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
+                                  @PathVariable("orderId") long orderId,
+                                  @RequestBody UpdateOrderStatusRequest updateRequest) throws ApiSecurityException {
+        securityService.authorize(authHeader, request);
+        orderService.updateOrderStatus(orderId, updateRequest.getStatus());
     }
 
     @GetMapping("/summary")
     public List<OrderSummaryDto> getOrderSummary(HttpServletRequest request,
-                                                @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader
+                                                 @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader
                                                 ) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         return orderService.getOrderSummary();

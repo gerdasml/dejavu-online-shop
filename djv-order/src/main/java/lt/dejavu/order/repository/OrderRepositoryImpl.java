@@ -60,7 +60,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public void updateOrderStatus(long orderId, OrderStatus status) {
         Order order = getOrder(orderId);
-        if(order == null) {
+        if (order == null) {
             throw new OrderNotFoundException("The order with the specified ID was not found");
         }
         order.setStatus(status);

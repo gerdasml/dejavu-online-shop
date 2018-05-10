@@ -27,7 +27,7 @@ public class CachingResponseWrapper extends HttpServletResponseWrapper {
     }
 
     public String getCache() {
-        if(stream == null) return "";
+        if (stream == null) return "";
         return ((CachingServletOutputStream) stream).getCache();
     }
 }

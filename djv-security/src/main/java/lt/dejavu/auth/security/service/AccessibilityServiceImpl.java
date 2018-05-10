@@ -1,7 +1,7 @@
 package lt.dejavu.auth.security.service;
 
-import lt.dejavu.auth.model.Endpoint;
 import lt.dejavu.auth.dto.UserDto;
+import lt.dejavu.auth.model.Endpoint;
 import lt.dejavu.auth.model.UserType;
 import lt.dejavu.auth.security.configuration.properties.SecurityProperties;
 import org.springframework.stereotype.Service;

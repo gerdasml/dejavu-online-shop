@@ -1,7 +1,6 @@
 package lt.dejavu.product.api;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
-import lt.dejavu.auth.model.Endpoint;
 import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.product.dto.CategoryDto;
 import lt.dejavu.product.dto.CategoryTreeDto;
@@ -63,7 +62,7 @@ public class CategoryApi {
     )
 
     public Long createCategory(HttpServletRequest request,
-                               @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
+                               @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
                                @RequestBody CategoryRequest categoryRequest) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         return categoryService.createCategory(categoryRequest);
@@ -74,7 +73,7 @@ public class CategoryApi {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public void updateCategory(HttpServletRequest request,
-                               @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
+                               @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
                                @PathVariable("categoryId") long categoryId,
                                @RequestBody CategoryRequest categoryRequest) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
@@ -86,7 +85,7 @@ public class CategoryApi {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public void deleteCategory(HttpServletRequest request,
-                               @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
+                               @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
                                @PathVariable("categoryId") long categoryId) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         categoryService.deleteCategory(categoryId);

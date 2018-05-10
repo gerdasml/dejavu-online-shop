@@ -1,8 +1,7 @@
 package lt.dejavu.auth;
 
-import lt.dejavu.auth.exception.ApiSecurityException;
-import lt.dejavu.auth.model.Endpoint;
 import lt.dejavu.auth.dto.UserDto;
+import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.auth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class UserApi {
             path = "/",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<UserDto> getAllUsers(HttpServletRequest request, @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader) throws ApiSecurityException {
+    public List<UserDto> getAllUsers(HttpServletRequest request, @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         return userService.getUsers();
     }
@@ -35,7 +34,7 @@ public class UserApi {
             path = "/{userId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public UserDto getUser(HttpServletRequest request, @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader, @PathVariable("userId") int userId) throws ApiSecurityException {
+    public UserDto getUser(HttpServletRequest request, @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader, @PathVariable("userId") int userId) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         return userService.getUser(userId);
     }
@@ -44,23 +43,23 @@ public class UserApi {
             path = "/profile",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public UserDto getUserProfile(HttpServletRequest request, @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader) throws ApiSecurityException {
+    public UserDto getUserProfile(HttpServletRequest request, @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) throws ApiSecurityException {
         long userId = securityService.authorize(authHeader, request);
         return userService.getUser(userId);
     }
 
     @PostMapping(path = "/{userId}/ban")
-    public void banUser(HttpServletRequest request, @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader, @PathVariable("userId") int userId, @RequestParam("banned") boolean banned) throws ApiSecurityException {
+    public void banUser(HttpServletRequest request, @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader, @PathVariable("userId") int userId, @RequestParam("banned") boolean banned) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         userService.setBan(userId, banned);
     }
 
-    @PostMapping (
+    @PostMapping(
             path = "/",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public void updateUser(HttpServletRequest request,
-                           @RequestHeader(value=HttpHeaders.AUTHORIZATION, required=false) String authHeader,
+                           @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
                            @RequestBody UserDto userInfo) throws ApiSecurityException {
         long userId = securityService.authorize(authHeader, request);
         userService.updateUser(userId, userInfo);

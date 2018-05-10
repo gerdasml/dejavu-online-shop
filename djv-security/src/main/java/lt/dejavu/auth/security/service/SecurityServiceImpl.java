@@ -1,9 +1,9 @@
 package lt.dejavu.auth.security.service;
 
+import lt.dejavu.auth.dto.UserDto;
 import lt.dejavu.auth.exception.AccessDeniedException;
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.model.Endpoint;
-import lt.dejavu.auth.dto.UserDto;
 import lt.dejavu.auth.security.codec.AuthHeaderCodec;
 import lt.dejavu.auth.security.codec.SignedTokenCodec;
 import lt.dejavu.auth.security.codec.TokenCodec;

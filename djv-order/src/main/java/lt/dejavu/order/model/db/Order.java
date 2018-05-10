@@ -38,9 +38,9 @@ public class Order {
 
     @OneToOne
     @JoinTable(
-        name = "order_address",
-        joinColumns = @JoinColumn(name = "orderId"),
-        inverseJoinColumns = @JoinColumn(name = "addressId")
+            name = "order_address",
+            joinColumns = @JoinColumn(name = "orderId"),
+            inverseJoinColumns = @JoinColumn(name = "addressId")
     )
     private Address shippingAddress;
 }
