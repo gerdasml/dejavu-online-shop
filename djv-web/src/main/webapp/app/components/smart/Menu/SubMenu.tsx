@@ -12,25 +12,30 @@ interface SubMenuProps {
     position: SubMenuPosition;
 }
 
-const mapChildChild = (category: CategoryTree, key: number) =>
+const mapChildChild = (category: CategoryTree, key: number, onItemClick: () => void) =>
     category.children.map((x, i) =>
     <div
         className="item"
         key={key.toString()+"_"+i.toString()}>
-            <Link to={`/category/${x.category.id}`}>{x.category.name}</Link>
+            <Link to={`/category/${x.category.id}`} onClick={onItemClick}>{x.category.name}</Link>
     </div>
     );
 
-const mapChild = (categoryTree: CategoryTree) =>
+const mapChild = (categoryTree: CategoryTree, onItemClick: () => void) =>
     categoryTree.children.map((x, i) =>
         [<div
             className="item main"
             key={i}
         >
-            {x.category.name}
+        {x.children === undefined || x.children.length === 0
+        ?   <Link to={`/category/${x.category.id}`} onClick={onItemClick}>{x.category.name}</Link>
+        :   <span>
+                {x.category.name}
                 <Divider fitted className="divider"/>
+            </span>
+        }
         </div>]
-        .concat(mapChildChild(x,i))
+        .concat(mapChildChild(x,i, onItemClick))
     );
 
 export const SubMenu = (props: SubMenuProps) => (
@@ -43,6 +48,6 @@ export const SubMenu = (props: SubMenuProps) => (
         <div className="item category-name">
             {props.categoryTree.category.name}
         </div>
-        {mapChild(props.categoryTree)}
+        {mapChild(props.categoryTree, () => props.onHover(undefined))}
     </div>
 );
