@@ -47,7 +47,7 @@ export class DrawerMenu extends React.Component<{}, DrawerMenuState> {
             });
         }
     }
-    async getAllCategories () {
+    getAllCategories= async () => {
         const response = await api.category.getCategoryTree();
         if(api.isError(response)) {
             console.error(response);
