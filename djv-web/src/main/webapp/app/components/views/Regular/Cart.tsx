@@ -14,17 +14,6 @@ import { Loader } from "semantic-ui-react";
 
 import { CartStep, CartStepHeader } from "../../dumb/Cart/CartStepHeader";
 
-const purchases: OrderItem[] = [{
-    amount: 2,
-    product: {name: "something", mainImageUrl:"", description:"", price: 5, properties: []},
-    total: 100
-},
-{
-    amount: 3,
-    product: {name: "something2", mainImageUrl:"", description:"", price: 5, properties: []},
-    total: 90
-}];
-
 interface CartState {
     currentStep: CartStep;
     error?: string;
@@ -89,7 +78,12 @@ export class Cart extends React.Component<{}, CartState> {
                 ?
                     ( this.state.isLoading
                     ? <Loader active inline="centered" />
-                    : <Step.Cart cart={this.state.cart} onStepComplete={this.nextStep} />
+                    :
+                    <Step.Cart
+                        cart={this.state.cart}
+                        onStepComplete={this.nextStep}
+                        onCartUpdate={cart => this.setState({...this.state, cart})}
+                    />
                     )
                 : ""
                 }
@@ -98,7 +92,7 @@ export class Cart extends React.Component<{}, CartState> {
                 : ""
                 }
                 {this.state.currentStep === CartStep.CONFIRMATION
-                ? <Step.Confirmation purchases={purchases} onStepComplete={this.nextStep}/>
+                ? <Step.Confirmation cart={this.state.cart} onStepComplete={this.nextStep}/>
                 : ""
                 }
                 {this.state.currentStep === CartStep.PAYMENT

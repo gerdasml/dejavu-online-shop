@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button, Icon, Loader, Table, Dimmer } from "semantic-ui-react";
+import { Button, Dimmer, Icon, Loader, Table } from "semantic-ui-react";
 
 import { Cart as CartModel } from "../../../../model/Cart";
 
@@ -14,16 +14,15 @@ import { Product } from "../../../../model/Product";
 interface CartProps {
     cart: CartModel;
     onStepComplete: () => void;
+    onCartUpdate: (cart: CartModel) => void;
 }
 
 interface CartState {
-    cart: CartModel;
     isLoading: boolean;
     error?: string;
 }
 export class Cart extends React.Component <CartProps, CartState> {
-    state = {
-        cart: this.props.cart,
+    state: CartState = {
         isLoading: false,
     };
 
@@ -37,30 +36,24 @@ export class Cart extends React.Component <CartProps, CartState> {
             productId: orderItem.product.id,
         });
         if(api.isError(amountChangeInfo)) {
-            console.log(amountChangeInfo.message);
             this.setState({
                 ...this.state,
                 error: amountChangeInfo.message,
-                // isLoading: false,
             });
         } else {
             const newUnitTotal = newAmount*orderItem.product.price;
-            const newTotal = this.state.cart.total - orderItem.total + newUnitTotal;
-            console.log(newUnitTotal, newTotal);
-            const newItems = [...this.state.cart.items];
+            const newTotal = this.props.cart.total - orderItem.total + newUnitTotal;
+            const newItems = [...this.props.cart.items];
             const idx = newItems.findIndex(i => i.product.id === orderItem.product.id);
             newItems[idx] = {
                 ...orderItem,
                 amount: newAmount,
                 total: newUnitTotal,
             };
-            this.setState({
-                ...this.state,
-                cart: {
-                    ...this.state.cart,
-                    items: newItems,
-                    total: newTotal,
-                }
+            this.props.onCartUpdate({
+                ...this.props.cart,
+                items: newItems,
+                total: newTotal,
             });
         }
         this.setState({
@@ -86,9 +79,9 @@ export class Cart extends React.Component <CartProps, CartState> {
                     </Table.Header>
 
                     <Table.Body>
-                        { this.state.cart !== undefined
+                        { this.props.cart !== undefined
                         ?
-                        this.state.cart.items.map( (p,i) =>
+                        this.props.cart.items.map( (p,i) =>
                             <Table.Row key={i}>
                                 <Table.Cell>{p.product.name}</Table.Cell>
                                 <Table.Cell>{p.product.price}€</Table.Cell>
@@ -104,7 +97,7 @@ export class Cart extends React.Component <CartProps, CartState> {
                         }
                         <Table.Row>
                             <Table.Cell colSpan={3} textAlign="right"><h4>Overall:</h4></Table.Cell>
-                            <Table.Cell>{this.state.cart.total}€</Table.Cell>
+                            <Table.Cell>{this.props.cart.total}€</Table.Cell>
                         </Table.Row>
                     </Table.Body>
                 </Table>
