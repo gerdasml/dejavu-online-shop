@@ -5,8 +5,8 @@ import {Header} from "semantic-ui-react";
 import {RouteComponentProps} from "react-router-dom";
 
 interface CategoryRouteProps {
-    name: string;
+    id: number;
 }
 export const Category = (props: RouteComponentProps<CategoryRouteProps>) => (
-    <Header size="large">Category {props.match.params.name}</Header>
+    <Header size="large">Category {props.match.params.id}</Header>
 );
