@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { Grid, Menu, Message } from "semantic-ui-react";
 
+import { notification } from "antd";
 import "../../../../style/drawer.css";
 import * as api from "../../../api";
 import { CategoryTree } from "../../../model/CategoryTree";
@@ -50,7 +51,7 @@ export class DrawerMenu extends React.Component<{}, DrawerMenuState> {
     getAllCategories= async () => {
         const response = await api.category.getCategoryTree();
         if(api.isError(response)) {
-            console.error(response);
+            notification.error({message: "Failed to fetch categories", description: response.message});
             return [];
         }
         return response;
