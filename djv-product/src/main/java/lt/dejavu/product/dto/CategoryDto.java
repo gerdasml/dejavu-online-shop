@@ -3,6 +3,8 @@ package lt.dejavu.product.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class CategoryDto {
@@ -12,6 +14,5 @@ public class CategoryDto {
     private String icon;
     private String identifier;
     private Long parentCategoryId;
-
-
+    private List<String> properties;
 }

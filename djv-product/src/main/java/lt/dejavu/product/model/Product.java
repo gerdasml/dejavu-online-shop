@@ -51,11 +51,6 @@ public class Product {
     @Column(name = "imageUrl")
     private Set<String> additionalImagesUrls;
 
-    @Embedded
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(
-            name = "product_property",
-            joinColumns = @JoinColumn(name = "productId")
-    )
-    private Set<ProductProperty> properties;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+    private Set<ProductPropertyValue> propertyValues;
 }

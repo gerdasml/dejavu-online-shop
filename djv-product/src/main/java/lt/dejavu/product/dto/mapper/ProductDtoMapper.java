@@ -31,7 +31,7 @@ public class ProductDtoMapper {
         dto.setMainImageUrl(product.getMainImageUrl());
         dto.setAdditionalImagesUrls(product.getAdditionalImagesUrls());
         dto.setPrice(product.getPrice());
-        dto.setProperties(propertiesMapper.map(product.getProperties()));
+        dto.setProperties(propertiesMapper.map(product.getPropertyValues()));
         if (product.getCategory() != null) {
             dto.setCategoryId(product.getCategory().getId());
         }

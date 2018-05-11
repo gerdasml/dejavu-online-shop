@@ -3,11 +3,14 @@ package lt.dejavu.product.dto.mapper;
 import lt.dejavu.product.dto.CategoryDto;
 import lt.dejavu.product.dto.CategoryTreeDto;
 import lt.dejavu.product.model.Category;
+import lt.dejavu.product.model.ProductProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 @Component
 public class CategoryDtoMapper {
@@ -24,11 +27,12 @@ public class CategoryDtoMapper {
         if (category.getParentCategory() != null) {
             view.setParentCategoryId(category.getParentCategory().getId());
         }
+        view.setProperties(category.getProperties().stream().map(ProductProperty::getName).collect(toList()));
         return view;
     }
 
     public List<CategoryDto> map(List<Category> categories) {
-        return categories.stream().map(this::map).collect(Collectors.toList());
+        return categories.stream().map(this::map).collect(toList());
     }
 
     public List<CategoryTreeDto> mapToTree(List<Category> categories) {
@@ -37,7 +41,7 @@ public class CategoryDtoMapper {
         }
         return categories.stream()
                          .filter(category -> category.getParentCategory() == null)
-                         .map(rootCategory -> mapToTree(rootCategory, categories)).collect(Collectors.toList());
+                         .map(rootCategory -> mapToTree(rootCategory, categories)).collect(toList());
 
     }
 
@@ -51,6 +55,6 @@ public class CategoryDtoMapper {
     private List<CategoryTreeDto> mapToTree(Long parentCategoryId, List<Category> allCategories) {
         return allCategories.stream()
                             .filter(category -> category.getParentCategory() != null && parentCategoryId.equals(category.getParentCategory().getId()))
-                            .map(childCategory -> mapToTree(childCategory, allCategories)).collect(Collectors.toList());
+                            .map(childCategory -> mapToTree(childCategory, allCategories)).collect(toList());
     }
 }

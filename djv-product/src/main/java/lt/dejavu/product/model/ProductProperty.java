@@ -4,19 +4,24 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
 @Getter
 @Setter
+@Entity
 @EqualsAndHashCode
-@Embeddable
+@Table(name = "product_property")
 public class ProductProperty {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "value", nullable = false)
-    private String value;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoryId")
+    private Category category;
 }

@@ -2,6 +2,7 @@ package lt.dejavu.product.repository.impl;
 
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.Category_;
+import lt.dejavu.product.model.ProductProperty_;
 import lt.dejavu.product.repository.CategoryRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,14 +14,21 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class CategoryRepositoryImpl implements CategoryRepository {
+public class  CategoryRepositoryImpl implements CategoryRepository {
 
     @PersistenceContext
     private EntityManager em;
 
     @Override
     public Category getCategory(long id) {
-        return em.find(Category.class, id);
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Category> query = cb.createQuery(Category.class);
+        Root<Category> root = query.from(Category.class);
+        root.fetch(Category_.properties, JoinType.LEFT);
+        ParameterExpression<Long> idParameter = cb.parameter(Long.class);
+        query.where(cb.equal(root.get(Category_.id), idParameter));
+        List<Category> resultList = em.createQuery(query).setParameter(idParameter, id).getResultList();
+        return resultList.size() != 0 ? resultList.get(0) : null;
     }
 
     @Override
@@ -28,6 +36,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Category> query = cb.createQuery(Category.class);
         Root<Category> root = query.from(Category.class);
+        root.fetch(Category_.properties, JoinType.LEFT);
         query.where(cb.isNull(root.get(Category_.parentCategory)));
         return em.createQuery(query).getResultList();
     }
@@ -38,6 +47,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         CriteriaQuery<Category> query = cb.createQuery(Category.class);
         Root<Category> root = query.from(Category.class);
         Join<Category, Category> parentJoin = root.join(Category_.parentCategory);
+        root.fetch(Category_.properties, JoinType.LEFT);
         query.where(cb.equal(parentJoin.get(Category_.id), parentId));
         return em.createQuery(query).getResultList();
     }
@@ -63,6 +73,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Category> query = cb.createQuery(Category.class);
         Root<Category> root = query.from(Category.class);
+        root.fetch(Category_.properties, JoinType.LEFT);
         root.fetch(Category_.parentCategory, JoinType.LEFT);
         return em.createQuery(query).getResultList();
 
