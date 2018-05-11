@@ -42,6 +42,11 @@
     justify-content: flex-end;
 }
 
+/*#headerGrid NavLink {
+    margin-top: auto;
+    margin-bottom: auto;
+}*/
+
 
 #headerGrid .headerButton{
     margin-top: auto;

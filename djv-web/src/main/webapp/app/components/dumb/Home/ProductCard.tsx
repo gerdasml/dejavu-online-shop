@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {Card, Header, Image} from "semantic-ui-react";
+import {Card, Header, Image, Button, Icon} from "semantic-ui-react";
 import "../../../../style/header.css";
 
 import { Product } from "../../../model/Product";
@@ -21,6 +21,14 @@ export const ProductCard = (props: ProductCardProps) => (
         </Card.Content>
         <Card.Content extra>
             TODO: Add to cart...
+            <Button positive animated="fade">
+                <Button.Content visible>
+                    Add to cart
+                </Button.Content>
+                <Button.Content hidden>
+                    <Icon name="shop"/>
+                </Button.Content>
+            </Button>
         </Card.Content>
     </Card>
 );

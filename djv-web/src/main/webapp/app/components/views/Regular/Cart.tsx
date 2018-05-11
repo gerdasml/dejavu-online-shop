@@ -70,6 +70,9 @@ export class Cart extends React.Component<{}, CartState> {
 
     nextStep = () => {
         const step = this.state.currentStep;
+        this.state.cart.items.forEach(p =>
+            console.log(p.product.name + " " + p.amount)
+        );
         if(step === CartStep.APPROVAL) {
             console.log("Finished");
             // TODO: finish this somehow

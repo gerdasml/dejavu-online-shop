@@ -85,6 +85,7 @@ export class Header extends React.Component <{}, HeaderState> {
                             <Dropdown.Item icon="info" text="About Us" />
                         </Dropdown.Menu>
                     </Dropdown>
+                    {/*  TODO: this generates a warning, if you fix it, fix the css as well */}
                     <Button className="headerButton"
                             icon
                             size="medium"
