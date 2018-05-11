@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { Divider } from "semantic-ui-react";
 
 import "../../../../style/submenu.css";
@@ -16,7 +17,7 @@ const mapChildChild = (category: CategoryTree, key: number) =>
     <div
         className="item"
         key={key.toString()+"_"+i.toString()}>
-            {x.category.name}
+            <Link to={`/category/${x.category.id}`}>{x.category.name}</Link>
     </div>
     );
 
