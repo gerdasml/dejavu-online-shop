@@ -13,7 +13,7 @@ export const Amount = (props: AmountProps) => (
         <Button
             id="amountButtonMinus"
             icon="minus"
-            disabled={props.amount===0}
+            disabled={props.amount===1}
             onClick={() => props.onAmountChange(props.amount-1)}>
         </Button>
         <input

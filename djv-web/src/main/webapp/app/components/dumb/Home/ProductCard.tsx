@@ -23,10 +23,10 @@ export const ProductCard = (props: ProductCardProps) => (
             TODO: Add to cart...
             <Button positive animated="fade">
                 <Button.Content visible>
-                    Add to cart
+                    <Icon name="shop"/>
                 </Button.Content>
                 <Button.Content hidden>
-                    <Icon name="shop"/>
+                    <Icon name="plus"/>
                 </Button.Content>
             </Button>
         </Card.Content>

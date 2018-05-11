@@ -10,6 +10,7 @@ import * as api from "../../../../api";
 
 import { OrderItem } from "../../../../model/Order";
 import { Product } from "../../../../model/Product";
+import { OrderTable } from "../../Order/OrderTable";
 
 interface CartProps {
     cart: CartModel;
@@ -68,39 +69,7 @@ export class Cart extends React.Component <CartProps, CartState> {
                 <Dimmer inverted active={this.state.isLoading}>
                     <Loader size="large">Loading</Loader>
                 </Dimmer>
-                <Table striped celled>
-                    <Table.Header>
-                        <Table.Row>
-                        <Table.HeaderCell>Item</Table.HeaderCell>
-                        <Table.HeaderCell>Unit Price</Table.HeaderCell>
-                        <Table.HeaderCell>Amount</Table.HeaderCell>
-                        <Table.HeaderCell>Total</Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-
-                    <Table.Body>
-                        { this.props.cart !== undefined
-                        ?
-                        this.props.cart.items.map( (p,i) =>
-                            <Table.Row key={i}>
-                                <Table.Cell>{p.product.name}</Table.Cell>
-                                <Table.Cell>{p.product.price}€</Table.Cell>
-                                <Table.Cell>
-                                    <Amount amount={p.amount}
-                                        onAmountChange={amount => this.changeAmount(p, amount)}
-                                    />
-                                </Table.Cell>
-                                <Table.Cell>{p.total}€</Table.Cell>
-                            </Table.Row>
-                        )
-                        : ""
-                        }
-                        <Table.Row>
-                            <Table.Cell colSpan={3} textAlign="right"><h4>Overall:</h4></Table.Cell>
-                            <Table.Cell>{this.props.cart.total}€</Table.Cell>
-                        </Table.Row>
-                    </Table.Body>
-                </Table>
+                <OrderTable data={this.props.cart} onAmountChanged={this.changeAmount.bind(this)} />
                 <Button icon labelPosition="right" floated="right" onClick={this.props.onStepComplete}>
                         Buy
                         <Icon name="chevron right" />
