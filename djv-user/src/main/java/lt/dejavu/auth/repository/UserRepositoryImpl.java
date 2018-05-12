@@ -5,7 +5,6 @@ import lt.dejavu.auth.model.db.User;
 import lt.dejavu.auth.model.db.User_;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -34,9 +33,9 @@ public class UserRepositoryImpl implements UserRepository {
         Root<User> root = query.from(User.class);
         Predicate condition =
                 cb.and(
-                    cb.equal(root.get(User_.email), email),
-                    cb.equal(root.get(User_.password), password)
-                );
+                        cb.equal(root.get(User_.email), email),
+                        cb.equal(root.get(User_.password), password)
+                      );
         query.where(condition);
         TypedQuery<User> q = em.createQuery(query);
         return q.getResultList()
@@ -62,14 +61,19 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void updateUserInfo(User oldUser, User newUser) {
-        mergeInformation(oldUser, newUser);
+        updateUserInfo(oldUser, newUser, false);
+    }
+
+    @Override
+    public void updateUserInfo(User oldUser, User newUser, boolean updatePassword) {
+        mergeInformation(oldUser, newUser, updatePassword);
         em.merge(newUser.getAddress());
         em.merge(newUser);
     }
 
     @Override
     public Long addUser(User user) {
-        if(user.getAddress() == null) {
+        if (user.getAddress() == null) {
             user.setAddress(new Address());
         }
         em.persist(user.getAddress());
@@ -77,17 +81,19 @@ public class UserRepositoryImpl implements UserRepository {
         return user.getId();
     }
 
-    private void mergeInformation(User oldUser, User newUser) {
+    private void mergeInformation(User oldUser, User newUser, boolean updatePassword) {
         newUser.setId(oldUser.getId());
-        newUser.setPassword(oldUser.getPassword());
+        if (!updatePassword) {
+            newUser.setPassword(oldUser.getPassword());
+        }
         newUser.setType(oldUser.getType());
         newUser.setBanned(oldUser.isBanned());
         newUser.setEmail(oldUser.getEmail());
 
-        if(newUser.getAddress() == null) {
+        if (newUser.getAddress() == null) {
             newUser.setAddress(new Address());
         }
-        if(oldUser.getAddress() != null) {
+        if (oldUser.getAddress() != null) {
             newUser.getAddress().setId(oldUser.getAddress().getId());
         }
     }

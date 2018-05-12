@@ -14,8 +14,8 @@ public class CachingResponseWrapper extends HttpServletResponseWrapper {
     }
 
     @Override
-    public PrintWriter getWriter() {
-        return new PrintWriter(stream);
+    public PrintWriter getWriter() throws IOException {
+        return new PrintWriter(getOutputStream());
     }
 
     @Override
@@ -27,7 +27,7 @@ public class CachingResponseWrapper extends HttpServletResponseWrapper {
     }
 
     public String getCache() {
-        if(stream == null) return "";
+        if (stream == null) return "";
         return ((CachingServletOutputStream) stream).getCache();
     }
 }

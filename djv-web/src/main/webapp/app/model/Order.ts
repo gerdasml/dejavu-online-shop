@@ -16,10 +16,18 @@ export interface OrderItem {
 }
 
 export interface Order {
+    id: number;
     createdDate: Date;
     shippingAddress: Address;
     status: OrderStatus;
     total: number;
     user: User;
     items: OrderItem[];
+}
+
+export interface OrderSummary {
+    user: User;
+    orderCount: number;
+    totalSpending: number;
+    averageSpending: number;
 }

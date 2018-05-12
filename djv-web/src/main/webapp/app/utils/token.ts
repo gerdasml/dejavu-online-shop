@@ -8,5 +8,8 @@ export const clearToken = () => localStorage.removeItem(TOKEN_KEY);
 
 export const buildAuthHeader = () => {
     const token = getToken();
+    if (token === null) {
+        return undefined;
+    }
     return "Bearer " + token;
 };

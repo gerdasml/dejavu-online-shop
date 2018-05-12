@@ -1,3 +1,4 @@
 .paymentInputContainer {
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
 }

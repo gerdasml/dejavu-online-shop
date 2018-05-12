@@ -1,7 +1,6 @@
 package lt.dejavu.storage.image;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
-import lt.dejavu.auth.model.Endpoint;
 import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.storage.image.exception.FileNotFoundException;
 import lt.dejavu.storage.image.exception.UnsupportedImageFormatException;
@@ -42,9 +41,9 @@ public class ImageApi {
 
     @PostMapping("/upload")
     public ImageInfo uploadImage(HttpServletRequest request,
-                                 @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
+                                 @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
                                  @RequestParam("file") MultipartFile file) throws IOException, UnsupportedImageFormatException, ApiSecurityException {
-        authorize(authHeader, request);
+        securityService.authorize(authHeader, request);
 
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         ImageFormat format = ImageFormat.resolve(extension);
@@ -56,17 +55,5 @@ public class ImageApi {
         imageInfo.setExtension(format.getExtension());
         imageInfo.setFilename(FilenameUtils.getBaseName(file.getOriginalFilename()));
         return imageStorageService.saveImage(file.getBytes(), imageInfo);
-    }
-
-    // TODO: move these two methods to some common place
-    private Endpoint buildEndpoint(HttpServletRequest request) {
-        Endpoint endpoint = new Endpoint();
-        endpoint.setMethod(RequestMethod.valueOf(request.getMethod()));
-        endpoint.setPath(request.getRequestURI());
-        return endpoint;
-    }
-
-    private void authorize(String authHeader, HttpServletRequest request) throws ApiSecurityException {
-        securityService.authorize(authHeader, buildEndpoint(request));
     }
 }

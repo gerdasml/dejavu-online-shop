@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 public class OrderDto {
+    private long id;
     private OrderStatus status;
     private Timestamp createdDate;
     private UserDto user;

@@ -9,6 +9,6 @@ export interface Product {
     description: string;
     price: number;
     properties?: ProductProperties[];
-    creationDate?: string;
+    creationDate?: Date;
     categoryId?: number;
 }

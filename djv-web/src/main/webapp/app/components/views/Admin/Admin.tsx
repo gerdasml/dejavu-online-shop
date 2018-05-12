@@ -3,5 +3,7 @@ import * as React from "react";
 import {Header} from "semantic-ui-react";
 
 export const Admin = () => (
-    <Header size="large">Admin</Header>
+    <div>
+        <Header size="large">Admin</Header>
+    </div>
 );

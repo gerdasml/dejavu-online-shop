@@ -26,6 +26,7 @@ public class FileSystemStorageStrategy implements StorageStrategy {
         Path path = Paths.get(basePath, fileName);
         OutputStream out = new BufferedOutputStream(new FileOutputStream(path.toString()));
         out.write(contents);
+        out.close();
     }
 
     @Override

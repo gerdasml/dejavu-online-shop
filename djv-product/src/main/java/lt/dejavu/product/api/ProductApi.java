@@ -1,12 +1,16 @@
 package lt.dejavu.product.api;
 
-import lt.dejavu.product.model.rest.request.ProductRequest;
+import lt.dejavu.auth.exception.ApiSecurityException;
+import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.product.dto.ProductDto;
+import lt.dejavu.product.model.rest.request.ProductRequest;
 import lt.dejavu.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -15,6 +19,17 @@ public class ProductApi {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private SecurityService securityService;
+
+    @GetMapping(
+            path = "/",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public List<ProductDto> getAllProducts() {
+        return productService.getAllProducts();
+    }
 
     @GetMapping(
             path = "/{productId}",
@@ -37,7 +52,10 @@ public class ProductApi {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
 
-    public Long createProduct(@RequestBody ProductRequest productRequest){
+    public Long createProduct(HttpServletRequest request,
+                              @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
+                              @RequestBody ProductRequest productRequest) throws ApiSecurityException {
+        securityService.authorize(authHeader, request);
         return productService.createProduct(productRequest);
     }
 
@@ -45,7 +63,11 @@ public class ProductApi {
             path = "/{productId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public void updateProduct(@PathVariable("productId") long productId, @RequestBody ProductRequest productRequest){
+    public void updateProduct(HttpServletRequest request,
+                              @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
+                              @PathVariable("productId") long productId,
+                              @RequestBody ProductRequest productRequest) throws ApiSecurityException {
+        securityService.authorize(authHeader, request);
         productService.updateProduct(productId, productRequest);
     }
 
@@ -53,8 +75,10 @@ public class ProductApi {
             path = "/{productId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public void deleteProduct(@PathVariable("productId") long productId){
+    public void deleteProduct(HttpServletRequest request,
+                              @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
+                              @PathVariable("productId") long productId) throws ApiSecurityException {
+        securityService.authorize(authHeader, request);
         productService.deleteProduct(productId);
     }
-
 }

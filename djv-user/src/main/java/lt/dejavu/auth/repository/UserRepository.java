@@ -15,5 +15,7 @@ public interface UserRepository {
 
     void updateUserInfo(User oldUser, User newUser);
 
+    void updateUserInfo(User oldUser, User newUser, boolean updatePassword);
+
     Long addUser(User user);
 }
