@@ -69,10 +69,16 @@ export class Cart extends React.Component <CartProps, CartState> {
                 <Dimmer inverted active={this.state.isLoading}>
                     <Loader size="large">Loading</Loader>
                 </Dimmer>
-                <OrderTable data={this.props.cart} onAmountChanged={this.changeAmount.bind(this)} />
-                <Button icon labelPosition="right" floated="right" onClick={this.props.onStepComplete}>
-                        Buy
-                        <Icon name="chevron right" />
+                <OrderTable data={this.props.cart} onAmountChange={this.changeAmount.bind(this)} />
+                <Button
+                    icon
+                    labelPosition="right"
+                    floated="right"
+                    onClick={this.props.onStepComplete}
+                    disabled={this.props.cart.total === 0}
+                >
+                    Buy
+                    <Icon name="chevron right" />
                 </Button>
             </Dimmer.Dimmable>
         );

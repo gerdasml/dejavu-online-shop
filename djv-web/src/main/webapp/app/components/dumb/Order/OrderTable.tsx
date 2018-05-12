@@ -8,7 +8,7 @@ import { Amount } from "../Cart/Amount";
 
 interface OrderTableProps {
     data: Order | Cart;
-    onAmountChanged?: (item: OrderItem, amount: number) => void;
+    onAmountChange?: (item: OrderItem, amount: number) => void;
 }
 
 export const OrderTable = (props: OrderTableProps) => (
@@ -30,12 +30,12 @@ export const OrderTable = (props: OrderTableProps) => (
                     <Table.Cell>{item.product.price}</Table.Cell>
                     {/* TODO: use price formatting utility*/}
                     <Table.Cell>
-                        { props.onAmountChanged === undefined
+                        { props.onAmountChange === undefined
                         ?
                         item.amount
                         :
                         <Amount amount={item.amount}
-                            onAmountChange={amount => props.onAmountChanged(item, amount)}
+                            onAmountChange={amount => props.onAmountChange(item, amount)}
                         />
                         }
                     </Table.Cell>
