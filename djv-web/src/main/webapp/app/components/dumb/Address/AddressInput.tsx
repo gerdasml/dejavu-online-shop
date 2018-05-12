@@ -66,7 +66,10 @@ export class AddressInput extends React.Component<AddressProps, AddressState> {
           </Form.Field>
           <Form.Field inline>
             <label>Country</label>
-            <select value={this.state.address.country} onChange={this.handleCountryInput.bind(this)}>
+            <select
+              value={this.state.address.country}
+              onChange={this.handleCountryInput.bind(this)}>
+              <option value="" hidden></option>
               {countries.map(country => (
                 <option value={country.name}>{country.name}</option>))}
             </select>

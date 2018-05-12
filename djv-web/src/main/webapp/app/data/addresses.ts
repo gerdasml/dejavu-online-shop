@@ -1,10 +1,10 @@
 import { Address } from "../model/Address";
 
 export const addresses: Address[] = [
-    {city: "Wilno",
-    country: "Australia",
-    street: "amazing street 55",
-    zipCode: "55555"},
+    {city: "",
+    country: "",
+    street: "",
+    zipCode: ""},
 
     {city: "Wilno1",
     country: "Barbados",
