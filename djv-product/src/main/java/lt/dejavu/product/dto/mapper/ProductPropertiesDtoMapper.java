@@ -1,7 +1,6 @@
 package lt.dejavu.product.dto.mapper;
 
 import lt.dejavu.product.dto.ProductPropertyDto;
-import lt.dejavu.product.model.ProductProperty;
 import lt.dejavu.product.model.ProductPropertyValue;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +16,7 @@ public class ProductPropertiesDtoMapper {
             return null;
         }
         ProductPropertyDto dto = new ProductPropertyDto();
+        dto.setId(productProperty.getId());
         dto.setName(productProperty.getProductProperty().getName());
         dto.setValue(productProperty.getValue());
         return dto;

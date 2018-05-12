@@ -9,10 +9,12 @@ import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.rest.mapper.CategoryRequestMapper;
 import lt.dejavu.product.model.rest.request.CategoryRequest;
 import lt.dejavu.product.repository.CategoryRepository;
+import lt.dejavu.product.repository.ProductPropertyRepository;
 import lt.dejavu.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -21,12 +23,14 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryRequestMapper categoryRequestMapper;
     private final CategoryDtoMapper categoryDtoMapper;
+    private final ProductPropertyRepository productPropertyRepository;
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryRequestMapper categoryRequestMapper, CategoryDtoMapper categoryDtoMapper) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryRequestMapper categoryRequestMapper, CategoryDtoMapper categoryDtoMapper, ProductPropertyRepository productPropertyRepository) {
         this.categoryRepository = categoryRepository;
         this.categoryRequestMapper = categoryRequestMapper;
         this.categoryDtoMapper = categoryDtoMapper;
+        this.productPropertyRepository = productPropertyRepository;
     }
 
     @Override
@@ -50,13 +54,17 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryDtoMapper.map(categoryRepository.getSubCategories(categoryId));
     }
 
+    @Transactional
     @Override
     public Long createCategory(CategoryRequest categoryRequest) {
         Category parentCategory = resolveParentCategory(categoryRequest);
         Category category = categoryRequestMapper.mapToCategory(categoryRequest, parentCategory);
-        return categoryRepository.saveCategory(category);
+        Long categoryId  = categoryRepository.saveCategory(category);
+        productPropertyRepository.saveProperties(category.getProperties());
+        return categoryId;
     }
 
+    @Transactional
     @Override
     public void updateCategory(long categoryId, CategoryRequest categoryRequest) {
         validateNotSelfParent(categoryId, categoryRequest.getParentCategoryId());
@@ -65,6 +73,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category newCategory = categoryRequestMapper.mapToCategory(categoryRequest, parentCategory);
         newCategory.setId(oldCategory.getId());
         categoryRepository.updateCategory(newCategory);
+        productPropertyRepository.saveProperties(newCategory.getProperties());
     }
 
     @Override

@@ -2,7 +2,6 @@ package lt.dejavu.product.repository;
 
 import lt.dejavu.product.model.Category;
 
-import java.util.List;
 import java.util.Set;
 
 public interface CategoryRepository {

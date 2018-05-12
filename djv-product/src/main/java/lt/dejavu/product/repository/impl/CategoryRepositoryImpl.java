@@ -2,7 +2,6 @@ package lt.dejavu.product.repository.impl;
 
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.Category_;
-import lt.dejavu.product.model.ProductProperty_;
 import lt.dejavu.product.repository.CategoryRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.*;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;

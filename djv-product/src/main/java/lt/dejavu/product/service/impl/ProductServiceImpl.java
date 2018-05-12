@@ -6,32 +6,48 @@ import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.ProductNotFoundException;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.Product;
+import lt.dejavu.product.model.ProductProperty;
+import lt.dejavu.product.model.ProductPropertyValue;
+import lt.dejavu.product.model.rest.mapper.ProductPropertyRequestMapper;
 import lt.dejavu.product.model.rest.mapper.ProductRequestMapper;
+import lt.dejavu.product.model.rest.request.ProductPropertyRequest;
 import lt.dejavu.product.model.rest.request.ProductRequest;
 import lt.dejavu.product.repository.CategoryRepository;
+import lt.dejavu.product.repository.ProductPropertyRepository;
 import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
+
+import static java.util.stream.Collectors.toSet;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    //TODO single responsabilty?
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductRequestMapper productRequestMapper;
     private final ProductDtoMapper productDtoMapper;
+    private final ProductPropertyRequestMapper productPropertyRequestMapper;
+    private final ProductPropertyRepository productPropertyRepository;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository,
-                              ProductRequestMapper productRequestMapper, ProductDtoMapper productDtoMapper) {
+                              ProductRequestMapper productRequestMapper, ProductDtoMapper productDtoMapper,
+                              ProductPropertyRequestMapper productPropertyRequestMapper, ProductPropertyRepository productPropertyRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.productRequestMapper = productRequestMapper;
         this.productDtoMapper = productDtoMapper;
+        this.productPropertyRequestMapper = productPropertyRequestMapper;
+        this.productPropertyRepository = productPropertyRepository;
     }
 
     @Override
@@ -50,12 +66,19 @@ public class ProductServiceImpl implements ProductService {
         return productDtoMapper.map(productRepository.getProductsByCategory(categoryId));
     }
 
+    @Transactional
     @Override
     public Long createProduct(ProductRequest request) {
         Category productCategory = resolveProductCategory(request);
         Product product = productRequestMapper.mapToProduct(request, productCategory);
         product.setCreationDate(LocalDateTime.now());
-        return productRepository.saveProduct(product);
+        Set<ProductProperty> properties =  productPropertyRepository.findByIds(
+                request.getProperties().stream().map(ProductPropertyRequest::getPropertyId).collect(toSet())
+        );
+        Long productId =  productRepository.saveProduct(product);
+        Set<ProductPropertyValue> propertyValues = productPropertyRequestMapper.mapProperties(product, properties ,request.getProperties());
+        productPropertyRepository.savePropertyValues(propertyValues);
+        return productId;
     }
 
     @Override
@@ -64,14 +87,19 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteProduct(product);
     }
 
+    @Transactional
     @Override
     public void updateProduct(long productId, ProductRequest request) {
         Product oldProduct = getProductIfExist(productId);
         Product newProduct = productRequestMapper.mapToProduct(request, resolveProductCategory(request));
         newProduct.setId(oldProduct.getId());
         productRepository.updateProduct(newProduct);
+        Set<ProductProperty> properties =  productPropertyRepository.findByIds(
+                request.getProperties().stream().map(ProductPropertyRequest::getPropertyId).collect(toSet())
+        );
+        Set<ProductPropertyValue> propertyValues = productPropertyRequestMapper.mapProperties(newProduct, properties ,request.getProperties());
+        productPropertyRepository.savePropertyValues(propertyValues);
     }
-
 
     private Category resolveProductCategory(ProductRequest request) {
         if (request.getCategoryId() == null) {

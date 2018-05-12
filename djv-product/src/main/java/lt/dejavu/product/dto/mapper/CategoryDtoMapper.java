@@ -2,16 +2,17 @@ package lt.dejavu.product.dto.mapper;
 
 import lt.dejavu.product.dto.CategoryDto;
 import lt.dejavu.product.dto.CategoryTreeDto;
+import lt.dejavu.product.dto.ProductPropertyDto;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.ProductProperty;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
 @Component
 public class CategoryDtoMapper {
@@ -28,7 +29,7 @@ public class CategoryDtoMapper {
         if (category.getParentCategory() != null) {
             view.setParentCategoryId(category.getParentCategory().getId());
         }
-        view.setProperties(category.getProperties().stream().map(ProductProperty::getName).collect(toList()));
+        view.setProperties(map(category.getProperties()));
         return view;
     }
 
@@ -57,5 +58,19 @@ public class CategoryDtoMapper {
         return allCategories.stream()
                             .filter(category -> category.getParentCategory() != null && parentCategoryId.equals(category.getParentCategory().getId()))
                             .map(childCategory -> mapToTree(childCategory, allCategories)).collect(toList());
+    }
+
+    private ProductPropertyDto map(ProductProperty productProperty) {
+        if (productProperty == null) {
+            return null;
+        }
+        ProductPropertyDto dto = new ProductPropertyDto();
+        dto.setId(productProperty.getId());
+        dto.setName(productProperty.getName());
+        return dto;
+    }
+
+    private List<ProductPropertyDto> map(Collection<ProductProperty> productProperties) {
+        return productProperties.stream().map(this::map).collect(toList());
     }
 }

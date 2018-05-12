@@ -7,9 +7,9 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode
+@ToString
 public class ProductPropertyRequest {
-    String name;
-    String value;
+    private long propertyId;
+    private String propertyValue;
 }
