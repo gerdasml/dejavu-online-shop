@@ -13,8 +13,8 @@ public class ProductPropertyRequestMapper {
 
     public ProductProperty map(ProductPropertyRequest request) {
         ProductProperty productProperty = new ProductProperty();
-        productProperty.setName(request.getName());
-        productProperty.setValue(request.getValue());
+        //productProperty.setName(request.getName());
+        //productProperty.setValue(request.getValue());
         return productProperty;
     }
 

@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"productProperty", "product"})
 @Table(name = "product_property_value")
 public class ProductPropertyValue {
     @Id
