@@ -14,6 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @Ignore
 @ContextConfiguration(classes = {RepositoryTestConfiguration.class, JpaTestConfiguration.class})
@@ -54,10 +55,10 @@ public class CategoryRepositoryTest extends JpaDbTestBase {
         categoryRepository.saveCategory(child);
         // TODO investigate detaching
 
-        List<Category> childCategories = categoryRepository.getSubCategories(parentId);
+        Set<Category> childCategories = categoryRepository.getSubCategories(parentId);
         Assert.assertNotNull(childCategories);
         Assert.assertEquals(childCategories.size(), 1);
-        assertCategoryEqual(childCategories.get(0), child);
+        assertCategoryEqual(childCategories.iterator().next(), child);
     }
 
 
@@ -80,7 +81,7 @@ public class CategoryRepositoryTest extends JpaDbTestBase {
         Category rootWithoutChild = createSampleCategory();
         long rootWithoutChildId = categoryRepository.saveCategory(rootWithoutChild);
 
-        List<Category> rootCategories = categoryRepository.getRootCategories();
+        Set<Category> rootCategories = categoryRepository.getRootCategories();
         Assert.assertNotNull(rootCategories);
         Assert.assertEquals(3, rootCategories.size());
         Assert.assertTrue(rootCategories.stream().anyMatch(c -> (c.getId().equals(rootWithGrandChildId))));

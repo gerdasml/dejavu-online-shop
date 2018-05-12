@@ -10,7 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.*;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 @Transactional
@@ -32,24 +35,24 @@ public class  CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public List<Category> getRootCategories() {
+    public Set<Category> getRootCategories() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Category> query = cb.createQuery(Category.class);
         Root<Category> root = query.from(Category.class);
         root.fetch(Category_.properties, JoinType.LEFT);
         query.where(cb.isNull(root.get(Category_.parentCategory)));
-        return em.createQuery(query).getResultList();
+        return new LinkedHashSet<>(em.createQuery(query).getResultList());
     }
 
     @Override
-    public List<Category> getSubCategories(long parentId) {
+    public Set<Category> getSubCategories(long parentId) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Category> query = cb.createQuery(Category.class);
         Root<Category> root = query.from(Category.class);
         Join<Category, Category> parentJoin = root.join(Category_.parentCategory);
         root.fetch(Category_.properties, JoinType.LEFT);
         query.where(cb.equal(parentJoin.get(Category_.id), parentId));
-        return em.createQuery(query).getResultList();
+        return new LinkedHashSet<>(em.createQuery(query).getResultList());
     }
 
     @Override
@@ -69,13 +72,13 @@ public class  CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public List<Category> getAllCategories() {
+    public Set<Category> getAllCategories() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Category> query = cb.createQuery(Category.class);
         Root<Category> root = query.from(Category.class);
         root.fetch(Category_.properties, JoinType.LEFT);
         root.fetch(Category_.parentCategory, JoinType.LEFT);
-        return em.createQuery(query).getResultList();
+        return new LinkedHashSet<>(em.createQuery(query).getResultList());
 
     }
 }

@@ -6,12 +6,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"properties"})
 @Table(name = "category")
 public class Category {
 
@@ -34,5 +36,5 @@ public class Category {
     private Category parentCategory;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
-    private Set<ProductProperty> properties;
+    private Set<ProductProperty> properties = new LinkedHashSet<ProductProperty>();
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
@@ -31,11 +32,11 @@ public class CategoryDtoMapper {
         return view;
     }
 
-    public List<CategoryDto> map(List<Category> categories) {
+    public List<CategoryDto> map(Set<Category> categories) {
         return categories.stream().map(this::map).collect(toList());
     }
 
-    public List<CategoryTreeDto> mapToTree(List<Category> categories) {
+    public List<CategoryTreeDto> mapToTree(Set<Category> categories) {
         if (categories == null || categories.isEmpty()) {
             return Collections.emptyList();
         }
@@ -45,14 +46,14 @@ public class CategoryDtoMapper {
 
     }
 
-    private CategoryTreeDto mapToTree(Category category, List<Category> allCategories) {
+    private CategoryTreeDto mapToTree(Category category, Set<Category> allCategories) {
         CategoryTreeDto categoryTree = new CategoryTreeDto();
         categoryTree.setCategory(map(category));
         categoryTree.setChildren(mapToTree(category.getId(), allCategories));
         return categoryTree;
     }
 
-    private List<CategoryTreeDto> mapToTree(Long parentCategoryId, List<Category> allCategories) {
+    private List<CategoryTreeDto> mapToTree(Long parentCategoryId, Set<Category> allCategories) {
         return allCategories.stream()
                             .filter(category -> category.getParentCategory() != null && parentCategoryId.equals(category.getParentCategory().getId()))
                             .map(childCategory -> mapToTree(childCategory, allCategories)).collect(toList());
