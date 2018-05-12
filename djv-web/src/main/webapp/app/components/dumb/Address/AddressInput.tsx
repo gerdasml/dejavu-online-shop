@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Flag, Form, Select, Table } from "semantic-ui-react";
+import { Form } from "semantic-ui-react";
 import { countries } from "../../../data/countries";
 import { Address } from "../../../model/Address";
 
