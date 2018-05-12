@@ -2,6 +2,10 @@ import * as React from "react";
 
 import { Button, Form } from "semantic-ui-react";
 
+import {AddressInput} from "../../Address/AddressInput";
+
+import {addresses} from "../../../../data/addresses";
+
 import "../../../../../style/cart.css";
 
 interface DeliveryInfoProps {
@@ -9,7 +13,7 @@ interface DeliveryInfoProps {
 }
 export const DeliveryInfo = (props: DeliveryInfoProps) => (
     <div>
-        <Form id="deliveryInfoForm">
+        <Form size = "big" id="deliveryInfoForm">
             <Form.Field inline>
                 <label>First name</label>
                 <input type="text" value="First Name"/>
@@ -26,26 +30,7 @@ export const DeliveryInfo = (props: DeliveryInfoProps) => (
                 <label>Phone number</label>
                 <input type="text" value="+370********" />
             </Form.Field>
-            <Form.Field inline>
-                <label>Street Address</label>
-                <input type="text" value="address" />
-            </Form.Field>
-            <Form.Field inline>
-                <label>Zip Code</label>
-                <input type="text" value="zip" />
-            </Form.Field>
-            <Form.Field inline>
-                <label>Country</label>
-                <select>
-                    <option value="Lithuania">Lithuania</option>
-                    <option value="United Kingdom">United Kingdom</option>
-                </select>
-                <label id="cityLabel">City</label>
-                <select>
-                    <option value="Vilnius">Vilnius</option>
-                    <option value="London">London</option>
-                </select>
-            </Form.Field>
+            <AddressInput formSize="big" address={addresses[1]}/>
             <Button type="submit" positive onClick={props.onStepComplete}>Next</Button>
         </Form>
     </div >
