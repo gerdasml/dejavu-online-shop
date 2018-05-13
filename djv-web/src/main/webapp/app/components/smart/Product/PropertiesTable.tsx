@@ -1,10 +1,9 @@
 import * as React from "react";
 import { Table } from "semantic-ui-react";
 
-import { Product } from "../../../model/Product";
 import { ProductProperties } from "../../../model/ProductProperties";
 
-interface PropertiesTableProps { product: Product; }
+interface PropertiesTableProps { properties: ProductProperties[]; }
 
 import "../../../../style/product.css";
 
@@ -19,7 +18,7 @@ export class PropertiesTable extends React.Component<PropertiesTableProps, {}> {
         {x.value}</Table.Cell>
 
     render () {
-        const pairs = this.props.product.properties.reduce((res, val, idx, a) => {
+        const pairs = this.props.properties.reduce((res, val, idx, a) => {
             if(idx % 2 === 0) {
                 res.push(a.slice(idx, idx+2));
             }

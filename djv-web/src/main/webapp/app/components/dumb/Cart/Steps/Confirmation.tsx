@@ -1,10 +1,12 @@
 import * as React from "react";
-import { Button, Icon, List, Table } from "semantic-ui-react";
+import { Button, Icon, List } from "semantic-ui-react";
 import "../../../../../style/cart.css";
-import { Purchase } from "../../../../model/Purchase";
+
+import { Cart as CartModel } from "../../../../model/Cart";
+import { OrderTable } from "../../Order/OrderTable";
 
 interface ConfirmationProps {
-    purchases: Purchase[];
+    cart: CartModel;
     onStepComplete: () => void;
 }
 
@@ -33,33 +35,7 @@ export const Confirmation = (props: ConfirmationProps) => (
                 </List.Content>
             </List.Item>
         </List>
-        <Table striped celled attached="top">
-            <Table.Header>
-                <Table.Row>
-                <Table.HeaderCell>Item</Table.HeaderCell>
-                <Table.HeaderCell>Unit Price</Table.HeaderCell>
-                <Table.HeaderCell>Amount</Table.HeaderCell>
-                <Table.HeaderCell>Total</Table.HeaderCell>
-                </Table.Row>
-            </Table.Header>
-
-            <Table.Body>
-                {props.purchases.map(p =>
-                    <Table.Row>
-                        <Table.Cell>{p.item.name}</Table.Cell>
-                        <Table.Cell>{p.item.price}€</Table.Cell>
-                        <Table.Cell>{p.amount}</Table.Cell>
-                        <Table.Cell>{p.total}€</Table.Cell>
-                    </Table.Row>
-                )}
-            </Table.Body>
-            <Table.Footer>
-                <Table.Row>
-                    <Table.HeaderCell colspan="3" textAlign="right"><h4>Overall:</h4></Table.HeaderCell>
-                    <Table.HeaderCell ><h4>1000000€</h4></Table.HeaderCell>
-                    </Table.Row>
-            </Table.Footer>
-        </Table>
+        <OrderTable data={props.cart}/>
         <Button id="confirmButton" floated="right" positive onClick={props.onStepComplete}>Confirm</Button>
     </div >
 );

@@ -1,0 +1,7 @@
+#addressForm label{
+    width: 12%;
+}
+
+#addressForm input, #addressForm select{
+    width: 51%;
+}

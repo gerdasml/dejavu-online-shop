@@ -37,3 +37,6 @@ export const importProducts = (excel: File): Promise<ApiResponse<string>> => {
 
 export const getImportStatuses = (): Promise<ApiResponse<ImportStatus[]>> =>
     fetchData(PATH_PREFIX + "/import/status/", HttpMethod.GET);
+
+export const getProductsByCategory = (id: number): Promise<ApiResponse<Product[]>> =>
+    fetchData(PATH_PREFIX + "/category/" + id.toString(), HttpMethod.GET);
