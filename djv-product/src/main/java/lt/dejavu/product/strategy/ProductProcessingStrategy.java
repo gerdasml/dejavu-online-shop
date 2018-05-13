@@ -47,7 +47,7 @@ public class ProductProcessingStrategy implements ProcessingStrategy<ProductDto>
     @Override
     public void process(UUID jobId, ConversionResult<ProductDto> item) {
         try {
-            Thread.sleep(5000);
+            Thread.sleep(5000); // TODO: remove this after testing is done
         } catch (InterruptedException e) {
 
         }
