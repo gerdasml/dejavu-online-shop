@@ -17,6 +17,8 @@ import { SingleProduct } from "./views/Admin/product/SingleProduct";
 import { SingleUser } from "./views/Admin/users/SingleUser";
 import { Users } from "./views/Admin/users/Users";
 import { NotFound } from "./views/NotFound";
+import { ImportJobs } from "./views/Admin/product/import/ImportJobs";
+import { ImportJob } from "./views/Admin/product/import/ImportJob";
 
 const isLoggedInAsAdmin = async () => {
     const userResponse = await api.user.getProfile();
@@ -87,6 +89,8 @@ export class AdminMain extends React.Component<{},AdminMainState> {
                         <Route path="/admin/users" component={Users}/>
                         <Route path="/admin/user/:id" component={SingleUser} />
                         <Route path="/admin/categories" component={Categories}/>
+                        <Route path="/admin/imports/:jobId" component={ImportJob} />
+                        <Route path="/admin/imports/" component={ImportJobs} />
                         <Route path="/" component={Admin} />
                         <Route component={NotFound} />
                     </Switch>
