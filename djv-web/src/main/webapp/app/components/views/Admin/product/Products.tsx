@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { RouteComponentProps } from "react-router-dom";
 
-import { Button, notification, Spin, Affix, Progress, Tooltip } from "antd";
+import { Button, notification, Spin, Affix, Progress, Tooltip, List } from "antd";
 
 import { NavLink } from "react-router-dom";
 import * as api from "../../../../api";
@@ -12,6 +12,8 @@ import { ProductTable } from "../common/Table/ProductTable";
 
 import "../../../../../style/admin/product.css";
 import { ProductImport } from "./import/ProductImport";
+import { ProductExport } from "./import/ProductExport";
+import { ButtonGroup } from "semantic-ui-react";
 
 interface ProductsState {
     isLoading: boolean;
@@ -51,11 +53,13 @@ export class Products extends React.Component<RouteComponentProps<{}>, ProductsS
         const { isLoading } = this.state;
         return (
             <Spin spinning={isLoading} size="large">
-                <NavLink to={`/admin/product/create`}>
-                    <Button>Add new product</Button>
-                </NavLink>
-                <ProductImport navigateToJob={id => this.props.history.push(`/admin/imports/${id}`)}/>
-                
+                <ButtonGroup>
+                    <NavLink to={`/admin/product/create`}>
+                        <Button>Add new product</Button>
+                    </NavLink>
+                    <ProductImport navigateToJob={id => this.props.history.push(`/admin/imports/${id}`)}/>
+                    <ProductExport />
+                </ButtonGroup>
                 <ProductTable
                     products={this.state.products}
                     categories={this.state.categories}
