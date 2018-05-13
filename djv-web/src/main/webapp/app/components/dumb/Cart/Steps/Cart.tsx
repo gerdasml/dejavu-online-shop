@@ -63,13 +63,45 @@ export class Cart extends React.Component <CartProps, CartState> {
         });
     }
 
+    async removeItem (item: OrderItem) {
+        this.setState({
+            ...this.state,
+            isLoading: true,
+        });
+        const removeItemInfo = await api.cart.removeFromCart(item.product.id);
+        if(api.isError(removeItemInfo)) {
+            this.setState({
+                ...this.state,
+                error: removeItemInfo.message,
+            });
+        } else {
+            const newTotal = this.props.cart.total - item.total;
+            const prevItems = [...this.props.cart.items];
+            // const idx = newItems.findIndex(i => i.product.id === item.product.id);
+            const newItems = prevItems.filter(i => i.product.id !== item.product.id);
+            this.props.onCartUpdate({
+                ...this.props.cart,
+                items: newItems,
+                total: newTotal,
+            });
+        }
+        this.setState({
+            ...this.state,
+            isLoading: false,
+        });
+    }
+
     render () {
         return(
             <Dimmer.Dimmable blurring dimmed={this.state.isLoading}>
                 <Dimmer inverted active={this.state.isLoading}>
                     <Loader size="large">Loading</Loader>
                 </Dimmer>
-                <OrderTable data={this.props.cart} onAmountChange={this.changeAmount.bind(this)} />
+                <OrderTable
+                    data={this.props.cart}
+                    onAmountChange={this.changeAmount.bind(this)}
+                    onItemRemove={this.removeItem.bind(this)}
+                />
                 <Button
                     icon
                     labelPosition="right"
