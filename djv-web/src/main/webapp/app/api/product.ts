@@ -34,3 +34,6 @@ export const importProducts = (excel: File): Promise<ApiResponse<string>> => {
     data.append("file", excel);
     return fetchData(PATH_PREFIX + "/import", HttpMethod.POST, data);
 };
+
+export const getImportStatuses = (): Promise<ApiResponse<ImportStatus[]>> =>
+    fetchData(PATH_PREFIX + "/import/status/", HttpMethod.GET);

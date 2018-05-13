@@ -19,8 +19,10 @@ export enum Status {
 }
 
 export interface ImportStatus {
+    id: string;
     status: Status;
     successCount: number;
     failureCount: number;
     failedProducts: Product[];
+    startTime: Date;
 }

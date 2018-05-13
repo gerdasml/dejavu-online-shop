@@ -6,6 +6,7 @@ import lt.dejavu.product.dto.mapper.ProductImportStatusDtoMapper;
 import lt.dejavu.product.service.ProductImportStatusService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -16,6 +17,11 @@ public class ProductImportStatusServiceImpl implements ProductImportStatusServic
     public ProductImportStatusServiceImpl(ProductImportStatusDtoMapper mapper, ImportStatusRepository importStatusRepository) {
         this.mapper = mapper;
         this.importStatusRepository = importStatusRepository;
+    }
+
+    @Override
+    public List<ProductImportStatusDto> getAllStatuses() {
+        return mapper.map(importStatusRepository.getAllImportStatuses());
     }
 
     @Override

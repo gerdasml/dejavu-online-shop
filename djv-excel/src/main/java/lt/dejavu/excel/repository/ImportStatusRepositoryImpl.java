@@ -6,7 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -14,6 +18,16 @@ import java.util.UUID;
 public class ImportStatusRepositoryImpl implements ImportStatusRepository {
     @PersistenceContext
     private EntityManager em;
+
+    @Override
+    public List<ImportStatus> getAllImportStatuses() {
+        // TODO: extract this code to some common place, because we'll probably need it in multiple places
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<ImportStatus> cq = cb.createQuery(ImportStatus.class);
+        Root<ImportStatus> rootEntry = cq.from(ImportStatus.class);
+        CriteriaQuery<ImportStatus> all = cq.select(rootEntry);
+        return em.createQuery(all).getResultList();
+    }
 
     @Override
     public ImportStatus getImportStatus(UUID id) {

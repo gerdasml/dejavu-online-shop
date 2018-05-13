@@ -120,4 +120,11 @@ public class ProductApi {
         securityService.authorize(authHeader, request);
         return statusService.getStatus(jobId);
     }
+
+    @GetMapping(path = "/import/status/")
+    public List<ProductImportStatusDto> getImportStatuses(HttpServletRequest request,
+                                                          @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) throws ApiSecurityException {
+        securityService.authorize(authHeader, request);
+        return statusService.getAllStatuses();
+    }
 }

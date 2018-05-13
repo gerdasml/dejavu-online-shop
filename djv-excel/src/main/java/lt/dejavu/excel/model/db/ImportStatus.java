@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
@@ -16,6 +17,9 @@ public class ImportStatus {
     @Id
     @Column(name = "jobId")
     private UUID id;
+
+    @Column(name = "startTime")
+    private Timestamp startTime;
 
     @Column(name = "successCount")
     private int successCount;
