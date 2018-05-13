@@ -25,7 +25,7 @@ public class ProductPropertyRequestMapper {
                     .filter(prop -> prop.getId().equals(request.getPropertyId()))
                     .findFirst()
                     .orElseThrow(() -> new ProductPropertyNotFoundException(request.getPropertyId())));
-        property.setValue(request.getPropertyValue());
+        property.setValue(request.getValue());
         return property;
     }
 }

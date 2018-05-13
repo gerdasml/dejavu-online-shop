@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@EqualsAndHashCode(exclude = {"productProperty", "product"})
+@EqualsAndHashCode(exclude = {"productProperty", "product", "id"})
 @Table(name = "product_property_value")
 public class ProductPropertyValue {
     @Id
@@ -27,5 +27,7 @@ public class ProductPropertyValue {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "productId")
     private Product product;
+
+    //TODO proper equals
 
 }

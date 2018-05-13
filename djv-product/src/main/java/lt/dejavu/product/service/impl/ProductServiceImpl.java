@@ -4,6 +4,7 @@ import lt.dejavu.product.dto.ProductDto;
 import lt.dejavu.product.dto.mapper.ProductDtoMapper;
 import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.ProductNotFoundException;
+import lt.dejavu.product.exception.ProductPropertyNotFoundException;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.model.ProductProperty;
@@ -16,9 +17,11 @@ import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.repository.ProductPropertyRepository;
 import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.product.service.ProductService;
+import lt.dejavu.utils.collections.CollectionUpdater;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.el.PropertyNotFoundException;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -72,11 +75,9 @@ public class ProductServiceImpl implements ProductService {
         Category productCategory = resolveProductCategory(request);
         Product product = productRequestMapper.mapToProduct(request, productCategory);
         product.setCreationDate(LocalDateTime.now());
-        Set<ProductProperty> properties =  productPropertyRepository.findByIds(
-                request.getProperties().stream().map(ProductPropertyRequest::getPropertyId).collect(toSet())
-        );
-        Long productId =  productRepository.saveProduct(product);
-        Set<ProductPropertyValue> propertyValues = productPropertyRequestMapper.mapProperties(product, properties ,request.getProperties());
+        Long productId = productRepository.saveProduct(product);
+        Set<ProductProperty> properties = getProductProperties(request, productCategory);
+        Set<ProductPropertyValue> propertyValues = productPropertyRequestMapper.mapProperties(product, properties, request.getProperties());
         productPropertyRepository.savePropertyValues(propertyValues);
         return productId;
     }
@@ -90,20 +91,29 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public void updateProduct(long productId, ProductRequest request) {
+        Category productCategory = resolveProductCategory(request);
         Product oldProduct = getProductIfExist(productId);
-        Product newProduct = productRequestMapper.mapToProduct(request, resolveProductCategory(request));
-        newProduct.setId(oldProduct.getId());
-        productRepository.updateProduct(newProduct);
-        Set<ProductProperty> properties =  productPropertyRepository.findByIds(
-                request.getProperties().stream().map(ProductPropertyRequest::getPropertyId).collect(toSet())
-        );
-        Set<ProductPropertyValue> propertyValues = productPropertyRequestMapper.mapProperties(newProduct, properties ,request.getProperties());
-        productPropertyRepository.savePropertyValues(propertyValues);
+        productRequestMapper.remapToProduct(oldProduct, request, productCategory);
+        Set<ProductProperty> properties = getProductProperties(request, productCategory);
+        Set<ProductPropertyValue> propertyValues = productPropertyRequestMapper.mapProperties(oldProduct, properties, request.getProperties());
+        CollectionUpdater.updateCollection(oldProduct.getPropertyValues(), propertyValues);
+        productRepository.updateProduct(oldProduct);
+    }
+
+    private Set<ProductProperty> getProductProperties(ProductRequest request, Category productCategory) {
+        Set<Long> propertyIds = getPropertyIds(request);
+        Set<ProductProperty> properties = productPropertyRepository.findByCategoryIdAndIds(productCategory.getId(), propertyIds);
+        checkIfAllPropertiesWereFound(propertyIds, properties);
+        return properties;
+    }
+
+    private Set<Long> getPropertyIds(ProductRequest request) {
+        return request.getProperties().stream().map(ProductPropertyRequest::getPropertyId).collect(toSet());
     }
 
     private Category resolveProductCategory(ProductRequest request) {
         if (request.getCategoryId() == null) {
-            return null;
+            throw new IllegalStateException("Product must have category");
         }
         return getCategoryIfExist(request.getCategoryId());
     }
@@ -122,5 +132,13 @@ public class ProductServiceImpl implements ProductService {
             throw new CategoryNotFoundException("cannot find category with id " + categoryId);
         }
         return category;
+    }
+
+    private void checkIfAllPropertiesWereFound(Set<Long> propertyIds, Set<ProductProperty> properties) {
+        if (propertyIds.size() != properties.size()) {
+            throw new ProductPropertyNotFoundException("Not product all properties were found in given category");
+            //TODO more details
+        }
+
     }
 }

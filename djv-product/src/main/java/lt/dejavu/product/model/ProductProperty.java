@@ -43,6 +43,5 @@ public class ProductProperty {
             categoryIdHash = category.getId().hashCode();
         }
         return nameHash | categoryIdHash;
-
     }
 }

@@ -59,7 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Long createCategory(CategoryRequest categoryRequest) {
         Category parentCategory = resolveParentCategory(categoryRequest);
         Category category = categoryRequestMapper.mapToCategory(categoryRequest, parentCategory);
-        Long categoryId  = categoryRepository.saveCategory(category);
+        Long categoryId = categoryRepository.saveCategory(category);
         productPropertyRepository.saveProperties(category.getProperties());
         return categoryId;
     }

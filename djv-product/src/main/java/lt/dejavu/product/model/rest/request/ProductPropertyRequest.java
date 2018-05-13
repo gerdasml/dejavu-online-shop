@@ -11,5 +11,5 @@ import lombok.ToString;
 @ToString
 public class ProductPropertyRequest {
     private long propertyId;
-    private String propertyValue;
+    private String value;
 }

@@ -20,4 +20,16 @@ public class ProductRequestMapper {
         product.setCategory(category);
         return product;
     }
+
+    public Product remapToProduct(Product oldProduct, ProductRequest productRequest, Category category) {
+        oldProduct.setName(productRequest.getName());
+        oldProduct.setIdentifier(productRequest.getIdentifier());
+        oldProduct.setDescription(productRequest.getDescription());
+        oldProduct.setPrice(productRequest.getPrice());
+        oldProduct.setMainImageUrl(productRequest.getMainImageUrl());
+        oldProduct.setAdditionalImagesUrls(productRequest.getAdditionalImagesUrls());
+        oldProduct.setCreationDate(productRequest.getCreationDate());
+        oldProduct.setCategory(category);
+        return oldProduct;
+    }
 }
