@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Card, Header, Loader} from "semantic-ui-react";
+import { Card, Loader} from "semantic-ui-react";
 
 import { RouteComponentProps } from "react-router-dom";
 import {Product} from "../../../model/Product";
