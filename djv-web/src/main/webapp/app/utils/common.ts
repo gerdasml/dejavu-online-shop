@@ -11,3 +11,15 @@ export const toUrlFriendlyString = (s: string) =>
         .replace(/^-|-$/g, "")
         .toLowerCase()
     : "";
+
+export const descriptionShortener = (text: string) => {
+    const SHORT_TEXT_LENGTH = 100;
+    if(text.length <= SHORT_TEXT_LENGTH) {
+        return text;
+    }
+    const shortText = text.substring(0,SHORT_TEXT_LENGTH);
+    const lastSpaceIdx = shortText.lastIndexOf(" ");
+    const fixedText = shortText.substring(0, lastSpaceIdx);
+    const completedText = fixedText + "...";
+    return completedText;
+};
