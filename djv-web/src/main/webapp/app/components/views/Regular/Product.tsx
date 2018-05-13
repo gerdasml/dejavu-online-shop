@@ -27,11 +27,9 @@ interface ProductState {
 export class Product extends React.Component<RouteComponentProps<ProductRouteProps>, ProductState> {
     state: ProductState = {
         amount: 1,
-        loading: true // default turetu but true, kad
+        loading: true
     };
     async updateCart (amount: number) {
-        // TODO: think about pretty loaders instead of state change before api call
-        console.log(amount, this.state.product.id);
         const addToCartInfo = await api.cart.addToCart({
             amount,
             productId: this.state.product.id
@@ -47,10 +45,7 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
         const response = await api.product.getProduct(props.match.params.id);
         if(api.isError(response)) {
             notification.error({message: "Failed to load data", description: response.message});
-            this.setState({
-                ...this.state, loading: false
-            });
-            return undefined;
+            return;
         }
         this.setState({
             ...this.state,
@@ -58,9 +53,8 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
         });
     }
     async componentWillReceiveProps (nextProps: RouteComponentProps<ProductRouteProps>) {
-        if (await this.handleProductInfo(nextProps) !== undefined) {
-            this.setState({...this.state, loading: true});
-        }
+        this.setState({...this.state, loading: true});
+        await this.handleProductInfo(nextProps);
         this.setState({...this.state, loading: false});
     }
 
