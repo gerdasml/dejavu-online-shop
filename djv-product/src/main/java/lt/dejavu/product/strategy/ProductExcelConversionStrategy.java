@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 @Component
 public class ProductExcelConversionStrategy implements ExcelConversionStrategy<ProductDto> {
@@ -27,20 +30,20 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         }
         List<List<String>> result = new ArrayList<>();
         List<String> firstRow = new ArrayList<>(
-            Arrays.asList(
-                item.getName(),
-                item.getDescription(),
-                item.getPrice().toString(),
-                item.getCategoryId().toString(),
-                properties.get(0).getName(),
-                properties.get(0).getValue()
-             )
+                Arrays.asList(
+                        item.getName(),
+                        item.getDescription(),
+                        item.getPrice().toString(),
+                        item.getCategoryId().toString(),
+                        properties.get(0).getName(),
+                        properties.get(0).getValue()
+                             )
         );
         result.add(firstRow);
         properties.stream().skip(1).forEach(p -> {
             List<String> row = new ArrayList<>(Arrays.asList(
-                "", "", "", "", p.getName(), p.getValue()
-            ));
+                    "", "", "", "", p.getName(), p.getValue()
+                                                            ));
             result.add(row);
         });
         return result;
@@ -53,13 +56,14 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
                 "Description",
                 "Price",
                 "Category",
-                "Properties"); // TODO: span 2 cols
+                "Properties",
+                "Properties"); // Repeat header name to merge properly
     }
 
     @Override
     public ConversionResult<ProductDto> takeOne(PeekingIterator<List<String>> rowIterator) {
         ConversionResult<ProductDto> result = rowToProduct(rowIterator.next());
-        while(rowIterator.hasNext() && rowIterator.peek().size() <= 2) {
+        while (rowIterator.hasNext() && rowIterator.peek().size() <= 2) {
             List<String> row = rowIterator.next();
             readProperty(result, row, 0, 1);
         }
@@ -69,6 +73,13 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
     @Override
     public List<Integer> getColumnsToMerge() {
         return Arrays.asList(0, 1, 2, 3);
+    }
+
+    @Override
+    public List<Integer> getColumnWidths() {
+        return Stream.of(19, 40, 12, 37, 31, 31)
+                     .map(x -> x * 256)
+                     .collect(toList());
     }
 
     private ConversionResult<ProductDto> rowToProduct(List<String> row) {
@@ -131,7 +142,7 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
     }
 
     private boolean isValidBigDecimal(String s) {
-        if(s == null || s.length() == 0) {
+        if (s == null || s.length() == 0) {
             return false;
         }
         try {
@@ -143,12 +154,12 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
     }
 
     private <T> void read(
-                      int columnIndex,
-                      List<String> row,
-                      ConversionResult<ProductDto> result,
-                      Predicate<String> validator,
-                      Function<String, T> converter,
-                      Consumer<T> setter) {
+            int columnIndex,
+            List<String> row,
+            ConversionResult<ProductDto> result,
+            Predicate<String> validator,
+            Function<String, T> converter,
+            Consumer<T> setter) {
         if (row.size() <= columnIndex) {
             result.setStatus(ConversionStatus.FAILURE);
             return;
