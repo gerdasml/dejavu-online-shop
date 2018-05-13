@@ -1,10 +1,8 @@
 package lt.dejavu.excel.service;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 import lt.dejavu.excel.iterator.ConvertingIterator;
 import lt.dejavu.excel.iterator.PeekingIterator;
 import lt.dejavu.excel.model.ConversionResult;
-import lt.dejavu.excel.model.ConversionStatus;
 import lt.dejavu.excel.strategy.ExcelConversionStrategy;
 import lt.dejavu.excel.strategy.ProcessingStrategy;
 import org.apache.poi.ss.usermodel.*;
