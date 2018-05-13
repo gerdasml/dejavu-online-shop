@@ -5,6 +5,7 @@ import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.excel.service.ExcelService;
 import lt.dejavu.product.dto.ProductDto;
 import lt.dejavu.product.dto.ProductImportStatusDto;
+import lt.dejavu.product.model.Product;
 import lt.dejavu.product.model.rest.request.ProductRequest;
 import lt.dejavu.product.service.ProductImportStatusService;
 import lt.dejavu.product.service.ProductService;
@@ -32,9 +33,6 @@ public class ProductApi {
 
     @Autowired
     private SecurityService securityService;
-
-    @Autowired
-    private ExcelService<ProductDto> excelService;
 
     @Autowired
     private ProductImportStatusService statusService;
@@ -102,7 +100,7 @@ public class ProductApi {
     public void export(HttpServletResponse response) throws IOException {
         // TODO: disable logging for this somehow
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=products.xlsx");
-        ByteArrayOutputStream output = excelService.toExcel(getAllProducts());
+        ByteArrayOutputStream output = productService.exportProducts();
         IOUtils.write(output.toByteArray(), response.getOutputStream());
         response.flushBuffer();
     }
@@ -112,7 +110,7 @@ public class ProductApi {
                                @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
                                @RequestParam("file") MultipartFile file) throws ApiSecurityException, IOException {
         securityService.authorize(authHeader, request);
-        return excelService.fromExcel(file.getBytes());
+        return productService.importProducts(file.getBytes());
     }
 
     @GetMapping(path = "/import/status/{jobId}")

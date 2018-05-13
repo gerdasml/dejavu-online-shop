@@ -4,14 +4,14 @@ import lt.dejavu.excel.iterator.PeekingIterator;
 import lt.dejavu.excel.model.ConversionResult;
 import lt.dejavu.excel.model.ConversionStatus;
 import lt.dejavu.excel.strategy.ExcelConversionStrategy;
-import lt.dejavu.product.dto.ProductDto;
-import lt.dejavu.product.dto.ProductPropertyDto;
+import lt.dejavu.product.model.Category;
+import lt.dejavu.product.model.Product;
+import lt.dejavu.product.model.ProductProperty;
+import lt.dejavu.product.repository.CategoryRepository;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -20,13 +20,19 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 @Component
-public class ProductExcelConversionStrategy implements ExcelConversionStrategy<ProductDto> {
+public class ProductExcelConversionStrategy implements ExcelConversionStrategy<Product> {
+    private final CategoryRepository categoryRepository;
+
+    public ProductExcelConversionStrategy(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
+
     @Override
-    public List<List<String>> toRows(ProductDto item) {
-        List<ProductPropertyDto> properties = item.getProperties();
-        if (properties == null || properties.size() == 0) {
+    public List<List<String>> toRows(Product item) {
+        List<ProductProperty> properties = new ArrayList<>(item.getProperties());
+        if (properties.size() == 0) {
             properties = new ArrayList<>();
-            properties.add(new ProductPropertyDto());
+            properties.add(new ProductProperty());
         }
         List<List<String>> result = new ArrayList<>();
         List<String> firstRow = new ArrayList<>(
@@ -34,10 +40,10 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
                         item.getName(),
                         item.getDescription(),
                         item.getPrice().toString(),
-                        item.getCategoryId().toString(),
+                        item.getCategory().getId().toString(), // TODO: identifier
                         properties.get(0).getName(),
                         properties.get(0).getValue()
-                             )
+                 )
         );
         result.add(firstRow);
         properties.stream().skip(1).forEach(p -> {
@@ -61,8 +67,8 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
     }
 
     @Override
-    public ConversionResult<ProductDto> takeOne(PeekingIterator<List<String>> rowIterator) {
-        ConversionResult<ProductDto> result = rowToProduct(rowIterator.next());
+    public ConversionResult<Product> takeOne(PeekingIterator<List<String>> rowIterator) {
+        ConversionResult<Product> result = rowToProduct(rowIterator.next());
         while (rowIterator.hasNext() && rowIterator.peek().get(0).isEmpty()) {
             List<String> row = rowIterator.next();
             readProperty(result, row);
@@ -82,11 +88,11 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
                      .collect(toList());
     }
 
-    private ConversionResult<ProductDto> rowToProduct(List<String> row) {
-        ConversionResult<ProductDto> result = new ConversionResult<>();
+    private ConversionResult<Product> rowToProduct(List<String> row) {
+        ConversionResult<Product> result = new ConversionResult<>();
         result.setStatus(ConversionStatus.SUCCESS);
-        result.setResult(new ProductDto());
-        result.getResult().setProperties(new ArrayList<>());
+        result.setResult(new Product());
+        result.getResult().setProperties(new HashSet<>());
 
         read(0,
              row,
@@ -109,16 +115,16 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         read(3,
              row,
              result,
-             this::isValidLong,
-             Long::parseLong,
-             val -> result.getResult().setCategoryId(val));
+             this::isValidCategory,
+             this::getCategory,
+             val -> result.getResult().setCategory(val));
         readProperty(result, row);
         return result;
     }
 
-    private void readProperty(ConversionResult<ProductDto> result,
+    private void readProperty(ConversionResult<Product> result,
                               List<String> row) {
-        ProductPropertyDto property = new ProductPropertyDto();
+        ProductProperty property = new ProductProperty();
         read(4,
              row,
              result,
@@ -139,16 +145,22 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         }
     }
 
-    private boolean isValidLong(String s) {
+    private Category getCategory(String s) {
+        long id = Long.parseLong(s);
+        return categoryRepository.getCategory(id);
+    }
+
+    private boolean isValidCategory(String s) {
         if (s == null || s.length() == 0) {
             return false;
         }
+        long id;
         try {
-            Long.parseLong(s);
-            return true;
-        } catch(Exception ignore) {
+            id = Long.parseLong(s); // TODO: identifier
+        } catch(Exception ignored) {
             return false;
         }
+        return categoryRepository.getCategory(id) != null;
     }
 
     private boolean isValidBigDecimal(String s) {
@@ -166,7 +178,7 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
     private <T> void read(
             int columnIndex,
             List<String> row,
-            ConversionResult<ProductDto> result,
+            ConversionResult<Product> result,
             Predicate<String> validator,
             Function<String, T> converter,
             Consumer<T> setter) {

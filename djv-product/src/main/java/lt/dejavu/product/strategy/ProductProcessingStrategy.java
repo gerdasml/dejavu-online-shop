@@ -8,11 +8,11 @@ import lt.dejavu.excel.model.db.ImportStatus;
 import lt.dejavu.excel.model.db.Status;
 import lt.dejavu.excel.repository.ImportStatusRepository;
 import lt.dejavu.excel.strategy.ProcessingStrategy;
-import lt.dejavu.product.dto.ProductDto;
-import lt.dejavu.product.dto.ProductPropertyDto;
+import lt.dejavu.product.model.Product;
+import lt.dejavu.product.model.ProductProperty;
 import lt.dejavu.product.model.rest.request.ProductPropertyRequest;
 import lt.dejavu.product.model.rest.request.ProductRequest;
-import lt.dejavu.product.service.ProductService;
+import lt.dejavu.product.repository.ProductRepository;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -24,14 +24,14 @@ import java.util.UUID;
 import static java.util.stream.Collectors.toList;
 
 @Component
-public class ProductProcessingStrategy implements ProcessingStrategy<ProductDto> {
+public class ProductProcessingStrategy implements ProcessingStrategy<Product> {
     private final ImportStatusRepository importStatusRepository;
-    private final ProductService productService;
+    private final ProductRepository productRepository;
     private final ObjectMapper objectMapper;
 
-    public ProductProcessingStrategy(ImportStatusRepository importStatusRepository, ProductService productService, ObjectMapper objectMapper) {
+    public ProductProcessingStrategy(ImportStatusRepository importStatusRepository, ProductRepository productRepository, ObjectMapper objectMapper) {
         this.importStatusRepository = importStatusRepository;
-        this.productService = productService;
+        this.productRepository = productRepository;
         this.objectMapper = objectMapper;
     }
 
@@ -45,7 +45,7 @@ public class ProductProcessingStrategy implements ProcessingStrategy<ProductDto>
     }
 
     @Override
-    public void process(UUID jobId, ConversionResult<ProductDto> item) {
+    public void process(UUID jobId, ConversionResult<Product> item) {
         try {
             Thread.sleep(5000); // TODO: remove this after testing is done
         } catch (InterruptedException e) {
@@ -62,21 +62,21 @@ public class ProductProcessingStrategy implements ProcessingStrategy<ProductDto>
         importStatusRepository.updateImportStatus(status);
     }
 
-    private void processSuccess(UUID jobId, ProductDto product) {
-        productService.createProduct(buildProductRequest(product));
+    private void processSuccess(UUID jobId, Product product) {
+        productRepository.saveProduct(product);
         ImportStatus status = importStatusRepository.getImportStatus(jobId);
         status.setSuccessCount(status.getSuccessCount() + 1);
         importStatusRepository.updateImportStatus(status);
     }
 
-    private void processFailure(UUID jobId, ProductDto product) {
+    private void processFailure(UUID jobId, Product product) {
         ImportStatus status = importStatusRepository.getImportStatus(jobId);
 
-        List<ProductDto> failedProducts = new ArrayList<>();
+        List<Product> failedProducts = new ArrayList<>();
 
         try {
             if (status.getFailureCount() > 0) {
-                failedProducts = objectMapper.readValue(status.getFailedItems(), new TypeReference<List<ProductDto>>() {
+                failedProducts = objectMapper.readValue(status.getFailedItems(), new TypeReference<List<Product>>() {
                 });
             }
             failedProducts.add(product);
@@ -87,24 +87,5 @@ public class ProductProcessingStrategy implements ProcessingStrategy<ProductDto>
 
         status.setFailureCount(status.getFailureCount() + 1);
         importStatusRepository.updateImportStatus(status);
-    }
-
-    private ProductRequest buildProductRequest(ProductDto dto) {
-        ProductRequest req = new ProductRequest();
-        req.setCategoryId(dto.getCategoryId());
-        req.setCreationDate(LocalDateTime.now());
-        req.setDescription(dto.getDescription());
-        req.setName(dto.getName());
-        req.setPrice(dto.getPrice());
-        req.setProperties(dto.getProperties().stream().map(this::buildProductPropertyRequest).collect(toList()));
-
-        return req;
-    }
-
-    private ProductPropertyRequest buildProductPropertyRequest(ProductPropertyDto prop) {
-        ProductPropertyRequest ppr = new ProductPropertyRequest();
-        ppr.setName(prop.getName());
-        ppr.setValue(prop.getValue());
-        return ppr;
     }
 }
