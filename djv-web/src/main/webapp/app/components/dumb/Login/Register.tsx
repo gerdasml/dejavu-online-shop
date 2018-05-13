@@ -7,8 +7,6 @@ import { Address } from "../../../model/Address";
 
 import {AddressInput} from "../Address/AddressInput";
 
-import {addresses} from "../../../data/addresses";
-
 import "../../../../style/login.css";
 
 interface RegistrationState {

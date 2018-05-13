@@ -4,8 +4,6 @@ import { Button, Form } from "semantic-ui-react";
 
 import {AddressInput} from "../../Address/AddressInput";
 
-import {addresses} from "../../../../data/addresses";
-
 import "../../../../../style/cart.css";
 
 interface DeliveryInfoProps {
