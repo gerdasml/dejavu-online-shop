@@ -1,12 +1,15 @@
 import * as React from "react";
 
-import { Button, notification, Spin } from "antd";
+import { Button, notification, Spin, Affix, Progress, Tooltip } from "antd";
 
 import { NavLink } from "react-router-dom";
 import * as api from "../../../../api";
 import { CategoryTree } from "../../../../model/CategoryTree";
 import { Product } from "../../../../model/Product";
 import { ProductTable } from "../common/Table/ProductTable";
+import { ImportProgress } from "./ImportProgress";
+
+import "../../../../../style/admin/product.css";
 
 interface ProductsState {
     isLoading: boolean;
@@ -22,6 +25,8 @@ export class Products extends React.Component<never, ProductsState> {
     };
 
     async componentWillMount () {
+        notification.open({key: "import_notification", message: "Import status", description: <ImportProgress jobId="9b8d7ce3-968b-4ce4-b2b8-41393aa434e8" />, duration: null});
+        
         const [productResponse, categoriesResponse] =
             await Promise.all([api.product.getAllProducts(), api.category.getCategoryTree()]);
         if (api.isError(productResponse)) {

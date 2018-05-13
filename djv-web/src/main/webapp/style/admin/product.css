@@ -1,0 +1,11 @@
+.import-status-text{
+    text-align: center;
+}
+
+.import-status-text .success-count {
+    color: #52c41a;
+}
+
+.import-status-text .failure-count {
+    color: #f5222d;
+}

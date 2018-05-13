@@ -12,3 +12,15 @@ export interface Product {
     creationDate?: Date;
     categoryId?: number;
 }
+
+export enum Status {
+    RUNNING = "RUNNING",
+    FINISHED = "FINISHED"
+}
+
+export interface ImportStatus {
+    status: Status;
+    successCount: number;
+    failureCount: number;
+    failedProducts: Product[];
+}
