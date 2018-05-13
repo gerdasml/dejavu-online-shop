@@ -8,6 +8,7 @@ import {ProductCard} from "../../dumb/Home/ProductCard";
 
 import { notification } from "antd";
 import * as api from "../../../api";
+import { ProductContainer } from "../../dumb/Product/ProductContainer";
 
 interface CategoryRouteProps {
     id: number;
@@ -48,9 +49,7 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
             <div>
             {this.state.isLoading?
             <Loader active inline="centered" /> :
-            <Card.Group itemsPerRow={5} doubling>
-                {this.state.products.map((x, i) => <ProductCard key={i} product={x} />)}
-            </Card.Group>}
+            <ProductContainer products={this.state.products}/>}
             </div>
             );
     }
