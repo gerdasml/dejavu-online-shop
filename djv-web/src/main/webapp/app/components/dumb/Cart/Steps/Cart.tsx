@@ -77,7 +77,6 @@ export class Cart extends React.Component <CartProps, CartState> {
         } else {
             const newTotal = this.props.cart.total - item.total;
             const prevItems = [...this.props.cart.items];
-            // const idx = newItems.findIndex(i => i.product.id === item.product.id);
             const newItems = prevItems.filter(i => i.product.id !== item.product.id);
             this.props.onCartUpdate({
                 ...this.props.cart,

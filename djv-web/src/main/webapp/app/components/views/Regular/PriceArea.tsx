@@ -8,7 +8,9 @@ import "../../../../style/product.css";
 export const PriceArea = () => (
             <List horizontal floated="right">
                 <List.Item className="productColumn">
-                    {/*<Amount amount={1}/>*/}
+                    {/* Implementuojant amount keitimo veikimą reikės atsikomentuoti
+                    Amount componentą ↓ ir implmentuoti onAmountChange funkciją*/}
+                    {/* <Amount amount={1}/> */}
                 </List.Item>
                 <List.Item >
                     <Button className="buyButton">Add to cart<Icon name="in cart"/></Button>
