@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Card, Loader } from "semantic-ui-react";
+import { Card } from "semantic-ui-react";
 
 import * as api from "../../../api";
 

@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import { Button, Icon, List } from "semantic-ui-react";
-import { Amount } from "../../dumb/Cart/Amount";
 
 import "../../../../style/product.css";
 

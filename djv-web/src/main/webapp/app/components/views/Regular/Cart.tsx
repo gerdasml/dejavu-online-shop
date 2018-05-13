@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import { OrderItem } from "../../../model/Order";
 
 import { Cart as CartModel } from "../../../model/Cart";
 

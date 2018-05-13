@@ -1,13 +1,11 @@
 import * as React from "react";
 
-import { Card, Header, Loader } from "semantic-ui-react";
+import { Header, Loader } from "semantic-ui-react";
 
 import * as api from "../../../api";
 
-import { products } from "../../../data/products";
 
 import { Product } from "../../../model/Product";
-import { ProductCard } from "../../dumb/Home/ProductCard";
 import { ProductContainer } from "../../dumb/Product/ProductContainer";
 
 interface HomeState {

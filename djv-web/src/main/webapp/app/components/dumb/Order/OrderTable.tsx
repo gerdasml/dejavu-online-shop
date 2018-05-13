@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {Button, Icon, Table} from "semantic-ui-react";
+import {Button, Table} from "semantic-ui-react";
 
 import { Cart } from "../../../model/Cart";
 import { Order, OrderItem } from "../../../model/Order";

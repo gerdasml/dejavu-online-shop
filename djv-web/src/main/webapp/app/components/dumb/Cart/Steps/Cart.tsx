@@ -1,15 +1,13 @@
 import * as React from "react";
 
-import { Button, Dimmer, Icon, Loader, Table } from "semantic-ui-react";
+import { Button, Dimmer, Icon, Loader } from "semantic-ui-react";
 
 import { Cart as CartModel } from "../../../../model/Cart";
 
-import { Amount } from "../../../dumb/Cart/Amount";
 
 import * as api from "../../../../api";
 
 import { OrderItem } from "../../../../model/Order";
-import { Product } from "../../../../model/Product";
 import { OrderTable } from "../../Order/OrderTable";
 
 interface CartProps {
