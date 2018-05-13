@@ -6,6 +6,7 @@ import { Grid, Header, Label, List, Loader} from "semantic-ui-react";
 import {RouteComponentProps} from "react-router-dom";
 import * as ProductModel from "../../../model/Product";
 import { Carousel } from "../../dumb/Product/Carousel";
+import { Expander} from "../../smart/Product/Expander";
 import { PropertiesTable } from "../../smart/Product/PropertiesTable";
 import { PriceArea } from "./PriceArea";
 
@@ -81,7 +82,7 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
                         </Grid.Column>
                         <Grid.Column width="one"/>
                         <Grid.Column width="seven" className="description">
-                            {this.state.product.description}
+                            <Expander text={this.state.product.description}/>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
