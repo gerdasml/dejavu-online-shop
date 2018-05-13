@@ -1,10 +1,9 @@
 import * as React from "react";
 
-import { Alert, Icon, notification, Progress, Spin, Tooltip } from "antd";
+import { Progress, Spin, Tooltip } from "antd";
 
 import * as api from "../../../../../api";
 import { Status } from "../../../../../model/Product";
-import { Link } from "react-router-dom";
 
 interface ImportProgressProps {
     jobId: string;

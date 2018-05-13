@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { RouteComponentProps } from "react-router-dom";
 
-import { Button, notification, Spin, Affix, Progress, Tooltip, List } from "antd";
+import { Button, notification, Spin } from "antd";
 
 import { NavLink } from "react-router-dom";
 import * as api from "../../../../api";
@@ -10,10 +10,10 @@ import { CategoryTree } from "../../../../model/CategoryTree";
 import { Product } from "../../../../model/Product";
 import { ProductTable } from "../common/Table/ProductTable";
 
-import "../../../../../style/admin/product.css";
-import { ProductImport } from "./import/ProductImport";
-import { ProductExport } from "./import/ProductExport";
 import { ButtonGroup } from "semantic-ui-react";
+import "../../../../../style/admin/product.css";
+import { ProductExport } from "./import/ProductExport";
+import { ProductImport } from "./import/ProductImport";
 
 interface ProductsState {
     isLoading: boolean;

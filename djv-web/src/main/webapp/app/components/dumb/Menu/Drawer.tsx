@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Grid, Menu, Message } from "semantic-ui-react";
+import { Grid, Menu } from "semantic-ui-react";
 
 import { notification } from "antd";
 import "../../../../style/drawer.css";

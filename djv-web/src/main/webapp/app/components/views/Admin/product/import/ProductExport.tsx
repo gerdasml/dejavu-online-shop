@@ -1,8 +1,6 @@
 import * as React from "react";
 
-import { Icon, Modal, notification, Upload, Button } from "antd";
-import { RcFile, UploadChangeParam, UploadFile } from "antd/lib/upload/interface";
-import * as api from "../../../../../api";
+import { Button, Icon } from "antd";
 
 export const ProductExport = () => (
     <Button href="/api/product/export">
