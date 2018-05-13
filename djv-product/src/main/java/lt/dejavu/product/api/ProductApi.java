@@ -5,12 +5,18 @@ import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.product.dto.ProductDto;
 import lt.dejavu.product.model.rest.request.ProductRequest;
 import lt.dejavu.product.service.ProductService;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -80,5 +86,14 @@ public class ProductApi {
                               @PathVariable("productId") long productId) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         productService.deleteProduct(productId);
+    }
+
+    @GetMapping (path="export")
+    public void export(HttpServletResponse response) throws IOException {
+        // TODO: disable logging for this somehow
+//        File f = new File("C:\\Users\\vstri\\Desktop\\uni\\psk\\djv-wiki\\documents\\2018_05_11_pavyzdinis_excel_dokumentas.xlsx");
+//        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=products.xlsx");
+//        IOUtils.copy(new FileInputStream(f), response.getOutputStream());
+//        response.flushBuffer();
     }
 }
