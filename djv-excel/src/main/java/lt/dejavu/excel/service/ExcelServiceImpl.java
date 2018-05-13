@@ -68,11 +68,13 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
         PeekingIterator<List<String>> rowIterator = getIterator(file);
         UUID uuid = UUID.randomUUID();
         CompletableFuture.runAsync(() -> {
+            processingStrategy.start(uuid);
             rowIterator.next();
             while (rowIterator.hasNext()) {
                 ConversionResult<T> result = conversionStrategy.takeOne(rowIterator);
                 processingStrategy.process(uuid, result);
             }
+            processingStrategy.finish(uuid);
         });
         return uuid;
     }

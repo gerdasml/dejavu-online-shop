@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lt.dejavu.excel.model.ConversionResult;
 import lt.dejavu.excel.model.ConversionStatus;
 import lt.dejavu.excel.model.db.ImportStatus;
+import lt.dejavu.excel.model.db.Status;
 import lt.dejavu.excel.repository.ImportStatusRepository;
 import lt.dejavu.excel.strategy.ProcessingStrategy;
 import lt.dejavu.product.dto.ProductDto;
@@ -35,11 +36,24 @@ public class ProductProcessingStrategy implements ProcessingStrategy<ProductDto>
     }
 
     @Override
-    public void process(UUID jobId, ConversionResult<ProductDto> item) {
-        importStatusRepository.createEmptyIfNotExists(jobId);
+    public void start(UUID jobId) {
+        ImportStatus status = new ImportStatus();
+        status.setId(jobId);
+        status.setStatus(Status.RUNNING);
+        importStatusRepository.createImportStatus(status);
+    }
 
+    @Override
+    public void process(UUID jobId, ConversionResult<ProductDto> item) {
         if (item.getStatus() == ConversionStatus.SUCCESS) processSuccess(jobId, item.getResult());
         else processFailure(jobId, item.getResult());
+    }
+
+    @Override
+    public void finish(UUID jobId) {
+        ImportStatus status = importStatusRepository.getImportStatus(jobId);
+        status.setStatus(Status.FINISHED);
+        importStatusRepository.updateImportStatus(status);
     }
 
     private void processSuccess(UUID jobId, ProductDto product) {

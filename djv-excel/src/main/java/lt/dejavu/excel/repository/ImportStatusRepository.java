@@ -7,8 +7,6 @@ import java.util.UUID;
 public interface ImportStatusRepository {
     ImportStatus getImportStatus(UUID id);
 
-    void createEmptyIfNotExists(UUID id);
-
     void createImportStatus(ImportStatus status);
 
     void updateImportStatus(ImportStatus newStatus);

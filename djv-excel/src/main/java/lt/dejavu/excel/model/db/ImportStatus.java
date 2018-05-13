@@ -25,4 +25,8 @@ public class ImportStatus {
 
     @Column(name = "failedItems")
     private String failedItems;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }

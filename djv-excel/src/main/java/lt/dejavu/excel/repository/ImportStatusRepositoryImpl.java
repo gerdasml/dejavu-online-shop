@@ -1,6 +1,7 @@
 package lt.dejavu.excel.repository;
 
 import lt.dejavu.excel.model.db.ImportStatus;
+import lt.dejavu.excel.model.db.Status;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -17,14 +18,6 @@ public class ImportStatusRepositoryImpl implements ImportStatusRepository {
     @Override
     public ImportStatus getImportStatus(UUID id) {
         return em.find(ImportStatus.class, id);
-    }
-
-    @Override
-    public void createEmptyIfNotExists(UUID id) {
-        if (getImportStatus(id) != null) return;
-        ImportStatus status = new ImportStatus();
-        status.setId(id);
-        createImportStatus(status);
     }
 
     @Override
