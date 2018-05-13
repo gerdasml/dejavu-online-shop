@@ -36,7 +36,7 @@ public class ProductProperty {
     public int hashCode() {
         int nameHash = 1;
         int categoryIdHash = 1;
-        if (name!= null) {
+        if (name != null) {
             nameHash = name.hashCode();
         }
         if (category != null && category.getId() != null) {

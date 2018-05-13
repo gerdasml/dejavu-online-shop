@@ -48,7 +48,6 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryDtoMapper.mapToTree(categoryRepository.getAllCategories());
     }
 
-
     @Override
     public List<CategoryDto> getSubCategories(long categoryId) {
         return categoryDtoMapper.map(categoryRepository.getSubCategories(categoryId));

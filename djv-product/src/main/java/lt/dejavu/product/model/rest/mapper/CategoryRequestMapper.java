@@ -21,7 +21,7 @@ public class CategoryRequestMapper {
         category.setIconName(categoryRequest.getIcon());
         category.setIdentifier(categoryRequest.getIdentifier());
         category.setParentCategory(parentCategory);
-        category.setProperties(mapToProperties(categoryRequest.getProperties(), category ));
+        category.setProperties(mapToProperties(categoryRequest.getProperties(), category));
         return category;
     }
 

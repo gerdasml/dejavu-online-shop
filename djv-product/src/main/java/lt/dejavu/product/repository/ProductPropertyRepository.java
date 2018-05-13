@@ -11,5 +11,5 @@ public interface ProductPropertyRepository {
 
     Set<ProductProperty> findByCategoryIdAndIds(long categoryId, Set<Long> ids);
 
-    void savePropertyValues (Set<ProductPropertyValue> productPropertyValues);
+    void savePropertyValues(Set<ProductPropertyValue> productPropertyValues);
 }

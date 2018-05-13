@@ -42,8 +42,8 @@ public class CategoryDtoMapper {
             return Collections.emptyList();
         }
         return categories.stream()
-                         .filter(category -> category.getParentCategory() == null)
-                         .map(rootCategory -> mapToTree(rootCategory, categories)).collect(toList());
+                .filter(category -> category.getParentCategory() == null)
+                .map(rootCategory -> mapToTree(rootCategory, categories)).collect(toList());
 
     }
 
@@ -56,8 +56,8 @@ public class CategoryDtoMapper {
 
     private List<CategoryTreeDto> mapToTree(Long parentCategoryId, Set<Category> allCategories) {
         return allCategories.stream()
-                            .filter(category -> category.getParentCategory() != null && parentCategoryId.equals(category.getParentCategory().getId()))
-                            .map(childCategory -> mapToTree(childCategory, allCategories)).collect(toList());
+                .filter(category -> category.getParentCategory() != null && parentCategoryId.equals(category.getParentCategory().getId()))
+                .map(childCategory -> mapToTree(childCategory, allCategories)).collect(toList());
     }
 
     private ProductPropertyDto map(ProductProperty productProperty) {

@@ -50,7 +50,7 @@ public class Product {
             joinColumns = @JoinColumn(name = "productId")
     )
     @Column(name = "imageUrl")
-    private Set<String> additionalImagesUrls = new LinkedHashSet<>() ;
+    private Set<String> additionalImagesUrls = new LinkedHashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private Set<ProductPropertyValue> propertyValues = new LinkedHashSet<>();

@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Repository
 @Transactional
-public class  CategoryRepositoryImpl implements CategoryRepository {
+public class CategoryRepositoryImpl implements CategoryRepository {
 
     @PersistenceContext
     private EntityManager em;

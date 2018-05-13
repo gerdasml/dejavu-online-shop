@@ -23,7 +23,7 @@ public class ProductPropertyRepositoryImpl implements ProductPropertyRepository 
 
 
     @Override
-    public Set<ProductProperty> findByCategoryIdAndIds(long categoryId ,Set<Long> ids) {
+    public Set<ProductProperty> findByCategoryIdAndIds(long categoryId, Set<Long> ids) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<ProductProperty> cq = cb.createQuery(ProductProperty.class);
         Root<ProductProperty> root = cq.from(ProductProperty.class);
@@ -31,7 +31,7 @@ public class ProductPropertyRepositoryImpl implements ProductPropertyRepository 
         CriteriaQuery<ProductProperty> query = cq.select(root).where(
                 cb.and(
                         root.get(ProductProperty_.id).in(ids),
-                        cb.equal(root.get(ProductProperty_.category).get(Category_.id),idCategoryIdParameter)));
+                        cb.equal(root.get(ProductProperty_.category).get(Category_.id), idCategoryIdParameter)));
         return new LinkedHashSet<>(em.createQuery(query).setParameter(idCategoryIdParameter, categoryId).getResultList());
     }
 
