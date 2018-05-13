@@ -20,3 +20,8 @@
     height: 5vh;
     width: auto;
 }
+
+.expander-color {
+    color: blue;
+    cursor: pointer;
+}
