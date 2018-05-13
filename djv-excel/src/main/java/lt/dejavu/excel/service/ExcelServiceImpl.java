@@ -1,55 +1,72 @@
 package lt.dejavu.excel.service;
 
+import lt.dejavu.excel.iterator.ConvertingIterator;
+import lt.dejavu.excel.iterator.PeekingIterator;
 import lt.dejavu.excel.model.ConversionResult;
-import lt.dejavu.excel.strategy.DataConversionStrategy;
+import lt.dejavu.excel.model.ConversionStatus;
+import lt.dejavu.excel.strategy.ExcelConversionStrategy;
+import lt.dejavu.excel.strategy.ProcessingStrategy;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
+@Component
 public class ExcelServiceImpl<T> implements ExcelService<T> {
-    private final DataConversionStrategy<T> strategy;
+    private final ExcelConversionStrategy<T> conversionStrategy;
+    private final ProcessingStrategy<T> processingStrategy;
 
-    public ExcelServiceImpl(DataConversionStrategy<T> strategy) {
-        this.strategy = strategy;
+    public ExcelServiceImpl(ExcelConversionStrategy<T> conversionStrategy, ProcessingStrategy<T> processingStrategy) {
+        this.conversionStrategy = conversionStrategy;
+        this.processingStrategy = processingStrategy;
     }
 
     @Override
-    public OutputStream toExcel(List<T> items) throws IOException {
+    public ByteArrayOutputStream toExcel(List<T> items) throws IOException {
         Workbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
         Row headerRow = sheet.createRow(0);
-        populateRow(headerRow, strategy.getHeader());
+        populateRow(headerRow, conversionStrategy.getHeader());
         AtomicInteger rowIndex = new AtomicInteger(1);
         items.stream()
-             .map(strategy::toRows)
+             .map(conversionStrategy::toRows)
              .flatMap(Collection::stream)
              .forEach(rowData -> {
                  Row row = sheet.createRow(rowIndex.getAndIncrement());
                  populateRow(row, rowData);
              });
 
-        OutputStream outputStream = new ByteArrayOutputStream();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         wb.write(outputStream);
         return outputStream;
     }
 
     @Override
-    public Stream<ConversionResult<T>> fromExcel(File file) throws IOException {
-        return getRows(file).parallel()
-                            .map(this::rowToStrings)
-                            .map(strategy::toItem);
+    public CompletableFuture<List<T>> fromExcel(File file) throws IOException {
+        PeekingIterator<List<String>> rowIterator = getIterator(file);
+        return CompletableFuture.supplyAsync(() -> {
+            List<T> errors = new ArrayList<>();
+            while (rowIterator.hasNext()) {
+                ConversionResult<T> result = conversionStrategy.takeOne(rowIterator);
+                if (result.getStatus() == ConversionStatus.FAILURE) {
+                    errors.add(result.getResult());
+                } else {
+                    processingStrategy.process(result.getResult());
+                }
+            }
+            return errors;
+        });
     }
 
     private void populateRow(Row row, List<String> values) {
@@ -70,12 +87,12 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
         return result;
     }
 
-    private Stream<Row> getRows(File file) throws IOException {
+    private PeekingIterator<List<String>> getIterator(File file) throws IOException {
         FileInputStream excelFile = new FileInputStream(file);
         Workbook workbook = new XSSFWorkbook(excelFile);
         Sheet sheet = workbook.getSheetAt(0);
-        Iterator<Row> iterator = sheet.iterator();
-        Iterable<Row> rowIterable = () -> iterator;
-        return StreamSupport.stream(rowIterable.spliterator(), false);
+        return new PeekingIterator<>(
+                new ConvertingIterator<>(sheet.iterator(), this::rowToStrings)
+        );
     }
 }

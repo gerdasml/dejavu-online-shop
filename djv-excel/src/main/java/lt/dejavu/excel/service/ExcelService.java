@@ -1,14 +1,13 @@
 package lt.dejavu.excel.service;
 
-import lt.dejavu.excel.model.ConversionResult;
-
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.concurrent.CompletableFuture;
 
 public interface ExcelService<T> {
-    OutputStream toExcel(List<T> items) throws IOException;
-    Stream<ConversionResult<T>> fromExcel(File file) throws IOException;
+    ByteArrayOutputStream toExcel(List<T> items) throws IOException;
+
+    CompletableFuture<List<T>> fromExcel(File file) throws IOException;
 }
