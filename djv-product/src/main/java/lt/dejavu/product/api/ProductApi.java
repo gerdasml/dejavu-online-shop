@@ -4,7 +4,9 @@ import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.excel.service.ExcelService;
 import lt.dejavu.product.dto.ProductDto;
+import lt.dejavu.product.dto.ProductImportStatusDto;
 import lt.dejavu.product.model.rest.request.ProductRequest;
+import lt.dejavu.product.service.ProductImportStatusService;
 import lt.dejavu.product.service.ProductService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public class ProductApi {
 
     @Autowired
     private ExcelService<ProductDto> excelService;
+
+    @Autowired
+    private ProductImportStatusService statusService;
 
     @GetMapping(
             path = "/",
@@ -108,5 +113,13 @@ public class ProductApi {
                                @RequestParam("file") MultipartFile file) throws ApiSecurityException, IOException {
         securityService.authorize(authHeader, request);
         return excelService.fromExcel(file.getBytes());
+    }
+
+    @GetMapping(path = "/import/status/{jobId}")
+    public ProductImportStatusDto getImportStatus(HttpServletRequest request,
+                                                  @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
+                                                  @PathVariable("jobId") UUID jobId) throws ApiSecurityException {
+        securityService.authorize(authHeader, request);
+        return statusService.getStatus(jobId);
     }
 }

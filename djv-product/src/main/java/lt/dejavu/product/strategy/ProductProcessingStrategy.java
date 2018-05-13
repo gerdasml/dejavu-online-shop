@@ -40,11 +40,17 @@ public class ProductProcessingStrategy implements ProcessingStrategy<ProductDto>
         ImportStatus status = new ImportStatus();
         status.setId(jobId);
         status.setStatus(Status.RUNNING);
+        status.setFailedItems("[]");
         importStatusRepository.createImportStatus(status);
     }
 
     @Override
     public void process(UUID jobId, ConversionResult<ProductDto> item) {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+
+        }
         if (item.getStatus() == ConversionStatus.SUCCESS) processSuccess(jobId, item.getResult());
         else processFailure(jobId, item.getResult());
     }
