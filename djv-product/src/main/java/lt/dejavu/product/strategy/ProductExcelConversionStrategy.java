@@ -66,6 +66,11 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         return result;
     }
 
+    @Override
+    public List<Integer> getColumnsToMerge() {
+        return Arrays.asList(0, 1, 2, 3);
+    }
+
     private ConversionResult<ProductDto> rowToProduct(List<String> row) {
         ConversionResult<ProductDto> result = new ConversionResult<>();
         result.setStatus(ConversionStatus.SUCCESS);

@@ -11,4 +11,6 @@ public interface ExcelConversionStrategy<T> {
     List<String> getHeader();
 
     ConversionResult<T> takeOne(PeekingIterator<List<String>> rowIterator);
+
+    List<Integer> getColumnsToMerge();
 }

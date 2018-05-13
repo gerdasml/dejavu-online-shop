@@ -10,6 +10,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 
@@ -41,10 +42,19 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
         AtomicInteger rowIndex = new AtomicInteger(1);
         items.stream()
              .map(conversionStrategy::toRows)
-             .flatMap(Collection::stream)
-             .forEach(rowData -> {
-                 Row row = sheet.createRow(rowIndex.getAndIncrement());
-                 populateRow(row, rowData);
+             .forEach(itemData -> {
+                 int fromRow = rowIndex.get();
+                 itemData.forEach(rowData -> {
+                     Row row = sheet.createRow(rowIndex.getAndIncrement());
+                     populateRow(row, rowData);
+                 });
+                 int toRow = rowIndex.get()-1;
+                 conversionStrategy.getColumnsToMerge()
+                                   .forEach(i ->
+                                        sheet.addMergedRegion(
+                                            new CellRangeAddress(fromRow, toRow, i ,i)
+                                         )
+                                   );
              });
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
