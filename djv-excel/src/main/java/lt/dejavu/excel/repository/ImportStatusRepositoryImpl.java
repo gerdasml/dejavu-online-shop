@@ -20,6 +20,14 @@ public class ImportStatusRepositoryImpl implements ImportStatusRepository {
     }
 
     @Override
+    public void createEmptyIfNotExists(UUID id) {
+        if (getImportStatus(id) != null) return;
+        ImportStatus status = new ImportStatus();
+        status.setId(id);
+        createImportStatus(status);
+    }
+
+    @Override
     public void createImportStatus(ImportStatus status) {
         em.persist(status);
     }

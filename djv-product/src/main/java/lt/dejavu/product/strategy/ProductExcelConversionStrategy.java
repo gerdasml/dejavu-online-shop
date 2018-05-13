@@ -109,9 +109,9 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         read(3,
              row,
              result,
-             val -> true, // TODO: validate???
-             val -> val,
-             val -> result.getResult().setCategoryId(0L));
+             this::isValidLong,
+             Long::parseLong,
+             val -> result.getResult().setCategoryId(val));
         readProperty(result, row);
         return result;
     }
@@ -136,6 +136,18 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         }
         if (property.getName() != null || property.getValue() != null) {
             result.getResult().getProperties().add(property);
+        }
+    }
+
+    private boolean isValidLong(String s) {
+        if (s == null || s.length() == 0) {
+            return false;
+        }
+        try {
+            Long.parseLong(s);
+            return true;
+        } catch(Exception ignore) {
+            return false;
         }
     }
 

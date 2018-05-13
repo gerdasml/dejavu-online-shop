@@ -8,18 +8,21 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table("importStatus")
+@Table(name = "importStatus")
 @Getter
 @Setter
 @EqualsAndHashCode
 public class ImportStatus {
     @Id
-    @Column("jobId")
+    @Column(name = "jobId")
     private UUID id;
 
-    @Embedded
-    private ImportStatistics statistics;
+    @Column(name = "successCount")
+    private int successCount;
 
-    @Column("failedItems")
+    @Column(name = "failureCount")
+    private int failureCount;
+
+    @Column(name = "failedItems")
     private String failedItems;
 }
