@@ -70,10 +70,8 @@ public class CategoryServiceImpl implements CategoryService {
         validateNotSelfParent(categoryId, categoryRequest.getParentCategoryId());
         Category oldCategory = getCategoryIfExist(categoryId);
         Category parentCategory = resolveParentCategory(categoryRequest);
-        Category newCategory = categoryRequestMapper.mapToCategory(categoryRequest, parentCategory);
-        newCategory.setId(oldCategory.getId());
+        Category newCategory = categoryRequestMapper.remapToCategory(oldCategory, categoryRequest, parentCategory);
         categoryRepository.updateCategory(newCategory);
-        productPropertyRepository.saveProperties(newCategory.getProperties());
     }
 
     @Override

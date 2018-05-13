@@ -3,11 +3,13 @@ package lt.dejavu.product.model.rest.mapper;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.ProductProperty;
 import lt.dejavu.product.model.rest.request.CategoryRequest;
+import lt.dejavu.utils.collections.CollectionUpdater;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toCollection;
 
@@ -23,7 +25,7 @@ public class CategoryRequestMapper {
         return category;
     }
 
-    public Set<ProductProperty> mapToProperties(Collection<String> propertyNames, Category category) {
+    private Set<ProductProperty> mapToProperties(Collection<String> propertyNames, Category category) {
         return propertyNames.stream()
                 .map(name -> {
                     ProductProperty property = new ProductProperty();
@@ -31,5 +33,14 @@ public class CategoryRequestMapper {
                     property.setCategory(category);
                     return property;
                 }).collect(toCollection(LinkedHashSet::new));
+    }
+
+    public Category remapToCategory(Category oldCategory, CategoryRequest categoryRequest, Category parentCategory) {
+        oldCategory.setName(categoryRequest.getName());
+        oldCategory.setIconName(categoryRequest.getIcon());
+        oldCategory.setIdentifier(categoryRequest.getIdentifier());
+        oldCategory.setParentCategory(parentCategory);
+        CollectionUpdater.updateCollection(oldCategory.getProperties(), mapToProperties(categoryRequest.getProperties(), oldCategory));
+        return oldCategory;
     }
 }
