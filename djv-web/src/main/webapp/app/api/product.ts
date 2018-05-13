@@ -28,3 +28,9 @@ export const deleteProduct = (id: number): Promise<ApiResponse<void>> =>
 
 export const getImportStatus = (jobId: string): Promise<ApiResponse<ImportStatus>> =>
     fetchData(PATH_PREFIX + "/import/status/" + jobId, HttpMethod.GET);
+
+export const importProducts = (excel: File): Promise<ApiResponse<string>> => {
+    const data = new FormData();
+    data.append("file", excel);
+    return fetchData(PATH_PREFIX + "/import", HttpMethod.POST, data);
+};

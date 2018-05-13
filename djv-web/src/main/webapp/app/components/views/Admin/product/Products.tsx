@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import { RouteComponentProps } from "react-router-dom";
+
 import { Button, notification, Spin, Affix, Progress, Tooltip } from "antd";
 
 import { NavLink } from "react-router-dom";
@@ -7,9 +9,9 @@ import * as api from "../../../../api";
 import { CategoryTree } from "../../../../model/CategoryTree";
 import { Product } from "../../../../model/Product";
 import { ProductTable } from "../common/Table/ProductTable";
-import { ImportProgress } from "./ImportProgress";
 
 import "../../../../../style/admin/product.css";
+import { ProductImport } from "./import/ProductImport";
 
 interface ProductsState {
     isLoading: boolean;
@@ -17,7 +19,7 @@ interface ProductsState {
     categories: CategoryTree[];
 }
 
-export class Products extends React.Component<never, ProductsState> {
+export class Products extends React.Component<RouteComponentProps<{}>, ProductsState> {
     state: ProductsState = {
         categories: [],
         isLoading: true,
@@ -25,8 +27,6 @@ export class Products extends React.Component<never, ProductsState> {
     };
 
     async componentWillMount () {
-        notification.open({key: "import_notification", message: "Import status", description: <ImportProgress jobId="9b8d7ce3-968b-4ce4-b2b8-41393aa434e8" />, duration: null});
-        
         const [productResponse, categoriesResponse] =
             await Promise.all([api.product.getAllProducts(), api.category.getCategoryTree()]);
         if (api.isError(productResponse)) {
@@ -54,6 +54,8 @@ export class Products extends React.Component<never, ProductsState> {
                 <NavLink to={`/admin/product/create`}>
                     <Button>Add new product</Button>
                 </NavLink>
+                <ProductImport navigateToJob={id => this.props.history.push(`/admin/imports/${id}`)}/>
+                
                 <ProductTable
                     products={this.state.products}
                     categories={this.state.categories}

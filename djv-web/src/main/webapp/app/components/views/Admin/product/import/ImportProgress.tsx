@@ -2,22 +2,26 @@ import * as React from "react";
 
 import { Alert, Icon, notification, Progress, Spin, Tooltip } from "antd";
 
-import * as api from "../../../../api";
-import { Status } from "../../../../model/Product";
+import * as api from "../../../../../api";
+import { Status } from "../../../../../model/Product";
+import { Link } from "react-router-dom";
 
 interface ImportProgressProps {
     jobId: string;
+    navigateToJob: () => void;
 }
 
 interface ImportProgressState {
     successCount: number;
     failureCount: number;
     error?: string;
+    isFinished: boolean;
 }
 
 export class ImportProgress extends React.Component<ImportProgressProps, ImportProgressState> {
     state: ImportProgressState = {
         failureCount: 0,
+        isFinished: false,
         successCount: 0,
     };
 
@@ -31,15 +35,27 @@ export class ImportProgress extends React.Component<ImportProgressProps, ImportP
             }
             if (response.status === Status.FINISHED) {
                 clearInterval(intervalId);
+                this.setState({...this.state, isFinished: true});
             }
             this.setState({...this.state, successCount: response.successCount, failureCount: response.failureCount});
         }, 100);
     }
 
     render () {
-        const {successCount, failureCount, error} = this.state;
+        const {successCount, failureCount, error, isFinished} = this.state;
         if (error !== undefined) {
             return error;
+        }
+        if (isFinished) {
+            return (
+                <span>
+                    The import operation is finished.
+                    { failureCount > 0
+                    ? <a onClick={this.props.navigateToJob}> Review import errors.</a>
+                    : "No errors have occurred."
+                    }
+                </span>
+            );
         }
         if (successCount + failureCount === 0) {
             return (
@@ -59,4 +75,4 @@ export class ImportProgress extends React.Component<ImportProgressProps, ImportP
             </Tooltip>
         );
     }
-};
+}
