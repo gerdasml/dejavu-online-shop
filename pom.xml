@@ -17,6 +17,7 @@
         <module>djv-logging</module>
         <module>djv-order</module>
         <module>djv-cart</module>
+        <module>djv-excel</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -50,6 +51,7 @@
         <apache-commons-lang3.version>3.7</apache-commons-lang3.version>
         <mysql-connector-java.version>6.0.6</mysql-connector-java.version>
         <httpclient.version>4.5.3</httpclient.version>
+        <apache-poi.version>3.17</apache-poi.version>
     </properties>
 
     <dependencies>
@@ -205,6 +207,12 @@
                 <artifactId>commons-lang3</artifactId>
                 <version>${apache-commons-lang3.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${apache-poi.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
