@@ -5,6 +5,8 @@ import {Button, Form, Message, Modal } from "semantic-ui-react";
 import * as api from "../../../api";
 import { Address } from "../../../model/Address";
 
+import {AddressInput} from "../Address/AddressInput";
+
 import "../../../../style/login.css";
 
 interface RegistrationState {
@@ -55,30 +57,6 @@ export class Register extends React.Component <{}, RegistrationState> {
             ...this.state, lastName: value
         });
     }
-    handleStreetInput = (event: React.FormEvent<HTMLInputElement>) => {
-        const value = event.currentTarget.value;
-        const newAddress = {...this.state.address};
-        newAddress.street = value;
-        this.setState({...this.state, address: newAddress});
-    }
-    handleCityInput = (event: React.FormEvent<HTMLInputElement>) => {
-        const value = event.currentTarget.value;
-        const newAddress = {...this.state.address};
-        newAddress.city = value;
-        this.setState({...this.state, address: newAddress});
-    }
-    handleZipCodeInput = (event: React.FormEvent<HTMLInputElement>) => {
-        const value = event.currentTarget.value;
-        const newAddress = {...this.state.address};
-        newAddress.zipCode = value;
-        this.setState({...this.state, address: newAddress});
-    }
-    handleCountryInput = (event: React.FormEvent<HTMLInputElement>) => {
-        const value = event.currentTarget.value;
-        const newAddress = {...this.state.address};
-        newAddress.country = value;
-        this.setState({...this.state, address: newAddress});
-    }
     handlePhoneInput = (event: React.FormEvent<HTMLInputElement>) => {
         const value = event.currentTarget.value;
         this.setState({
@@ -124,7 +102,7 @@ export class Register extends React.Component <{}, RegistrationState> {
             >
                 <Modal.Content id="registerModal">
                     <h2>Registration</h2>
-                    <Form
+                    <Form size = "small"
                         loading={this.state.loading}
                         error={this.state.error !== ""}
                         onSubmit={this.register.bind(this)}
@@ -168,31 +146,9 @@ export class Register extends React.Component <{}, RegistrationState> {
                                     placeholder="+370********"
                                     onChange={this.handlePhoneInput.bind(this)}/>
                         </Form.Field>
-                        <Form.Field inline>
-                            <label>Street</label>
-                            <input  type="text"
-                                    placeholder="street"
-                                    onChange={this.handleStreetInput.bind(this)}/>
-                        </Form.Field>
-                        <Form.Field inline>
-                            <label>City</label>
-                            <input  type="text"
-                                    placeholder="city"
-                                    onChange={this.handleCityInput.bind(this)}/>
-                        </Form.Field>
-                        <Form.Field inline>
-                            <label>Country</label>
-                            <select onChange={this.handleCountryInput.bind(this)}>
-                                <option value="Lithuania">Lithuania</option>
-                                <option value="United Kingdom">United Kingdom</option>
-                            </select>
-                        </Form.Field>
-                        <Form.Field inline>
-                            <label>Zip Code</label>
-                            <input  type="text"
-                                    placeholder="zip code"
-                                    onChange={this.handleZipCodeInput.bind(this)}/>
-                        </Form.Field>
+                        <AddressInput formSize="small"
+                            address={this.state.address}
+                            onAddressChange={newAddr => this.setState({...this.state, address: newAddr})}/>
                         <Message
                             error
                             header="Registration failed"

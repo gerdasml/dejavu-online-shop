@@ -2,11 +2,11 @@ import * as React from "react";
 
 import { Grid, Menu } from "semantic-ui-react";
 
+import { notification } from "antd";
 import "../../../../style/drawer.css";
-import { MenuItem } from "../../smart/Menu/MenuItem";
-
-import {categories} from "../../../data/categoryTrees";
+import * as api from "../../../api";
 import { CategoryTree } from "../../../model/CategoryTree";
+import { MenuItem } from "../../smart/Menu/MenuItem";
 import { SubMenu, SubMenuPosition } from "../../smart/Menu/SubMenu";
 
 interface CategorySettings {
@@ -16,12 +16,14 @@ interface CategorySettings {
 export interface DrawerMenuState {
     visible: boolean;
     current: CategorySettings;
+    categories: CategoryTree[];
 }
 
 export class DrawerMenu extends React.Component<{}, DrawerMenuState> {
     constructor (props: {}) {
         super(props);
         this.state = {
+            categories: [],
             current: undefined,
             visible: true
         };
@@ -46,7 +48,18 @@ export class DrawerMenu extends React.Component<{}, DrawerMenuState> {
             });
         }
     }
-
+    getAllCategories= async () => {
+        const response = await api.category.getCategoryTree();
+        if(api.isError(response)) {
+            notification.error({message: "Failed to fetch categories", description: response.message});
+            return [];
+        }
+        return response;
+    }
+    async componentWillMount () {
+        const newCategories = await this.getAllCategories();
+        this.setState({...this.state, categories: newCategories});
+    }
     render () {
         return (
             <div>
@@ -54,7 +67,7 @@ export class DrawerMenu extends React.Component<{}, DrawerMenuState> {
                     <Grid.Row id="drawerRow">
                         <Grid.Column width={2} id="sidebar" stretched>
                             <Menu vertical fluid inverted id="sidebarItems">
-                                {categories.map((itemCategory, itemIndex) =>
+                                {this.state.categories.map((itemCategory, itemIndex) =>
                                     <MenuItem
                                                 categoryTree={itemCategory}
                                                 key={itemIndex}
