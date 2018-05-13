@@ -6,7 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductPropertyDto {
-    Long id;
+    Long propertyId;
     String name;
+    Long valueId;
     String value;
 }

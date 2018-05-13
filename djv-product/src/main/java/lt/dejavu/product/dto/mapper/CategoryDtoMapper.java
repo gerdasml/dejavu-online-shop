@@ -65,7 +65,7 @@ public class CategoryDtoMapper {
             return null;
         }
         ProductPropertyDto dto = new ProductPropertyDto();
-        dto.setId(productProperty.getId());
+        dto.setPropertyId(productProperty.getId());
         dto.setName(productProperty.getName());
         return dto;
     }
