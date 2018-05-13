@@ -22,19 +22,15 @@ interface CartState {
 }
 
 export class Cart extends React.Component<{}, CartState> {
-    constructor (props: {}) {
-        super(props);
-        this.state = {
-            cart: {
-                items: [],
-                total: 0,
-                user: undefined,
-            },
-            currentStep: CartStep.CART,
-            error: undefined,
-            isLoading: true,
-        };
-    }
+    state: CartState = {
+        cart: {
+            items: [],
+            total: 0,
+            user: undefined,
+        },
+        currentStep: CartStep.CART,
+        isLoading: true,
+    };
 
     async componentDidMount () {
         const cartInfo = await api.cart.getCart();
@@ -59,9 +55,9 @@ export class Cart extends React.Component<{}, CartState> {
 
     nextStep = () => {
         const step = this.state.currentStep;
-        this.state.cart.items.forEach(p =>
-            console.log(p.product.name + " " + p.amount)
-        );
+        // this.state.cart.items.forEach(p =>
+        //     console.log(p.product.name + " " + p.amount)
+        // );
         if(step === CartStep.APPROVAL) {
             console.log("Finished");
             // TODO: finish this somehow

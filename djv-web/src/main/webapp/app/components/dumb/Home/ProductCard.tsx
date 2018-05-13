@@ -5,7 +5,7 @@ import "../../../../style/header.css";
 
 import { Product } from "../../../model/Product";
 
-import { descriptionShortener } from "../../../utils/common";
+import { shortenString } from "../../../utils/common";
 
 interface ProductCardProps {
     product: Product;
@@ -28,7 +28,7 @@ export const ProductCard = (props: ProductCardProps) => (
                 {props.product.name}
             </Card.Header>
             <Card.Description>
-                {descriptionShortener(props.product.description)}
+                {shortenString(props.product.description)}
             </Card.Description>
         </Card.Content>
         <Card.Content extra textAlign="center">

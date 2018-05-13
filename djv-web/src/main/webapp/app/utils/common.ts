@@ -12,12 +12,11 @@ export const toUrlFriendlyString = (s: string) =>
         .toLowerCase()
     : "";
 
-export const descriptionShortener = (text: string) => {
-    const SHORT_TEXT_LENGTH = 100;
-    if(text.length <= SHORT_TEXT_LENGTH) {
+export const shortenString = (text: string, length: number = 100) => {
+    if(text.length <= length) {
         return text;
     }
-    const shortText = text.substring(0,SHORT_TEXT_LENGTH);
+    const shortText = text.substring(0,length);
     const lastSpaceIdx = shortText.lastIndexOf(" ");
     const fixedText = shortText.substring(0, lastSpaceIdx);
     const completedText = fixedText + "...";
