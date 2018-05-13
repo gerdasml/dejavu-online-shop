@@ -1,9 +1,9 @@
 package lt.dejavu.product.service.impl;
 
-import lt.dejavu.product.exception.CategoryNotFoundException;
-import lt.dejavu.product.exception.ProductNotFoundException;
 import lt.dejavu.product.dto.ProductDto;
 import lt.dejavu.product.dto.mapper.ProductDtoMapper;
+import lt.dejavu.product.exception.CategoryNotFoundException;
+import lt.dejavu.product.exception.ProductNotFoundException;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.model.rest.mapper.ProductRequestMapper;
@@ -32,6 +32,11 @@ public class ProductServiceImpl implements ProductService {
         this.categoryRepository = categoryRepository;
         this.productRequestMapper = productRequestMapper;
         this.productDtoMapper = productDtoMapper;
+    }
+
+    @Override
+    public List<ProductDto> getAllProducts() {
+        return productDtoMapper.map(productRepository.getAllProducts());
     }
 
     @Override
@@ -68,21 +73,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    private Category resolveProductCategory(ProductRequest request){
+    private Category resolveProductCategory(ProductRequest request) {
         if (request.getCategoryId() == null) {
             return null;
         }
         return getCategoryIfExist(request.getCategoryId());
     }
 
-    private Product getProductIfExist(long productId){
+    private Product getProductIfExist(long productId) {
         Product product = productRepository.getProduct(productId);
         if (product == null) {
             throw new ProductNotFoundException(productId);
         }
         return product;
     }
-    private Category getCategoryIfExist(long categoryId){
+
+    private Category getCategoryIfExist(long categoryId) {
         Category category = categoryRepository.getCategory(categoryId);
         if (category == null) {
             throw new CategoryNotFoundException("cannot find category with id " + categoryId);

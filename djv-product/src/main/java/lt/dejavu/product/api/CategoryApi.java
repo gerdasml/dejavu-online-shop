@@ -1,13 +1,17 @@
 package lt.dejavu.product.api;
 
+import lt.dejavu.auth.exception.ApiSecurityException;
+import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.product.dto.CategoryDto;
 import lt.dejavu.product.dto.CategoryTreeDto;
 import lt.dejavu.product.model.rest.request.CategoryRequest;
 import lt.dejavu.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -16,6 +20,9 @@ public class CategoryApi {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private SecurityService securityService;
 
     @GetMapping(
             path = "/{categoryId}",
@@ -54,7 +61,10 @@ public class CategoryApi {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
 
-    public Long createCategory(@RequestBody CategoryRequest categoryRequest){
+    public Long createCategory(HttpServletRequest request,
+                               @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
+                               @RequestBody CategoryRequest categoryRequest) throws ApiSecurityException {
+        securityService.authorize(authHeader, request);
         return categoryService.createCategory(categoryRequest);
     }
 
@@ -62,7 +72,11 @@ public class CategoryApi {
             path = "/{categoryId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public void updateCategory(@PathVariable("categoryId") long categoryId, @RequestBody CategoryRequest categoryRequest){
+    public void updateCategory(HttpServletRequest request,
+                               @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
+                               @PathVariable("categoryId") long categoryId,
+                               @RequestBody CategoryRequest categoryRequest) throws ApiSecurityException {
+        securityService.authorize(authHeader, request);
         categoryService.updateCategory(categoryId, categoryRequest);
     }
 
@@ -70,7 +84,10 @@ public class CategoryApi {
             path = "/{categoryId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public void deleteCategory(@PathVariable("categoryId") long categoryId){
+    public void deleteCategory(HttpServletRequest request,
+                               @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
+                               @PathVariable("categoryId") long categoryId) throws ApiSecurityException {
+        securityService.authorize(authHeader, request);
         categoryService.deleteCategory(categoryId);
     }
 }

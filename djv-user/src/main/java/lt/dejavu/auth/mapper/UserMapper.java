@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
     public UserDto map(User user) {
-        if(user == null) return null;
+        if (user == null) return null;
         UserDto dto = new UserDto();
         dto.setBanned(user.isBanned());
         dto.setEmail(user.getEmail());
@@ -24,17 +24,16 @@ public class UserMapper {
 
     public User map(UserDto dto) {
         if (dto == null) return null;
-        User user = new User();
-        user.setBanned(dto.isBanned());
-        user.setEmail(dto.getEmail());
-        user.setFirstName(dto.getFirstName());
-        user.setLastName(dto.getLastName());
-        user.setId(dto.getId());
-        user.setPassword(dto.getPassword());
-        user.setType(dto.getType());
-        user.setAddress(dto.getAddress());
-        user.setPhone(dto.getPhone());
-
-        return user;
+        return User.builder()
+                   .banned(dto.isBanned())
+                   .email(dto.getEmail())
+                   .firstName(dto.getFirstName())
+                   .lastName(dto.getLastName())
+                   .id(dto.getId())
+                   .password(dto.getPassword())
+                   .type(dto.getType())
+                   .address(dto.getAddress())
+                   .phone(dto.getPhone())
+                   .build();
     }
 }

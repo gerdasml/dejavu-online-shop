@@ -2,15 +2,15 @@ package lt.dejavu.product.service.impl;
 
 import lt.dejavu.product.dto.CategoryDto;
 import lt.dejavu.product.dto.CategoryTreeDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lt.dejavu.product.dto.mapper.CategoryDtoMapper;
 import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.IllegalRequestDataException;
-import lt.dejavu.product.dto.mapper.CategoryDtoMapper;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.rest.mapper.CategoryRequestMapper;
 import lt.dejavu.product.model.rest.request.CategoryRequest;
 import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryTreeDto> getCategoryTree(){
+    public List<CategoryTreeDto> getCategoryTree() {
         return categoryDtoMapper.mapToTree(categoryRepository.getAllCategories());
     }
 
@@ -59,7 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void updateCategory(long categoryId, CategoryRequest categoryRequest) {
-        validateNotSelfParent(categoryId, categoryRequest.getParentCategory());
+        validateNotSelfParent(categoryId, categoryRequest.getParentCategoryId());
         Category oldCategory = getCategoryIfExist(categoryId);
         Category parentCategory = resolveParentCategory(categoryRequest);
         Category newCategory = categoryRequestMapper.mapToCategory(categoryRequest, parentCategory);
@@ -73,27 +73,27 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.deleteCategory(category);
     }
 
-    private void validateNotSelfParent(long id, Long parentId){
+    private void validateNotSelfParent(long id, Long parentId) {
         if (parentId == null) {
             return;
         }
-        if (parentId.equals(id)){
+        if (parentId.equals(id)) {
             throw new IllegalRequestDataException("category cannot be self parent");
         }
     }
 
     private Category resolveParentCategory(CategoryRequest categoryRequest) {
-        if (categoryRequest.getParentCategory() == null) {
+        if (categoryRequest.getParentCategoryId() == null) {
             return null;
         }
-        Category parentCategory = categoryRepository.getCategory(categoryRequest.getParentCategory());
+        Category parentCategory = categoryRepository.getCategory(categoryRequest.getParentCategoryId());
         if (parentCategory == null) {
-            throw new CategoryNotFoundException("cannot find category with parent id: " + categoryRequest.getParentCategory());
+            throw new CategoryNotFoundException("cannot find category with parent id: " + categoryRequest.getParentCategoryId());
         }
         return parentCategory;
     }
 
-    private Category getCategoryIfExist(long categoryId){
+    private Category getCategoryIfExist(long categoryId) {
         Category category = categoryRepository.getCategory(categoryId);
         if (category == null) {
             throw new CategoryNotFoundException(categoryId);

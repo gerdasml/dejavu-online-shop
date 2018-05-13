@@ -6,7 +6,11 @@ export interface MenuHeaderState {
     activeItem: String;
 }
 
-export class MenuHeader extends React.Component<{}, MenuHeaderState> {
+export interface MenuHeaderProps {
+    onLogout: () => void;
+}
+
+export class MenuHeader extends React.Component<MenuHeaderProps, MenuHeaderState> {
   state = { activeItem: "home" };
 
   handleItemClick = (e: any, { name }: any ) =>
@@ -30,7 +34,7 @@ export class MenuHeader extends React.Component<{}, MenuHeaderState> {
             <Menu.Item
                 name="products"
                 active={activeItem === "products"}
-                as={NavLink} to="/admin/product"
+                as={NavLink} to="/admin/products"
                 onClick={this.handleItemClick.bind(this)} />
             <Menu.Item
                 name="categories"
@@ -41,7 +45,7 @@ export class MenuHeader extends React.Component<{}, MenuHeaderState> {
                 <Menu.Item
                     name="logout"
                     active={activeItem === "logout"}
-                    onClick={this.handleItemClick.bind(this)} />
+                    onClick={this.props.onLogout} />
             </Menu.Menu>
         </Menu>
       </div>

@@ -33,7 +33,7 @@ public class Product {
     @Column(name = "creationDate")
     private LocalDateTime creationDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category")
     private Category category;
 
@@ -43,9 +43,9 @@ public class Product {
     @Column(name = "mainImageUrl")
     private String mainImageUrl;
 
-    @ElementCollection(fetch = FetchType.EAGER )
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
-            name= "additional_image_url",
+            name = "additional_image_url",
             joinColumns = @JoinColumn(name = "productId")
     )
     @Column(name = "imageUrl")
@@ -54,8 +54,8 @@ public class Product {
     @Embedded
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
-            name="product_property",
-            joinColumns=@JoinColumn(name="productId")
+            name = "product_property",
+            joinColumns = @JoinColumn(name = "productId")
     )
     private Set<ProductProperty> properties;
 }
