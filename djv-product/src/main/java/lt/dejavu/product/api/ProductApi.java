@@ -93,10 +93,6 @@ public class ProductApi {
     @GetMapping(path = "export")
     public void export(HttpServletResponse response) throws IOException {
         // TODO: disable logging for this somehow
-//        File f = new File("C:\\Users\\vstri\\Desktop\\uni\\psk\\djv-wiki\\documents\\2018_05_11_pavyzdinis_excel_dokumentas.xlsx");
-//        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=products.xlsx");
-//        IOUtils.copy(new FileInputStream(f), response.getOutputStream());
-//        response.flushBuffer();
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=products.xlsx");
         ByteArrayOutputStream output = excelService.toExcel(getAllProducts());
         IOUtils.write(output.toByteArray(), response.getOutputStream());
