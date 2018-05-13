@@ -16,6 +16,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
@@ -63,21 +64,17 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
     }
 
     @Override
-    public CompletableFuture<List<T>> fromExcel(byte[] file) throws IOException {
+    public UUID fromExcel(byte[] file) throws IOException {
         PeekingIterator<List<String>> rowIterator = getIterator(file);
-        return CompletableFuture.supplyAsync(() -> {
-            List<T> errors = new ArrayList<>();
+        UUID uuid = UUID.randomUUID();
+        CompletableFuture.runAsync(() -> {
             rowIterator.next();
             while (rowIterator.hasNext()) {
                 ConversionResult<T> result = conversionStrategy.takeOne(rowIterator);
-                if (result.getStatus() == ConversionStatus.FAILURE) {
-                    errors.add(result.getResult());
-                } else {
-                    processingStrategy.process(result.getResult());
-                }
+                processingStrategy.process(uuid, result);
             }
-            return errors;
         });
+        return uuid;
     }
 
     private void formatHeader(Row headerRow) {

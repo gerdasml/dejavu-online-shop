@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -102,10 +103,10 @@ public class ProductApi {
     }
 
     @PostMapping(path = "/import")
-    public void importProducts(HttpServletRequest request,
+    public UUID importProducts(HttpServletRequest request,
                                @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
-                               @RequestParam("file") MultipartFile file) throws ApiSecurityException, IOException, ExecutionException, InterruptedException {
+                               @RequestParam("file") MultipartFile file) throws ApiSecurityException, IOException {
         securityService.authorize(authHeader, request);
-        List<ProductDto> productDtos = excelService.fromExcel(file.getBytes()).get();
+        return excelService.fromExcel(file.getBytes());
     }
 }
