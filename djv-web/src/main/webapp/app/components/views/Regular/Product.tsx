@@ -4,6 +4,7 @@ import { notification } from "antd";
 import { Grid, Header, Label, List, Loader} from "semantic-ui-react";
 
 import {RouteComponentProps} from "react-router-dom";
+import { Cart } from "../../../model/Cart";
 import * as ProductModel from "../../../model/Product";
 import { Carousel } from "../../dumb/Product/Carousel";
 import { Expander} from "../../smart/Product/Expander";
@@ -16,14 +17,32 @@ import * as api from "../../../api";
 interface ProductRouteProps { id: number; }
 
 interface ProductState {
+    amount: number;
     loading: boolean;
     product?: ProductModel.Product;
+    cart?: Cart;
+    error?: string;
 }
 
 export class Product extends React.Component<RouteComponentProps<ProductRouteProps>, ProductState> {
     state: ProductState = {
-        loading: true
+        amount: 1,
+        loading: true // default turetu but true, kad
     };
+    async updateCart (amount: number) {
+        // TODO: think about pretty loaders instead of state change before api call
+        console.log(amount, this.state.product.id);
+        const addToCartInfo = await api.cart.addToCart({
+            amount,
+            productId: this.state.product.id
+        });
+        if(api.isError(addToCartInfo)) {
+            this.setState({
+                ...this.state,
+                error: addToCartInfo.message
+            });
+        }
+    }
     handleProductInfo = async (props: RouteComponentProps<ProductRouteProps>): Promise<void> => {
         const response = await api.product.getProduct(props.match.params.id);
         if(api.isError(response)) {
@@ -71,7 +90,7 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
                             </List>
                         </Grid.Column>
                         <Grid.Column width="eight">
-                            <PriceArea />
+                            <PriceArea onAmountChange={amount => this.updateCart(amount)}/>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>

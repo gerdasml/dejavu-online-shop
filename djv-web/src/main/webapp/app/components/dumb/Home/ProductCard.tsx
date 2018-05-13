@@ -5,8 +5,8 @@ import "../../../../style/header.css";
 
 import { Product } from "../../../model/Product";
 
-import { shortenString } from "../../../utils/common";
 import { NavLink } from "react-router-dom";
+import { shortenString } from "../../../utils/common";
 
 interface ProductCardProps {
     product: Product;
