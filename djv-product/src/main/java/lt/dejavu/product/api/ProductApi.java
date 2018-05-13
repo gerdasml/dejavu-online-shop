@@ -11,12 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("${rest.product}")
@@ -90,12 +92,20 @@ public class ProductApi {
         productService.deleteProduct(productId);
     }
 
-    @GetMapping(path = "export")
+    @GetMapping(path = "/export")
     public void export(HttpServletResponse response) throws IOException {
         // TODO: disable logging for this somehow
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=products.xlsx");
         ByteArrayOutputStream output = excelService.toExcel(getAllProducts());
         IOUtils.write(output.toByteArray(), response.getOutputStream());
         response.flushBuffer();
+    }
+
+    @PostMapping(path = "/import")
+    public void importProducts(HttpServletRequest request,
+                               @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
+                               @RequestParam("file") MultipartFile file) throws ApiSecurityException, IOException, ExecutionException, InterruptedException {
+        securityService.authorize(authHeader, request);
+        List<ProductDto> productDtos = excelService.fromExcel(file.getBytes()).get();
     }
 }

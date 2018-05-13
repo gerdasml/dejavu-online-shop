@@ -1,5 +1,6 @@
 package lt.dejavu.excel.service;
 
+import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 import lt.dejavu.excel.iterator.ConvertingIterator;
 import lt.dejavu.excel.iterator.PeekingIterator;
 import lt.dejavu.excel.model.ConversionResult;
@@ -11,10 +12,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -65,10 +63,11 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
     }
 
     @Override
-    public CompletableFuture<List<T>> fromExcel(File file) throws IOException {
+    public CompletableFuture<List<T>> fromExcel(byte[] file) throws IOException {
         PeekingIterator<List<String>> rowIterator = getIterator(file);
         return CompletableFuture.supplyAsync(() -> {
             List<T> errors = new ArrayList<>();
+            rowIterator.next();
             while (rowIterator.hasNext()) {
                 ConversionResult<T> result = conversionStrategy.takeOne(rowIterator);
                 if (result.getStatus() == ConversionStatus.FAILURE) {
@@ -114,13 +113,14 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
         List<String> result = new ArrayList<>();
         while (cellIterator.hasNext()) {
             Cell currentCell = cellIterator.next();
+            currentCell.setCellType(CellType.STRING);
             result.add(currentCell.getStringCellValue());
         }
         return result;
     }
 
-    private PeekingIterator<List<String>> getIterator(File file) throws IOException {
-        FileInputStream excelFile = new FileInputStream(file);
+    private PeekingIterator<List<String>> getIterator(byte[] file) throws IOException {
+        ByteArrayInputStream excelFile = new ByteArrayInputStream(file);
         Workbook workbook = new XSSFWorkbook(excelFile);
         Sheet sheet = workbook.getSheetAt(0);
         return new PeekingIterator<>(

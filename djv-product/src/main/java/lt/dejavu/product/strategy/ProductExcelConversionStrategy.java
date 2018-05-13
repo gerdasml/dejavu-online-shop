@@ -63,9 +63,9 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
     @Override
     public ConversionResult<ProductDto> takeOne(PeekingIterator<List<String>> rowIterator) {
         ConversionResult<ProductDto> result = rowToProduct(rowIterator.next());
-        while (rowIterator.hasNext() && rowIterator.peek().size() <= 2) {
+        while (rowIterator.hasNext() && rowIterator.peek().get(0).isEmpty()) {
             List<String> row = rowIterator.next();
-            readProperty(result, row, 0, 1);
+            readProperty(result, row);
         }
         return result;
     }
@@ -112,22 +112,20 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
              val -> true, // TODO: validate???
              val -> val,
              val -> result.getResult().setCategoryId(0L));
-        readProperty(result, row, 4, 5);
+        readProperty(result, row);
         return result;
     }
 
     private void readProperty(ConversionResult<ProductDto> result,
-                              List<String> row,
-                              int nameIndex,
-                              int valueIndex) {
+                              List<String> row) {
         ProductPropertyDto property = new ProductPropertyDto();
-        read(nameIndex,
+        read(4,
              row,
              result,
              val -> true,
              val -> val == null ? "" : val,
              property::setName);
-        read(valueIndex,
+        read(5,
              row,
              result,
              val -> true,
