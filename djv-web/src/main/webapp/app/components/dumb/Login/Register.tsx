@@ -148,7 +148,9 @@ export class Register extends React.Component <{}, RegistrationState> {
                                     placeholder="+370********"
                                     onChange={this.handlePhoneInput.bind(this)}/>
                         </Form.Field>
-                        <AddressInput formSize="small" address={addresses[0]}/>
+                        <AddressInput formSize="small"
+                            address={this.state.address}
+                            onAddressChange={newAddr => this.setState({...this.state, address: newAddr})}/>
                         <Message
                             error
                             header="Registration failed"

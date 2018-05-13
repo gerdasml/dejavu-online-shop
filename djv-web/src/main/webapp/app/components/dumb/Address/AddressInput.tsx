@@ -9,40 +9,33 @@ import "../../../../style/address.css";
 interface AddressProps {
   address: Address;
   formSize: string;
+  onAddressChange: (newAddress: Address) => void;
 }
 
-interface AddressState {
-  address: Address;
-}
-
-export class AddressInput extends React.Component<AddressProps, AddressState> {
-  state: AddressState = {
-    address: this.props.address,
-  };
-
+export class AddressInput extends React.Component<AddressProps, {}> {
   handleStreetInput = (event: React.FormEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
-    const newAddress = { ...this.state.address };
+    const newAddress = { ...this.props.address };
     newAddress.street = value;
-    this.setState({ ...this.state, address: newAddress });
+    this.props.onAddressChange(newAddress);
   }
   handleCityInput = (event: React.FormEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
-    const newAddress = { ...this.state.address };
+    const newAddress = { ...this.props.address };
     newAddress.city = value;
-    this.setState({ ...this.state, address: newAddress });
+    this.props.onAddressChange(newAddress);
   }
   handleZipCodeInput = (event: React.FormEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
-    const newAddress = { ...this.state.address };
+    const newAddress = { ...this.props.address };
     newAddress.zipCode = value;
-    this.setState({ ...this.state, address: newAddress });
+    this.props.onAddressChange(newAddress);
   }
   handleCountryInput = (event: React.FormEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
-    const newAddress = { ...this.state.address };
+    const newAddress = { ...this.props.address };
     newAddress.country = value;
-    this.setState({ ...this.state, address: newAddress });
+    this.props.onAddressChange(newAddress);
   }
 
   // tslint:disable-next-line:prefer-function-over-method
@@ -54,20 +47,20 @@ export class AddressInput extends React.Component<AddressProps, AddressState> {
             <label>Street</label>
             <input type="text"
               placeholder="street"
-              value={this.state.address.street}
+              value={this.props.address.street}
               onChange={this.handleStreetInput.bind(this)} />
           </Form.Field>
           <Form.Field inline>
             <label>Zip Code</label>
             <input type="text"
               placeholder="zip"
-              value={this.state.address.zipCode}
+              value={this.props.address.zipCode}
               onChange={this.handleZipCodeInput.bind(this)} />
           </Form.Field>
           <Form.Field inline>
             <label>Country</label>
             <select
-              value={this.state.address.country}
+              value={this.props.address.country}
               onChange={this.handleCountryInput.bind(this)}>
               <option value="" hidden></option>
               {countries.map(country => (
@@ -78,7 +71,7 @@ export class AddressInput extends React.Component<AddressProps, AddressState> {
             <label>City</label>
             <input type="text"
               placeholder="Vilnius"
-              value={this.state.address.city}
+              value={this.props.address.city}
               onChange={this.handleCityInput.bind(this)} />
           </Form.Field>
         </Form>

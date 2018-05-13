@@ -30,7 +30,7 @@ export const DeliveryInfo = (props: DeliveryInfoProps) => (
                 <label>Phone number</label>
                 <input type="text" value="+370********" />
             </Form.Field>
-            <AddressInput formSize="big" address={addresses[1]}/>
+            <AddressInput formSize="big" address={{}} onAddressChange={()=>{ }} />
             <Button type="submit" positive onClick={props.onStepComplete}>Next</Button>
         </Form>
     </div >
