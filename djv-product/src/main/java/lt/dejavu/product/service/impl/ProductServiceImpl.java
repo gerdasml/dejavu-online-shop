@@ -6,9 +6,9 @@ import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.ProductNotFoundException;
 import lt.dejavu.product.exception.ProductPropertyNotFoundException;
 import lt.dejavu.product.model.Category;
+import lt.dejavu.product.model.CategoryProperty;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.model.ProductProperty;
-import lt.dejavu.product.model.ProductPropertyValue;
 import lt.dejavu.product.model.rest.mapper.ProductPropertyRequestMapper;
 import lt.dejavu.product.model.rest.mapper.ProductRequestMapper;
 import lt.dejavu.product.model.rest.request.ProductPropertyRequest;
@@ -21,7 +21,6 @@ import lt.dejavu.utils.collections.CollectionUpdater;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.el.PropertyNotFoundException;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -76,8 +75,8 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRequestMapper.mapToProduct(request, productCategory);
         product.setCreationDate(LocalDateTime.now());
         Long productId = productRepository.saveProduct(product);
-        Set<ProductProperty> properties = getProductProperties(request, productCategory);
-        Set<ProductPropertyValue> propertyValues = productPropertyRequestMapper.mapProperties(product, properties, request.getProperties());
+        Set<CategoryProperty> properties = getProductProperties(request, productCategory);
+        Set<ProductProperty> propertyValues = productPropertyRequestMapper.mapProperties(product, properties, request.getProperties());
         productPropertyRepository.savePropertyValues(propertyValues);
         return productId;
     }
@@ -94,15 +93,15 @@ public class ProductServiceImpl implements ProductService {
         Category productCategory = resolveProductCategory(request);
         Product oldProduct = getProductIfExist(productId);
         productRequestMapper.remapToProduct(oldProduct, request, productCategory);
-        Set<ProductProperty> properties = getProductProperties(request, productCategory);
-        Set<ProductPropertyValue> propertyValues = productPropertyRequestMapper.mapProperties(oldProduct, properties, request.getProperties());
+        Set<CategoryProperty> properties = getProductProperties(request, productCategory);
+        Set<ProductProperty> propertyValues = productPropertyRequestMapper.mapProperties(oldProduct, properties, request.getProperties());
         CollectionUpdater.updateCollection(oldProduct.getPropertyValues(), propertyValues);
         productRepository.updateProduct(oldProduct);
     }
 
-    private Set<ProductProperty> getProductProperties(ProductRequest request, Category productCategory) {
+    private Set<CategoryProperty> getProductProperties(ProductRequest request, Category productCategory) {
         Set<Long> propertyIds = getPropertyIds(request);
-        Set<ProductProperty> properties = productPropertyRepository.findByCategoryIdAndIds(productCategory.getId(), propertyIds);
+        Set<CategoryProperty> properties = productPropertyRepository.findByCategoryIdAndIds(productCategory.getId(), propertyIds);
         checkIfAllPropertiesWereFound(propertyIds, properties);
         return properties;
     }
@@ -134,7 +133,7 @@ public class ProductServiceImpl implements ProductService {
         return category;
     }
 
-    private void checkIfAllPropertiesWereFound(Set<Long> propertyIds, Set<ProductProperty> properties) {
+    private void checkIfAllPropertiesWereFound(Set<Long> propertyIds, Set<CategoryProperty> properties) {
         if (propertyIds.size() != properties.size()) {
             throw new ProductPropertyNotFoundException("Not product all properties were found in given category");
             //TODO more details

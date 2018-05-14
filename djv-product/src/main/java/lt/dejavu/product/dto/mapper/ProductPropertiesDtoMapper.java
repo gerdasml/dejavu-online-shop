@@ -1,7 +1,7 @@
 package lt.dejavu.product.dto.mapper;
 
 import lt.dejavu.product.dto.ProductPropertyDto;
-import lt.dejavu.product.model.ProductPropertyValue;
+import lt.dejavu.product.model.ProductProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -11,19 +11,19 @@ import java.util.stream.Collectors;
 @Component
 public class ProductPropertiesDtoMapper {
 
-    public ProductPropertyDto map(ProductPropertyValue productProperty) {
+    public ProductPropertyDto map(ProductProperty productProperty) {
         if (productProperty == null) {
             return null;
         }
         ProductPropertyDto dto = new ProductPropertyDto();
-        dto.setPropertyId(productProperty.getProductProperty().getId());
+        dto.setPropertyId(productProperty.getCategoryProperty().getId());
         dto.setValueId(productProperty.getId());
-        dto.setName(productProperty.getProductProperty().getName());
+        dto.setName(productProperty.getCategoryProperty().getName());
         dto.setValue(productProperty.getValue());
         return dto;
     }
 
-    public List<ProductPropertyDto> map(Collection<ProductPropertyValue> productProperties) {
+    public List<ProductPropertyDto> map(Collection<ProductProperty> productProperties) {
         return productProperties.stream().map(this::map).collect(Collectors.toList());
     }
 }

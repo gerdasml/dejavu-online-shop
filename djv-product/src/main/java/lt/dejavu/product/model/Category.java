@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -36,5 +35,5 @@ public class Category {
     private Category parentCategory;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    private Set<ProductProperty> properties = new LinkedHashSet<>();
+    private Set<CategoryProperty> properties = new LinkedHashSet<>();
 }

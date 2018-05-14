@@ -53,5 +53,5 @@ public class Product {
     private Set<String> additionalImagesUrls = new LinkedHashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    private Set<ProductPropertyValue> propertyValues = new LinkedHashSet<>();
+    private Set<ProductProperty> propertyValues = new LinkedHashSet<>();
 }

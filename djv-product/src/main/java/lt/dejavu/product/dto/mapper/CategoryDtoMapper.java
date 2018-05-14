@@ -3,9 +3,8 @@ package lt.dejavu.product.dto.mapper;
 import lt.dejavu.product.dto.CategoryDto;
 import lt.dejavu.product.dto.CategoryPropertyDto;
 import lt.dejavu.product.dto.CategoryTreeDto;
-import lt.dejavu.product.dto.ProductPropertyDto;
 import lt.dejavu.product.model.Category;
-import lt.dejavu.product.model.ProductProperty;
+import lt.dejavu.product.model.CategoryProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -61,17 +60,17 @@ public class CategoryDtoMapper {
                 .map(childCategory -> mapToTree(childCategory, allCategories)).collect(toList());
     }
 
-    private CategoryPropertyDto map(ProductProperty productProperty) {
-        if (productProperty == null) {
+    private CategoryPropertyDto map(CategoryProperty categoryProperty) {
+        if (categoryProperty == null) {
             return null;
         }
         CategoryPropertyDto dto = new CategoryPropertyDto();
-        dto.setPropertyId(productProperty.getId());
-        dto.setName(productProperty.getName());
+        dto.setPropertyId(categoryProperty.getId());
+        dto.setName(categoryProperty.getName());
         return dto;
     }
 
-    private List<CategoryPropertyDto> map(Collection<ProductProperty> productProperties) {
+    private List<CategoryPropertyDto> map(Collection<CategoryProperty> productProperties) {
         return productProperties.stream().map(this::map).collect(toList());
     }
 }

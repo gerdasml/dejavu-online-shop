@@ -78,7 +78,7 @@ insert into `product` (`id`, `category`, `creationDate`, `description`, `identif
 
 insert into additional_image_url (productId, imageUrl) values (1, '/image/2'),(1, '/image/3'),(1, '/image/4'),(2, '/image/6');
 
-insert into product_property (id, categoryId, name) values
+insert into category_property (id, categoryId, name) values
       -- https://www.amazon.com/LG-gram-Thin-Light-Laptop/dp/B077YSVKQK
       (   1, 3, 'Screen Size'),
       (   2, 3, 'Max Screen Resolution'),
@@ -100,7 +100,7 @@ insert into product_property (id, categoryId, name) values
       (  18, 3, 'Optical Drive Type'),
       (  19, 3, 'Batteries');
 
-insert into product_property_value (id, productId, product_property_Id, value) values
+insert into product_property (id, productId, category_property_Id, value) values
       -- https://www.amazon.com/LG-gram-Thin-Light-Laptop/dp/B077YSVKQK
       ( 1, 1,  1, '15.6 inches'),
       ( 2, 1,  2, '1920 x 1080 pixels'),

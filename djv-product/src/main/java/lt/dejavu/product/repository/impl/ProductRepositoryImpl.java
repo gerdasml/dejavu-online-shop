@@ -24,7 +24,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> cq = cb.createQuery(Product.class);
         Root<Product> productRoot = cq.from(Product.class);
-        productRoot.fetch(Product_.propertyValues, JoinType.LEFT).fetch(ProductPropertyValue_.productProperty, JoinType.LEFT);
+        productRoot.fetch(Product_.propertyValues, JoinType.LEFT).fetch(ProductProperty_.categoryProperty, JoinType.LEFT);
         productRoot.fetch(Product_.additionalImagesUrls, JoinType.LEFT);
         CriteriaQuery<Product> all = cq.select(productRoot);
         return new LinkedHashSet<>(em.createQuery(all).getResultList());
@@ -35,7 +35,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> query = cb.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
-        root.fetch(Product_.propertyValues, JoinType.LEFT).fetch(ProductPropertyValue_.productProperty, JoinType.LEFT);
+        root.fetch(Product_.propertyValues, JoinType.LEFT).fetch(ProductProperty_.categoryProperty, JoinType.LEFT);
         root.fetch(Product_.additionalImagesUrls, JoinType.LEFT);
         ParameterExpression<Long> idParameter = cb.parameter(Long.class);
         query.where(cb.equal(root.get(Product_.id), idParameter));
@@ -49,7 +49,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> query = cb.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
-        root.fetch(Product_.propertyValues, JoinType.LEFT).fetch(ProductPropertyValue_.productProperty, JoinType.LEFT);
+        root.fetch(Product_.propertyValues, JoinType.LEFT).fetch(ProductProperty_.categoryProperty, JoinType.LEFT);
         root.fetch(Product_.additionalImagesUrls, JoinType.LEFT);
         ParameterExpression<Long> categoryIdParameter = cb.parameter(Long.class);
         query.where(cb.equal(root.get(Product_.category).get(Category_.id), categoryIdParameter));
