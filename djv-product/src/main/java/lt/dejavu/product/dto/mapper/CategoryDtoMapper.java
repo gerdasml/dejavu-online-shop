@@ -1,6 +1,7 @@
 package lt.dejavu.product.dto.mapper;
 
 import lt.dejavu.product.dto.CategoryDto;
+import lt.dejavu.product.dto.CategoryPropertyDto;
 import lt.dejavu.product.dto.CategoryTreeDto;
 import lt.dejavu.product.dto.ProductPropertyDto;
 import lt.dejavu.product.model.Category;
@@ -60,17 +61,17 @@ public class CategoryDtoMapper {
                 .map(childCategory -> mapToTree(childCategory, allCategories)).collect(toList());
     }
 
-    private ProductPropertyDto map(ProductProperty productProperty) {
+    private CategoryPropertyDto map(ProductProperty productProperty) {
         if (productProperty == null) {
             return null;
         }
-        ProductPropertyDto dto = new ProductPropertyDto();
+        CategoryPropertyDto dto = new CategoryPropertyDto();
         dto.setPropertyId(productProperty.getId());
         dto.setName(productProperty.getName());
         return dto;
     }
 
-    private List<ProductPropertyDto> map(Collection<ProductProperty> productProperties) {
+    private List<CategoryPropertyDto> map(Collection<ProductProperty> productProperties) {
         return productProperties.stream().map(this::map).collect(toList());
     }
 }

@@ -14,5 +14,5 @@ public class CategoryDto {
     private String icon;
     private String identifier;
     private Long parentCategoryId;
-    private List<ProductPropertyDto> properties;
+    private List<CategoryPropertyDto> properties;
 }
