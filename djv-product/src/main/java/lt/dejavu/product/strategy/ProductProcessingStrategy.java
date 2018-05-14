@@ -9,21 +9,15 @@ import lt.dejavu.excel.model.db.Status;
 import lt.dejavu.excel.repository.ImportStatusRepository;
 import lt.dejavu.excel.strategy.ProcessingStrategy;
 import lt.dejavu.product.model.Product;
-import lt.dejavu.product.model.ProductProperty;
-import lt.dejavu.product.model.rest.request.ProductPropertyRequest;
-import lt.dejavu.product.model.rest.request.ProductRequest;
 import lt.dejavu.product.repository.ProductRepository;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static java.util.stream.Collectors.toList;
 
 @Component
 public class ProductProcessingStrategy implements ProcessingStrategy<Product> {

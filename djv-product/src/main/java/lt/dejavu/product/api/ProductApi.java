@@ -2,10 +2,8 @@ package lt.dejavu.product.api;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.service.SecurityService;
-import lt.dejavu.excel.service.ExcelService;
 import lt.dejavu.product.dto.ProductDto;
 import lt.dejavu.product.dto.ProductImportStatusDto;
-import lt.dejavu.product.model.Product;
 import lt.dejavu.product.model.rest.request.ProductRequest;
 import lt.dejavu.product.service.ProductImportStatusService;
 import lt.dejavu.product.service.ProductService;
@@ -22,7 +20,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("${rest.product}")

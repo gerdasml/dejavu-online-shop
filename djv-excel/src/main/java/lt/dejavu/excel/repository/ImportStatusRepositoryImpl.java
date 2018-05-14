@@ -1,7 +1,6 @@
 package lt.dejavu.excel.repository;
 
 import lt.dejavu.excel.model.db.ImportStatus;
-import lt.dejavu.excel.model.db.Status;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

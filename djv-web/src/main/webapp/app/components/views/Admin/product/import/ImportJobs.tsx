@@ -18,7 +18,7 @@ export class ImportJobs extends React.Component<{}, ImportJobsState> {
 
     async componentWillMount () {
         const response = await api.product.getImportStatuses();
-        if(api.isError(response)) {
+        if (api.isError(response)) {
             notification.error({message: "Failed to fetch import data", description: response.message});
             return;
         }
