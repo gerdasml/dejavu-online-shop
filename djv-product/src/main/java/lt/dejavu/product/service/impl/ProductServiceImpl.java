@@ -1,5 +1,6 @@
 package lt.dejavu.product.service.impl;
 
+import lt.dejavu.excel.service.ExcelService;
 import lt.dejavu.product.dto.ProductDto;
 import lt.dejavu.product.dto.mapper.ProductDtoMapper;
 import lt.dejavu.product.exception.CategoryNotFoundException;
@@ -14,8 +15,11 @@ import lt.dejavu.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -24,14 +28,16 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
     private final ProductRequestMapper productRequestMapper;
     private final ProductDtoMapper productDtoMapper;
+    private final ExcelService<Product> excelService;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository,
-                              ProductRequestMapper productRequestMapper, ProductDtoMapper productDtoMapper) {
+                              ProductRequestMapper productRequestMapper, ProductDtoMapper productDtoMapper, ExcelService<Product> excelService) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.productRequestMapper = productRequestMapper;
         this.productDtoMapper = productDtoMapper;
+        this.excelService = excelService;
     }
 
     @Override
@@ -70,6 +76,16 @@ public class ProductServiceImpl implements ProductService {
         Product newProduct = productRequestMapper.mapToProduct(request, resolveProductCategory(request));
         newProduct.setId(oldProduct.getId());
         productRepository.updateProduct(newProduct);
+    }
+
+    @Override
+    public ByteArrayOutputStream exportProducts() throws IOException {
+        return excelService.toExcel(productRepository.getAllProducts());
+    }
+
+    @Override
+    public UUID importProducts(byte[] data) throws IOException {
+        return excelService.fromExcel(data);
     }
 
 
