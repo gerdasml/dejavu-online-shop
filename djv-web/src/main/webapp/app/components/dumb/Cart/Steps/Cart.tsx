@@ -1,9 +1,9 @@
 import * as React from "react";
 
+import { notification } from "antd";
 import { Button, Dimmer, Icon, Loader } from "semantic-ui-react";
 
 import { Cart as CartModel } from "../../../../model/Cart";
-
 
 import * as api from "../../../../api";
 
@@ -35,25 +35,9 @@ export class Cart extends React.Component <CartProps, CartState> {
             productId: orderItem.product.id,
         });
         if(api.isError(amountChangeInfo)) {
-            this.setState({
-                ...this.state,
-                error: amountChangeInfo.message,
-            });
+            notification.error({message: "Failed to change amount", description: amountChangeInfo.message});
         } else {
-            const newUnitTotal = newAmount*orderItem.product.price;
-            const newTotal = this.props.cart.total - orderItem.total + newUnitTotal;
-            const newItems = [...this.props.cart.items];
-            const idx = newItems.findIndex(i => i.product.id === orderItem.product.id);
-            newItems[idx] = {
-                ...orderItem,
-                amount: newAmount,
-                total: newUnitTotal,
-            };
-            this.props.onCartUpdate({
-                ...this.props.cart,
-                items: newItems,
-                total: newTotal,
-            });
+            this.props.onCartUpdate(amountChangeInfo);
         }
         this.setState({
             ...this.state,
@@ -68,19 +52,9 @@ export class Cart extends React.Component <CartProps, CartState> {
         });
         const removeItemInfo = await api.cart.removeFromCart(item.product.id);
         if(api.isError(removeItemInfo)) {
-            this.setState({
-                ...this.state,
-                error: removeItemInfo.message,
-            });
+            notification.error({message: "Failed to remove from cart", description: removeItemInfo.message});
         } else {
-            const newTotal = this.props.cart.total - item.total;
-            const prevItems = [...this.props.cart.items];
-            const newItems = prevItems.filter(i => i.product.id !== item.product.id);
-            this.props.onCartUpdate({
-                ...this.props.cart,
-                items: newItems,
-                total: newTotal,
-            });
+            this.props.onCartUpdate(removeItemInfo);
         }
         this.setState({
             ...this.state,
