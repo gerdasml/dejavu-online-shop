@@ -46,6 +46,10 @@ export class ImportProgress extends React.Component<ImportProgressProps, ImportP
         }, 100);
     }
 
+    renderProgress () {
+        
+    }
+
     render () {
         const {successCount, failureCount, error, status, total} = this.state;
         if (error !== undefined) {
@@ -68,10 +72,21 @@ export class ImportProgress extends React.Component<ImportProgressProps, ImportP
                 </Spin>
             );
         }
-        if (status === Status.IMPORTING) {
-            const donePercent = (successCount + failureCount) / total * 100;
-            const successPercent = successCount / total * 100;
-            return (
+        const donePercent = (successCount + failureCount) / total * 100;
+        const successPercent = successCount / total * 100;
+        return (
+            <div>
+                { status === Status.FINISHED
+                ?
+                <span>
+                    The import operation is finished.
+                    { failureCount > 0
+                    ? <a onClick={this.props.navigateToJob}> Review import errors.</a>
+                    : "No errors have occurred."
+                    }
+                </span>
+                : ""
+                }
                 <Tooltip title={`${successCount} OK / ${failureCount} Failed`}>
                     {/* <div className="import-status-text">
                         <span className="success-count">{successCount}</span>
@@ -84,18 +99,7 @@ export class ImportProgress extends React.Component<ImportProgressProps, ImportP
                         status="exception"
                     />
                 </Tooltip>
-            );
-        }
-        if (status === Status.FINISHED) {
-            return (
-                <span>
-                    The import operation is finished.
-                    { failureCount > 0
-                    ? <a onClick={this.props.navigateToJob}> Review import errors.</a>
-                    : "No errors have occurred."
-                    }
-                </span>
-            );
-        }
+            </div>
+        );
     }
 }
