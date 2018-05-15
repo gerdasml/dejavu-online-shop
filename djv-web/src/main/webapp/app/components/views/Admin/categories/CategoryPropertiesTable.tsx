@@ -2,16 +2,16 @@
 import * as React from "react";
 
 import { Button, Icon, Table } from "antd";
-import { ProductProperties } from "../../../../model/ProductProperties";
+import { CategoryProperties } from "../../../../model/CategoryProperties";
 
 import { addKey, WithKey } from "../../../../utils/table";
 import { EditableCell } from "../common/EditableCell";
 
-type Property = ProductProperties & WithKey;
+type Property = CategoryProperties & WithKey;
 
 interface PropertiesTableProps {
-    properties: ProductProperties[];
-    onChange: (pp: ProductProperties[]) => void;
+    properties: CategoryProperties[];
+    onChange: (pp: CategoryProperties[]) => void;
 }
 
 interface PropertiesTableState {
@@ -21,7 +21,7 @@ interface PropertiesTableState {
 class PropertiesTable extends Table<Property> {}
 class PropertyColumn extends Table.Column<Property> {}
 
-export class ProductPropertiesTable extends React.Component<PropertiesTableProps, PropertiesTableState> {
+export class CategoryPropertiesTable extends React.Component<PropertiesTableProps, PropertiesTableState> {
     state: PropertiesTableState = {
         properties: this.props.properties.map(addKey)
     };
@@ -35,7 +35,7 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
     handleAddRow () {
         const p = this.state.properties;
         const lastKey = p.length === 0 ? -1 : p[p.length-1].key;
-        const newProp: Property = {name: "", value: "", key: lastKey+1};
+        const newProp: Property = {name: "", propertyId: undefined, key: lastKey+1};
         this.setState({properties: [...p, newProp]});
         this.updateParent([...p, newProp]);
     }
@@ -44,31 +44,27 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
         this.setState({properties: newProp});
         this.updateParent(newProp);
     }
-    updatePropertyValue (index: number, value: string) {
+    updateParent (newProps: Property[]) {
+        this.props.onChange(newProps.map(x => ({name: x.name, propertyId: x.propertyId})));
+    }
+    updatePropertyName (index: number, name: string) {
         const newProps = [...this.state.properties];
-        newProps[index].value = value;
+        newProps[index].name = name;
         this.setState({properties: newProps});
         this.updateParent(newProps);
-    }
-    updateParent (newProps: Property[]) {
-        this.props.onChange(newProps.map(x => ({name: x.name, value: x.value})));
     }
     render () {
         return (
             <div>
+                <h3>Properties:</h3>
                 <PropertiesTable pagination={false} dataSource={this.state.properties}>
                     <PropertyColumn
                         key="name"
                         title="Name"
-                        dataIndex="name"
-                        />
-                    <PropertyColumn
-                        key="value"
-                        title="Value"
-                        render={(text, record, index) =>
+                         render={(text, record, index) =>
                             <EditableCell
-                                value={record.value}
-                                onChange={s=>this.updatePropertyValue(index, s)}
+                                value={record.name}
+                                onChange={s=>this.updatePropertyName(index, s)}
                             />}
                         />
                     <PropertyColumn
