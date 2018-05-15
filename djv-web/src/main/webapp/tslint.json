@@ -27,7 +27,7 @@
             [ "Object", "Use {} instead." ]
         ],
         "member-ordering": [ true, { "order": "fields-first" } ],
-        "no-magic-numbers": false,
+        "no-magic-numbers": true,
         "only-arrow-functions": true,
         "prefer-for-of": true,
         "prefer-const": true,

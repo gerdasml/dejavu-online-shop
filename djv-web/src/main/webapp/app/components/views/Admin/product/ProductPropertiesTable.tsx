@@ -5,7 +5,7 @@ import { Button, Icon, Table } from "antd";
 import { ProductProperties } from "../../../../model/ProductProperties";
 
 import { addKey, WithKey } from "../../../../utils/table";
-import { EditableCell } from "../common/EditableCell";
+import { EditableCell } from "./EditableCell";
 
 type Property = ProductProperties & WithKey;
 
@@ -44,6 +44,12 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
         this.setState({properties: newProp});
         this.updateParent(newProp);
     }
+    updatePropertyName (index: number, name: string) {
+        const newProps = [...this.state.properties];
+        newProps[index].name = name;
+        this.setState({properties: newProps});
+        this.updateParent(newProps);
+    }
     updatePropertyValue (index: number, value: string) {
         const newProps = [...this.state.properties];
         newProps[index].value = value;
@@ -60,7 +66,11 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
                     <PropertyColumn
                         key="name"
                         title="Name"
-                        dataIndex="name"
+                        render={(text, record, index) =>
+                            <EditableCell
+                                value={record.name}
+                                onChange={s=>this.updatePropertyName(index, s)}
+                            />}
                         />
                     <PropertyColumn
                         key="value"

@@ -7,7 +7,6 @@ import * as api from "../../../../api";
 import { Category } from "../../../../model/Category";
 import { CategoryTree } from "../../../../model/CategoryTree";
 import { CategoryForm } from "./CategoryForm";
-import { CategoryPropertiesTable } from "./CategoryPropertiesTable";
 import { CategoryTreeView } from "./CategoryTreeView";
 
 interface CategoriesState {
@@ -109,9 +108,6 @@ export class Categories extends React.Component<never, CategoriesState> {
                             category={this.state.selectedCategory}
                             onSave={this.handleSave.bind(this)}
                             onDelete={this.handleDelete.bind(this)} />
-                        <CategoryPropertiesTable
-                            properties={this.state.selectedCategory?this.state.selectedCategory.properties: []}
-                            onChange={(x => {console.log(x)})}/>
                     </Col>
                 </Row>
             </Spin>

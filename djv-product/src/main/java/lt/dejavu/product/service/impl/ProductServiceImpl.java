@@ -75,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRequestMapper.mapToProduct(request, productCategory);
         product.setCreationDate(LocalDateTime.now());
         Long productId = productRepository.saveProduct(product);
-        Set<CategoryProperty> properties = getProductCategoryProperties(request, productCategory);
+        Set<CategoryProperty> properties = getProductProperties(request, productCategory);
         Set<ProductProperty> propertyValues = productPropertyRequestMapper.mapProperties(product, properties, request.getProperties());
         productPropertyRepository.savePropertyValues(propertyValues);
         return productId;
@@ -93,13 +93,13 @@ public class ProductServiceImpl implements ProductService {
         Category productCategory = resolveProductCategory(request);
         Product oldProduct = getProductIfExist(productId);
         productRequestMapper.remapToProduct(oldProduct, request, productCategory);
-        Set<CategoryProperty> properties = getProductCategoryProperties(request, productCategory);
+        Set<CategoryProperty> properties = getProductProperties(request, productCategory);
         Set<ProductProperty> propertyValues = productPropertyRequestMapper.mapProperties(oldProduct, properties, request.getProperties());
         CollectionUpdater.updateCollection(oldProduct.getPropertyValues(), propertyValues);
         productRepository.updateProduct(oldProduct);
     }
 
-    private Set<CategoryProperty> getProductCategoryProperties(ProductRequest request, Category productCategory) {
+    private Set<CategoryProperty> getProductProperties(ProductRequest request, Category productCategory) {
         Set<Long> propertyIds = getPropertyIds(request);
         Set<CategoryProperty> properties = productPropertyRepository.findByCategoryIdAndIds(productCategory.getId(), propertyIds);
         checkIfAllPropertiesWereFound(propertyIds, properties);
