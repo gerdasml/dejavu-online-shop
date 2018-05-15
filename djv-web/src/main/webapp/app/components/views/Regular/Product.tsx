@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { notification } from "antd";
+import { notification, message } from "antd";
 import { Grid, Header, Label, List, Loader} from "semantic-ui-react";
 
 import {RouteComponentProps} from "react-router-dom";
@@ -20,8 +20,6 @@ interface ProductState {
     amount: number;
     loading: boolean;
     product?: ProductModel.Product;
-    cart?: Cart;
-    error?: string;
 }
 
 export class Product extends React.Component<RouteComponentProps<ProductRouteProps>, ProductState> {
@@ -35,11 +33,10 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
             productId: this.state.product.id
         });
         if(api.isError(addToCartInfo)) {
-            this.setState({
-                ...this.state,
-                error: addToCartInfo.message
-            });
+            notification.error({message: "Failed to update cart", description: addToCartInfo.message});
+            return;
         }
+        message.success("Successfully added to cart");
     }
     handleProductInfo = async (props: RouteComponentProps<ProductRouteProps>): Promise<void> => {
         const response = await api.product.getProduct(props.match.params.id);
@@ -60,6 +57,7 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
 
     // required to load data on initial render
     async componentDidMount () {
+        this.setState({...this.state, loading: true});
         await this.handleProductInfo(this.props);
         this.setState({...this.state, loading: false});
     }
