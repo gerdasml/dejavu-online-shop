@@ -25,6 +25,7 @@ public class ProductImportStatusDtoMapper {
         dto.setId(status.getId());
         dto.setFailureCount(status.getFailureCount());
         dto.setSuccessCount(status.getSuccessCount());
+        dto.setTotal(status.getTotal());
         dto.setStatus(status.getStatus());
         dto.setStartTime(status.getStartTime().toInstant());
         try {

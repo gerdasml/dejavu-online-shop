@@ -77,6 +77,14 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
     }
 
     @Override
+    public void skipOne(PeekingIterator<List<String>> rowIterator) {
+        rowIterator.next();
+        while (rowIterator.hasNext() && rowIterator.peek().get(0).isEmpty()) {
+            rowIterator.next();
+        }
+    }
+
+    @Override
     public List<Integer> getColumnsToMerge() {
         return Arrays.asList(0, 1, 2, 3);
     }

@@ -14,8 +14,10 @@ export interface Product {
 }
 
 export enum Status {
-    RUNNING = "RUNNING",
-    FINISHED = "FINISHED"
+    ANALYZING = "ANALYZING",
+    IMPORTING = "IMPORTING",
+    FINISHED  = "FINISHED",
+    FAILED    = "FAILED"
 }
 
 export interface ImportStatus {
@@ -23,6 +25,7 @@ export interface ImportStatus {
     status: Status;
     successCount: number;
     failureCount: number;
+    total: number;
     failedProducts: Product[];
     startTime: Date;
 }
