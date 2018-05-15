@@ -5,7 +5,6 @@ import lt.dejavu.auth.model.db.Address;
 import lt.dejavu.auth.model.db.User;
 import lt.dejavu.auth.repository.UserRepository;
 import lt.dejavu.cart.dto.CartDto;
-import lt.dejavu.cart.exception.ProductAlreadyInCartException;
 import lt.dejavu.cart.exception.ProductNotInCartException;
 import lt.dejavu.cart.mapper.CartMapper;
 import lt.dejavu.cart.model.db.Cart;
@@ -60,14 +59,18 @@ public class CartServiceImpl implements CartService {
     @Override
     public void addToCart(long userId, long productId, int amount) {
         Cart cart = getCartOrCreate(userId);
-        if (CartUtil.getOrderItemByProductId(cart, productId).isPresent()) {
-            throw new ProductAlreadyInCartException("This product is already in your cart");
-        }
         Product product = productRepository.getProduct(productId);
         if (product == null) {
             throw new ProductNotFoundException("The product with the specified ID was not found");
         }
-        cartRepository.addOrderItem(cart, product, amount);
+        Optional<OrderItem> itemOpt = CartUtil.getOrderItemByProductId(cart, productId);
+        if (itemOpt.isPresent()) {
+            OrderItem item = itemOpt.get();
+            item.setAmount(item.getAmount() + amount);
+            cartRepository.updateOrderItem(item);
+        } else {
+            cartRepository.addOrderItem(cart, product, amount);
+        }
     }
 
     @Override
