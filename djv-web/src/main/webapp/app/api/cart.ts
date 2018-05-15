@@ -21,13 +21,13 @@ export interface CheckoutRequest {
 export const getCart = (): Promise<ApiResponse<Cart>> =>
     fetchData(PATH_PREFIX + "/", HttpMethod.GET);
 
-export const addToCart = (request: ModifyCartRequest): Promise<ApiResponse<void>> =>
+export const addToCart = (request: ModifyCartRequest): Promise<ApiResponse<Cart>> =>
     fetchData(PATH_PREFIX + "/", HttpMethod.POST, request);
 
-export const updateAmount = (request: ModifyCartRequest): Promise<ApiResponse<void>> =>
+export const updateAmount = (request: ModifyCartRequest): Promise<ApiResponse<Cart>> =>
     fetchData(PATH_PREFIX + "/", HttpMethod.PUT, request);
 
-export const removeFromCart = (productId: number): Promise<ApiResponse<void>> =>
+export const removeFromCart = (productId: number): Promise<ApiResponse<Cart>> =>
     fetchData(PATH_PREFIX + "/" + productId.toString(), HttpMethod.DELETE);
 
 export const checkout = (request: CheckoutRequest): Promise<ApiResponse<void>> =>

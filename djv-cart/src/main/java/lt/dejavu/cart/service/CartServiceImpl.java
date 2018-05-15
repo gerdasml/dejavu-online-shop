@@ -57,7 +57,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void addToCart(long userId, long productId, int amount) {
+    public CartDto addToCart(long userId, long productId, int amount) {
         Cart cart = getCartOrCreate(userId);
         Product product = productRepository.getProduct(productId);
         if (product == null) {
@@ -71,10 +71,11 @@ public class CartServiceImpl implements CartService {
         } else {
             cartRepository.addOrderItem(cart, product, amount);
         }
+        return getCart(userId);
     }
 
     @Override
-    public void updateAmount(long userId, long productId, int amount) {
+    public CartDto updateAmount(long userId, long productId, int amount) {
         Cart cart = getCartOrCreate(userId);
         Optional<OrderItem> itemOpt = CartUtil.getOrderItemByProductId(cart, productId);
         if (!itemOpt.isPresent()) {
@@ -83,12 +84,14 @@ public class CartServiceImpl implements CartService {
         OrderItem item = itemOpt.get();
         item.setAmount(amount);
         cartRepository.updateOrderItem(item);
+        return getCart(userId);
     }
 
     @Override
-    public void removeProduct(long userId, long productId) {
+    public CartDto removeProduct(long userId, long productId) {
         Cart cart = getCartOrCreate(userId);
         cartRepository.removeItem(cart, productId);
+        return getCart(userId);
     }
 
     @Override

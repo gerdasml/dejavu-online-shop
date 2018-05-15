@@ -31,30 +31,30 @@ public class CartApi {
     }
 
     @PostMapping("/")
-    public void addToCart(HttpServletRequest request,
+    public CartDto addToCart(HttpServletRequest request,
                           @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
                           @RequestBody CartRequest requestData
                          ) throws ApiSecurityException {
         long userId = securityService.authorize(authHeader, request);
-        cartService.addToCart(userId, requestData.getProductId(), requestData.getAmount());
+        return cartService.addToCart(userId, requestData.getProductId(), requestData.getAmount());
     }
 
     @PutMapping("/")
-    public void updateAmount(HttpServletRequest request,
+    public CartDto updateAmount(HttpServletRequest request,
                              @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
                              @RequestBody CartRequest requestData
                             ) throws ApiSecurityException {
         long userId = securityService.authorize(authHeader, request);
-        cartService.updateAmount(userId, requestData.getProductId(), requestData.getAmount());
+        return cartService.updateAmount(userId, requestData.getProductId(), requestData.getAmount());
     }
 
     @DeleteMapping("/{productId}")
-    public void removeProduct(HttpServletRequest request,
+    public CartDto removeProduct(HttpServletRequest request,
                               @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
                               @PathVariable("productId") long productId
                              ) throws ApiSecurityException {
         long userId = securityService.authorize(authHeader, request);
-        cartService.removeProduct(userId, productId);
+        return cartService.removeProduct(userId, productId);
     }
 
     @PostMapping("/checkout")
