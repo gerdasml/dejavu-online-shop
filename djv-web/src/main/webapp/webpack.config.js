@@ -21,6 +21,10 @@ const common = {
     module: {
         rules: [
             {
+                test: /\.svg$/,
+                loader: "svg-inline-loader"
+            },
+            {
                 test: /\.css$/,
                 use: [
                     { loader: "style-loader" },
@@ -37,7 +41,7 @@ const common = {
                 }
             },
             {
-                test: /\.(png|jpe?g|svg|gif)$/,
+                test: /\.(png|jpe?g|gif)$/,
                 use: [
                     {
                         loader: "url-loader",

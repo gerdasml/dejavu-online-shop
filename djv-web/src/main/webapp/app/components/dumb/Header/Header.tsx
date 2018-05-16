@@ -6,9 +6,7 @@ import "../../../../style/header.css";
 import {Login} from "../Login/Login";
 
 import { clearToken, getToken } from "../../../utils/token";
-
-// import logo from "../../assets/dejavu-logo-transperant.png"; // "Cannot find module"
-const logo = require("../../../assets/dejavu-logo-transperant.png"); // šiuo metu veikiantis variantas
+import { Logo } from "./Logo";
 
 interface HeaderState {
     loggedIn: boolean;
@@ -27,11 +25,7 @@ export class Header extends React.Component <{}, HeaderState> {
         return (
             <Grid id="headerGrid">
                 <Grid.Column width={2} id="logoHeaderColumn">
-                    <Image id="logo"
-                           title="dejavu"
-                           src={logo}
-                           alt="dejavu online shop logo"
-                    />
+                    <Logo size="small" />
                 </Grid.Column>
                 <Grid.Column width={8} id="infoSearchColumn">
                     <Grid.Row id="mailPhoneRow">
