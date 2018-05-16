@@ -46,10 +46,6 @@ export class ImportProgress extends React.Component<ImportProgressProps, ImportP
         }, 100);
     }
 
-    renderProgress () {
-        
-    }
-
     render () {
         const {successCount, failureCount, error, status, total} = this.state;
         if (error !== undefined) {
