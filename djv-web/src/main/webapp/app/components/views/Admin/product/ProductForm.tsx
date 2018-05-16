@@ -46,14 +46,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                 pictures: [],
                 properties: []
             }, () =>
-            this.setState({
-                category: nextProps.product.categoryId,
-                description: nextProps.product.description,
-                name: nextProps.product.name,
-                pictures: [nextProps.product.mainImageUrl,...nextProps.product.additionalImagesUrls],
-                price: nextProps.product.price,
-                properties: nextProps.product.properties,
-            }));
+            this.setState(this.buildNewStateFromProps(nextProps)));
         }
     }
 
@@ -63,7 +56,28 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
             notification.error({message: "Failed to fetch category data", description: categories.message});
             return;
         }
-        this.setState({...this.state, categories});
+        const newState = this.buildNewStateFromProps(this.props);
+        newState.categories = categories;
+        this.setState(newState);
+    }
+
+    buildNewStateFromProps = (props: ProductFormProps): ProductFormState => {
+        const newState = this.state;
+        if (props.product !== undefined) {
+            newState.category = props.product.categoryId;
+            newState.description = props.product.description;
+            newState.name = props.product.name;
+            newState.price = props.product.price;
+            newState.properties = props.product.properties;
+            newState.pictures = [];
+            if (props.product.mainImageUrl !== undefined) {
+                newState.pictures.push(props.product.mainImageUrl);
+            }
+            if (props.product.additionalImagesUrls !== undefined) {
+                newState.pictures.push(...props.product.additionalImagesUrls);
+            }
+        }
+        return newState;
     }
     isValid () {
         if(this.state.name &&
@@ -114,7 +128,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                 price: this.state.price,
                 properties: this.state.properties
             };
-            if (this.props.product === undefined) {
+            if (this.props.product === undefined || api.isError(await api.product.getProduct(this.props.product.id))) {
                 await this.createProduct(product);
             } else {
                 await this.updateProduct(this.props.product.id, product);

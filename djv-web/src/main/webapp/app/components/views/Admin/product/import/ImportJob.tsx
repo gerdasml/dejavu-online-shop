@@ -6,6 +6,7 @@ import { Button, Icon, notification, Spin } from "antd";
 import { ImportStatus, Status } from "../../../../../model/Product";
 
 import * as api from "../../../../../api";
+import { ProductForm } from "../ProductForm";
 
 interface ImportJobsProps {
     jobId: string;
@@ -50,6 +51,6 @@ export class ImportJob extends React.Component<RouteComponentProps<ImportJobsPro
         if (importJob.status === Status.ANALYZING) return <h2><Spin />The file is still being analyzed...</h2>;
         if (importJob.status === Status.IMPORTING) return <h2><Spin />The products are still being imported...</h2>;
         if (importJob.failureCount === 0) return <h2>There were no failures when executing this job!</h2>;
-        return importJob.failedProducts.map((p, i) => <span key={i}>{p.name}</span>);
+        return importJob.failedProducts.map((p, i) => <ProductForm key={i} product={p} />);
     }
 }
