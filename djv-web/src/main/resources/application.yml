@@ -11,6 +11,8 @@ logging:
 spring:
   datasource:
     testOnBorrow: true
+    testWhileIdle: true
+    timeBetweenEvictionRunsMillis: 60000
     validationQuery: SELECT 1
     
 rest:
