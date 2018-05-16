@@ -11,13 +11,6 @@ import { shortenString } from "../../../utils/common";
 interface ProductCardProps {
     product: Product;
     onProductAddToCart?: (product: Product) => void;
-    productSituation: ProductSituation;
-}
-
-export enum ProductSituation {
-    cartNotLoadedYet,
-    productInCart,
-    productNotInCart
 }
 
 export const ProductCard = (props: ProductCardProps) => (
@@ -35,30 +28,19 @@ export const ProductCard = (props: ProductCardProps) => (
                 </Card.Content>
             </NavLink>
             <Card.Content extra textAlign="center">
-                { props.productSituation === ProductSituation.cartNotLoadedYet
-                ?
-                <Loader active inline="centered" />
-                :
-                props.productSituation === ProductSituation.productInCart
-                ?
-                <Label>Item is already in cart!</Label>
-                :
-                <div>
-                    <Label pointing="right">Add to cart: </Label>
-                    <Button
-                        positive
-                        animated="fade"
-                        onClick={() => props.onProductAddToCart(props.product)}
-                    >
-                        <Button.Content visible>
-                            <Icon name="shop"/>
-                        </Button.Content>
-                        <Button.Content hidden>
-                            <Icon name="plus"/>
-                        </Button.Content>
-                    </Button>
-                </div>
-                }
+            <Label pointing="right">Add to cart: </Label>
+                <Button
+                    positive
+                    animated="fade"
+                    onClick={() => props.onProductAddToCart(props.product)}
+                >
+                    <Button.Content visible>
+                        <Icon name="shop"/>
+                    </Button.Content>
+                    <Button.Content hidden>
+                        <Icon name="plus"/>1
+                    </Button.Content>
+                </Button>
             </Card.Content>
         </Card>
 );

@@ -83,6 +83,7 @@ export class Header extends React.Component <{}, HeaderState> {
                         </Dropdown.Menu>
                     </Dropdown>
                     {/*  TODO: this generates a warning, if you fix it, fix the css as well */}
+                    {/* TODO: add current item count badge */}
                     <Button className="headerButton"
                             icon
                             size="medium"
