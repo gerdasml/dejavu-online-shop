@@ -1,4 +1,4 @@
-package lt.dejavu.cart.dto;
+package lt.dejavu.cart.model.rest;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class CartDto {
+public class CartResponse {
     private UserDto user;
     private List<OrderItemDto> items;
     private BigDecimal total;
