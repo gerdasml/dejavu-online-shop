@@ -52,7 +52,7 @@ export class Cart extends React.Component <CartProps, CartState> {
         });
         const removeItemInfo = await api.cart.removeFromCart(item.product.id);
         if(api.isError(removeItemInfo)) {
-            notification.error({message: "Failed to remove from cart", description: removeItemInfo.message});
+            notification.error({message: "Failed to remove product from cart", description: removeItemInfo.message});
         } else {
             this.props.onCartUpdate(removeItemInfo);
         }

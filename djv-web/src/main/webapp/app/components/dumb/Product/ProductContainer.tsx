@@ -44,13 +44,13 @@ export class ProductContainer extends React.Component <ProductContainerProps, {}
             productId: addedProduct.id,
         });
         if(api.isError(response)) {
-            notification.error({message: "Failed to add to cart", description: response.message});
+            notification.error({message: "Failed to add product to cart", description: response.message});
         } else {
             this.setState({
                 ...this.state,
                 cart: response
             });
-            message.success("Successfully added to cart");
+            message.success("Successfully added product to cart");
         }
     }
 

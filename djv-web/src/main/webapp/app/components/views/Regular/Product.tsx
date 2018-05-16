@@ -36,7 +36,7 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
             notification.error({message: "Failed to update cart", description: addToCartInfo.message});
             return;
         }
-        message.success("Successfully added to cart");
+        message.success("Successfully added product to cart");
     }
     handleProductInfo = async (props: RouteComponentProps<ProductRouteProps>): Promise<void> => {
         const response = await api.product.getProduct(props.match.params.id);
