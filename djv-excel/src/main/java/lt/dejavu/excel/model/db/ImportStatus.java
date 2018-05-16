@@ -27,6 +27,9 @@ public class ImportStatus {
     @Column(name = "failureCount")
     private int failureCount;
 
+    @Column(name = "total")
+    private int total;
+
     @Column(name = "failedItems")
     private String failedItems;
 

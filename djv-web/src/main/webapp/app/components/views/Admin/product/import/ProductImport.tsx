@@ -21,6 +21,7 @@ export class ProductImport extends React.Component<ProductImportProps, never> {
             description: <ImportProgress jobId={response} navigateToJob={() => this.props.navigateToJob(response)} />,
             duration: 0,
             message: "Import status",
+            placement: "bottomRight"
         });
     }
 

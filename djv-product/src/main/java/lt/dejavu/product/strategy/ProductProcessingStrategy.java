@@ -35,10 +35,18 @@ public class ProductProcessingStrategy implements ProcessingStrategy<Product> {
     public void start(UUID jobId) {
         ImportStatus status = new ImportStatus();
         status.setId(jobId);
-        status.setStatus(Status.RUNNING);
+        status.setStatus(Status.ANALYZING);
         status.setFailedItems("[]");
         status.setStartTime(Timestamp.from(Instant.now()));
         importStatusRepository.createImportStatus(status);
+    }
+
+    @Override
+    public void finishAnalysis(UUID jobId, int dataItemCount) {
+        ImportStatus status = importStatusRepository.getImportStatus(jobId);
+        status.setTotal(dataItemCount);
+        status.setStatus(Status.IMPORTING);
+        importStatusRepository.updateImportStatus(status);
     }
 
     @Override
@@ -50,6 +58,13 @@ public class ProductProcessingStrategy implements ProcessingStrategy<Product> {
         }
         if (item.getStatus() == ConversionStatus.SUCCESS) processSuccess(jobId, item.getResult());
         else processFailure(jobId, item.getResult());
+    }
+
+    @Override
+    public void fail(UUID jobId) {
+        ImportStatus status = importStatusRepository.getImportStatus(jobId);
+        status.setStatus(Status.FAILED);
+        importStatusRepository.updateImportStatus(status);
     }
 
     @Override

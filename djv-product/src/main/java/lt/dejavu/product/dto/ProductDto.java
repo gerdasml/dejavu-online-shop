@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 public class ProductDto {
 
-    private long id;
+    private Long id;
     private String name;
     private String identifier;
     private String description;

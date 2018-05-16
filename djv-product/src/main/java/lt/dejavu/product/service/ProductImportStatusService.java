@@ -8,4 +8,5 @@ import java.util.UUID;
 public interface ProductImportStatusService {
     List<ProductImportStatusDto> getAllStatuses();
     ProductImportStatusDto getStatus(UUID jobId);
+    ProductImportStatusDto updateStatus(UUID jobId, ProductImportStatusDto newStatus);
 }

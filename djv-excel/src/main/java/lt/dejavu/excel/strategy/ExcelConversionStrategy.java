@@ -12,6 +12,8 @@ public interface ExcelConversionStrategy<T> {
 
     ConversionResult<T> takeOne(PeekingIterator<List<String>> rowIterator);
 
+    void skipOne(PeekingIterator<List<String>> rowIterator);
+
     List<Integer> getColumnsToMerge();
 
     List<Integer> getColumnWidths();

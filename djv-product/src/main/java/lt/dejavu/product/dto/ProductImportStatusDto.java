@@ -17,6 +17,7 @@ public class ProductImportStatusDto {
     private Status status;
     private int successCount;
     private int failureCount;
+    private int total;
     private List<ProductDto> failedProducts;
     private Instant startTime;
 }

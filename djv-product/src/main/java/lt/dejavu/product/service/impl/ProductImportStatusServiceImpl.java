@@ -28,4 +28,11 @@ public class ProductImportStatusServiceImpl implements ProductImportStatusServic
     public ProductImportStatusDto getStatus(UUID jobId) {
         return mapper.map(importStatusRepository.getImportStatus(jobId));
     }
+
+    @Override
+    public ProductImportStatusDto updateStatus(UUID jobId, ProductImportStatusDto newStatus) {
+        newStatus.setId(jobId);
+        importStatusRepository.updateImportStatus(mapper.map(newStatus));
+        return getStatus(jobId);
+    }
 }

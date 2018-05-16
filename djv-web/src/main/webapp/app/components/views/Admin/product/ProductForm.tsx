@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid } from "semantic-ui-react";
 
-import { Button, notification } from "antd";
+import { Button, notification, message } from "antd";
 import * as api from "../../../../api";
 import { CategoryTree } from "../../../../model/CategoryTree";
 import { Product } from "../../../../model/Product";
@@ -16,6 +16,7 @@ import { ProductPropertiesTable } from "./ProductPropertiesTable";
 
 export interface ProductFormProps {
     product?: Product;
+    onSubmit?: () => void;
 }
 
 export interface ProductFormState {
@@ -46,14 +47,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                 pictures: [],
                 properties: []
             }, () =>
-            this.setState({
-                category: nextProps.product.categoryId,
-                description: nextProps.product.description,
-                name: nextProps.product.name,
-                pictures: [nextProps.product.mainImageUrl,...nextProps.product.additionalImagesUrls],
-                price: nextProps.product.price,
-                properties: nextProps.product.properties,
-            }));
+            this.setState(this.buildNewStateFromProps(nextProps)));
         }
     }
 
@@ -63,7 +57,28 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
             notification.error({message: "Failed to fetch category data", description: categories.message});
             return;
         }
-        this.setState({...this.state, categories});
+        const newState = this.buildNewStateFromProps(this.props);
+        newState.categories = categories;
+        this.setState(newState);
+    }
+
+    buildNewStateFromProps = (props: ProductFormProps): ProductFormState => {
+        const newState = this.state;
+        if (props.product !== undefined) {
+            newState.category = props.product.categoryId;
+            newState.description = props.product.description;
+            newState.name = props.product.name;
+            newState.price = props.product.price;
+            newState.properties = props.product.properties;
+            newState.pictures = [];
+            if (props.product.mainImageUrl !== undefined) {
+                newState.pictures.push(props.product.mainImageUrl);
+            }
+            if (props.product.additionalImagesUrls !== undefined) {
+                newState.pictures.push(...props.product.additionalImagesUrls);
+            }
+        }
+        return newState;
     }
     isValid () {
         if(this.state.name &&
@@ -78,10 +93,9 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
         const response = await api.product.createProduct(product);
         if(api.isError(response)) {
             notification.error({message: "Failed to save data", description: response.message});
-            return;
+            return false;
         }
-        notification.success({message: "Data was saved successfully.",
-                                    description: "Your new product will apear in the list of products."});
+        message.success("Data was saved successfully");
         this.setState({
             category: undefined,
             description: "",
@@ -90,16 +104,17 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
             price: undefined,
             properties: [],
         });
+        return true;
     }
 
     updateProduct = async (id: number, product: Product) => {
         const response = await api.product.updateProduct(id, product);
         if(api.isError(response)) {
             notification.error({message: "Failed to save data", description: response.message});
-            return;
+            return false;
         }
-        notification.success({message: "Data was saved successfully.",
-                                    description: "The data of this product has been updated"});
+        message.success("Data was saved successfully");
+        return true;
     }
 
     async handleSave () {
@@ -114,10 +129,16 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                 price: this.state.price,
                 properties: this.state.properties
             };
-            if (this.props.product === undefined) {
-                await this.createProduct(product);
+            if (this.props.product === undefined ||
+                this.props.product.id === undefined ||
+                api.isError(await api.product.getProduct(this.props.product.id))) {
+                if (await this.createProduct(product) && this.props.onSubmit !== undefined) {
+                    this.props.onSubmit();
+                }
             } else {
-                await this.updateProduct(this.props.product.id, product);
+                if (await this.updateProduct(this.props.product.id, product) && this.props.onSubmit !== undefined) {
+                    this.props.onSubmit();
+                }
             }
             return;
         }
