@@ -3,7 +3,8 @@ const merge = require("webpack-merge");
 const webpack = require("webpack");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CompressionPlugin = require("compression-webpack-plugin");
-const tsImportPluginFactory = require('ts-import-plugin');
+const tsImportPluginFactory = require("ts-import-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
@@ -12,9 +13,9 @@ const PATHS = {
 };
 
 const common = {
-    entry: [
-        PATHS.source
-    ],
+    entry: {
+        app: PATHS.source,
+    },
     cache: true,
     mode: "development",
     output: {
@@ -34,8 +35,12 @@ const common = {
             algorithm: "gzip",
             test: /\.js$|\.css$|\.html$/,
             threshold: 10240,
-            minRatio: 0
-        })
+            minRatio: 0.8
+        }),
+        new MiniCssExtractPlugin({
+            filename: "[name].css",
+            chunkFilename: "[id].css"
+        }),
     ],
     module: {
         rules: [
@@ -46,8 +51,8 @@ const common = {
             {
                 test: /\.css$/,
                 use: [
-                    { loader: "style-loader" },
-                    { loader: "css-loader" }
+                    MiniCssExtractPlugin.loader,
+                    "css-loader"
                 ]
             },
             {
