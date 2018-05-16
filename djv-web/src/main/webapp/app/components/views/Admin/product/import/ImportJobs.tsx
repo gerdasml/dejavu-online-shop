@@ -5,6 +5,8 @@ import { RouteComponentProps, NavLink } from "react-router-dom";
 import { Button, Icon, notification, Spin } from "antd";
 import { ImportStatus } from "../../../../../model/Product";
 
+import { ImportJobsTable } from "../../common/Table/ImportJobsTable";
+
 import * as api from "../../../../../api";
 
 interface ImportJobsState {
@@ -28,7 +30,7 @@ export class ImportJobs extends React.Component<{}, ImportJobsState> {
     render () {
         return (
             <Spin spinning={this.state.importJobs === undefined}>
-                {this.state.importJobs.map((j, i) => <NavLink to={`/admin/imports/${j.id}`} key={i}>{j.id} {j.startTime}</NavLink>)}
+                <ImportJobsTable jobs={this.state.importJobs} />
             </Spin>
         );
     }
