@@ -1,7 +1,7 @@
 package lt.dejavu.cart.mapper;
 
 import lt.dejavu.auth.mapper.UserMapper;
-import lt.dejavu.cart.dto.CartDto;
+import lt.dejavu.cart.model.rest.CartResponse;
 import lt.dejavu.cart.model.db.Cart;
 import lt.dejavu.order.dto.OrderItemDto;
 import lt.dejavu.order.mapper.OrderItemMapper;
@@ -24,8 +24,8 @@ public class CartMapper {
         this.orderItemMapper = orderItemMapper;
     }
 
-    public CartDto map(Cart cart) {
-        CartDto dto = new CartDto();
+    public CartResponse map(Cart cart) {
+        CartResponse dto = new CartResponse();
         List<OrderItemDto> items = cart.getItems()
                                        .stream()
                                        .map(orderItemMapper::map)

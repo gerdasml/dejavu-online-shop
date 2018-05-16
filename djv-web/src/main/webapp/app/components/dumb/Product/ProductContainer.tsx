@@ -1,12 +1,13 @@
 import * as React from "react";
 
+import { notification, message } from "antd";
 import { Card } from "semantic-ui-react";
 
 import * as api from "../../../api";
 
 import { Cart } from "../../../model/Cart";
 import { Product } from "../../../model/Product";
-import { ProductCard, ProductSituation } from "../Home/ProductCard";
+import { ProductCard } from "../Home/ProductCard";
 
 interface ProductContainerProps {
     products: Product[];
@@ -23,50 +24,33 @@ export class ProductContainer extends React.Component <ProductContainerProps, {}
     };
 
     async componentDidMount () {
+        this.setState({...this.state, isLoading: true});
         const cartInfo = await api.cart.getCart();
         if(api.isError(cartInfo)) {
-            console.log(cartInfo.message);
-            this.setState({
-                ...this.state,
-                error: cartInfo.message,
-                isLoading: false,
-            });
+            notification.error({message: "Failed to fetch cart", description: cartInfo.message});
+            // TODO: save to local storage if not logged in
         } else {
             this.setState({
                 ...this.state,
-                cart: cartInfo,
-                isLoading: false,
+                cart: cartInfo
             });
         }
+        this.setState({...this.state, isLoading: false});
     }
 
     async addProductToCart (addedProduct: Product) {
-        // TODO: think about pretty loaders instead of state change before api call
-
-        const oldCart = this.state.cart;
-
-        const newCart = this.state.cart;
-        const newOrderItem = {
-            amount: 1,
-            product: addedProduct,
-            total: addedProduct.price,
-        };
-        newCart.items.push(newOrderItem);
-        this.setState({
-            ...this.state,
-            cart: newCart,
-        });
-
-        const addToCartInfo = await api.cart.addToCart({
+        const response = await api.cart.addToCart({
             amount: 1,
             productId: addedProduct.id,
         });
-        if(api.isError(addToCartInfo)) {
+        if(api.isError(response)) {
+            notification.error({message: "Failed to add product to cart", description: response.message});
+        } else {
             this.setState({
                 ...this.state,
-                cart: oldCart,
-                error: addToCartInfo.message,
+                cart: response
             });
+            message.success("Successfully added product to cart");
         }
     }
 
@@ -74,17 +58,11 @@ export class ProductContainer extends React.Component <ProductContainerProps, {}
         return (
                 <Card.Group itemsPerRow={5} doubling>
                     {this.props.products.map((x, i) =>
-                    this.state.cart === undefined
-                    ?
-                    <ProductCard key={i} product={x} productSituation={ProductSituation.cartNotLoadedYet}/>
-                    :
-                    this.state.cart.items.findIndex( item => item.product.id === x.id) !== -1
-                    ?
-                    <ProductCard key={i} product={x} productSituation={ProductSituation.productInCart}/>
-                    :
-                    <ProductCard key={i} product={x} productSituation={ProductSituation.productNotInCart}
-                        onProductAddToCart={product => this.addProductToCart(product)}
-                    />
+                        <ProductCard
+                            key={i}
+                            product={x}
+                            onProductAddToCart={this.addProductToCart.bind(this)}
+                        />
                     )}
                 </Card.Group>
         );

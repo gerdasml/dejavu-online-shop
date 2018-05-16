@@ -4,8 +4,7 @@ import lt.dejavu.auth.exception.UserNotFoundException;
 import lt.dejavu.auth.model.db.Address;
 import lt.dejavu.auth.model.db.User;
 import lt.dejavu.auth.repository.UserRepository;
-import lt.dejavu.cart.dto.CartDto;
-import lt.dejavu.cart.exception.ProductAlreadyInCartException;
+import lt.dejavu.cart.model.rest.CartResponse;
 import lt.dejavu.cart.exception.ProductNotInCartException;
 import lt.dejavu.cart.mapper.CartMapper;
 import lt.dejavu.cart.model.db.Cart;
@@ -52,26 +51,31 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartDto getCart(long userId) {
+    public CartResponse getCart(long userId) {
         Cart cart = getCartOrCreate(userId);
         return cartMapper.map(cart);
     }
 
     @Override
-    public void addToCart(long userId, long productId, int amount) {
+    public CartResponse addToCart(long userId, long productId, int amount) {
         Cart cart = getCartOrCreate(userId);
-        if (CartUtil.getOrderItemByProductId(cart, productId).isPresent()) {
-            throw new ProductAlreadyInCartException("This product is already in your cart");
-        }
         Product product = productRepository.getProduct(productId);
         if (product == null) {
             throw new ProductNotFoundException("The product with the specified ID was not found");
         }
-        cartRepository.addOrderItem(cart, product, amount);
+        Optional<OrderItem> itemOpt = CartUtil.getOrderItemByProductId(cart, productId);
+        if (itemOpt.isPresent()) {
+            OrderItem item = itemOpt.get();
+            item.setAmount(item.getAmount() + amount);
+            cartRepository.updateOrderItem(item);
+        } else {
+            cartRepository.addOrderItem(cart, product, amount);
+        }
+        return getCart(userId);
     }
 
     @Override
-    public void updateAmount(long userId, long productId, int amount) {
+    public CartResponse updateAmount(long userId, long productId, int amount) {
         Cart cart = getCartOrCreate(userId);
         Optional<OrderItem> itemOpt = CartUtil.getOrderItemByProductId(cart, productId);
         if (!itemOpt.isPresent()) {
@@ -80,18 +84,20 @@ public class CartServiceImpl implements CartService {
         OrderItem item = itemOpt.get();
         item.setAmount(amount);
         cartRepository.updateOrderItem(item);
+        return getCart(userId);
     }
 
     @Override
-    public void removeProduct(long userId, long productId) {
+    public CartResponse removeProduct(long userId, long productId) {
         Cart cart = getCartOrCreate(userId);
         cartRepository.removeItem(cart, productId);
+        return getCart(userId);
     }
 
     @Override
     @Transactional
     public void checkout(long userId, Card cardInfo, Address shippingAddress) throws PaymentException {
-        CartDto cart = getCart(userId);
+        CartResponse cart = getCart(userId);
         Payment payment = buildPayment(cart, cardInfo);
         OrderDto order = buildOrder(cart, shippingAddress);
 
@@ -100,7 +106,7 @@ public class CartServiceImpl implements CartService {
         cartRepository.deleteCart(userId);
     }
 
-    private OrderDto buildOrder(CartDto cart, Address shippingAddress) {
+    private OrderDto buildOrder(CartResponse cart, Address shippingAddress) {
         OrderDto order = new OrderDto();
         order.setCreatedDate(Timestamp.from(Instant.now()));
         order.setUser(cart.getUser());
@@ -111,7 +117,7 @@ public class CartServiceImpl implements CartService {
         return order;
     }
 
-    private Payment buildPayment(CartDto cart, Card card) {
+    private Payment buildPayment(CartResponse cart, Card card) {
         Payment payment = new Payment();
         payment.setCard(card);
         payment.setAmount(priceToCents(cart.getTotal()));
