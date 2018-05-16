@@ -13,9 +13,7 @@ const PATHS = {
 };
 
 const common = {
-    entry: {
-        app: PATHS.source,
-    },
+    entry: [PATHS.source],
     cache: true,
     mode: "development",
     output: {
