@@ -2,6 +2,7 @@ package lt.dejavu.product.model.rest.mapper;
 
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.CategoryProperty;
+import lt.dejavu.product.model.rest.request.CategoryPropertyRequest;
 import lt.dejavu.product.model.rest.request.CategoryRequest;
 import lt.dejavu.utils.collections.CollectionUpdater;
 import org.springframework.stereotype.Component;
@@ -24,11 +25,12 @@ public class CategoryRequestMapper {
         return category;
     }
 
-    private Set<CategoryProperty> mapToProperties(Collection<String> propertyNames, Category category) {
-        return propertyNames.stream()
-                .map(name -> {
+    private Set<CategoryProperty> mapToProperties(Collection<CategoryPropertyRequest> propertyRequests, Category category) {
+        return propertyRequests.stream()
+                .map(request -> {
                     CategoryProperty property = new CategoryProperty();
-                    property.setName(name);
+                    property.setId(request.getPropertyId());
+                    property.setName(request.getName());
                     property.setCategory(category);
                     return property;
                 }).collect(toCollection(LinkedHashSet::new));

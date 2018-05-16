@@ -8,6 +8,6 @@ import lombok.Setter;
 public class ProductPropertyDto {
     Long propertyId;
     String name;
-    Long valueId;
+    //Long valueId;
     String value;
 }

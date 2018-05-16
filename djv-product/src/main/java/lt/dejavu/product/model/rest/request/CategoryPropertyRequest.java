@@ -9,8 +9,7 @@ import lombok.ToString;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class ProductPropertyRequest {
-    private long propertyId;
-    private String name; // not used, but still exist for update create consistency
-    private String value;
+public class CategoryPropertyRequest {
+    private Long propertyId;
+    private String name;
 }

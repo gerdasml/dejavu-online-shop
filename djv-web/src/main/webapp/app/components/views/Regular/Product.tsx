@@ -12,7 +12,7 @@ import "../../../../style/product.css";
 interface ProductRouteProps { id: number; }
 const product = {
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquam porta consequat. Nullam suscipit, nisi eu aliquam euismod, dui diam sagittis eros, ut fermentum diam lectus ac risus. Integer ornare arcu nisl, eget condimentum sapien mattis in. Duis hendrerit diam id facilisis rutrum. Vivamus quam lacus, sollicitudin a sagittis ac, feugiat tincidunt tellus. Aenean consectetur, mi vel ultrices bibendum, neque ex volutpat purus, quis posuere diam mauris id libero. Fusce a sem eget nulla porta vulputate. Etiam rutrum hendrerit lorem et tempus. Nullam malesuada dui nunc, quis convallis ex euismod non.",
-    imageUrl: "///////",
+    mainImageUrl: "///////",
     name: "Telefonas",
     price: 43,
     properties: [

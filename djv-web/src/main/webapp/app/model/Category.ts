@@ -6,5 +6,5 @@ export interface Category {
     identifier: string;
     icon: string;
     name: string;
-    properties?: CategoryProperties[]
+    properties?: CategoryProperties[];
 }

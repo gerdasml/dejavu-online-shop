@@ -17,7 +17,6 @@ public class ProductPropertiesDtoMapper {
         }
         ProductPropertyDto dto = new ProductPropertyDto();
         dto.setPropertyId(productProperty.getCategoryProperty().getId());
-        dto.setValueId(productProperty.getId());
         dto.setName(productProperty.getCategoryProperty().getName());
         dto.setValue(productProperty.getValue());
         return dto;
