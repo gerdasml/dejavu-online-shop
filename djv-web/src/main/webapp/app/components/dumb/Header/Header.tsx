@@ -26,7 +26,8 @@ export class Header extends React.Component <{}, HeaderState> {
             <Grid id="headerGrid">
                 <Grid.Column width={2} id="logoHeaderColumn">
                     <NavLink to="/">
-                        <Logo size="large" />
+                        <Logo size="large" id="large-logo" />
+                        <Logo size="small" id="small-logo" />
                     </NavLink>
                 </Grid.Column>
                 <Grid.Column width={8} id="infoSearchColumn">

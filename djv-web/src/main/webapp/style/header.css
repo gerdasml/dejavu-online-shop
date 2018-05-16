@@ -1,3 +1,15 @@
+@media screen and (max-width: 900px) {
+    #large-logo {
+        display: none
+    }
+}
+
+@media screen and (min-width: 900px) {
+    #small-logo {
+        display: none;
+    }
+}
+
 #headerGrid {
     background-color: #b7d2ff;
     height: 70px;
@@ -75,6 +87,7 @@
 }
 
 #logoHeaderColumn * {
+    height: 100%;
     max-height: 100%;
     max-width: 100%;
 }
