@@ -47,8 +47,8 @@ export class ImportJob extends React.Component<RouteComponentProps<ImportJobsPro
         const { importJob } = this.state;
         if (importJob === undefined) return "";
         if (importJob.status === Status.FAILED) return <h2>The job has failed unexpectedly...</h2>;
-        if (importJob.status === Status.ANALYZING) return <h2>The job is still performing analysis...</h2>;
-        if (importJob.status === Status.IMPORTING) return <h2>The job is still importing products...</h2>;
+        if (importJob.status === Status.ANALYZING) return <h2><Spin />The file is still being analyzed...</h2>;
+        if (importJob.status === Status.IMPORTING) return <h2><Spin />The products are still being imported...</h2>;
         if (importJob.failureCount === 0) return <h2>There were no failures when executing this job!</h2>;
         return importJob.failedProducts.map((p, i) => <span key={i}>{p.name}</span>);
     }
