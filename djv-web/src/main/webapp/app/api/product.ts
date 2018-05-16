@@ -41,5 +41,5 @@ export const getImportStatuses = (): Promise<ApiResponse<ImportStatus[]>> =>
 export const getProductsByCategory = (id: number): Promise<ApiResponse<Product[]>> =>
     fetchData(PATH_PREFIX + "/category/" + id.toString(), HttpMethod.GET);
 
-export const updateImportStatus = (jobId: string, newFailedProducts: Product[]): Promise<ApiResponse<ImportStatus>> =>
-    fetchData(PATH_PREFIX + "/import/status/" + jobId, HttpMethod.PUT, newFailedProducts);
+export const updateImportStatus = (jobId: string, newStatus: ImportStatus): Promise<ApiResponse<ImportStatus>> =>
+    fetchData(PATH_PREFIX + "/import/status/" + jobId, HttpMethod.PUT, newStatus);

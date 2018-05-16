@@ -40,6 +40,7 @@ public class ProductImportStatusDtoMapper {
     public ImportStatus map(ProductImportStatusDto dto) {
         ImportStatus status = new ImportStatus();
         status.setStatus(dto.getStatus());
+        status.setId(dto.getId());
         status.setStartTime(Timestamp.from(dto.getStartTime()));
         try {
             status.setFailedItems(objectMapper.writeValueAsString(dto.getFailedProducts()));

@@ -16,6 +16,7 @@ import { ProductPropertiesTable } from "./ProductPropertiesTable";
 
 export interface ProductFormProps {
     product?: Product;
+    onSubmit?: () => void;
 }
 
 export interface ProductFormState {
@@ -92,7 +93,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
         const response = await api.product.createProduct(product);
         if(api.isError(response)) {
             notification.error({message: "Failed to save data", description: response.message});
-            return;
+            return false;
         }
         notification.success({message: "Data was saved successfully.",
                                     description: "Your new product will apear in the list of products."});
@@ -104,16 +105,18 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
             price: undefined,
             properties: [],
         });
+        return true;
     }
 
     updateProduct = async (id: number, product: Product) => {
         const response = await api.product.updateProduct(id, product);
         if(api.isError(response)) {
             notification.error({message: "Failed to save data", description: response.message});
-            return;
+            return false;
         }
         notification.success({message: "Data was saved successfully.",
                                     description: "The data of this product has been updated"});
+        return true;
     }
 
     async handleSave () {
@@ -128,10 +131,16 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                 price: this.state.price,
                 properties: this.state.properties
             };
-            if (this.props.product === undefined || api.isError(await api.product.getProduct(this.props.product.id))) {
-                await this.createProduct(product);
+            if (this.props.product === undefined ||
+                this.props.product.id === undefined ||
+                api.isError(await api.product.getProduct(this.props.product.id))) {
+                if (await this.createProduct(product) && this.props.onSubmit !== undefined) {
+                    this.props.onSubmit();
+                }
             } else {
-                await this.updateProduct(this.props.product.id, product);
+                if (await this.updateProduct(this.props.product.id, product) && this.props.onSubmit !== undefined) {
+                    this.props.onSubmit();
+                }
             }
             return;
         }
