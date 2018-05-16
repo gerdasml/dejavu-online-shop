@@ -1,5 +1,4 @@
 var path = require("path");
-var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const merge = require("webpack-merge");
 const webpack = require("webpack");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -29,16 +28,14 @@ const common = {
                 'NODE_ENV': JSON.stringify('production')
             }
         }),
-        new webpack.IgnorePlugin(/^\.\/locale$/),
-        new BundleAnalyzerPlugin(),
+        // new BundleAnalyzerPlugin(), // Enable this to view bundle decomposition
         new CompressionPlugin({
             asset: "[path].gz[query]",
             algorithm: "gzip",
             test: /\.js$|\.css$|\.html$/,
             threshold: 10240,
             minRatio: 0
-        }),
-        new LodashModuleReplacementPlugin
+        })
     ],
     module: {
         rules: [
