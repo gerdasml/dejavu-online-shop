@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid } from "semantic-ui-react";
 
-import { Button, notification } from "antd";
+import { Button, notification, message } from "antd";
 import * as api from "../../../../api";
 import { CategoryTree } from "../../../../model/CategoryTree";
 import { Product } from "../../../../model/Product";
@@ -95,8 +95,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
             notification.error({message: "Failed to save data", description: response.message});
             return false;
         }
-        notification.success({message: "Data was saved successfully.",
-                                    description: "Your new product will apear in the list of products."});
+        message.success("Data was saved successfully");
         this.setState({
             category: undefined,
             description: "",
@@ -114,8 +113,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
             notification.error({message: "Failed to save data", description: response.message});
             return false;
         }
-        notification.success({message: "Data was saved successfully.",
-                                    description: "The data of this product has been updated"});
+        message.success("Data was saved successfully");
         return true;
     }
 
