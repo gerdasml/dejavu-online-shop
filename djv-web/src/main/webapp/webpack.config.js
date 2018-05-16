@@ -1,5 +1,10 @@
 var path = require("path");
+var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const merge = require("webpack-merge");
+const webpack = require("webpack");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CompressionPlugin = require("compression-webpack-plugin");
+const tsImportPluginFactory = require('ts-import-plugin');
 
 const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
@@ -18,6 +23,23 @@ const common = {
         publicPath: "",
         filename: "bundle.js"
     },
+    plugins: [
+        new webpack.DefinePlugin({ // <-- key to reducing React's size
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        }),
+        new webpack.IgnorePlugin(/^\.\/locale$/),
+        new BundleAnalyzerPlugin(),
+        new CompressionPlugin({
+            asset: "[path].gz[query]",
+            algorithm: "gzip",
+            test: /\.js$|\.css$|\.html$/,
+            threshold: 10240,
+            minRatio: 0
+        }),
+        new LodashModuleReplacementPlugin
+    ],
     module: {
         rules: [
             {
@@ -51,17 +73,23 @@ const common = {
                     }
                 ]
             },
-            // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'
             {
-                test: /\.tsx?$/,
-                loader: "ts-loader"
-            },
-            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'
-            {
-                enforce: "pre",
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loader: "source-map-loader"
+                test: /\.(jsx|tsx|js|ts)$/,
+                loader: 'ts-loader',
+                options: {
+                    transpileOnly: true,
+                    getCustomTransformers: () => ({
+                        before: [ tsImportPluginFactory({
+                            libraryName: "antd",
+                            style: "css",
+                            libraryDirectory: "lib"
+                        }) ]
+                    }),
+                    compilerOptions: {
+                        module: 'es2015'
+                    }
+                },
+                exclude: /node_modules/
             }
         ]
     },
