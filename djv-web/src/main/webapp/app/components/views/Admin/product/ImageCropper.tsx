@@ -57,7 +57,7 @@ export class ImageCropper extends React.Component<ImageCropperProps, ImageCroppe
                         style={{ height: 400, width: "100%" }}
                         ref={(elem: HTMLImageElement & Cropper) => {this.cropper = elem;}}
                         src={this.state.src}
-                        aspectRatio={16 / 9}
+                        aspectRatio={5/4}
                         guides={false}
                         crop={this.cropImage}
                         preview=".img-preview"
