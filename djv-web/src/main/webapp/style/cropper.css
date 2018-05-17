@@ -1,0 +1,11 @@
+.upload-cropper {
+    height: 400px;
+    width: 100%;
+}
+
+.upload-img-preview {
+    float: left;
+    height: 400px;
+    overflow: hidden;
+    width: 100%;
+}

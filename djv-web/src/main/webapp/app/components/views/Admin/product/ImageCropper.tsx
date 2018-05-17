@@ -6,6 +6,7 @@ import { Col, Row } from "antd";
 import { lookup } from "mime-types";
 
 import "cropperjs/dist/cropper.css";
+import "../../../../../style/cropper.css";
 
 export interface ImageCropperState {
     open: boolean;
@@ -54,25 +55,17 @@ export class ImageCropper extends React.Component<ImageCropperProps, ImageCroppe
             <Row type="flex" align="middle" justify="space-between">
                 <Col span={12}>
                     <Cropper
-                        style={{ height: 400, width: "100%" }}
+                        className="upload-cropper"
                         ref={(elem: HTMLImageElement & Cropper) => {this.cropper = elem;}}
                         src={this.state.src}
                         aspectRatio={5/4}
                         guides={false}
                         crop={this.cropImage}
-                        preview=".img-preview"
-                        />
+                        preview=".upload-img-preview"
+                    />
                 </Col>
                 <Col span={12} className="box">
-                    <div
-                        className="img-preview"
-                        style={{
-                            float: "left",
-                            height: "400px",
-                            overflow: "hidden",
-                            width: "100%",
-                        }}
-                    />
+                    <div className="upload-img-preview" />
                 </Col>
             </Row>
         );
