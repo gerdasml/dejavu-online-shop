@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { notification } from "antd";
 
 import { Cart as CartModel } from "../../../model/Cart";
 
@@ -15,7 +16,6 @@ import { CartStep, CartStepHeader } from "../../dumb/Cart/CartStepHeader";
 
 interface CartState {
     currentStep: CartStep;
-    error?: string;
     isLoading: boolean;
     cart: CartModel;
 }
@@ -34,18 +34,17 @@ export class Cart extends React.Component<{}, CartState> {
     async componentDidMount () {
         const cartInfo = await api.cart.getCart();
         if(api.isError(cartInfo)) {
-            this.setState({
-                ...this.state,
-                error: cartInfo.message,
-                isLoading: false,
-            });
+            notification.error({message: "Failed to upload cart", description: cartInfo.message});
         } else {
             this.setState({
                 ...this.state,
                 cart: cartInfo,
-                isLoading: false,
             });
         }
+        this.setState({
+            ...this.state,
+            isLoading: false,
+        });
     }
 
     setStep = (step: CartStep) => {
@@ -54,9 +53,6 @@ export class Cart extends React.Component<{}, CartState> {
 
     nextStep = () => {
         const step = this.state.currentStep;
-        // this.state.cart.items.forEach(p =>
-        //     console.log(p.product.name + " " + p.amount)
-        // );
         if(step === CartStep.APPROVAL) {
             console.log("Finished");
             // TODO: finish this somehow
@@ -83,7 +79,7 @@ export class Cart extends React.Component<{}, CartState> {
                 : ""
                 }
                 {this.state.currentStep === CartStep.DELIVERY_INFO
-                ? <Step.DeliveryInfo onStepComplete={this.nextStep} />
+                ? <Step.DeliveryInfo onStepComplete={this.nextStep} user={this.state.cart.user}/>
                 : ""
                 }
                 {this.state.currentStep === CartStep.CONFIRMATION
