@@ -13,9 +13,7 @@ const PATHS = {
 };
 
 const common = {
-    entry: {
-        app: PATHS.source,
-    },
+    entry: [PATHS.source],
     cache: true,
     mode: "development",
     output: {
@@ -52,7 +50,8 @@ const common = {
                 test: /\.css$/,
                 use: [
                     MiniCssExtractPlugin.loader,
-                    "css-loader"
+                    "css-loader",
+                    "postcss-loader"
                 ]
             },
             {

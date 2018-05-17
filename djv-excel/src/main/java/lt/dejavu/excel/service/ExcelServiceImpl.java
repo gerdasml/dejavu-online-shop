@@ -64,14 +64,33 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
         UUID uuid = UUID.randomUUID();
         CompletableFuture.runAsync(() -> {
             processingStrategy.start(uuid);
-            rowIterator.next();
-            while (rowIterator.hasNext()) {
-                ConversionResult<T> result = conversionStrategy.takeOne(rowIterator);
-                processingStrategy.process(uuid, result);
+            try {
+                analyze(uuid, getIterator(file));
+                process(uuid, getIterator(file));
+            } catch (IOException e) {
+                processingStrategy.fail(uuid);
             }
             processingStrategy.finish(uuid);
         });
         return uuid;
+    }
+
+    private void process(UUID jobId, PeekingIterator<List<String>> rowIterator) {
+        rowIterator.next();
+        while (rowIterator.hasNext()) {
+            ConversionResult<T> result = conversionStrategy.takeOne(rowIterator);
+            processingStrategy.process(jobId, result);
+        }
+    }
+
+    private void analyze(UUID jobId, PeekingIterator<List<String>> rowIterator) {
+        rowIterator.next();
+        int counter = 0;
+        while (rowIterator.hasNext()) {
+            conversionStrategy.skipOne(rowIterator);
+            counter++;
+        }
+        processingStrategy.finishAnalysis(jobId, counter);
     }
 
     private void formatHeader(Row headerRow) {

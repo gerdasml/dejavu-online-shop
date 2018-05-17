@@ -2,10 +2,11 @@ import * as React from "react";
 
 import { RouteComponentProps } from "react-router-dom";
 
-import { Button, Icon, notification, Spin } from "antd";
-import { ImportStatus, Status } from "../../../../../model/Product";
+import { Button, Icon, notification, Spin, Divider } from "antd";
+import { ImportStatus, Status, Product } from "../../../../../model/Product";
 
 import * as api from "../../../../../api";
+import { ProductForm } from "../ProductForm";
 
 interface ImportJobsProps {
     jobId: string;
@@ -35,6 +36,17 @@ export class ImportJob extends React.Component<RouteComponentProps<ImportJobsPro
         this.setState({importJob: response});
     }
 
+    async handleSubmit (submittedProduct: Product) {
+        const newProducts = this.state.importJob.failedProducts.filter(x => x !== submittedProduct);
+        const newStatus = {...this.state.importJob, failedProducts: newProducts};
+        const response = await api.product.updateImportStatus(this.props.match.params.jobId, newStatus);
+        if (api.isError(response)) {
+            notification.error({message: "Failed to add product", description: response.message});
+            return;
+        }
+        this.setState({importJob: response});
+    }
+
     render () {
         return (
             <Spin spinning={this.state.importJob === undefined}>
@@ -46,8 +58,20 @@ export class ImportJob extends React.Component<RouteComponentProps<ImportJobsPro
     renderStatus () {
         const { importJob } = this.state;
         if (importJob === undefined) return "";
-        if (importJob.status === Status.RUNNING) return <h2>The job is still running...</h2>;
+        if (importJob.status === Status.FAILED) return <h2>The job has failed unexpectedly...</h2>;
+        if (importJob.status === Status.ANALYZING) return <h2><Spin />The file is still being analyzed...</h2>;
+        if (importJob.status === Status.IMPORTING) return <h2><Spin />The products are still being imported...</h2>;
         if (importJob.failureCount === 0) return <h2>There were no failures when executing this job!</h2>;
-        return importJob.failedProducts.map((p, i) => <span key={i}>{p.name}</span>);
+        if (importJob.failedProducts.length === 0) return <h2>All import errors have been resolved</h2>;
+        return importJob.failedProducts.map((p, i) =>
+            <div>
+                <ProductForm
+                    key={i}
+                    product={p}
+                    onSubmit={() => this.handleSubmit(p)}
+                />
+                <Divider />
+            </div>
+        );
     }
 }

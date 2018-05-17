@@ -1,6 +1,8 @@
 package lt.dejavu.excel.model.db;
 
 public enum Status {
-    RUNNING,
-    FINISHED
+    ANALYZING,
+    IMPORTING,
+    FINISHED,
+    FAILED
 }

@@ -13,15 +13,16 @@ interface ImportProgressProps {
 interface ImportProgressState {
     successCount: number;
     failureCount: number;
+    total: number;
     error?: string;
-    isFinished: boolean;
+    status?: Status;
 }
 
 export class ImportProgress extends React.Component<ImportProgressProps, ImportProgressState> {
     state: ImportProgressState = {
         failureCount: 0,
-        isFinished: false,
         successCount: 0,
+        total: 0,
     };
 
     componentWillMount () {
@@ -34,19 +35,45 @@ export class ImportProgress extends React.Component<ImportProgressProps, ImportP
             }
             if (response.status === Status.FINISHED) {
                 clearInterval(intervalId);
-                this.setState({...this.state, isFinished: true});
             }
-            this.setState({...this.state, successCount: response.successCount, failureCount: response.failureCount});
+            this.setState({
+                ...this.state,
+                failureCount: response.failureCount,
+                status: response.status,
+                successCount: response.successCount,
+                total: response.total,
+            });
         }, 100);
     }
 
     render () {
-        const {successCount, failureCount, error, isFinished} = this.state;
+        const {successCount, failureCount, error, status, total} = this.state;
         if (error !== undefined) {
             return error;
         }
-        if (isFinished) {
+        if (status === undefined) {
             return (
+                <Spin spinning={true}>
+                    Starting import...
+                </Spin>
+            );
+        }
+        if (status === Status.FAILED) {
+            return "The import job failed unexpectedly...";
+        }
+        if (status === Status.ANALYZING) {
+            return (
+                <Spin spinning={true}>
+                    Analyzing file: {total} products found
+                </Spin>
+            );
+        }
+        const donePercent = (successCount + failureCount) / total * 100;
+        const successPercent = successCount / total * 100;
+        return (
+            <div>
+                { status === Status.FINISHED
+                ?
                 <span>
                     The import operation is finished.
                     { failureCount > 0
@@ -54,24 +81,21 @@ export class ImportProgress extends React.Component<ImportProgressProps, ImportP
                     : "No errors have occurred."
                     }
                 </span>
-            );
-        }
-        if (successCount + failureCount === 0) {
-            return (
-                <Spin spinning={true}>
-                    Starting import...
-                </Spin>
-            );
-        }
-        const successPercent = successCount / (successCount + failureCount) * 100;
-        return (
-            <Tooltip title={`${successCount} OK / ${failureCount} Failed`}>
-                <div className="import-status-text">
-                    <span className="success-count">{successCount}</span>
-                    /
-                    <span className="failure-count">{failureCount}</span></div>
-                <Progress percent={100} successPercent={successPercent} showInfo={false} status="exception" />
-            </Tooltip>
+                : ""
+                }
+                <Tooltip title={`${successCount} OK / ${failureCount} Failed`}>
+                    {/* <div className="import-status-text">
+                        <span className="success-count">{successCount}</span>
+                        /
+                        <span className="failure-count">{failureCount}</span></div> */}
+                    <Progress
+                        percent={donePercent}
+                        successPercent={successPercent}
+                        showInfo={false}
+                        status="exception"
+                    />
+                </Tooltip>
+            </div>
         );
     }
 }

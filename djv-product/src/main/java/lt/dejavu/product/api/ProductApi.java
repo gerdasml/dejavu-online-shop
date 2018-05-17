@@ -124,4 +124,13 @@ public class ProductApi {
         securityService.authorize(authHeader, request);
         return statusService.getAllStatuses();
     }
+
+    @PutMapping(path = "/import/status/{id}")
+    public ProductImportStatusDto updateImportStatus(HttpServletRequest request,
+                                                     @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
+                                                     @PathVariable("id") UUID jobId,
+                                                     @RequestBody ProductImportStatusDto newStatus) throws ApiSecurityException {
+        securityService.authorize(authHeader, request);
+        return statusService.updateStatus(jobId, newStatus);
+    }
 }

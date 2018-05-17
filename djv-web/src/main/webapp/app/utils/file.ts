@@ -18,3 +18,6 @@ export const dataUriToFile = (dataURI: string, old: File) => {
 
     return new File([ia], old.name, {type:mimeString, lastModified: old.lastModified});
 };
+
+export const blobToFile = (data: Blob, old: File) =>
+    new File([data], old.name, {type:old.type, lastModified: old.lastModified});
