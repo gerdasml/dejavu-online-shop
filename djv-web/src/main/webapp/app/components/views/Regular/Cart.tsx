@@ -13,6 +13,7 @@ import * as api from "../../../api";
 import { Loader } from "semantic-ui-react";
 
 import { CartStep, CartStepHeader } from "../../dumb/Cart/CartStepHeader";
+import { User } from "../../../model/User";
 
 interface CartState {
     currentStep: CartStep;
@@ -60,6 +61,15 @@ export class Cart extends React.Component<{}, CartState> {
         }
         this.setStep(this.state.currentStep+1);
     }
+    updateUser = (newUser: User) => {
+        // TODO: Galbūt reiktų ne tik state įsirašyt Userio pakeitimus, bet ir backui nusiųst (kad po refresh liktų) ?
+        const newCart = this.state.cart;
+        newCart.user = newUser;
+        this.setState({
+            ...this.state,
+            cart: newCart,
+        });
+    }
 
     render () {
         return (
@@ -79,7 +89,12 @@ export class Cart extends React.Component<{}, CartState> {
                 : ""
                 }
                 {this.state.currentStep === CartStep.DELIVERY_INFO
-                ? <Step.DeliveryInfo onStepComplete={this.nextStep} user={this.state.cart.user}/>
+                ?
+                <Step.DeliveryInfo
+                    onStepComplete={this.nextStep}
+                    user={this.state.cart.user}
+                    onUserInfoChange={newUser => this.updateUser(newUser)}
+                />
                 : ""
                 }
                 {this.state.currentStep === CartStep.CONFIRMATION

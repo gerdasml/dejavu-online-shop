@@ -12,7 +12,8 @@ interface ConfirmationProps {
 
 export const Confirmation = (props: ConfirmationProps) => (
     <div>
-        <List horizontal size="small" relaxed>
+        {/* TODO: Gal vėliau šituos kitaip perpanaudoti, reikia pagalvot */}
+        {/* <List horizontal size="small" relaxed>
             <List.Item>
                 <Icon name="cart" size="big"/>
                 <List.Content>
@@ -34,7 +35,7 @@ export const Confirmation = (props: ConfirmationProps) => (
                     Naugarduko g. 24, Vilnius
                 </List.Content>
             </List.Item>
-        </List>
+        </List> */}
         <OrderTable data={props.cart}/>
         <Button id="confirmButton" floated="right" positive onClick={props.onStepComplete}>Confirm</Button>
     </div >
