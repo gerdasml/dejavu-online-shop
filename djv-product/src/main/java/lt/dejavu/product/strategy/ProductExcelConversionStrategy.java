@@ -35,20 +35,19 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
             properties.add(new ProductProperty());
         }
         List<List<String>> result = new ArrayList<>();
-        List<String> firstRow = new ArrayList<>(
+        List<String> firstRow =
                 Arrays.asList(
                         item.getName(),
                         item.getDescription(),
                         item.getPrice().toString(),
                         item.getCategory().getId().toString(), // TODO: identifier
-                        properties.get(0).getName(),
+                        properties.get(0).getCategoryProperty().getName(),
                         properties.get(0).getValue()
-                 )
-        );
+                 );
         result.add(firstRow);
         properties.stream().skip(1).forEach(p -> {
             List<String> row = new ArrayList<>(Arrays.asList(
-                    "", "", "", "", p.getName(), p.getValue()
+                    "", "", "", "", p.getCategoryProperty().getName(), p.getValue()
                                                             ));
             result.add(row);
         });
@@ -130,17 +129,17 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
              result,
              val -> true,
              val -> val == null ? "" : val,
-             property::setName);
+             property.getCategoryProperty()::setName);
         read(5,
              row,
              result,
              val -> true,
              val -> val == null ? "" : val,
              property::setValue);
-        if (property.getName() == null ^ property.getValue() == null) {
+        if (property.getCategoryProperty().getName() == null ^ property.getValue() == null) {
             result.setStatus(ConversionStatus.FAILURE);
         }
-        if (property.getName() != null || property.getValue() != null) {
+        if (property.getCategoryProperty().getName() != null || property.getValue() != null) {
             result.getResult().getProperties().add(property);
         }
     }

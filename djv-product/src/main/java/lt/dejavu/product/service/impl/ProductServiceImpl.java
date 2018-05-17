@@ -32,8 +32,6 @@ import static java.util.stream.Collectors.toSet;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -111,7 +109,7 @@ public class ProductServiceImpl implements ProductService {
         productRequestMapper.remapToProduct(oldProduct, request, productCategory);
         Set<CategoryProperty> properties = getProductCategoryProperties(request, productCategory);
         Set<ProductProperty> propertyValues = productPropertyRequestMapper.mapProperties(oldProduct, properties, request.getProperties());
-        CollectionUpdater.updateCollection(oldProduct.getPropertyValues(), propertyValues);
+        CollectionUpdater.updateCollection(oldProduct.getProperties(), propertyValues);
         productRepository.updateProduct(oldProduct);
     }
 

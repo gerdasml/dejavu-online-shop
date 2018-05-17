@@ -13,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@EqualsAndHashCode(exclude = {"propertyValues", "category"})
+@EqualsAndHashCode(exclude = {"properties", "category"})
 @Table(name = "product")
 public class Product {
 
@@ -53,5 +53,5 @@ public class Product {
     private Set<String> additionalImagesUrls = new LinkedHashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    private Set<ProductProperty> propertyValues = new LinkedHashSet<>();
+    private Set<ProductProperty> properties = new LinkedHashSet<>();
 }
