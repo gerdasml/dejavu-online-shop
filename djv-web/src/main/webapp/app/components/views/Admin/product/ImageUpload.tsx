@@ -4,7 +4,7 @@ import { Icon, Modal, notification, Upload } from "antd";
 import { RcFile, UploadChangeParam, UploadFile } from "antd/lib/upload/interface";
 import * as api from "../../../../api";
 
-import { dataUriToFile } from "../../../../utils/file";
+import { blobToFile } from "../../../../utils/file";
 
 import { ImageInfo } from "../../../../model/ImageInfo";
 import { ImageCropper } from "../../Admin/product/ImageCropper";
@@ -18,8 +18,8 @@ interface ImageUploadState {
     imageList: UploadFile[];
 }
 
-const cloneFile = (old: RcFile, newData: string) => {
-    const f = dataUriToFile(newData, old) as RcFile;
+const cloneFile = (old: RcFile, newData: Blob) => {
+    const f = blobToFile(newData, old) as RcFile;
     f.uid = old.uid;
     return f;
 };
@@ -69,8 +69,8 @@ export class ImageUpload extends React.Component<ImageUploadProps, ImageUploadSt
 
     handleBefore = async (file: RcFile): Promise<RcFile> =>
         new Promise<RcFile>((resolve, reject) => {
-            let newImgProvider: () => string = () => file.toString();
-            const onChange = (f: () => string) => newImgProvider = f;
+            let newImgProvider: () => Blob = () => file;
+            const onChange = (f: () => Blob) => newImgProvider = f;
             Modal.confirm({
                 content: <ImageCropper onChange={onChange} image={file} />,
                 iconType: "none",
