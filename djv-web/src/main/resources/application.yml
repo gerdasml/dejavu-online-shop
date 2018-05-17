@@ -11,7 +11,18 @@ logging:
 spring:
   datasource:
     testOnBorrow: true
+    testWhileIdle: true
+    timeBetweenEvictionRunsMillis: 60000
     validationQuery: SELECT 1
+
+server:
+  compression:
+    enabled: true
+    minRsponseSize: 1024
+    mimeTypes:
+      - text/html
+      - application/javascript
+      - text/css
     
 rest:
   basePath: /api

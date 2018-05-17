@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import { RouteComponentProps } from "react-router-dom";
+
 import { Button, notification, Spin } from "antd";
 
 import { NavLink } from "react-router-dom";
@@ -8,13 +10,18 @@ import { CategoryTree } from "../../../../model/CategoryTree";
 import { Product } from "../../../../model/Product";
 import { ProductTable } from "../common/Table/ProductTable";
 
+import { ButtonGroup } from "semantic-ui-react";
+import "../../../../../style/admin/product.css";
+import { ProductExport } from "./import/ProductExport";
+import { ProductImport } from "./import/ProductImport";
+
 interface ProductsState {
     isLoading: boolean;
     products: Product[];
     categories: CategoryTree[];
 }
 
-export class Products extends React.Component<never, ProductsState> {
+export class Products extends React.Component<RouteComponentProps<{}>, ProductsState> {
     state: ProductsState = {
         categories: [],
         isLoading: true,
@@ -46,9 +53,13 @@ export class Products extends React.Component<never, ProductsState> {
         const { isLoading } = this.state;
         return (
             <Spin spinning={isLoading} size="large">
-                <NavLink to={`/admin/product/create`}>
-                    <Button>Add new product</Button>
-                </NavLink>
+                <ButtonGroup>
+                    <NavLink to={`/admin/product/create`}>
+                        <Button>Add new product</Button>
+                    </NavLink>
+                    <ProductImport navigateToJob={id => this.props.history.push(`/admin/imports/${id}`)}/>
+                    <ProductExport />
+                </ButtonGroup>
                 <ProductTable
                     products={this.state.products}
                     categories={this.state.categories}

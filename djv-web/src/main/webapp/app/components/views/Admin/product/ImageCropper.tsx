@@ -6,14 +6,13 @@ import { Col, Row } from "antd";
 import "cropperjs/dist/cropper.css";
 
 export interface ImageCropperState {
-    cropResult?: string;
     open: boolean;
     src?: string;
 }
 
 interface ImageCropperProps {
     image: File;
-    onChange: (dataUrl: string) => void;
+    onChange: (dataUrlProvider: () => string) => void;
 }
 
 export class ImageCropper extends React.Component<ImageCropperProps, ImageCropperState> {
@@ -39,14 +38,8 @@ export class ImageCropper extends React.Component<ImageCropperProps, ImageCroppe
         if (typeof this.cropper.getCroppedCanvas() === "undefined") {
             return;
         }
-        const newImg = this.cropper
-                           .getCroppedCanvas()
-                           .toDataURL();
-        this.setState({
-            cropResult: newImg,
-        });
 
-        this.props.onChange(newImg);
+        this.props.onChange(() => this.cropper.getCroppedCanvas().toDataURL());
     }
 
     render () {
@@ -54,14 +47,17 @@ export class ImageCropper extends React.Component<ImageCropperProps, ImageCroppe
             <Row type="flex" align="middle" justify="space-between">
                 <Col span={12}>
                     <Cropper
+                        style={{ height: 400, width: '100%' }}
                         ref={(elem: HTMLImageElement & Cropper) => {this.cropper = elem;}}
                         src={this.state.src}
                         aspectRatio={16 / 9}
                         guides={false}
-                        crop={this.cropImage} />
+                        crop={this.cropImage}
+                        preview=".img-preview"
+                        />
                 </Col>
-                <Col span={12}>
-                    <img style={{ width: "100%" }} src={this.state.cropResult}/>
+                <Col span={12} className="box">
+                    <div className="img-preview" style={{height: "400px", width: "100%", float: "left", overflow: "hidden"}} />
                 </Col>
             </Row>
         );

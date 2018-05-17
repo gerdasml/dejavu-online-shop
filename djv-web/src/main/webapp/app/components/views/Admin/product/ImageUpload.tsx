@@ -69,8 +69,8 @@ export class ImageUpload extends React.Component<ImageUploadProps, ImageUploadSt
 
     handleBefore = async (file: RcFile): Promise<RcFile> =>
         new Promise<RcFile>((resolve, reject) => {
-            let newImg: string = file.toString();
-            const onChange = (f: string) => newImg = f;
+            let newImgProvider: () => string = () => file.toString();
+            const onChange = (f: () => string) => newImgProvider = f;
             Modal.confirm({
                 content: <ImageCropper onChange={onChange} image={file} />,
                 iconType: "none",
@@ -78,7 +78,7 @@ export class ImageUpload extends React.Component<ImageUploadProps, ImageUploadSt
                 style: { top: 0 },
                 width: "80%",
                 onOk () {
-                    resolve(cloneFile(file, newImg));
+                    resolve(cloneFile(file, newImgProvider()));
                 },
                 onCancel () {
                     reject(file);

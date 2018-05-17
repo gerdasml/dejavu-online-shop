@@ -1,5 +1,10 @@
 var path = require("path");
 const merge = require("webpack-merge");
+const webpack = require("webpack");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CompressionPlugin = require("compression-webpack-plugin");
+const tsImportPluginFactory = require("ts-import-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
@@ -8,9 +13,9 @@ const PATHS = {
 };
 
 const common = {
-    entry: [
-        PATHS.source
-    ],
+    entry: {
+        app: PATHS.source,
+    },
     cache: true,
     mode: "development",
     output: {
@@ -18,13 +23,36 @@ const common = {
         publicPath: "",
         filename: "bundle.js"
     },
+    plugins: [
+        new webpack.DefinePlugin({ // <-- key to reducing React's size
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        }),
+        // new BundleAnalyzerPlugin(), // Enable this to view bundle decomposition
+        new CompressionPlugin({
+            asset: "[path].gz[query]",
+            algorithm: "gzip",
+            test: /\.js$|\.css$|\.html$/,
+            threshold: 10240,
+            minRatio: 0.8
+        }),
+        new MiniCssExtractPlugin({
+            filename: "[name].css",
+            chunkFilename: "[id].css"
+        }),
+    ],
     module: {
         rules: [
             {
+                test: /\.svg$/,
+                loader: "svg-inline-loader"
+            },
+            {
                 test: /\.css$/,
                 use: [
-                    { loader: "style-loader" },
-                    { loader: "css-loader" }
+                    MiniCssExtractPlugin.loader,
+                    "css-loader"
                 ]
             },
             {
@@ -37,7 +65,7 @@ const common = {
                 }
             },
             {
-                test: /\.(png|jpe?g|svg|gif)$/,
+                test: /\.(png|jpe?g|gif)$/,
                 use: [
                     {
                         loader: "url-loader",
@@ -47,17 +75,23 @@ const common = {
                     }
                 ]
             },
-            // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'
             {
-                test: /\.tsx?$/,
-                loader: "ts-loader"
-            },
-            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'
-            {
-                enforce: "pre",
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loader: "source-map-loader"
+                test: /\.(jsx|tsx|js|ts)$/,
+                loader: 'ts-loader',
+                options: {
+                    transpileOnly: true,
+                    getCustomTransformers: () => ({
+                        before: [ tsImportPluginFactory({
+                            libraryName: "antd",
+                            style: "css",
+                            libraryDirectory: "lib"
+                        }) ]
+                    }),
+                    compilerOptions: {
+                        module: 'es2015'
+                    }
+                },
+                exclude: /node_modules/
             }
         ]
     },

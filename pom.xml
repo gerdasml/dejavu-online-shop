@@ -18,6 +18,7 @@
         <module>djv-order</module>
         <module>djv-cart</module>
         <module>djv-utils</module>
+        <module>djv-excel</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -34,6 +35,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven-resources-plugin.version>2.6</maven-resources-plugin.version>
         <java.version>1.8</java.version>
         <lombok.version>1.16.20</lombok.version>
         <frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
@@ -51,6 +53,7 @@
         <apache-commons-lang3.version>3.7</apache-commons-lang3.version>
         <mysql-connector-java.version>6.0.6</mysql-connector-java.version>
         <httpclient.version>4.5.3</httpclient.version>
+        <apache-poi.version>3.17</apache-poi.version>
     </properties>
 
     <dependencies>
@@ -64,6 +67,12 @@
                     <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
         </dependency>
 
         <dependency>
@@ -121,11 +130,6 @@
                 <version>${httpclient.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
@@ -206,6 +210,12 @@
                 <artifactId>commons-lang3</artifactId>
                 <version>${apache-commons-lang3.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${apache-poi.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
