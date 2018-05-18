@@ -2,8 +2,8 @@ package lt.dejavu.product.api;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.service.SecurityService;
-import lt.dejavu.product.dto.ProductDto;
-import lt.dejavu.product.dto.ProductImportStatusDto;
+import lt.dejavu.product.response.ProductResponse;
+import lt.dejavu.product.response.ProductImportStatusResponse;
 import lt.dejavu.product.model.rest.request.ProductRequest;
 import lt.dejavu.product.service.ProductImportStatusService;
 import lt.dejavu.product.service.ProductService;
@@ -38,7 +38,7 @@ public class ProductApi {
             path = "/",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<ProductDto> getAllProducts() {
+    public List<ProductResponse> getAllProducts() {
         return productService.getAllProducts();
     }
 
@@ -46,7 +46,7 @@ public class ProductApi {
             path = "/{productId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public ProductDto getProduct(@PathVariable("productId") long productId) {
+    public ProductResponse getProduct(@PathVariable("productId") long productId) {
         return productService.getProduct(productId);
     }
 
@@ -54,7 +54,7 @@ public class ProductApi {
             path = "/category/{categoryId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<ProductDto> getProductsByCategory(@PathVariable("categoryId") long categoryId) {
+    public List<ProductResponse> getProductsByCategory(@PathVariable("categoryId") long categoryId) {
         return productService.getProductsByCategory(categoryId);
     }
 
@@ -111,25 +111,25 @@ public class ProductApi {
     }
 
     @GetMapping(path = "/import/status/{jobId}")
-    public ProductImportStatusDto getImportStatus(HttpServletRequest request,
-                                                  @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
-                                                  @PathVariable("jobId") UUID jobId) throws ApiSecurityException {
+    public ProductImportStatusResponse getImportStatus(HttpServletRequest request,
+                                                       @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
+                                                       @PathVariable("jobId") UUID jobId) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         return statusService.getStatus(jobId);
     }
 
     @GetMapping(path = "/import/status/")
-    public List<ProductImportStatusDto> getImportStatuses(HttpServletRequest request,
-                                                          @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) throws ApiSecurityException {
+    public List<ProductImportStatusResponse> getImportStatuses(HttpServletRequest request,
+                                                               @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         return statusService.getAllStatuses();
     }
 
     @PutMapping(path = "/import/status/{id}")
-    public ProductImportStatusDto updateImportStatus(HttpServletRequest request,
-                                                     @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
-                                                     @PathVariable("id") UUID jobId,
-                                                     @RequestBody ProductImportStatusDto newStatus) throws ApiSecurityException {
+    public ProductImportStatusResponse updateImportStatus(HttpServletRequest request,
+                                                          @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
+                                                          @PathVariable("id") UUID jobId,
+                                                          @RequestBody ProductImportStatusResponse newStatus) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         return statusService.updateStatus(jobId, newStatus);
     }

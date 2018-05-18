@@ -1,8 +1,8 @@
 package lt.dejavu.product.service.impl;
 
-import lt.dejavu.product.dto.CategoryDto;
-import lt.dejavu.product.dto.CategoryTreeDto;
-import lt.dejavu.product.dto.mapper.CategoryDtoMapper;
+import lt.dejavu.product.response.CategoryResponse;
+import lt.dejavu.product.response.CategoryTreeResponse;
+import lt.dejavu.product.response.mapper.CategoryResponseMapper;
 import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.IllegalRequestDataException;
 import lt.dejavu.product.model.Category;
@@ -22,35 +22,35 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryRequestMapper categoryRequestMapper;
-    private final CategoryDtoMapper categoryDtoMapper;
+    private final CategoryResponseMapper categoryResponseMapper;
     private final ProductPropertyRepository productPropertyRepository;
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryRequestMapper categoryRequestMapper, CategoryDtoMapper categoryDtoMapper, ProductPropertyRepository productPropertyRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryRequestMapper categoryRequestMapper, CategoryResponseMapper categoryResponseMapper, ProductPropertyRepository productPropertyRepository) {
         this.categoryRepository = categoryRepository;
         this.categoryRequestMapper = categoryRequestMapper;
-        this.categoryDtoMapper = categoryDtoMapper;
+        this.categoryResponseMapper = categoryResponseMapper;
         this.productPropertyRepository = productPropertyRepository;
     }
 
     @Override
-    public CategoryDto getCategory(long id) {
-        return categoryDtoMapper.map(getCategoryIfExist(id));
+    public CategoryResponse getCategory(long id) {
+        return categoryResponseMapper.map(getCategoryIfExist(id));
     }
 
     @Override
-    public List<CategoryDto> getRootCategories() {
-        return categoryDtoMapper.map(categoryRepository.getRootCategories());
+    public List<CategoryResponse> getRootCategories() {
+        return categoryResponseMapper.map(categoryRepository.getRootCategories());
     }
 
     @Override
-    public List<CategoryTreeDto> getCategoryTree() {
-        return categoryDtoMapper.mapToTree(categoryRepository.getAllCategories());
+    public List<CategoryTreeResponse> getCategoryTree() {
+        return categoryResponseMapper.mapToTree(categoryRepository.getAllCategories());
     }
 
     @Override
-    public List<CategoryDto> getSubCategories(long categoryId) {
-        return categoryDtoMapper.map(categoryRepository.getSubCategories(categoryId));
+    public List<CategoryResponse> getSubCategories(long categoryId) {
+        return categoryResponseMapper.map(categoryRepository.getSubCategories(categoryId));
     }
 
     @Transactional

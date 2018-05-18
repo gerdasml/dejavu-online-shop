@@ -1,4 +1,4 @@
-package lt.dejavu.product.dto;
+package lt.dejavu.product.response;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -12,12 +12,12 @@ import java.util.UUID;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class ProductImportStatusDto {
+public class ProductImportStatusResponse {
     private UUID id;
     private Status status;
     private int successCount;
     private int failureCount;
     private int total;
-    private List<ProductDto> failedProducts;
+    private List<ProductResponse> failedProducts;
     private Instant startTime;
 }

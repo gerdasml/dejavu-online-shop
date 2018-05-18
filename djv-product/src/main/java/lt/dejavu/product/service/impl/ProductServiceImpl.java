@@ -1,8 +1,8 @@
 package lt.dejavu.product.service.impl;
 
 import lt.dejavu.excel.service.ExcelService;
-import lt.dejavu.product.dto.ProductDto;
-import lt.dejavu.product.dto.mapper.ProductDtoMapper;
+import lt.dejavu.product.response.ProductResponse;
+import lt.dejavu.product.response.mapper.ProductResponseMapper;
 import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.ProductNotFoundException;
 import lt.dejavu.product.exception.ProductPropertyNotFoundException;
@@ -18,7 +18,6 @@ import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.repository.ProductPropertyRepository;
 import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.product.service.ProductService;
-import lt.dejavu.utils.collections.CommonCollectionUtils;
 import lt.dejavu.utils.collections.UpdatableCollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductRequestMapper productRequestMapper;
-    private final ProductDtoMapper productDtoMapper;
+    private final ProductResponseMapper productResponseMapper;
 
     private final ProductPropertyRequestMapper productPropertyRequestMapper;
     private final ProductPropertyRepository productPropertyRepository;
@@ -53,12 +52,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository,
-                              ProductRequestMapper productRequestMapper, ProductDtoMapper productDtoMapper, ExcelService<Product> excelService,
+                              ProductRequestMapper productRequestMapper, ProductResponseMapper productResponseMapper, ExcelService<Product> excelService,
                               ProductPropertyRequestMapper productPropertyRequestMapper, ProductPropertyRepository productPropertyRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.productRequestMapper = productRequestMapper;
-        this.productDtoMapper = productDtoMapper;
+        this.productResponseMapper = productResponseMapper;
 
         this.productPropertyRequestMapper = productPropertyRequestMapper;
         this.productPropertyRepository = productPropertyRepository;
@@ -68,19 +67,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getAllProducts() {
-        return productDtoMapper.map(productRepository.getAllProducts());
+    public List<ProductResponse> getAllProducts() {
+        return productResponseMapper.map(productRepository.getAllProducts());
     }
 
     @Override
-    public ProductDto getProduct(long id) {
-        return productDtoMapper.map(getProductIfExist(id));
+    public ProductResponse getProduct(long id) {
+        return productResponseMapper.map(getProductIfExist(id));
     }
 
     @Override
-    public List<ProductDto> getProductsByCategory(long categoryId) {
+    public List<ProductResponse> getProductsByCategory(long categoryId) {
         getCategoryIfExist(categoryId);
-        return productDtoMapper.map(productRepository.getProductsByCategory(categoryId));
+        return productResponseMapper.map(productRepository.getProductsByCategory(categoryId));
     }
 
     @Transactional

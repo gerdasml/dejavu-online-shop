@@ -1,8 +1,8 @@
-package lt.dejavu.product.dto.mapper;
+package lt.dejavu.product.response.mapper;
 
-import lt.dejavu.product.dto.CategoryDto;
-import lt.dejavu.product.dto.CategoryPropertyDto;
-import lt.dejavu.product.dto.CategoryTreeDto;
+import lt.dejavu.product.response.CategoryResponse;
+import lt.dejavu.product.response.CategoryPropertyResponse;
+import lt.dejavu.product.response.CategoryTreeResponse;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.CategoryProperty;
 import org.springframework.stereotype.Component;
@@ -15,29 +15,29 @@ import java.util.Set;
 import static java.util.stream.Collectors.toList;
 
 @Component
-public class CategoryDtoMapper {
+public class CategoryResponseMapper {
 
-    public CategoryDto map(Category category) {
+    public CategoryResponse map(Category category) {
         if (category == null) {
             return null;
         }
-        CategoryDto view = new CategoryDto();
-        view.setId(category.getId());
-        view.setName(category.getName());
-        view.setIcon(category.getIconName());
-        view.setIdentifier(category.getIdentifier());
+        CategoryResponse response = new CategoryResponse();
+        response.setId(category.getId());
+        response.setName(category.getName());
+        response.setIcon(category.getIconName());
+        response.setIdentifier(category.getIdentifier());
         if (category.getParentCategory() != null) {
-            view.setParentCategoryId(category.getParentCategory().getId());
+            response.setParentCategoryId(category.getParentCategory().getId());
         }
-        view.setProperties(map(category.getProperties()));
-        return view;
+        response.setProperties(map(category.getProperties()));
+        return response;
     }
 
-    public List<CategoryDto> map(Set<Category> categories) {
+    public List<CategoryResponse> map(Set<Category> categories) {
         return categories.stream().map(this::map).collect(toList());
     }
 
-    public List<CategoryTreeDto> mapToTree(Set<Category> categories) {
+    public List<CategoryTreeResponse> mapToTree(Set<Category> categories) {
         if (categories == null || categories.isEmpty()) {
             return Collections.emptyList();
         }
@@ -47,30 +47,30 @@ public class CategoryDtoMapper {
 
     }
 
-    private CategoryTreeDto mapToTree(Category category, Set<Category> allCategories) {
-        CategoryTreeDto categoryTree = new CategoryTreeDto();
+    private CategoryTreeResponse mapToTree(Category category, Set<Category> allCategories) {
+        CategoryTreeResponse categoryTree = new CategoryTreeResponse();
         categoryTree.setCategory(map(category));
         categoryTree.setChildren(mapToTree(category.getId(), allCategories));
         return categoryTree;
     }
 
-    private List<CategoryTreeDto> mapToTree(Long parentCategoryId, Set<Category> allCategories) {
+    private List<CategoryTreeResponse> mapToTree(Long parentCategoryId, Set<Category> allCategories) {
         return allCategories.stream()
                 .filter(category -> category.getParentCategory() != null && parentCategoryId.equals(category.getParentCategory().getId()))
                 .map(childCategory -> mapToTree(childCategory, allCategories)).collect(toList());
     }
 
-    private CategoryPropertyDto map(CategoryProperty categoryProperty) {
+    private CategoryPropertyResponse map(CategoryProperty categoryProperty) {
         if (categoryProperty == null) {
             return null;
         }
-        CategoryPropertyDto dto = new CategoryPropertyDto();
+        CategoryPropertyResponse dto = new CategoryPropertyResponse();
         dto.setPropertyId(categoryProperty.getId());
         dto.setName(categoryProperty.getName());
         return dto;
     }
 
-    private List<CategoryPropertyDto> map(Collection<CategoryProperty> productProperties) {
+    private List<CategoryPropertyResponse> map(Collection<CategoryProperty> productProperties) {
         return productProperties.stream().map(this::map).collect(toList());
     }
 }

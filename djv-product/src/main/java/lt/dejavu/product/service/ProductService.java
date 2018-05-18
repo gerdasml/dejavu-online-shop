@@ -1,6 +1,6 @@
 package lt.dejavu.product.service;
 
-import lt.dejavu.product.dto.ProductDto;
+import lt.dejavu.product.response.ProductResponse;
 import lt.dejavu.product.model.rest.request.ProductRequest;
 
 import java.io.ByteArrayOutputStream;
@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ProductService {
-    ProductDto getProduct(long id);
+    ProductResponse getProduct(long id);
 
-    List<ProductDto> getAllProducts();
+    List<ProductResponse> getAllProducts();
 
-    List<ProductDto> getProductsByCategory(long categoryId);
+    List<ProductResponse> getProductsByCategory(long categoryId);
 
     Long createProduct(ProductRequest request);
 
