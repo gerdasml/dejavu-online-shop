@@ -37,7 +37,7 @@ export class Cart extends React.Component<{}, CartState> {
     async componentDidMount () {
         const cartInfo = await api.cart.getCart();
         if(api.isError(cartInfo)) {
-            notification.error({message: "Failed to upload cart", description: cartInfo.message});
+            notification.error({message: "Failed to fetch cart.", description: cartInfo.message});
         } else {
             this.setState({
                 ...this.state,
