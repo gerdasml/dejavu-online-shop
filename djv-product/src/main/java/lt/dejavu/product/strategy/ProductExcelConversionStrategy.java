@@ -5,6 +5,7 @@ import lt.dejavu.excel.model.ConversionResult;
 import lt.dejavu.excel.model.ConversionStatus;
 import lt.dejavu.excel.strategy.ExcelConversionStrategy;
 import lt.dejavu.product.model.Category;
+import lt.dejavu.product.model.CategoryProperty;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.model.ProductProperty;
 import lt.dejavu.product.repository.CategoryRepository;
@@ -131,13 +132,18 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
 
     private void readProperty(ConversionResult<Product> result,
                               List<String> row) {
+        Category productCategory = result.getResult().getCategory();
+        if (result.getResult().getCategory() == null) {
+            return;
+        }
         ProductProperty property = new ProductProperty();
+        property.setProduct(result.getResult());
         read(4,
              row,
              result,
-             val -> true,
-             val -> val == null ? "" : val,
-             property.getCategoryProperty()::setName);
+             isValidPropertyName(productCategory),
+             getPropertyByName(productCategory),
+             property::setCategoryProperty);
         read(5,
              row,
              result,
@@ -168,6 +174,15 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
             return false;
         }
         return categoryRepository.getCategory(id) != null;
+    }
+
+    private Predicate<String> isValidPropertyName(Category category) {
+        return s -> category.getProperties().stream().anyMatch(prop -> prop.getName().equals(s));
+    }
+
+
+    private Function<String, CategoryProperty> getPropertyByName(Category category) {
+        return s -> category.getProperties().stream().filter(prop -> prop.getName().equals(s)).findFirst().orElseThrow(IllegalStateException::new);
     }
 
     private boolean isValidBigDecimal(String s) {
