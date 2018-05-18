@@ -4,10 +4,10 @@ import lt.dejavu.payment.model.Card;
 import lt.dejavu.payment.model.Payment;
 import org.junit.Test;
 
-public class CardNumberValidatorTest extends SingleValidatorTestBase {
+public class NumberValidatorTest extends SingleValidatorTestBase {
 
-    public CardNumberValidatorTest() {
-        super(new CardNumberValidator());
+    public NumberValidatorTest() {
+        super(new NumberValidator());
     }
 
     @Override
@@ -17,60 +17,58 @@ public class CardNumberValidatorTest extends SingleValidatorTestBase {
 
     @Test
     public void testValidateNumber_noCardInfo() {
-        test(createPayment(), 1);
+        test(createCard(), 1);
     }
 
     @Test
     public void testValidateNumber_tooShort() {
-        test(createPayment("18"), 1);
+        test(createCard("18"), 1);
     }
 
     @Test
     public void testValidateNumber_tooLong() {
-        test(createPayment("12345678901234569"), 1);
+        test(createCard("12345678901234569"), 1);
     }
 
     @Test
     public void testValidateNumber_containsLetters() {
-        test(createPayment("123456789012345z"), 1);
+        test(createCard("123456789012345z"), 1);
     }
 
     @Test
     public void testValidateNumber_containsSpecialSymbols() {
-        test(createPayment("123456789012345?"), 1);
+        test(createCard("123456789012345?"), 1);
     }
 
     @Test
     public void testValidateNumber_violatesLuhnAlgorithm() {
-        test(createPayment("4111111111111112"), 1);
+        test(createCard("4111111111111112"), 1);
     }
 
     @Test
     public void testValidateNumber_tooShortAndViolatesLuhn() {
-        test(createPayment("19"), 2);
+        test(createCard("19"), 2);
     }
 
     @Test
     public void testValidateNumber_tooShortAndContainsLetters() {
-        test(createPayment("12a"), 2);
+        test(createCard("12a"), 2);
     }
 
     @Test
     public void testValidateNumber_tooLongAndContainsLetters() {
-        test(createPayment("1234567890123456a"), 2);
+        test(createCard("1234567890123456a"), 2);
     }
 
     @Test
     public void testValidateNumber_valid() {
-        test(createPayment("4111111111111111"), 0);
+        test(createCard("4111111111111111"), 0);
     }
 
-    private Payment createPayment(String number) {
+    private Card createCard(String number) {
         Card card = new Card();
         card.setNumber(number);
-        Payment p = new Payment();
-        p.setCard(card);
 
-        return p;
+        return card;
     }
 }

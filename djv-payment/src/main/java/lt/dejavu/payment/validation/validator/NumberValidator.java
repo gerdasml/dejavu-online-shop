@@ -1,5 +1,6 @@
 package lt.dejavu.payment.validation.validator;
 
+import lt.dejavu.payment.model.Card;
 import lt.dejavu.payment.model.Payment;
 import lt.dejavu.payment.validation.ValidationError;
 
@@ -10,18 +11,18 @@ import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
 
-public class CardNumberValidator extends AbstractValidator<Payment> {
+public class NumberValidator extends AbstractValidator<Card> {
     private static final int NUMBER_LENGTH = 16;
     private static final Pattern DIGIT_PATTERN = Pattern.compile("[0-9]*");
 
     @Override
-    public List<ValidationError> validate(Payment obj) {
+    public List<ValidationError> validate(Card obj) {
         List<ValidationError> errors = new ArrayList<>();
-        if (obj.getCard() == null || obj.getCard().getNumber() == null) {
+        if (obj == null || obj.getNumber() == null) {
             errors.add(error("No card number supplied"));
             return errors;
         }
-        String cardNumber = obj.getCard().getNumber();
+        String cardNumber = obj.getNumber();
         if (cardNumber.length() != NUMBER_LENGTH) {
             errors.add(error("The card number must consist of 16 digits"));
         }
