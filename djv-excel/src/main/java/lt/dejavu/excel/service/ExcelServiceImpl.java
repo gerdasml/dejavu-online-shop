@@ -67,10 +67,11 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
             try {
                 analyze(uuid, getIterator(file));
                 process(uuid, getIterator(file));
-            } catch (IOException e) {
+                processingStrategy.finish(uuid);
+            } catch (Exception e) {
                 processingStrategy.fail(uuid);
             }
-            processingStrategy.finish(uuid);
+
         });
         return uuid;
     }
