@@ -6,6 +6,7 @@ import lombok.Setter;
 import lt.dejavu.auth.model.db.Address;
 import lt.dejavu.auth.model.db.User;
 import lt.dejavu.order.model.OrderStatus;
+import lt.dejavu.order.model.ReviewStatus;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -25,6 +26,10 @@ public class Order {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private OrderStatus status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "reviewStatus")
+    private ReviewStatus reviewStatus;
 
     @OneToMany(mappedBy = "order")
     private List<OrderItem> items;

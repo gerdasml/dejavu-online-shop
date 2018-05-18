@@ -5,6 +5,7 @@ import lombok.Setter;
 import lt.dejavu.auth.dto.UserDto;
 import lt.dejavu.auth.model.db.Address;
 import lt.dejavu.order.model.OrderStatus;
+import lt.dejavu.order.model.ReviewStatus;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -15,6 +16,7 @@ import java.util.List;
 public class OrderDto {
     private long id;
     private OrderStatus status;
+    private ReviewStatus reviewStatus;
     private Timestamp createdDate;
     private UserDto user;
     private List<OrderItemDto> items;

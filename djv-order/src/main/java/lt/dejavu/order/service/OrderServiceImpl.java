@@ -9,6 +9,7 @@ import lt.dejavu.order.dto.OrderSummaryDto;
 import lt.dejavu.order.exception.OrderNotFoundException;
 import lt.dejavu.order.mapper.OrderMapper;
 import lt.dejavu.order.model.OrderStatus;
+import lt.dejavu.order.model.ReviewStatus;
 import lt.dejavu.order.model.db.Order;
 import lt.dejavu.order.model.db.OrderItem;
 import lt.dejavu.order.repository.OrderRepository;
@@ -61,6 +62,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrderStatus(long orderId, OrderStatus status) {
         orderRepository.updateOrderStatus(orderId, status);
+        // TODO: update reviewStatus
     }
 
     @Override

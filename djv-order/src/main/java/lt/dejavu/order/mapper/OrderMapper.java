@@ -28,6 +28,7 @@ public class OrderMapper {
         dto.setId(order.getId());
         dto.setCreatedDate(order.getCreationDate());
         dto.setStatus(order.getStatus());
+        dto.setReviewStatus(order.getReviewStatus());
         dto.setUser(userMapper.map(order.getUser()));
         dto.setShippingAddress(order.getShippingAddress());
         List<OrderItemDto> items = itemMapper.map(order.getItems());

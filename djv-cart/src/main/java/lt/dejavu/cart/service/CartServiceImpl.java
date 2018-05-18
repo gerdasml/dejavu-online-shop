@@ -12,6 +12,7 @@ import lt.dejavu.cart.repository.CartRepository;
 import lt.dejavu.cart.util.CartUtil;
 import lt.dejavu.order.dto.OrderDto;
 import lt.dejavu.order.model.OrderStatus;
+import lt.dejavu.order.model.ReviewStatus;
 import lt.dejavu.order.model.db.OrderItem;
 import lt.dejavu.order.service.OrderService;
 import lt.dejavu.payment.exception.PaymentException;
@@ -112,6 +113,7 @@ public class CartServiceImpl implements CartService {
         order.setUser(cart.getUser());
         order.setItems(cart.getItems());
         order.setStatus(OrderStatus.CREATED);
+        order.setReviewStatus(ReviewStatus.NOT_READY);
         order.setShippingAddress(shippingAddress);
 
         return order;
