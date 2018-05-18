@@ -39,7 +39,7 @@ export class Header extends React.Component <{}, HeaderState> {
                     </NavLink>
                     </Menu.Item>
                     <Menu.Menu position="right">
-                        <Menu.Item>
+                        <Menu.Item className="borderless">
                             <Search id="searchBar"
                                 value="Search..."
                                 noResultsMessage="No products were found"

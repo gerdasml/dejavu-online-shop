@@ -27,6 +27,14 @@
     width: 100%;
 }
 
+.logoContainer {
+    width: 12.5%;
+}
+
+.borderless {
+    border-left: 0;
+}
+
 .logoContainer * {
     height: 100%;
 }
