@@ -1,8 +1,8 @@
 package lt.dejavu.product.service.impl;
 
 import lt.dejavu.excel.repository.ImportStatusRepository;
-import lt.dejavu.product.dto.ProductImportStatusDto;
-import lt.dejavu.product.dto.mapper.ProductImportStatusDtoMapper;
+import lt.dejavu.product.response.ProductImportStatusDto;
+import lt.dejavu.product.response.mapper.ProductImportStatusDtoMapper;
 import lt.dejavu.product.service.ProductImportStatusService;
 import org.springframework.stereotype.Service;
 

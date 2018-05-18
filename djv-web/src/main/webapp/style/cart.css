@@ -57,7 +57,7 @@
     width: 6%;
 }
 
-#approvalText{
+#approval .approvalText{
     text-align: center;
     margin-top: 5%;
 }

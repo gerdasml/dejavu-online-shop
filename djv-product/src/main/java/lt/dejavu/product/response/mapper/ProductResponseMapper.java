@@ -1,28 +1,29 @@
-package lt.dejavu.product.dto.mapper;
+package lt.dejavu.product.response.mapper;
 
-import lt.dejavu.product.dto.ProductDto;
+import lt.dejavu.product.response.ProductResponse;
 import lt.dejavu.product.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-public class ProductDtoMapper {
+public class ProductResponseMapper {
 
-    private final ProductPropertiesDtoMapper propertiesMapper;
+    private final ProductPropertiesResponseMapper propertiesMapper;
 
     @Autowired
-    public ProductDtoMapper(ProductPropertiesDtoMapper productPropertiesDtoMapper) {
-        this.propertiesMapper = productPropertiesDtoMapper;
+    public ProductResponseMapper(ProductPropertiesResponseMapper productPropertiesResponseMapper) {
+        this.propertiesMapper = productPropertiesResponseMapper;
     }
 
-    public ProductDto map(Product product) {
+    public ProductResponse map(Product product) {
         if (product == null) {
             return null;
         }
-        ProductDto dto = new ProductDto();
+        ProductResponse dto = new ProductResponse();
         dto.setId(product.getId());
         dto.setName(product.getName());
         dto.setDescription(product.getDescription());
@@ -38,7 +39,7 @@ public class ProductDtoMapper {
         return dto;
     }
 
-    public List<ProductDto> map(List<Product> products) {
+    public List<ProductResponse> map(Set<Product> products) {
         return products.stream().map(this::map).collect(Collectors.toList());
     }
 }

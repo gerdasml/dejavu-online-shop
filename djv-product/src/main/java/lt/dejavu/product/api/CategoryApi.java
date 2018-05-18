@@ -2,8 +2,8 @@ package lt.dejavu.product.api;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.service.SecurityService;
-import lt.dejavu.product.dto.CategoryDto;
-import lt.dejavu.product.dto.CategoryTreeDto;
+import lt.dejavu.product.response.CategoryResponse;
+import lt.dejavu.product.response.CategoryTreeResponse;
 import lt.dejavu.product.model.rest.request.CategoryRequest;
 import lt.dejavu.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class CategoryApi {
             path = "/{categoryId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public CategoryDto getCategory(@PathVariable("categoryId") long categoryId) {
+    public CategoryResponse getCategory(@PathVariable("categoryId") long categoryId) {
         return categoryService.getCategory(categoryId);
     }
 
@@ -36,7 +36,7 @@ public class CategoryApi {
             path = "/rootCategories",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<CategoryDto> getRootCategories() {
+    public List<CategoryResponse> getRootCategories() {
         return categoryService.getRootCategories();
     }
 
@@ -44,7 +44,7 @@ public class CategoryApi {
             path = "/categoryTree",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<CategoryTreeDto> getCategoryTree() {
+    public List<CategoryTreeResponse> getCategoryTree() {
         return categoryService.getCategoryTree();
     }
 
@@ -52,7 +52,7 @@ public class CategoryApi {
             path = "/sub/{categoryId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<CategoryDto> getSubCategories(@PathVariable("categoryId") long categoryId) {
+    public List<CategoryResponse> getSubCategories(@PathVariable("categoryId") long categoryId) {
         return categoryService.getSubCategories(categoryId);
     }
 

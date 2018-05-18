@@ -5,7 +5,7 @@ import { Button, Icon, Table } from "antd";
 import { ProductProperties } from "../../../../model/ProductProperties";
 
 import { addKey, WithKey } from "../../../../utils/table";
-import { EditableCell } from "./EditableCell";
+import { EditableCell } from "../common/EditableCell";
 
 type Property = ProductProperties & WithKey;
 
@@ -35,7 +35,7 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
     handleAddRow () {
         const p = this.state.properties;
         const lastKey = p.length === 0 ? -1 : p[p.length-1].key;
-        const newProp: Property = {name: "", value: "", key: lastKey+1};
+        const newProp: Property = {propertyId: undefined, name: "", value: "", key: lastKey+1};
         this.setState({properties: [...p, newProp]});
         this.updateParent([...p, newProp]);
     }
@@ -44,12 +44,6 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
         this.setState({properties: newProp});
         this.updateParent(newProp);
     }
-    updatePropertyName (index: number, name: string) {
-        const newProps = [...this.state.properties];
-        newProps[index].name = name;
-        this.setState({properties: newProps});
-        this.updateParent(newProps);
-    }
     updatePropertyValue (index: number, value: string) {
         const newProps = [...this.state.properties];
         newProps[index].value = value;
@@ -57,7 +51,7 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
         this.updateParent(newProps);
     }
     updateParent (newProps: Property[]) {
-        this.props.onChange(newProps.map(x => ({name: x.name, value: x.value})));
+        this.props.onChange(newProps.map(x => ({propertyId: x.propertyId, name: x.name, value: x.value})));
     }
     render () {
         return (
@@ -66,11 +60,7 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
                     <PropertyColumn
                         key="name"
                         title="Name"
-                        render={(text, record, index) =>
-                            <EditableCell
-                                value={record.name}
-                                onChange={s=>this.updatePropertyName(index, s)}
-                            />}
+                        dataIndex="name"
                         />
                     <PropertyColumn
                         key="value"

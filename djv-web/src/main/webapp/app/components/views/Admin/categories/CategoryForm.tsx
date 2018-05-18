@@ -3,6 +3,8 @@ import * as React from "react";
 import { Button, Col, Input, Modal, Popconfirm, Row } from "antd";
 
 import { Category } from "../../../../model/Category";
+import { CategoryProperties } from "../../../../model/CategoryProperties";
+import { CategoryPropertiesTable } from "./CategoryPropertiesTable";
 
 import { Icon, SemanticICONS } from "semantic-ui-react";
 import { toUrlFriendlyString } from "../../../../utils/common";
@@ -19,6 +21,7 @@ interface CategoryFormProps {
 interface CategoryFormState {
     name?: string;
     icon?: string;
+    properties?: CategoryProperties[];
     isModalVisible: boolean;
 }
 
@@ -29,12 +32,17 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
 
     componentWillReceiveProps (nextProps: CategoryFormProps) {
         if(nextProps.category) {
-            this.setState({name: nextProps.category.name, icon: nextProps.category.icon, isModalVisible: false});
+            this.setState({
+                icon: nextProps.category.icon,
+                isModalVisible: false,
+                name: nextProps.category.name,
+                properties: nextProps.category.properties,
+            });
         }
     }
 
     isValid () {
-        return this.state.name && this.state.icon;
+        return this.state.name;
     }
 
     buildCategory = (): Category => ({
@@ -42,6 +50,7 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
         icon: this.state.icon,
         identifier: toUrlFriendlyString(this.state.name),
         name: this.state.name,
+        properties: this.state.properties,
     })
 
     render () {
@@ -65,6 +74,14 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
                             {this.state.icon ? <Icon name={this.state.icon as SemanticICONS} /> : "Select..."}
                         </Button>
                     </Col>
+                </Row>
+                <Row>
+                    <CategoryPropertiesTable
+                            properties={this.props.category ? this.props.category.properties: []}
+                            onChange={properties => this.setState({
+                                ...this.state,
+                                properties,
+                            })}/>
                 </Row>
                 <Row type="flex" align="middle">
                     <Button
