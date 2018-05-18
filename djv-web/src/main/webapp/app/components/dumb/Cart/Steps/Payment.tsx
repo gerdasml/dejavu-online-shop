@@ -148,7 +148,6 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
     validate = async () => {
         const card = this.buildCard();
         const validationResponse = await api.payment.validate(card);
-        console.log(card, validationResponse);
         await this.sleep(1000);
         if(api.isError(validationResponse)) {
             this.showError("Validation has failed", validationResponse);
