@@ -7,12 +7,13 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"properties", "category"})
 @Table(name = "product")
 public class Product {
 
@@ -49,13 +50,8 @@ public class Product {
             joinColumns = @JoinColumn(name = "productId")
     )
     @Column(name = "imageUrl")
-    private Set<String> additionalImagesUrls;
+    private Set<String> additionalImagesUrls = new LinkedHashSet<>();
 
-    @Embedded
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(
-            name = "product_property",
-            joinColumns = @JoinColumn(name = "productId")
-    )
-    private Set<ProductProperty> properties;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private Set<ProductProperty> properties = new LinkedHashSet<>();
 }

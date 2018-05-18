@@ -9,10 +9,12 @@ export const products: Product[] = [
         properties: [
             {
                 name: "lopass",
+                propertyId: 1,
                 value: "baltas"
             },
             {
                 name: "salikas",
+                propertyId: 2,
                 value: "pirstines"
             }
         ]
@@ -25,10 +27,12 @@ export const products: Product[] = [
         properties: [
             {
                 name: "lopass",
+                propertyId: 1,
                 value: "juodas"
             },
             {
                 name: "salikas",
+                propertyId: 2,
                 value: "kepure"
             }
         ]
@@ -41,10 +45,12 @@ export const products: Product[] = [
         properties: [
             {
                 name: "margarita",
+                propertyId: 3,
                 value: "margarita"
             },
             {
                 name: "ah kodel",
+                propertyId: 4,
                 value: "kiekviena ryta"
             }
         ]
@@ -57,10 +63,12 @@ export const products: Product[] = [
         properties: [
             {
                 name: "du gaideliai",
+                propertyId: 5,
                 value: "baltus zirnius kule"
             },
             {
                 name: "dvi visteles",
+                propertyId: 6,
                 value: "i maluna veze"
             }
         ]
@@ -73,10 +81,12 @@ export const products: Product[] = [
         properties: [
             {
                 name: "johny johny",
+                propertyId: 6,
                 value: "yes papa"
             },
             {
                 name: "eating sugar",
+                propertyId: 6,
                 value: "no papa"
             }
         ]
@@ -89,10 +99,12 @@ export const products: Product[] = [
         properties: [
             {
                 name: "lopass",
+                propertyId: 6,
                 value: "........"
             },
             {
                 name: "salikas",
+                propertyId: 6,
                 value: "......."
             }
         ]
@@ -105,10 +117,12 @@ export const products: Product[] = [
         properties: [
             {
                 name: "......",
+                propertyId: 6,
                 value: "baltas"
             },
             {
                 name: ".......",
+                propertyId: 6,
                 value: "pirstines"
             }
         ]
@@ -121,10 +135,12 @@ export const products: Product[] = [
         properties: [
             {
                 name: "vladislav",
+                propertyId: 6,
                 value: "baby dont hertz me"
             },
             {
                 name: "dont hertz me",
+                propertyId: 6,
                 value: "no morze"
             }
         ]

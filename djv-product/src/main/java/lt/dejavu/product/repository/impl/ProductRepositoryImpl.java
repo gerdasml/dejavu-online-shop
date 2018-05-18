@@ -1,19 +1,16 @@
 package lt.dejavu.product.repository.impl;
 
-import lt.dejavu.product.model.Category_;
-import lt.dejavu.product.model.Product;
-import lt.dejavu.product.model.Product_;
+import lt.dejavu.product.model.*;
 import lt.dejavu.product.repository.ProductRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 @Transactional
@@ -23,28 +20,40 @@ public class ProductRepositoryImpl implements ProductRepository {
     private EntityManager em;
 
     @Override
-    public List<Product> getAllProducts() {
-        // TODO: extract this code to some common place, because we'll probably need it in multiple places
+    public Set<Product> getAllProducts() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> cq = cb.createQuery(Product.class);
-        Root<Product> rootEntry = cq.from(Product.class);
-        CriteriaQuery<Product> all = cq.select(rootEntry);
-        return em.createQuery(all).getResultList();
+        Root<Product> productRoot = cq.from(Product.class);
+        productRoot.fetch(Product_.properties, JoinType.LEFT).fetch(ProductProperty_.categoryProperty, JoinType.LEFT);
+        productRoot.fetch(Product_.additionalImagesUrls, JoinType.LEFT);
+        CriteriaQuery<Product> all = cq.select(productRoot);
+        return new LinkedHashSet<>(em.createQuery(all).getResultList());
     }
 
     @Override
     public Product getProduct(long id) {
-        return em.find(Product.class, id);
-    }
-
-    @Override
-    public List<Product> getProductsByCategory(long categoryId) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> query = cb.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
+        root.fetch(Product_.properties, JoinType.LEFT).fetch(ProductProperty_.categoryProperty, JoinType.LEFT);
+        root.fetch(Product_.additionalImagesUrls, JoinType.LEFT);
+        ParameterExpression<Long> idParameter = cb.parameter(Long.class);
+        query.where(cb.equal(root.get(Product_.id), idParameter));
+        List<Product> resultList = em.createQuery(query).setParameter(idParameter, id).getResultList();
+        return resultList.size() != 0 ? resultList.get(0) : null;
+
+    }
+
+    @Override
+    public Set<Product> getProductsByCategory(long categoryId) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Product> query = cb.createQuery(Product.class);
+        Root<Product> root = query.from(Product.class);
+        root.fetch(Product_.properties, JoinType.LEFT).fetch(ProductProperty_.categoryProperty, JoinType.LEFT);
+        root.fetch(Product_.additionalImagesUrls, JoinType.LEFT);
         ParameterExpression<Long> categoryIdParameter = cb.parameter(Long.class);
         query.where(cb.equal(root.get(Product_.category).get(Category_.id), categoryIdParameter));
-        return em.createQuery(query).setParameter(categoryIdParameter, categoryId).getResultList();
+        return new LinkedHashSet<>(em.createQuery(query).setParameter(categoryIdParameter, categoryId).getResultList());
     }
 
     @Override
