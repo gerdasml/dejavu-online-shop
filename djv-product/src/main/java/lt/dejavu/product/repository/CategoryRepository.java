@@ -2,15 +2,15 @@ package lt.dejavu.product.repository;
 
 import lt.dejavu.product.model.Category;
 
-import java.util.List;
+import java.util.Set;
 
 public interface CategoryRepository {
 
     Category getCategory(long id);
 
-    List<Category> getRootCategories();
+    Set<Category> getRootCategories();
 
-    List<Category> getSubCategories(long parentId);
+    Set<Category> getSubCategories(long parentId);
 
     long saveCategory(Category category);
 
@@ -18,5 +18,5 @@ public interface CategoryRepository {
 
     void deleteCategory(Category category);
 
-    List<Category> getAllCategories();
+    Set<Category> getAllCategories();
 }

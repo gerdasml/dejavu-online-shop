@@ -1,67 +1,98 @@
 package lt.dejavu.product.service.impl;
 
 import lt.dejavu.excel.service.ExcelService;
-import lt.dejavu.product.dto.ProductDto;
-import lt.dejavu.product.dto.mapper.ProductDtoMapper;
+import lt.dejavu.product.response.ProductResponse;
+import lt.dejavu.product.response.mapper.ProductResponseMapper;
 import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.ProductNotFoundException;
+import lt.dejavu.product.exception.ProductPropertyNotFoundException;
 import lt.dejavu.product.model.Category;
+import lt.dejavu.product.model.CategoryProperty;
 import lt.dejavu.product.model.Product;
+import lt.dejavu.product.model.ProductProperty;
+import lt.dejavu.product.model.rest.mapper.ProductPropertyRequestMapper;
 import lt.dejavu.product.model.rest.mapper.ProductRequestMapper;
+import lt.dejavu.product.model.rest.request.ProductPropertyRequest;
 import lt.dejavu.product.model.rest.request.ProductRequest;
 import lt.dejavu.product.repository.CategoryRepository;
+import lt.dejavu.product.repository.ProductPropertyRepository;
 import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.product.service.ProductService;
+import lt.dejavu.utils.collections.UpdatableCollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
+
+import static java.util.stream.Collectors.toSet;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
+    //TODO single responsabilty?
+
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductRequestMapper productRequestMapper;
-    private final ProductDtoMapper productDtoMapper;
+    private final ProductResponseMapper productResponseMapper;
+
+    private final ProductPropertyRequestMapper productPropertyRequestMapper;
+    private final ProductPropertyRepository productPropertyRepository;
+
+
     private final ExcelService<Product> excelService;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository,
-                              ProductRequestMapper productRequestMapper, ProductDtoMapper productDtoMapper, ExcelService<Product> excelService) {
+                              ProductRequestMapper productRequestMapper, ProductResponseMapper productResponseMapper, ExcelService<Product> excelService,
+                              ProductPropertyRequestMapper productPropertyRequestMapper, ProductPropertyRepository productPropertyRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.productRequestMapper = productRequestMapper;
-        this.productDtoMapper = productDtoMapper;
+        this.productResponseMapper = productResponseMapper;
+
+        this.productPropertyRequestMapper = productPropertyRequestMapper;
+        this.productPropertyRepository = productPropertyRepository;
+
         this.excelService = excelService;
+
     }
 
     @Override
-    public List<ProductDto> getAllProducts() {
-        return productDtoMapper.map(productRepository.getAllProducts());
+    public List<ProductResponse> getAllProducts() {
+        return productResponseMapper.map(productRepository.getAllProducts());
     }
 
     @Override
-    public ProductDto getProduct(long id) {
-        return productDtoMapper.map(getProductIfExist(id));
+    public ProductResponse getProduct(long id) {
+        return productResponseMapper.map(getProductIfExist(id));
     }
 
     @Override
-    public List<ProductDto> getProductsByCategory(long categoryId) {
+    public List<ProductResponse> getProductsByCategory(long categoryId) {
         getCategoryIfExist(categoryId);
-        return productDtoMapper.map(productRepository.getProductsByCategory(categoryId));
+        return productResponseMapper.map(productRepository.getProductsByCategory(categoryId));
     }
 
+    @Transactional
     @Override
     public Long createProduct(ProductRequest request) {
         Category productCategory = resolveProductCategory(request);
         Product product = productRequestMapper.mapToProduct(request, productCategory);
         product.setCreationDate(LocalDateTime.now());
-        return productRepository.saveProduct(product);
+        Long productId = productRepository.saveProduct(product);
+        Set<CategoryProperty> properties = getProductCategoryProperties(request, productCategory);
+        Set<ProductProperty> propertyValues = productPropertyRequestMapper.mapProperties(product, properties, request.getProperties());
+        productPropertyRepository.savePropertyValues(propertyValues);
+        return productId;
     }
 
     @Override
@@ -70,14 +101,30 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteProduct(product);
     }
 
+    @Transactional
     @Override
     public void updateProduct(long productId, ProductRequest request) {
+        Category productCategory = resolveProductCategory(request);
         Product oldProduct = getProductIfExist(productId);
-        Product newProduct = productRequestMapper.mapToProduct(request, resolveProductCategory(request));
-        newProduct.setId(oldProduct.getId());
-        productRepository.updateProduct(newProduct);
+        productRequestMapper.remapToProduct(oldProduct, request, productCategory);
+        Set<CategoryProperty> properties = getProductCategoryProperties(request, productCategory);
+        Set<ProductProperty> propertyValues = productPropertyRequestMapper.mapProperties(oldProduct, properties, request.getProperties());
+        UpdatableCollectionUtils.updateCollection(oldProduct.getProperties(), propertyValues);
+        productRepository.updateProduct(oldProduct);
     }
 
+    private Set<CategoryProperty> getProductCategoryProperties(ProductRequest request, Category productCategory) {
+        Set<Long> propertyIds = getPropertyIds(request);
+        Set<CategoryProperty> properties = productPropertyRepository.findByCategoryIdAndIds(productCategory.getId(), propertyIds);
+        checkIfAllPropertiesWereFound(propertyIds, properties);
+        return properties;
+    }
+
+
+    private Set<Long> getPropertyIds(ProductRequest request) {
+        return request.getProperties().stream().map(ProductPropertyRequest::getPropertyId).collect(toSet());
+    }
+    
     @Override
     public ByteArrayOutputStream exportProducts() throws IOException {
         return excelService.toExcel(productRepository.getAllProducts());
@@ -88,10 +135,9 @@ public class ProductServiceImpl implements ProductService {
         return excelService.fromExcel(data);
     }
 
-
     private Category resolveProductCategory(ProductRequest request) {
         if (request.getCategoryId() == null) {
-            return null;
+            throw new IllegalStateException("Product must have category");
         }
         return getCategoryIfExist(request.getCategoryId());
     }
@@ -110,5 +156,13 @@ public class ProductServiceImpl implements ProductService {
             throw new CategoryNotFoundException("cannot find category with id " + categoryId);
         }
         return category;
+    }
+
+    private void checkIfAllPropertiesWereFound(Set<Long> propertyIds, Set<CategoryProperty> properties) {
+        if (propertyIds.size() != properties.size()) {
+            throw new ProductPropertyNotFoundException("Not product all properties were found in given category");
+            //TODO more details
+        }
+
     }
 }

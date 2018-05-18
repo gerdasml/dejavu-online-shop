@@ -17,6 +17,7 @@
         <module>djv-logging</module>
         <module>djv-order</module>
         <module>djv-cart</module>
+        <module>djv-utils</module>
         <module>djv-excel</module>
     </modules>
     <packaging>pom</packaging>

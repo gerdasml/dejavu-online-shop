@@ -7,7 +7,6 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -23,5 +22,5 @@ public class ProductRequest {
     private Set<String> additionalImagesUrls;
     private LocalDateTime creationDate;
     private Long categoryId;
-    private List<ProductPropertyRequest> properties;
+    private Set<ProductPropertyRequest> properties;
 }

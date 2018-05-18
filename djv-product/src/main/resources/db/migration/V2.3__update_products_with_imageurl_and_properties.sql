@@ -1,15 +1,19 @@
-ALTER TABLE `product`
-  ADD COLUMN `identifier` VARCHAR(255);
 
-ALTER TABLE `product`
-  ADD COLUMN `mainImageUrl` VARCHAR(255);
+CREATE TABLE `category_property` (
+  `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(255) NOT NULL,
+  `categoryId` BIGINT NOT NULL,
+  CONSTRAINT `FK_productProperty_category` FOREIGN KEY (categoryId) REFERENCES category(id) ON DELETE CASCADE,
+  CONSTRAINT `PK_categoryProperty` PRIMARY KEY (`id`)
+);
 
 CREATE TABLE `product_property` (
-  `name` VARCHAR(255) NOT NULL,
+  `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
   `value` VARCHAR(255) NOT NULL,
+  `category_property_Id` BIGINT NOT NULL,
   `productId` BIGINT NOT NULL,
-  CONSTRAINT `FK_productProperty_property` FOREIGN KEY (productId) REFERENCES product(id) ON DELETE CASCADE,
-  CONSTRAINT `PK_productProperty` PRIMARY KEY (`productId`, `name`)
+  CONSTRAINT `FK_productProperty_categoryProperty` FOREIGN KEY (category_property_Id) REFERENCES category_property(id) ON DELETE CASCADE,
+  CONSTRAINT `PK_productProperty` PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `additional_image_url` (

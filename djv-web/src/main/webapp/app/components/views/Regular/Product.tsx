@@ -1,10 +1,9 @@
 import * as React from "react";
 
-import { notification, message } from "antd";
+import { message, notification } from "antd";
 import { Grid, Header, Label, List, Loader} from "semantic-ui-react";
 
 import {RouteComponentProps} from "react-router-dom";
-import { Cart } from "../../../model/Cart";
 import * as ProductModel from "../../../model/Product";
 import { Carousel } from "../../dumb/Product/Carousel";
 import { Expander} from "../../smart/Product/Expander";
