@@ -3,6 +3,7 @@ package lt.dejavu.product.model.rest.mapper;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.model.rest.request.ProductRequest;
+import lt.dejavu.utils.collections.CommonCollectionUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,7 +28,7 @@ public class ProductRequestMapper {
         oldProduct.setDescription(productRequest.getDescription());
         oldProduct.setPrice(productRequest.getPrice());
         oldProduct.setMainImageUrl(productRequest.getMainImageUrl());
-        oldProduct.setAdditionalImagesUrls(productRequest.getAdditionalImagesUrls());
+        CommonCollectionUtils.updateCollection(oldProduct.getAdditionalImagesUrls(), productRequest.getAdditionalImagesUrls());
         oldProduct.setCreationDate(productRequest.getCreationDate());
         oldProduct.setCategory(category);
         return oldProduct;

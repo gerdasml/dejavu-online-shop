@@ -3,6 +3,7 @@ package lt.dejavu.product.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lt.dejavu.utils.collections.Updatable;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -11,7 +12,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name = "product_property")
-public class ProductProperty {
+public class ProductProperty implements Updatable<ProductProperty> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -27,7 +28,6 @@ public class ProductProperty {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "productId")
     private Product product;
-
 
     //  value and categoryProperty.id
     @Override
@@ -51,5 +51,16 @@ public class ProductProperty {
             return Objects.hash(value, categoryProperty.getId());
         }
         return Objects.hash(value);
+    }
+
+    public boolean canBeUpdated(ProductProperty other){
+        if (other == null){
+            return false;
+        }
+        return this.categoryProperty.getId().equals(other.categoryProperty.getId());
+    }
+
+    public void update(ProductProperty productProperty) {
+        this.setValue(productProperty.getValue());
     }
 }

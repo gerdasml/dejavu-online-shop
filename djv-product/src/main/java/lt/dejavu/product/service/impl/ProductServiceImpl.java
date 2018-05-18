@@ -18,7 +18,8 @@ import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.repository.ProductPropertyRepository;
 import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.product.service.ProductService;
-import lt.dejavu.utils.collections.CollectionUpdater;
+import lt.dejavu.utils.collections.CommonCollectionUtils;
+import lt.dejavu.utils.collections.UpdatableCollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -109,7 +110,7 @@ public class ProductServiceImpl implements ProductService {
         productRequestMapper.remapToProduct(oldProduct, request, productCategory);
         Set<CategoryProperty> properties = getProductCategoryProperties(request, productCategory);
         Set<ProductProperty> propertyValues = productPropertyRequestMapper.mapProperties(oldProduct, properties, request.getProperties());
-        CollectionUpdater.updateCollection(oldProduct.getProperties(), propertyValues);
+        UpdatableCollectionUtils.updateCollection(oldProduct.getProperties(), propertyValues);
         productRepository.updateProduct(oldProduct);
     }
 

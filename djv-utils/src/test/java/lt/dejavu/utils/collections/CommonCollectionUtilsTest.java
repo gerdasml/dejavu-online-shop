@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.*;
 
-public class CollectionUpdaterTest {
+public class CommonCollectionUtilsTest {
 
     @Test
     public void testCollectionsEmpty() {
@@ -45,7 +45,7 @@ public class CollectionUpdaterTest {
     }
 
     private <T, K extends Collection<T>> void test(K oldCollection, K  newCollection) {
-        Collection<T> result = CollectionUpdater.updateCollection(oldCollection, newCollection);
+        Collection<T> result = CommonCollectionUtils.updateCollection(oldCollection, newCollection);
         Assert.assertEquals(newCollection, result);
     }
 }

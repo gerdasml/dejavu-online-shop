@@ -5,9 +5,9 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-public class CollectionUpdater {
+public class CommonCollectionUtils {
 
-    // replaces oldCollection with newCollection entities according to equals method
+    // replaces oldCollection with newCollection objects according to equals method
     public static <T, K extends Collection<T>> K updateCollection(K oldCollection, K  newCollection){
         removeNotExisting(oldCollection, newCollection);
         addNew(oldCollection, newCollection);

@@ -4,7 +4,8 @@ import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.CategoryProperty;
 import lt.dejavu.product.model.rest.request.CategoryPropertyRequest;
 import lt.dejavu.product.model.rest.request.CategoryRequest;
-import lt.dejavu.utils.collections.CollectionUpdater;
+import lt.dejavu.utils.collections.CommonCollectionUtils;
+import lt.dejavu.utils.collections.UpdatableCollectionUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -41,7 +42,7 @@ public class CategoryRequestMapper {
         oldCategory.setIconName(categoryRequest.getIcon());
         oldCategory.setIdentifier(categoryRequest.getIdentifier());
         oldCategory.setParentCategory(parentCategory);
-        CollectionUpdater.updateCollection(oldCategory.getProperties(), mapToProperties(categoryRequest.getProperties(), oldCategory));
+        UpdatableCollectionUtils.updateCollection(oldCategory.getProperties(), mapToProperties(categoryRequest.getProperties(), oldCategory));
         return oldCategory;
     }
 }

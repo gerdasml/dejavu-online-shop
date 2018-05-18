@@ -2,6 +2,7 @@ package lt.dejavu.product.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lt.dejavu.utils.collections.Updatable;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -10,7 +11,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name = "category_property")
-public class CategoryProperty {
+public class CategoryProperty  implements Updatable<CategoryProperty> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,5 +44,15 @@ public class CategoryProperty {
             categoryIdHash = category.getId().hashCode();
         }
         return nameHash | categoryIdHash;
+    }
+
+    @Override
+    public boolean canBeUpdated(CategoryProperty other) {
+        return false;
+    }
+
+    @Override
+    public void update(CategoryProperty other) {
+
     }
 }
