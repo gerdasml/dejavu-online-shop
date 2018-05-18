@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import { notification } from "antd";
+
 import Card from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
 
@@ -15,8 +17,11 @@ import "../../../../../style/payment.css";
 
 import { ApiError } from "../../../../api";
 
+import { Address } from "../../../../model/Address";
+
 interface PaymentProps {
     onStepComplete: () => void;
+    shippingAddress: Address;
 }
 
 interface PaymentState {
@@ -122,6 +127,18 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
 
     pay = async () => {
         // TODO: build payment request(card + shipping address) and checkout
+
+        const paymentCard = this.buildCard();
+        const address = this.props.shippingAddress;
+        const checkoutInfo = {
+            card: paymentCard,
+            shippingAddress: address,
+        };
+        const checkoutResponse = await api.cart.checkout(checkoutInfo);
+        if(api.isError(checkoutResponse)) {
+            notification.error({message: "Failed to change amount", description: checkoutResponse.message});
+            return false;
+        }
         return true;
     }
 

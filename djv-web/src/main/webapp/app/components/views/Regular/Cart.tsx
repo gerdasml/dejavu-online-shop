@@ -96,11 +96,11 @@ export class Cart extends React.Component<{}, CartState> {
                 : ""
                 }
                 {this.state.currentStep === CartStep.PAYMENT
-                ? <Step.Payment onStepComplete={this.nextStep} />
+                ? <Step.Payment onStepComplete={this.nextStep} shippingAddress={this.state.shippingAddress}/>
                 : ""
                 }
                 {this.state.currentStep === CartStep.APPROVAL
-                ? <Step.Approval onStepComplete={this.nextStep} />
+                ? <Step.Approval onStepComplete={this.nextStep}/>
                 : ""
                 }
             </div>
