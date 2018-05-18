@@ -46,21 +46,21 @@ export class AddressInput extends React.Component<AddressProps, {}> {
           <Form.Field inline>
             <label>Street</label>
             <input type="text"
-              placeholder="street"
-              value={this.props.address.street}
+              placeholder="Gatvės g., 24-16"
+              defaultValue={this.props.address.street}
               onChange={this.handleStreetInput.bind(this)} />
           </Form.Field>
           <Form.Field inline>
             <label>Zip Code</label>
             <input type="text"
-              placeholder="zip"
-              value={this.props.address.zipCode}
+              placeholder="LT-03011"
+              defaultValue={this.props.address.zipCode}
               onChange={this.handleZipCodeInput.bind(this)} />
           </Form.Field>
           <Form.Field inline>
             <label>Country</label>
             <select
-              value={this.props.address.country}
+              defaultValue={this.props.address.country}
               onChange={this.handleCountryInput.bind(this)}>
               <option value="" hidden></option>
               {countries.map(country => (
@@ -71,7 +71,7 @@ export class AddressInput extends React.Component<AddressProps, {}> {
             <label>City</label>
             <input type="text"
               placeholder="Vilnius"
-              value={this.props.address.city}
+              defaultValue={this.props.address.city}
               onChange={this.handleCityInput.bind(this)} />
           </Form.Field>
         </Form>

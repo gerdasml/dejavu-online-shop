@@ -2,7 +2,7 @@ package lt.dejavu.payment.configuration;
 
 import lt.dejavu.logging.LoggingRequestInterceptor;
 import lt.dejavu.payment.configuration.properties.PaymentProperties;
-import lt.dejavu.payment.model.Payment;
+import lt.dejavu.payment.model.Card;
 import lt.dejavu.payment.validation.validator.*;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -28,12 +28,11 @@ public class PaymentConfiguration {
     }
 
     @Bean
-    public Validator<Payment> paymentValidator() {
-        return new CompoundValidator<Payment>()
-                .addValidator(new AmountValidator())
-                .addValidator(new CardCvvValidator())
-                .addValidator(new CardHolderValidator())
-                .addValidator(new CardNumberValidator())
+    public Validator<Card> paymentValidator() {
+        return new CompoundValidator<Card>()
+                .addValidator(new CvvValidator())
+                .addValidator(new HolderValidator())
+                .addValidator(new NumberValidator())
                 .addValidator(new ExpirationYearValidator())
                 .addValidator(new ExpirationMonthValidator());
     }

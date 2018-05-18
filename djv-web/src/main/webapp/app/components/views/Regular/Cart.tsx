@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { notification } from "antd";
 
 import { Cart as CartModel } from "../../../model/Cart";
 
@@ -11,13 +12,15 @@ import * as api from "../../../api";
 
 import { Loader } from "semantic-ui-react";
 
+import { Address } from "../../../model/Address";
+import { User } from "../../../model/User";
 import { CartStep, CartStepHeader } from "../../dumb/Cart/CartStepHeader";
 
 interface CartState {
     currentStep: CartStep;
-    error?: string;
     isLoading: boolean;
     cart: CartModel;
+    shippingAddress?: Address;
 }
 
 export class Cart extends React.Component<{}, CartState> {
@@ -34,18 +37,18 @@ export class Cart extends React.Component<{}, CartState> {
     async componentDidMount () {
         const cartInfo = await api.cart.getCart();
         if(api.isError(cartInfo)) {
-            this.setState({
-                ...this.state,
-                error: cartInfo.message,
-                isLoading: false,
-            });
+            notification.error({message: "Failed to fetch cart.", description: cartInfo.message});
         } else {
             this.setState({
                 ...this.state,
                 cart: cartInfo,
-                isLoading: false,
+                shippingAddress: cartInfo.user.address
             });
         }
+        this.setState({
+            ...this.state,
+            isLoading: false,
+        });
     }
 
     setStep = (step: CartStep) => {
@@ -54,12 +57,7 @@ export class Cart extends React.Component<{}, CartState> {
 
     nextStep = () => {
         const step = this.state.currentStep;
-        // this.state.cart.items.forEach(p =>
-        //     console.log(p.product.name + " " + p.amount)
-        // );
         if(step === CartStep.APPROVAL) {
-            console.log("Finished");
-            // TODO: finish this somehow
             return;
         }
         this.setStep(this.state.currentStep+1);
@@ -83,7 +81,12 @@ export class Cart extends React.Component<{}, CartState> {
                 : ""
                 }
                 {this.state.currentStep === CartStep.DELIVERY_INFO
-                ? <Step.DeliveryInfo onStepComplete={this.nextStep} />
+                ?
+                <Step.DeliveryInfo
+                    onStepComplete={this.nextStep}
+                    shippingAddress={this.state.shippingAddress}
+                    onShippingInfoChange={address => this.setState({...this.state, shippingAddress: address})}
+                />
                 : ""
                 }
                 {this.state.currentStep === CartStep.CONFIRMATION
@@ -91,11 +94,11 @@ export class Cart extends React.Component<{}, CartState> {
                 : ""
                 }
                 {this.state.currentStep === CartStep.PAYMENT
-                ? <Step.Payment onStepComplete={this.nextStep} />
+                ? <Step.Payment onStepComplete={this.nextStep} shippingAddress={this.state.shippingAddress}/>
                 : ""
                 }
                 {this.state.currentStep === CartStep.APPROVAL
-                ? <Step.Approval onStepComplete={this.nextStep} />
+                ? <Step.Approval onStepComplete={this.nextStep}/>
                 : ""
                 }
             </div>
