@@ -5,6 +5,7 @@ import lt.dejavu.order.exception.OrderNotFoundException;
 import lt.dejavu.order.model.OrderStatus;
 import lt.dejavu.order.model.db.Order;
 import lt.dejavu.order.model.db.Order_;
+import lt.dejavu.order.model.db.Review;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,6 +65,21 @@ public class OrderRepositoryImpl implements OrderRepository {
             throw new OrderNotFoundException("The order with the specified ID was not found");
         }
         order.setStatus(status);
+        em.merge(order);
+    }
+
+    @Override
+    public void addReview(long orderId, Review review) {
+        Order order = getOrder(orderId);
+        if (order == null) {
+            throw new OrderNotFoundException("The order with the specified ID was not found");
+        }
+        order.setReviewShown(true);
+        if (review != null) {
+            order.setReview(review);
+            review.setOrder(order);
+            em.persist(review);
+        }
         em.merge(order);
     }
 }

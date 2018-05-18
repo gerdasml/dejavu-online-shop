@@ -14,4 +14,13 @@ public class ReviewMapper {
 
         return dto;
     }
+
+    public Review map(ReviewDto dto) {
+        if (dto == null) return null;
+        Review review = new Review();
+        review.setComment(dto.getComment());
+        review.setRating(dto.getRating());
+
+        return review;
+    }
 }

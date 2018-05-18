@@ -74,6 +74,7 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(dto.getStatus());
         order.setCreationDate(dto.getCreatedDate());
         order.setShippingAddress(dto.getShippingAddress());
+        order.setReviewShown(dto.isReviewShown());
         List<OrderItem> orderItems = dto.getItems()
                                         .stream()
                                         .map(item -> buildOrderItem(item, order))
