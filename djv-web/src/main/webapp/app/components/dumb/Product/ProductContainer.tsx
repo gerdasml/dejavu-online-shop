@@ -9,6 +9,8 @@ import { Cart } from "../../../model/Cart";
 import { Product } from "../../../model/Product";
 import { ProductCard } from "../Home/ProductCard";
 import { Category } from "../../../model/Category";
+import { getProperties, ProductFilter } from "../../../utils/product/productFilter";
+import { Filter } from "./Filter";
 
 interface ProductContainerProps {
     products: Product[];
@@ -19,6 +21,7 @@ interface ProductContainerState {
     isLoading: boolean;
     cart?: Cart;
     activePage: number;
+    properties?: ProductFilter[];
 }
 
 const PRODUCTS_PER_PAGE = 20;
@@ -75,8 +78,10 @@ export class ProductContainer extends React.Component <ProductContainerProps, {}
     handlePaginationChange = (e: any, x: any) => this.setState({ ...this.state, activePage: x.activePage });
 
     render () {
+        const properties = getProperties(this.props.category, this.props.products);
         return (
                 <div>
+                    {properties.map(x => <Filter properties={x}/>)}
                     <Card.Group itemsPerRow={5} doubling>
                         {this.mapProducts()}
                     </Card.Group>

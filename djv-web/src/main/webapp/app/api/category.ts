@@ -19,4 +19,4 @@ export const createCategory = (category: Category): Promise<ApiResponse<void>> =
     fetchData(PATH_PREFIX + "/create", HttpMethod.POST, category);
 
 export const getCategory = (id: number): Promise<ApiResponse<Category>> =>
-    fetchData(PATH_PREFIX + "/category" + id.toString(), HttpMethod.GET);
+    fetchData(PATH_PREFIX + "/" + id.toString(), HttpMethod.GET);
