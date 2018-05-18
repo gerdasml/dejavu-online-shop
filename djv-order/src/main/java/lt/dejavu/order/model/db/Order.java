@@ -48,4 +48,8 @@ public class Order {
             inverseJoinColumns = @JoinColumn(name = "addressId")
     )
     private Address shippingAddress;
+
+    @OneToOne
+    @JoinColumn(name = "reviewId")
+    private Review review;
 }
