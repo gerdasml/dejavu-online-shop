@@ -31,6 +31,7 @@ export class Header extends React.Component <{}, HeaderState> {
                 <Menu id="menuHeader">
                     <Menu.Item
                         className="logoContainer"
+                        id="logoHeaderColumn"
                         active={activeItem === "menu"}
                         onClick={this.handleItemClick}>
                     <NavLink to="/">
@@ -41,7 +42,7 @@ export class Header extends React.Component <{}, HeaderState> {
                     <Menu.Menu position="right">
                         <Menu.Item className="borderless">
                             <Search id="searchBar"
-                                value="Search..."
+                                placeholder="Search..."
                                 noResultsMessage="No products were found"
                                 size="mini"
                                 fluid
