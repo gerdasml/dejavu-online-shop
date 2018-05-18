@@ -10,11 +10,6 @@ export interface Card {
     expiration: Expiration;
 }
 
-export interface Payment {
-    amount: number;
-    card: Card;
-}
-
 export interface ValidationError {
     location: string;
     message: string;

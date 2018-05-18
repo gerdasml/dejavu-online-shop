@@ -12,6 +12,7 @@ import * as model from "../../../../model/Payment";
 import * as api from "../../../../api";
 
 import "../../../../../style/payment.css";
+
 import { ApiError } from "../../../../api";
 
 interface PaymentProps {
@@ -85,14 +86,12 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
         return {month, year};
     }
 
-    buildPayment = (): model.Payment => ({
-        amount: 10, // TODO: figure out how to get this
-        card: {
-            cvv: this.state.cvc,
-            expiration: this.buildExpiration(),
-            holder: this.state.name,
-            number: clearNumber(this.state.number)
-        },
+    buildCard = (): model.Card => ({
+        cvv: this.state.cvc,
+        expiration: this.buildExpiration(),
+        holder: this.state.name,
+        number: clearNumber(this.state.number)
+
     })
 
     sleep = async (ms: number) => await new Promise(r => setTimeout(r, ms));
@@ -115,16 +114,21 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
     handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         this.setLoading(true);
-        const isOk = await this.checkData();
-        this.setLoading(false);
-        if(isOk) {
+        if(await this.validate() && await this.pay()) {
             this.props.onStepComplete();
         }
+        this.setLoading(false);
     }
-    checkData = async () => {
-        const payment = this.buildPayment();
-        const validationResponse = await api.payment.validate(payment);
-        console.log(payment, validationResponse);
+
+    pay = async () => {
+        // TODO: build payment request(card + shipping address) and checkout
+        return true;
+    }
+
+    validate = async () => {
+        const card = this.buildCard();
+        const validationResponse = await api.payment.validate(card);
+        console.log(card, validationResponse);
         await this.sleep(1000);
         if(api.isError(validationResponse)) {
             this.showError("Validation has failed", validationResponse);
