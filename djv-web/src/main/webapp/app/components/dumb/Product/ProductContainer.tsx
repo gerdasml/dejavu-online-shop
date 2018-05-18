@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { notification, message } from "antd";
+import { message, notification } from "antd";
 import { Card } from "semantic-ui-react";
 
 import * as api from "../../../api";

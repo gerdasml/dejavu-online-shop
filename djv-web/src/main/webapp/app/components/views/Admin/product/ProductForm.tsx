@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid } from "semantic-ui-react";
 
-import { Button, notification, message } from "antd";
+import { Button, message, notification } from "antd";
 import * as api from "../../../../api";
 import { CategoryTree } from "../../../../model/CategoryTree";
 import { Product } from "../../../../model/Product";
