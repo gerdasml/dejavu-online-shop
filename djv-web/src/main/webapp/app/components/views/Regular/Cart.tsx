@@ -12,13 +12,15 @@ import * as api from "../../../api";
 
 import { Loader } from "semantic-ui-react";
 
-import { CartStep, CartStepHeader } from "../../dumb/Cart/CartStepHeader";
+import { Address } from "../../../model/Address";
 import { User } from "../../../model/User";
+import { CartStep, CartStepHeader } from "../../dumb/Cart/CartStepHeader";
 
 interface CartState {
     currentStep: CartStep;
     isLoading: boolean;
     cart: CartModel;
+    shippingAddress?: Address;
 }
 
 export class Cart extends React.Component<{}, CartState> {
@@ -40,6 +42,7 @@ export class Cart extends React.Component<{}, CartState> {
             this.setState({
                 ...this.state,
                 cart: cartInfo,
+                shippingAddress: cartInfo.user.address
             });
         }
         this.setState({
@@ -60,15 +63,6 @@ export class Cart extends React.Component<{}, CartState> {
             return;
         }
         this.setStep(this.state.currentStep+1);
-    }
-    updateUser = (newUser: User) => {
-        // TODO: Galbūt reiktų ne tik state įsirašyt Userio pakeitimus, bet ir backui nusiųst (kad po refresh liktų) ?
-        const newCart = this.state.cart;
-        newCart.user = newUser;
-        this.setState({
-            ...this.state,
-            cart: newCart,
-        });
     }
 
     render () {
@@ -92,8 +86,8 @@ export class Cart extends React.Component<{}, CartState> {
                 ?
                 <Step.DeliveryInfo
                     onStepComplete={this.nextStep}
-                    user={this.state.cart.user}
-                    onUserInfoChange={newUser => this.updateUser(newUser)}
+                    shippingAddress={this.state.shippingAddress}
+                    onShippingInfoChange={address => this.setState({...this.state, shippingAddress: address})}
                 />
                 : ""
                 }

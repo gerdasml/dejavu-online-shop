@@ -55,9 +55,6 @@ export class OrderHistory extends React.Component<{},OrderHistoryState> {
                 <Table.Cell singleLine>{
                     this.parseDate(x.createdDate.toString()).toLocaleDateString()
                 }</Table.Cell>
-                <Table.Cell>
-                    <Rating icon="star" defaultRating={0} maxRating={5} disabled/>
-                </Table.Cell>
                 <Table.Cell>{x.status}</Table.Cell>
                 <Table.Cell>{x.total}€</Table.Cell>
                 <Table.Cell>
@@ -91,7 +88,6 @@ export class OrderHistory extends React.Component<{},OrderHistoryState> {
                         <Table.Header>
                             <Table.Row>
                                 <Table.HeaderCell singleLine>Order date</Table.HeaderCell>
-                                <Table.HeaderCell>Rating</Table.HeaderCell>
                                 <Table.HeaderCell>Status</Table.HeaderCell>
                                 <Table.HeaderCell>Price</Table.HeaderCell>
                                 <Table.HeaderCell singleLine>Order info</Table.HeaderCell>
