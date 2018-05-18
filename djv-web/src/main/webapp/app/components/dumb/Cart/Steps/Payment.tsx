@@ -114,20 +114,23 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
 
     isErrorPresent = (name: string) => this.state.errors.some(e => e.location === name);
 
-    setLoading = (isLoading: boolean) => this.setState({...this.state, isLoading});
-
     handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        this.setLoading(true);
+        this.setState({
+            ...this.state,
+            errors: [],
+            isLoading: true,
+        });
         if(await this.validate() && await this.pay()) {
             this.props.onStepComplete();
         }
-        this.setLoading(false);
+        this.setState({
+            ...this.state,
+            isLoading: false,
+        });
     }
 
     pay = async () => {
-        // TODO: build payment request(card + shipping address) and checkout
-
         const paymentCard = this.buildCard();
         const address = this.props.shippingAddress;
         const checkoutInfo = {
