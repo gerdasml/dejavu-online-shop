@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import {Button, Card, Header, Icon, Image, Label, Loader} from "semantic-ui-react";
-import "../../../../style/header.css";
+//import "../../../../style/header.css";
 
 import { Product } from "../../../model/Product";
 
