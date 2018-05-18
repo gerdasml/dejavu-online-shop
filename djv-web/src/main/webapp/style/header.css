@@ -1,6 +1,6 @@
 @media screen and (max-width: 900px) {
     #large-logo {
-        display: none
+        display: none;
     }
 }
 
@@ -10,29 +10,13 @@
     }
 }
 
-#headerGrid {
-    background-color: #b7d2ff;
-    height: 70px;
-    text-align: center;
-    vertical-align: middle;
+#menuHeader {
+    height: 10vh;
     margin: 0;
 }
 
-#headerGrid .column{
-    padding: 0;
-}
-
-#logo{
-    display: block;
+#menuHeader svg {
     height: 100%;
-    margin: auto;
-    width: 70%;
-}
-
-#mailPhoneRow{
-    height: 40%;
-    display: flex;
-    justify-content: space-between;
 }
 
 #searchRow{
@@ -43,54 +27,22 @@
     width: 100%;
 }
 
+.logoContainer * {
+    height: 100%;
+}
+
 #searchBar{
     width: 100%;
     height: auto;
 }
 
-#threeHeaderButtons{
-    height: 100%;
-    display: flex;
-    justify-content: flex-end;
-}
+
 
 /* Something like this should be used to fix a TODO in Header.tsx*/
 /*#headerGrid NavLink {
     margin-top: auto;
     margin-bottom: auto;
 }*/
-
-
-#headerGrid .headerButton{
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-#loginHeaderButton{
-    margin-right: 5px;
-}
-
-#infoSearchColumn{
-    vertical-align: middle;
-}
-
-#mailPhoneRow, #searchRow{
-    vertical-align: middle;
-} 
-
-#logoHeaderColumn{
-    max-height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-#logoHeaderColumn * {
-    height: 100%;
-    max-height: 100%;
-    max-width: 100%;
-}
 
 #logoHeaderColumn svg {
     fill: black; /* TODO: change color */
