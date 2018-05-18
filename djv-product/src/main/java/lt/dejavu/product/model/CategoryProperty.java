@@ -48,11 +48,14 @@ public class CategoryProperty  implements Updatable<CategoryProperty> {
 
     @Override
     public boolean canBeUpdated(CategoryProperty other) {
-        return false;
+        return Objects.equals(id,other.getId());
     }
 
     @Override
-    public void update(CategoryProperty other) {
-
+    public void update(CategoryProperty categoryProperty) {
+        if (Objects.equals(name,categoryProperty.getName())) {
+            return;
+        }
+        this.setName(categoryProperty.getName());
     }
 }

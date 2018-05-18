@@ -61,6 +61,9 @@ public class ProductProperty implements Updatable<ProductProperty> {
     }
 
     public void update(ProductProperty productProperty) {
+        if (Objects.equals(value,productProperty.getValue())) {
+            return;
+        }
         this.setValue(productProperty.getValue());
     }
 }
