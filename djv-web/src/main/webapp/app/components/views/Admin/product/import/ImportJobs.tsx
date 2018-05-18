@@ -1,8 +1,7 @@
 import * as React from "react";
 
-import { RouteComponentProps, NavLink } from "react-router-dom";
 
-import { Button, Icon, notification, Spin } from "antd";
+import { notification, Spin } from "antd";
 import { ImportStatus } from "../../../../../model/Product";
 
 import { ImportJobsTable } from "../../common/Table/ImportJobsTable";

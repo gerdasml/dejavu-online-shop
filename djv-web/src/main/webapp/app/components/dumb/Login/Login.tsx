@@ -1,10 +1,9 @@
 import * as React from "react";
-import { Button, Form, Grid, Icon, Menu, Message, Modal, Segment } from "semantic-ui-react";
+import { Button, Form, Grid, Menu, Message, Modal, Segment } from "semantic-ui-react";
 import * as api from "../../../api";
 import { storeToken } from "../../../utils/token";
 import {Register} from "./Register";
 
-//import "../../../../style/header.css";
 import "../../../../style/login.css";
 
 interface LoginState {

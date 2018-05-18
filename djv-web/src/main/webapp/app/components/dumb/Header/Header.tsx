@@ -1,7 +1,7 @@
 import * as React from "react";
-import {NavLink, Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 
-import {Button, Dropdown, Grid, Icon, Image, List, Menu, Search} from "semantic-ui-react";
+import {Menu, Search} from "semantic-ui-react";
 import "../../../../style/header.css";
 import {Login} from "../Login/Login";
 
