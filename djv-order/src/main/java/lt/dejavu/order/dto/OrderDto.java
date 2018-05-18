@@ -16,7 +16,7 @@ import java.util.List;
 public class OrderDto {
     private long id;
     private OrderStatus status;
-    private ReviewStatus reviewStatus;
+    private boolean reviewShown;
     private Timestamp createdDate;
     private UserDto user;
     private List<OrderItemDto> items;

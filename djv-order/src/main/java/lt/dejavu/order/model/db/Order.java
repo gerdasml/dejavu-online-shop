@@ -27,9 +27,8 @@ public class Order {
     @Column(name = "status")
     private OrderStatus status;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "reviewStatus")
-    private ReviewStatus reviewStatus;
+    @Column(name = "reviewShown")
+    private Boolean reviewShown;
 
     @OneToMany(mappedBy = "order")
     private List<OrderItem> items;

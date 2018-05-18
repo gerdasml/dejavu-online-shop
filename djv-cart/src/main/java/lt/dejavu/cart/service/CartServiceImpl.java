@@ -113,7 +113,7 @@ public class CartServiceImpl implements CartService {
         order.setUser(cart.getUser());
         order.setItems(cart.getItems());
         order.setStatus(OrderStatus.CREATED);
-        order.setReviewStatus(ReviewStatus.NOT_READY);
+        order.setReviewShown(false);
         order.setShippingAddress(shippingAddress);
 
         return order;
