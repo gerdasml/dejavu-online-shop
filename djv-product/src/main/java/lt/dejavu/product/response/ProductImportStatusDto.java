@@ -12,7 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class ProductImportStatusResponse {
+public class ProductImportStatusDto {
     private UUID id;
     private Status status;
     private int successCount;

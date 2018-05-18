@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lt.dejavu.excel.model.db.ImportStatus;
-import lt.dejavu.product.response.ProductImportStatusResponse;
+import lt.dejavu.product.response.ProductImportStatusDto;
 import lt.dejavu.product.response.ProductResponse;
 import org.springframework.stereotype.Component;
 
@@ -15,15 +15,15 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Component
-public class ProductImportStatusResponseMapper {
+public class ProductImportStatusDtoMapper {
     private final ObjectMapper objectMapper;
 
-    public ProductImportStatusResponseMapper(ObjectMapper objectMapper) {
+    public ProductImportStatusDtoMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
-    public ProductImportStatusResponse map(ImportStatus status) {
-        ProductImportStatusResponse dto = new ProductImportStatusResponse();
+    public ProductImportStatusDto map(ImportStatus status) {
+        ProductImportStatusDto dto = new ProductImportStatusDto();
         dto.setId(status.getId());
         dto.setFailureCount(status.getFailureCount());
         dto.setSuccessCount(status.getSuccessCount());
@@ -37,7 +37,7 @@ public class ProductImportStatusResponseMapper {
         return dto;
     }
 
-    public ImportStatus map(ProductImportStatusResponse dto) {
+    public ImportStatus map(ProductImportStatusDto dto) {
         ImportStatus status = new ImportStatus();
         status.setStatus(dto.getStatus());
         status.setId(dto.getId());
@@ -52,7 +52,7 @@ public class ProductImportStatusResponseMapper {
         return status;
     }
 
-    public List<ProductImportStatusResponse> map(List<ImportStatus> statuses) {
+    public List<ProductImportStatusDto> map(List<ImportStatus> statuses) {
         return statuses.stream().map(this::map).collect(toList());
     }
 }
