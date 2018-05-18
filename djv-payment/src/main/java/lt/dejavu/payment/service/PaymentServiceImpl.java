@@ -5,6 +5,7 @@ import lt.dejavu.payment.dto.ErrorDTO;
 import lt.dejavu.payment.dto.PaymentDTO;
 import lt.dejavu.payment.exception.PaymentException;
 import lt.dejavu.payment.mapper.PaymentMapper;
+import lt.dejavu.payment.model.Card;
 import lt.dejavu.payment.model.Payment;
 import lt.dejavu.payment.validation.ValidationError;
 import lt.dejavu.payment.validation.validator.Validator;
@@ -25,11 +26,11 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentMapper paymentMapper;
     private final RestTemplate restTemplate;
-    private final Validator<Payment> validator;
+    private final Validator<Card> validator;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public PaymentServiceImpl(PaymentMapper paymentMapper, RestTemplate restTemplate, Validator<Payment> validator, ObjectMapper objectMapper) {
+    public PaymentServiceImpl(PaymentMapper paymentMapper, RestTemplate restTemplate, Validator<Card> validator, ObjectMapper objectMapper) {
         this.paymentMapper = paymentMapper;
         this.restTemplate = restTemplate;
         this.validator = validator;
@@ -53,7 +54,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<ValidationError> validate(Payment payment) {
-        return validator.validate(payment);
+    public List<ValidationError> validate(Card card) {
+        return validator.validate(card);
     }
 }

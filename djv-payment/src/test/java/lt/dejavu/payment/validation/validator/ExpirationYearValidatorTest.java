@@ -18,29 +18,26 @@ public class ExpirationYearValidatorTest extends SingleValidatorTestBase {
 
     @Test
     public void testValidateExpirationYear_noExpirationGiven() {
-        test(createPayment(), 1);
+        test(createCard(), 1);
     }
 
     @Test
     public void testValidateExpirationYear_tooFarInThePast() {
-        test(createPayment(1969), 1);
+        test(createCard(1969), 1);
     }
 
     @Test
     public void testValidateExpirationYear_valid() {
-        test(createPayment(2018), 0);
+        test(createCard(2018), 0);
     }
 
-    private Payment createPayment(int year) {
+    private Card createCard(int year) {
         Expiration exp = new Expiration();
         exp.setYear(year);
 
         Card card = new Card();
         card.setExpiration(exp);
 
-        Payment p = new Payment();
-        p.setCard(card);
-
-        return p;
+        return card;
     }
 }

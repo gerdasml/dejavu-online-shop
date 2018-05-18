@@ -4,10 +4,10 @@ import lt.dejavu.payment.model.Card;
 import lt.dejavu.payment.model.Payment;
 import org.junit.Test;
 
-public class CardHolderValidatorTest extends SingleValidatorTestBase {
+public class HolderValidatorTest extends SingleValidatorTestBase {
 
-    public CardHolderValidatorTest() {
-        super(new CardHolderValidator());
+    public HolderValidatorTest() {
+        super(new HolderValidator());
     }
 
     @Override
@@ -17,30 +17,28 @@ public class CardHolderValidatorTest extends SingleValidatorTestBase {
 
     @Test
     public void testValidateHolder_noCardInfo() {
-        test(createPayment(), 1);
+        test(createCard(), 1);
     }
 
     @Test
     public void testValidateHolder_shortInfo() {
-        test(createPayment("X"), 1);
+        test(createCard("X"), 1);
     }
 
     @Test
     public void testValidateHolder_longInfo() {
-        test(createPayment("LONGLONGLONGLONGLONGLONGLONGLONGL"), 1);
+        test(createCard("LONGLONGLONGLONGLONGLONGLONGLONGL"), 1);
     }
 
     @Test
     public void testValidateHolder_validInfo() {
-        test(createPayment("Valid Person"), 0);
+        test(createCard("Valid Person"), 0);
     }
 
-    private Payment createPayment(String holder) {
+    private Card createCard(String holder) {
         Card card = new Card();
         card.setHolder(holder);
-        Payment p = new Payment();
-        p.setCard(card);
 
-        return p;
+        return card;
     }
 }
