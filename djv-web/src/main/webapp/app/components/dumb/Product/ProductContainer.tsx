@@ -8,9 +8,11 @@ import * as api from "../../../api";
 import { Cart } from "../../../model/Cart";
 import { Product } from "../../../model/Product";
 import { ProductCard } from "../Home/ProductCard";
+import { Category } from "../../../model/Category";
 
 interface ProductContainerProps {
     products: Product[];
+    category?: Category;
 }
 
 interface ProductContainerState {
