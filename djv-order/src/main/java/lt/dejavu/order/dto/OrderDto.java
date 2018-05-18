@@ -22,4 +22,5 @@ public class OrderDto {
     private List<OrderItemDto> items;
     private BigDecimal total;
     private Address shippingAddress;
+    private ReviewDto review;
 }

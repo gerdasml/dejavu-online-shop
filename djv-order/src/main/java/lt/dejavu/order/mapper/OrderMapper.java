@@ -16,11 +16,13 @@ import static java.util.stream.Collectors.toList;
 public class OrderMapper {
     private final UserMapper userMapper;
     private final OrderItemMapper itemMapper;
+    private final ReviewMapper reviewMapper;
 
     @Autowired
-    public OrderMapper(UserMapper userMapper, OrderItemMapper itemMapper) {
+    public OrderMapper(UserMapper userMapper, OrderItemMapper itemMapper, ReviewMapper reviewMapper) {
         this.userMapper = userMapper;
         this.itemMapper = itemMapper;
+        this.reviewMapper = reviewMapper;
     }
 
     public OrderDto map(Order order) {
@@ -31,6 +33,7 @@ public class OrderMapper {
         dto.setReviewStatus(order.getReviewStatus());
         dto.setUser(userMapper.map(order.getUser()));
         dto.setShippingAddress(order.getShippingAddress());
+        dto.setReview(reviewMapper.map(order.getReview()));
         List<OrderItemDto> items = itemMapper.map(order.getItems());
         dto.setItems(items);
         dto.setTotal(items.stream().map(OrderItemDto::getTotal).reduce(BigDecimal.ZERO, BigDecimal::add));
