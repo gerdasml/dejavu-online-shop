@@ -18,7 +18,6 @@ interface CartProps {
 
 interface CartState {
     isLoading: boolean;
-    error?: string;
 }
 export class Cart extends React.Component <CartProps, CartState> {
     state: CartState = {
@@ -77,8 +76,9 @@ export class Cart extends React.Component <CartProps, CartState> {
                     icon
                     labelPosition="right"
                     floated="right"
+                    positive
                     onClick={this.props.onStepComplete}
-                    disabled={this.props.cart.total === 0}
+                    disabled={this.props.cart.total === 0 || this.props.cart.total === undefined}
                 >
                     Buy
                     <Icon name="chevron right" />

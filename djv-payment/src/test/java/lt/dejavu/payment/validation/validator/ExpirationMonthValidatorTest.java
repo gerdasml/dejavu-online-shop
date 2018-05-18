@@ -18,39 +18,36 @@ public class ExpirationMonthValidatorTest extends SingleValidatorTestBase {
 
     @Test
     public void testValidateExpirationMonth_noExpirationGiven() {
-        test(createPayment(), 1);
+        test(createCard(), 1);
     }
 
     @Test
     public void testValidateExpirationMonth_negativeNumber() {
-        test(createPayment(-1), 1);
+        test(createCard(-1), 1);
     }
 
     @Test
     public void testValidateExpirationMonth_zero() {
-        test(createPayment(0), 1);
+        test(createCard(0), 1);
     }
 
     @Test
     public void testValidateExpirationMonth_greaterThan12() {
-        test(createPayment(13), 1);
+        test(createCard(13), 1);
     }
 
     @Test
     public void testValidateExpirationMonth_valid() {
-        test(createPayment(9), 0);
+        test(createCard(9), 0);
     }
 
-    private Payment createPayment(int month) {
+    private Card createCard(int month) {
         Expiration exp = new Expiration();
         exp.setMonth(month);
 
         Card card = new Card();
         card.setExpiration(exp);
 
-        Payment p = new Payment();
-        p.setCard(card);
-
-        return p;
+        return card;
     }
 }
