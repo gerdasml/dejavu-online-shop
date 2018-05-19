@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -30,8 +31,14 @@ public class ImportStatus {
     @Column(name = "total")
     private int total;
 
-    @Column(name = "failedItems")
-    private String failedItems;
+    @Column(name = "failedItem")
+    @ElementCollection
+    @CollectionTable(
+            name="failedImportItem",
+            joinColumns=@JoinColumn(name="statusId")
+
+    )
+    private List<String> failedItems;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

@@ -1,7 +1,7 @@
 package lt.dejavu.product.service.impl;
 
 import lt.dejavu.excel.service.ExcelService;
-import lt.dejavu.product.response.ProductResponse;
+import lt.dejavu.product.response.ProductDto;
 import lt.dejavu.product.response.mapper.ProductResponseMapper;
 import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.ProductNotFoundException;
@@ -67,17 +67,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductResponse> getAllProducts() {
+    public List<ProductDto> getAllProducts() {
         return productResponseMapper.map(productRepository.getAllProducts());
     }
 
     @Override
-    public ProductResponse getProduct(long id) {
+    public ProductDto getProduct(long id) {
         return productResponseMapper.map(getProductIfExist(id));
     }
 
     @Override
-    public List<ProductResponse> getProductsByCategory(long categoryId) {
+    public List<ProductDto> getProductsByCategory(long categoryId) {
         getCategoryIfExist(categoryId);
         return productResponseMapper.map(productRepository.getProductsByCategory(categoryId));
     }

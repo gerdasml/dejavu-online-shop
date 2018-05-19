@@ -9,6 +9,8 @@ import lt.dejavu.product.model.CategoryProperty;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.model.ProductProperty;
 import lt.dejavu.product.repository.CategoryRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -144,6 +146,9 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
              isValidPropertyName(productCategory),
              getPropertyByName(productCategory),
              property::setCategoryProperty);
+        if (result.getStatus().equals(ConversionStatus.FAILURE)) {
+            return;
+        }
         read(5,
              row,
              result,

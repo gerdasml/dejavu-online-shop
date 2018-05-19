@@ -60,7 +60,6 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
 
     @Override
     public UUID fromExcel(byte[] file) throws IOException {
-        PeekingIterator<List<String>> rowIterator = getIterator(file);
         UUID uuid = UUID.randomUUID();
         CompletableFuture.runAsync(() -> {
             processingStrategy.start(uuid);
@@ -71,7 +70,6 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
             } catch (Exception e) {
                 processingStrategy.fail(uuid);
             }
-
         });
         return uuid;
     }

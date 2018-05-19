@@ -1,6 +1,6 @@
 package lt.dejavu.product.response.mapper;
 
-import lt.dejavu.product.response.ProductResponse;
+import lt.dejavu.product.response.ProductDto;
 import lt.dejavu.product.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,11 +19,11 @@ public class ProductResponseMapper {
         this.propertiesMapper = productPropertiesResponseMapper;
     }
 
-    public ProductResponse map(Product product) {
+    public ProductDto map(Product product) {
         if (product == null) {
             return null;
         }
-        ProductResponse dto = new ProductResponse();
+        ProductDto dto = new ProductDto();
         dto.setId(product.getId());
         dto.setName(product.getName());
         dto.setDescription(product.getDescription());
@@ -39,7 +39,7 @@ public class ProductResponseMapper {
         return dto;
     }
 
-    public List<ProductResponse> map(Set<Product> products) {
+    public List<ProductDto> map(Set<Product> products) {
         return products.stream().map(this::map).collect(Collectors.toList());
     }
 }

@@ -10,12 +10,15 @@ import lt.dejavu.excel.repository.ImportStatusRepository;
 import lt.dejavu.excel.strategy.ProcessingStrategy;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.repository.ProductRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,6 +27,7 @@ public class ProductProcessingStrategy implements ProcessingStrategy<Product> {
     private final ImportStatusRepository importStatusRepository;
     private final ProductRepository productRepository;
     private final ObjectMapper objectMapper;
+    private final Logger logger = LogManager.getLogger(ProductProcessingStrategy.class);
 
     public ProductProcessingStrategy(ImportStatusRepository importStatusRepository, ProductRepository productRepository, ObjectMapper objectMapper) {
         this.importStatusRepository = importStatusRepository;
@@ -36,7 +40,7 @@ public class ProductProcessingStrategy implements ProcessingStrategy<Product> {
         ImportStatus status = new ImportStatus();
         status.setId(jobId);
         status.setStatus(Status.ANALYZING);
-        status.setFailedItems("[]");
+        status.setFailedItems(new LinkedList<>());
         status.setStartTime(Timestamp.from(Instant.now()));
         importStatusRepository.createImportStatus(status);
     }
@@ -78,18 +82,11 @@ public class ProductProcessingStrategy implements ProcessingStrategy<Product> {
 
     private void processFailure(UUID jobId, Product product) {
         ImportStatus status = importStatusRepository.getImportStatus(jobId);
-
-        List<Product> failedProducts = new ArrayList<>();
-
         try {
-            if (status.getFailureCount() > 0) {
-                failedProducts = objectMapper.readValue(status.getFailedItems(), new TypeReference<List<Product>>() {
-                });
-            }
-            failedProducts.add(product);
-            String newPayload = objectMapper.writeValueAsString(failedProducts);
-            status.setFailedItems(newPayload);
-        } catch (IOException ignored) {
+            String newPayload = objectMapper.writeValueAsString(product);
+            status.getFailedItems().add(newPayload);
+        } catch (IOException e) {
+            logger.warn(e.getMessage());
         }
 
         status.setFailureCount(status.getFailureCount() + 1);
