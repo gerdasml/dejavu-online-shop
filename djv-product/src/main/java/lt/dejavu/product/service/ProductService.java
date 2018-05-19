@@ -1,5 +1,6 @@
 package lt.dejavu.product.service;
 
+import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 import lt.dejavu.product.response.ProductResponse;
 import lt.dejavu.product.model.rest.request.ProductRequest;
 
@@ -14,6 +15,8 @@ public interface ProductService {
     List<ProductResponse> getAllProducts();
 
     List<ProductResponse> getProductsByCategory(long categoryId);
+
+    List<ProductResponse> searchProducts(ProductSearchRequest request);
 
     Long createProduct(ProductRequest request);
 

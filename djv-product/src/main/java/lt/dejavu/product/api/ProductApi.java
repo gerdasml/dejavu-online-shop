@@ -2,6 +2,7 @@ package lt.dejavu.product.api;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.service.SecurityService;
+import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 import lt.dejavu.product.response.ProductImportStatusDto;
 import lt.dejavu.product.response.ProductResponse;
 import lt.dejavu.product.model.rest.request.ProductRequest;
@@ -56,6 +57,14 @@ public class ProductApi {
     )
     public List<ProductResponse> getProductsByCategory(@PathVariable("categoryId") long categoryId) {
         return productService.getProductsByCategory(categoryId);
+    }
+
+    @PostMapping(
+            path = "/category",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public List<ProductResponse> productSearch(@RequestBody ProductSearchRequest request) {
+        return productService.searchProducts(request);
     }
 
     @PostMapping(

@@ -1,6 +1,7 @@
 package lt.dejavu.product.service.impl;
 
 import lt.dejavu.excel.service.ExcelService;
+import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 import lt.dejavu.product.response.ProductResponse;
 import lt.dejavu.product.response.mapper.ProductResponseMapper;
 import lt.dejavu.product.exception.CategoryNotFoundException;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -80,6 +82,13 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductResponse> getProductsByCategory(long categoryId) {
         getCategoryIfExist(categoryId);
         return productResponseMapper.map(productRepository.getProductsByCategory(categoryId));
+    }
+
+    @Override
+    public List<ProductResponse> searchProducts(ProductSearchRequest request) {
+        // TODO: maybe add some additional search options?
+        Category category = getCategoryIfExist(request.getCategoryIdentifier());
+        return getProductsByCategory(category.getId());
     }
 
     @Transactional
@@ -154,6 +163,14 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryRepository.getCategory(categoryId);
         if (category == null) {
             throw new CategoryNotFoundException("cannot find category with id " + categoryId);
+        }
+        return category;
+    }
+
+    private Category getCategoryIfExist(String identifier) {
+        Category category = categoryRepository.getCategory(identifier);
+        if (category == null) {
+            throw new CategoryNotFoundException("The category with the specified identifier was not found");
         }
         return category;
     }
