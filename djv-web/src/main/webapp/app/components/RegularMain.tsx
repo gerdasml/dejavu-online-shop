@@ -24,7 +24,7 @@ export const RegularMain = () => (
                     <Route path="/user/:id" component={User}/>
                     <Route path="/cart" component={Cart} />
                     <Route path="/profile" component = {Profile} />
-                    <Route path="/category/:id" component={Category} />
+                    <Route path="/category/:category/:subcategory?/:subsubcategory?" component={Category} />
                     <Route component={NotFound} />
                 </Switch>
             </DrawerMenu>
