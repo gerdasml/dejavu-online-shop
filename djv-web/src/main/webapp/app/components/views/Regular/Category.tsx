@@ -37,7 +37,7 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
     }
 
     async loadData (props: RouteComponentProps<CategoryRouteProps>) {
-        const identifier = this.buildIdentifier();
+        const identifier = this.buildIdentifier(props);
         const response = await api.product.searchForProducts({categoryIdentifier: identifier});
         if (api.isError(response)) {
             notification.error({ message: "Failed to fetch product data", description: response.message });
@@ -47,8 +47,8 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
         this.setState({ products: response, isLoading: false });
     }
 
-    buildIdentifier () {
-        const {category, subcategory, subsubcategory} = this.props.match.params;
+    buildIdentifier = (props: RouteComponentProps<CategoryRouteProps>) => {
+        const {category, subcategory, subsubcategory} = props.match.params;
         let result = category;
         if (subcategory !== undefined) {
             result += "/" + subcategory;

@@ -17,7 +17,7 @@ const mapChildChild = (category: CategoryTree, key: number, onItemClick: () => v
     <div
         className="item"
         key={key.toString()+"_"+i.toString()}>
-            <Link to={`/category/${x.category.id}`} onClick={onItemClick}>{x.category.name}</Link>
+            <Link to={`/category/${x.category.identifier}`} onClick={onItemClick}>{x.category.name}</Link>
     </div>
     );
 
@@ -28,7 +28,7 @@ const mapChild = (categoryTree: CategoryTree, onItemClick: () => void) =>
             key={i}
         >
         {x.children === undefined || x.children.length === 0
-        ?   <Link to={`/category/${x.category.id}`} onClick={onItemClick}>{x.category.name}</Link>
+        ?   <Link to={`/category/${x.category.identifier}`} onClick={onItemClick}>{x.category.name}</Link>
         :   <span>
                 {x.category.name}
                 <Divider fitted className="divider"/>

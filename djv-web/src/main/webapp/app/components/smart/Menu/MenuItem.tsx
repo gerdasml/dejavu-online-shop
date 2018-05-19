@@ -28,7 +28,7 @@ export class MenuItem extends React.Component<MenuItemProps, never> {
         if (this.props.categoryTree.children === undefined ||
             this.props.categoryTree.children.length === 0) {
             return (
-                <Link to={`/category/${this.props.categoryTree.category.id}`}>
+                <Link to={`/category/${this.props.categoryTree.category.identifier}`}>
                     <Menu.Item
                         className="menu-item"
                         name={this.props.categoryTree.category.identifier}
