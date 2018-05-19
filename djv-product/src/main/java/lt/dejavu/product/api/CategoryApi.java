@@ -2,6 +2,7 @@ package lt.dejavu.product.api;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.service.SecurityService;
+import lt.dejavu.product.model.rest.request.CategorySearchRequest;
 import lt.dejavu.product.response.CategoryResponse;
 import lt.dejavu.product.response.CategoryTreeResponse;
 import lt.dejavu.product.model.rest.request.CategoryRequest;
@@ -30,6 +31,14 @@ public class CategoryApi {
     )
     public CategoryResponse getCategory(@PathVariable("categoryId") long categoryId) {
         return categoryService.getCategory(categoryId);
+    }
+
+    @PostMapping(
+            path = "/",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public CategoryResponse categorySearch(@RequestBody CategorySearchRequest request) {
+        return categoryService.getCategoryByIdentifier(request.getIdentifier());
     }
 
     @GetMapping(

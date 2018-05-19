@@ -39,6 +39,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public CategoryResponse getCategoryByIdentifier(String identifier) {
+        return categoryResponseMapper.map(getCategoryIfExist(identifier));
+    }
+
+    @Override
     public List<CategoryResponse> getRootCategories() {
         return categoryResponseMapper.map(categoryRepository.getRootCategories());
     }
@@ -103,6 +108,14 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.getCategory(categoryId);
         if (category == null) {
             throw new CategoryNotFoundException(categoryId);
+        }
+        return category;
+    }
+
+    private Category getCategoryIfExist(String identifier) {
+        Category category = categoryRepository.getCategory(identifier);
+        if (category == null) {
+            throw new CategoryNotFoundException("The category with the specified identifier was not found");
         }
         return category;
     }
