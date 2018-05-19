@@ -5,11 +5,18 @@ import { fetchData, HttpMethod } from "./utils";
 
 const PATH_PREFIX = "/api/product";
 
+interface ProductSearchRequest {
+    categoryIdentifier: string;
+}
+
 // export const getProducts = (): Promise<ApiResponse<Product[]>> =>
 //     fetchData(PATH_PREFIX + "/", HttpMethod.GET);
 
 // export const getProductByCategory = (id: number): Promise<ApiResponse<Product>> =>
 //     fetchData(PATH_PREFIX + "/" + id.toString() + "/info", HttpMethod.GET);
+
+export const searchForProducts = (req: ProductSearchRequest): Promise<ApiResponse<Product[]>> =>
+    fetchData(PATH_PREFIX + "/category", HttpMethod.POST, req);
 
 export const getAllProducts = (): Promise<ApiResponse<Product[]>> =>
     fetchData(PATH_PREFIX + "/", HttpMethod.GET);
