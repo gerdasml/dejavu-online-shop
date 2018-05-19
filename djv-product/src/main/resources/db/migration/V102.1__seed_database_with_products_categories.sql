@@ -2,7 +2,7 @@ insert into `category` (`id`, `iconName`, `identifier`, `name`, `parentCategory`
   (   1        , 'computer'         , 'electronics'                                                  , 'Electronics'           , null),
       (   2    , ''                 , 'electronics/computers'                                        , 'Computers'             , 1),
           (   3, ''                 , 'electronics/computers/laptops'                                , 'Laptops'               , 2),
-          (   4, ''                 , 'electronics/computers/desktop-pcs '                           , 'Desktop PCs'           , 2),
+          (   4, ''                 , 'electronics/computers/desktop-pcs'                            , 'Desktop PCs'           , 2),
           (   5, ''                 , 'electronics/computers/tablets'                                , 'Tablets'               , 2),
       (  11    , ''                 , 'electronics/phones'                                           , 'Phones'                , 1),
           (  12, ''                 , 'electronics/phones/smart-phones'                              , 'Smart-phones'          , 11),
