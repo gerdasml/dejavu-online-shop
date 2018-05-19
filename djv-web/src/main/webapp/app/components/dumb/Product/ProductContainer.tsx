@@ -9,8 +9,9 @@ import { Cart } from "../../../model/Cart";
 import { Product } from "../../../model/Product";
 import { ProductCard } from "../Home/ProductCard";
 import { Category } from "../../../model/Category";
-import { getProperties, ProductFilter } from "../../../utils/product/productFilter";
+import { getProperties, ProductFilter, transform } from "../../../utils/product/productFilter";
 import { Filter } from "./Filter";
+import { FilterBuilder, hasProperties } from "../../../utils/product/filter";
 
 interface ProductContainerProps {
     products: Product[];
@@ -22,6 +23,7 @@ interface ProductContainerState {
     cart?: Cart;
     activePage: number;
     properties?: ProductFilter[];
+    filterOptions: Map<string, string[]>;
 }
 
 const PRODUCTS_PER_PAGE = 20;
@@ -30,6 +32,7 @@ export class ProductContainer extends React.Component <ProductContainerProps, {}
     state: ProductContainerState = {
         activePage: 1,
         isLoading: true,
+        filterOptions: new Map<string, string[]>()
     };
 
     async componentDidMount () {
@@ -81,7 +84,20 @@ export class ProductContainer extends React.Component <ProductContainerProps, {}
         const properties = getProperties(this.props.category, this.props.products);
         return (
                 <div>
-                    {properties.map(x => <Filter properties={x}/>)}
+                    {properties.map(x =>
+                        <Filter
+                            properties={x}
+                            onSelectChange={y => {
+                                const newState = this.state;
+                                newState.filterOptions.set(x.property, y);
+                                const prop = transform(newState.filterOptions);
+                                const result = new FilterBuilder()
+                                            .add(hasProperties(prop))
+                                            .apply(this.props.products);
+                                this.setState(newState);
+                                console.log(result, prop, this.props.products);
+
+                            }}/>)}
                     <Card.Group itemsPerRow={5} doubling>
                         {this.mapProducts()}
                     </Card.Group>
