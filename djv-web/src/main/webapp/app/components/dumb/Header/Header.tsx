@@ -8,15 +8,51 @@ import {Login} from "../Login/Login";
 import { clearToken, getToken } from "../../../utils/token";
 import { Logo } from "./Logo";
 
+import {ReviewModal} from "../Order/ReviewModal";
+
+import {Review} from "../../../model/Review";
+
+/*const fakeOrderItems: OrderItem[] = [
+    {
+        amount: 5,
+        product: products[0]
+    },
+    {
+        amount: 4,
+        product: products[1]
+    },
+    {
+        amount: 15,
+        product: products[2]
+    }
+];
+
+const fakeOrders: Order[] = [
+    {
+        id: 1,
+        items: fakeOrderItems
+    },
+    {
+        id: 2,
+        items: [fakeOrderItems[1]]
+    },
+    {
+        id: 3,
+        items: [fakeOrderItems[2]]
+    }
+];*/
+
 interface HeaderState {
     loggedIn: boolean;
     activeItem: String;
+    triggerReview: boolean;
 }
 
 export class Header extends React.Component <{}, HeaderState> {
     state: HeaderState = {
         activeItem: "home",
-        loggedIn: getToken() !== null
+        loggedIn: getToken() !== null,
+        triggerReview: false
     };
 
     handleLogout = () => {
@@ -25,9 +61,14 @@ export class Header extends React.Component <{}, HeaderState> {
     }
     handleItemClick = (e: any, { name }: any) => this.setState({ ...this.state, activeItem: name });
 
+    handleReview = (orderId: number, review: Review) => {
+        console.log("order: " + orderId + review.comment + review.rating);
+    }
+
     render () {
         const { activeItem } = this.state;
         return (
+            <div>
                 <Menu id="menuHeader">
                     <Menu.Item
                         className="logoContainer"
@@ -78,6 +119,10 @@ export class Header extends React.Component <{}, HeaderState> {
                         }
                 </Menu.Menu>
                 </Menu>
+                <ReviewModal onReviewSubmit={this.handleReview.bind(this)}
+                onClose={()  => this.setState({triggerReview: false})}
+                open = {this.state.triggerReview} orders={[]}/>
+                </div>
         );
     }
 }

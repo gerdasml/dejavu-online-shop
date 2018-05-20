@@ -34,6 +34,7 @@ rest:
   order: ${rest.basePath}/order
   payment: ${rest.basePath}/payment
   product: ${rest.basePath}/product
+  review: ${rest.order}/review
   user: ${rest.basePath}/user
 
 

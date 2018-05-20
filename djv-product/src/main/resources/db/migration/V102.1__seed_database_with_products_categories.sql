@@ -82,7 +82,7 @@ insert into category_property (id, categoryId, name) values
       -- https://www.amazon.com/LG-gram-Thin-Light-Laptop/dp/B077YSVKQK
       (   1, 3, 'Screen Size'),
       (   2, 3, 'Max Screen Resolution'),
-      (   3, 3, 'Processor',),
+      (   3, 3, 'Processor'),
       (   4, 3, 'RAM'),
       (   5, 3, 'Hard Drive'),
       (   6, 3, 'Card Description'),
