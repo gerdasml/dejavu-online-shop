@@ -6,7 +6,6 @@ import * as api from "../../../../api";
 import { CategoryTree } from "../../../../model/CategoryTree";
 import { Product } from "../../../../model/Product";
 import { ProductProperties } from "../../../../model/ProductProperties";
-import { toUrlFriendlyString } from "../../../../utils/common";
 import { ProductDescription } from "./ProductDescription";
 import { ProductDropdown } from "./ProductDropdown";
 import { ProductName } from "./ProductName";
@@ -123,7 +122,6 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                 additionalImagesUrls: this.state.pictures.slice(1),
                 categoryId: this.state.category,
                 description: this.state.description,
-                identifier: toUrlFriendlyString(this.state.name),
                 mainImageUrl: this.state.pictures[0],
                 name: this.state.name,
                 price: this.state.price,
