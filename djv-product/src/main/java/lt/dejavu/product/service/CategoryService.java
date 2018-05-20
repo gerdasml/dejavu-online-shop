@@ -9,6 +9,8 @@ import java.util.List;
 public interface CategoryService {
     CategoryResponse getCategory(long id);
 
+    CategoryResponse getCategoryByIdentifier(String identifier);
+
     List<CategoryResponse> getRootCategories();
 
     List<CategoryResponse> getSubCategories(long category);

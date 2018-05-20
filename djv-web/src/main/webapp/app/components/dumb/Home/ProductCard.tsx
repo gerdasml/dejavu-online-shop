@@ -14,7 +14,7 @@ interface ProductCardProps {
 
 export const ProductCard = (props: ProductCardProps) => (
         <Card>
-            <NavLink to={`/product/${props.product.id}`}>
+            <NavLink to={`/product/${props.product.identifier}`}>
                 <Header attached>{props.product.price}€</Header>
                 <Image src={props.product.mainImageUrl} />
                 <Card.Content>

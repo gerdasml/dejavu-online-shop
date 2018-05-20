@@ -1,6 +1,7 @@
 package lt.dejavu.product.service.impl;
 
 import lt.dejavu.excel.service.ExcelService;
+import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 import lt.dejavu.product.response.ProductResponse;
 import lt.dejavu.product.response.mapper.ProductResponseMapper;
 import lt.dejavu.product.exception.CategoryNotFoundException;
@@ -18,6 +19,7 @@ import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.repository.ProductPropertyRepository;
 import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.product.service.ProductService;
+import lt.dejavu.product.strategy.IdentifierGenerator;
 import lt.dejavu.utils.collections.UpdatableCollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,13 +49,14 @@ public class ProductServiceImpl implements ProductService {
     private final ProductPropertyRequestMapper productPropertyRequestMapper;
     private final ProductPropertyRepository productPropertyRepository;
 
+    private final IdentifierGenerator<Product> productIdentifierGenerator;
 
     private final ExcelService<Product> excelService;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository,
                               ProductRequestMapper productRequestMapper, ProductResponseMapper productResponseMapper, ExcelService<Product> excelService,
-                              ProductPropertyRequestMapper productPropertyRequestMapper, ProductPropertyRepository productPropertyRepository) {
+                              ProductPropertyRequestMapper productPropertyRequestMapper, ProductPropertyRepository productPropertyRepository, IdentifierGenerator<Product> productIdentifierGenerator) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.productRequestMapper = productRequestMapper;
@@ -64,6 +67,7 @@ public class ProductServiceImpl implements ProductService {
 
         this.excelService = excelService;
 
+        this.productIdentifierGenerator = productIdentifierGenerator;
     }
 
     @Override
@@ -77,18 +81,32 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductResponse getProduct(String identifier) {
+        return productResponseMapper.map(getProductIfExist(identifier));
+    }
+
+    @Override
     public List<ProductResponse> getProductsByCategory(long categoryId) {
         getCategoryIfExist(categoryId);
         return productResponseMapper.map(productRepository.getProductsByCategory(categoryId));
     }
 
+    @Override
+    public List<ProductResponse> searchProducts(ProductSearchRequest request) {
+        // TODO: maybe add some additional search options?
+        Category category = getCategoryIfExist(request.getCategoryIdentifier());
+        return getProductsByCategory(category.getId());
+    }
+
     @Transactional
     @Override
     public Long createProduct(ProductRequest request) {
-        Category productCategory = resolveProductCategory(request);
+        Category productCategory = resolveCategory(request.getCategoryId());
         Product product = productRequestMapper.mapToProduct(request, productCategory);
         product.setCreationDate(LocalDateTime.now());
         Long productId = productRepository.saveProduct(product);
+        product.setIdentifier(productIdentifierGenerator.generateIdentifier(product));
+        productRepository.updateProduct(product);
         Set<CategoryProperty> properties = getProductCategoryProperties(request, productCategory);
         Set<ProductProperty> propertyValues = productPropertyRequestMapper.mapProperties(product, properties, request.getProperties());
         productPropertyRepository.savePropertyValues(propertyValues);
@@ -104,9 +122,10 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public void updateProduct(long productId, ProductRequest request) {
-        Category productCategory = resolveProductCategory(request);
+        Category productCategory = resolveCategory(request.getCategoryId());
         Product oldProduct = getProductIfExist(productId);
         productRequestMapper.remapToProduct(oldProduct, request, productCategory);
+        oldProduct.setIdentifier(productIdentifierGenerator.generateIdentifier(oldProduct));
         Set<CategoryProperty> properties = getProductCategoryProperties(request, productCategory);
         Set<ProductProperty> propertyValues = productPropertyRequestMapper.mapProperties(oldProduct, properties, request.getProperties());
         UpdatableCollectionUtils.updateCollection(oldProduct.getProperties(), propertyValues);
@@ -135,11 +154,12 @@ public class ProductServiceImpl implements ProductService {
         return excelService.fromExcel(data);
     }
 
-    private Category resolveProductCategory(ProductRequest request) {
-        if (request.getCategoryId() == null) {
+    private Category resolveCategory(Long categoryId) {
+        if (categoryId == null) {
             throw new IllegalStateException("Product must have category");
         }
-        return getCategoryIfExist(request.getCategoryId());
+        Category category = getCategoryIfExist(categoryId);
+        return getCategoryIfExist(categoryId);
     }
 
     private Product getProductIfExist(long productId) {
@@ -150,10 +170,26 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
+    private Product getProductIfExist(String identifier) {
+        Product product = productRepository.getProduct(identifier);
+        if (product == null) {
+            throw new ProductNotFoundException("The product with the specified identifier was not found");
+        }
+        return product;
+    }
+
     private Category getCategoryIfExist(long categoryId) {
         Category category = categoryRepository.getCategory(categoryId);
         if (category == null) {
             throw new CategoryNotFoundException("cannot find category with id " + categoryId);
+        }
+        return category;
+    }
+
+    private Category getCategoryIfExist(String identifier) {
+        Category category = categoryRepository.getCategory(identifier);
+        if (category == null) {
+            throw new CategoryNotFoundException("The category with the specified identifier was not found");
         }
         return category;
     }

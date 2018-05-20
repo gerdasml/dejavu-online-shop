@@ -8,6 +8,8 @@ public interface CategoryRepository {
 
     Category getCategory(long id);
 
+    Category getCategory(String identifier);
+
     Set<Category> getRootCategories();
 
     Set<Category> getSubCategories(long parentId);

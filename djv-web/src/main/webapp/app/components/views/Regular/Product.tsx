@@ -13,7 +13,9 @@ import { PriceArea } from "./PriceArea";
 import "../../../../style/product.css";
 import * as api from "../../../api";
 
-interface ProductRouteProps { id: number; }
+interface ProductRouteProps {
+    identifier: string;
+}
 
 interface ProductState {
     amount: number;
@@ -38,7 +40,8 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
         message.success("Successfully added product to cart");
     }
     handleProductInfo = async (props: RouteComponentProps<ProductRouteProps>): Promise<void> => {
-        const response = await api.product.getProduct(props.match.params.id);
+        const identifier = props.match.params.identifier;
+        const response = await api.product.getProductByIdentifier(identifier);
         if(api.isError(response)) {
             notification.error({message: "Failed to load data", description: response.message});
             return;
@@ -60,6 +63,7 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
         await this.handleProductInfo(this.props);
         this.setState({...this.state, loading: false});
     }
+
     render () {
         return (
             <div className="product">

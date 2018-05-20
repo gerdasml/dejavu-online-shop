@@ -45,6 +45,19 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
+    public Product getProduct(String identifier) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Product> query = cb.createQuery(Product.class);
+        Root<Product> root = query.from(Product.class);
+        root.fetch(Product_.properties, JoinType.LEFT).fetch(ProductProperty_.categoryProperty, JoinType.LEFT);
+        root.fetch(Product_.additionalImagesUrls, JoinType.LEFT);
+        ParameterExpression<String> idParameter = cb.parameter(String.class);
+        query.where(cb.equal(root.get(Product_.identifier), idParameter));
+        List<Product> resultList = em.createQuery(query).setParameter(idParameter, identifier).getResultList();
+        return resultList.size() != 0 ? resultList.get(0) : null;
+    }
+
+    @Override
     public Set<Product> getProductsByCategory(long categoryId) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> query = cb.createQuery(Product.class);

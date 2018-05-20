@@ -2,9 +2,9 @@ package lt.dejavu.product.api;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.service.SecurityService;
+import lt.dejavu.product.model.rest.request.CategoryRequest;
 import lt.dejavu.product.response.CategoryResponse;
 import lt.dejavu.product.response.CategoryTreeResponse;
-import lt.dejavu.product.model.rest.request.CategoryRequest;
 import lt.dejavu.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -30,6 +30,14 @@ public class CategoryApi {
     )
     public CategoryResponse getCategory(@PathVariable("categoryId") long categoryId) {
         return categoryService.getCategory(categoryId);
+    }
+
+    @GetMapping(
+            path = "/",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public CategoryResponse getCategoryByIdentifier(@RequestParam("identifier") String identifier) {
+        return categoryService.getCategoryByIdentifier(identifier);
     }
 
     @GetMapping(

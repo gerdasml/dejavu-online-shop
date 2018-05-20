@@ -11,6 +11,7 @@ import lt.dejavu.product.model.rest.request.CategoryRequest;
 import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.repository.ProductPropertyRepository;
 import lt.dejavu.product.service.CategoryService;
+import lt.dejavu.product.strategy.IdentifierGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,18 +25,25 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRequestMapper categoryRequestMapper;
     private final CategoryResponseMapper categoryResponseMapper;
     private final ProductPropertyRepository productPropertyRepository;
+    private final IdentifierGenerator<Category> categoryIdentifierGenerator;
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryRequestMapper categoryRequestMapper, CategoryResponseMapper categoryResponseMapper, ProductPropertyRepository productPropertyRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryRequestMapper categoryRequestMapper, CategoryResponseMapper categoryResponseMapper, ProductPropertyRepository productPropertyRepository, IdentifierGenerator<Category> categoryIdentifierGenerator) {
         this.categoryRepository = categoryRepository;
         this.categoryRequestMapper = categoryRequestMapper;
         this.categoryResponseMapper = categoryResponseMapper;
         this.productPropertyRepository = productPropertyRepository;
+        this.categoryIdentifierGenerator = categoryIdentifierGenerator;
     }
 
     @Override
     public CategoryResponse getCategory(long id) {
         return categoryResponseMapper.map(getCategoryIfExist(id));
+    }
+
+    @Override
+    public CategoryResponse getCategoryByIdentifier(String identifier) {
+        return categoryResponseMapper.map(getCategoryIfExist(identifier));
     }
 
     @Override
@@ -58,6 +66,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Long createCategory(CategoryRequest categoryRequest) {
         Category parentCategory = resolveParentCategory(categoryRequest);
         Category category = categoryRequestMapper.mapToCategory(categoryRequest, parentCategory);
+        category.setIdentifier(categoryIdentifierGenerator.generateIdentifier(category));
         Long categoryId = categoryRepository.saveCategory(category);
         productPropertyRepository.saveProperties(category.getProperties());
         return categoryId;
@@ -70,6 +79,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category oldCategory = getCategoryIfExist(categoryId);
         Category parentCategory = resolveParentCategory(categoryRequest);
         Category newCategory = categoryRequestMapper.remapToCategory(oldCategory, categoryRequest, parentCategory);
+        newCategory.setIdentifier(categoryIdentifierGenerator.generateIdentifier(newCategory));
         categoryRepository.updateCategory(newCategory);
     }
 
@@ -103,6 +113,14 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.getCategory(categoryId);
         if (category == null) {
             throw new CategoryNotFoundException(categoryId);
+        }
+        return category;
+    }
+
+    private Category getCategoryIfExist(String identifier) {
+        Category category = categoryRepository.getCategory(identifier);
+        if (category == null) {
+            throw new CategoryNotFoundException("The category with the specified identifier was not found");
         }
         return category;
     }

@@ -6,6 +6,9 @@ import { fetchData, HttpMethod } from "./utils";
 
 const PATH_PREFIX = "/api/category";
 
+export const getCategoryByIdentifier = (identifier: string): Promise<ApiResponse<Category>> =>
+    fetchData(PATH_PREFIX + "/?identifier=" + identifier, HttpMethod.GET);
+
 export const getCategoryTree = (): Promise<ApiResponse<CategoryTree[]>> =>
     fetchData(PATH_PREFIX + "/categoryTree", HttpMethod.GET);
 

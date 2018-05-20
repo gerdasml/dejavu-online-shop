@@ -5,13 +5,6 @@ export const stringifyAddress = (addr: Address) =>
     ? `${addr.street}, ${addr.zipCode} ${addr.city}, ${addr.country}`
     : undefined;
 
-export const toUrlFriendlyString = (s: string) =>
-    s
-    ? s.replace(/[^a-z0-9_]+/gi, "-")
-        .replace(/^-|-$/g, "")
-        .toLowerCase()
-    : "";
-
 export const shortenString = (text: string, length: number = 100) => {
     if(text.length <= length) {
         return text;
