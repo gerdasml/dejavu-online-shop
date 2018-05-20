@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button, Comment, Form, Grid, Header, Modal, Rating, Table } from "semantic-ui-react";
+import { Modal } from "semantic-ui-react";
 
 import { Order } from "../../../model/Order";
 

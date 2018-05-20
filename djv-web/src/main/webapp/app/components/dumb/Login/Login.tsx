@@ -2,7 +2,6 @@ import * as React from "react";
 import { Button, Form, Grid, Icon, Message, Modal, Segment } from "semantic-ui-react";
 import * as api from "../../../api";
 import { storeToken } from "../../../utils/token";
-import { Review } from "../Order/Review";
 import { Register } from "./Register";
 
 import "../../../../style/header.css";
@@ -66,7 +65,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
         this.handleClose();
         this.props.onLogin();
     }
-    render() {
+    render () {
         return (
             <Modal trigger={<Button id="loginHeaderButton"
                 className="headerButton"

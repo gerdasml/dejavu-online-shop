@@ -1,7 +1,7 @@
 import * as React from "react";
 import {NavLink} from "react-router-dom";
 
-import {Button, Dropdown, Grid, Icon, Image, Search} from "semantic-ui-react";
+import {Button, Dropdown, Grid, Icon, Search} from "semantic-ui-react";
 import "../../../../style/header.css";
 import {Login} from "../Login/Login";
 
@@ -12,9 +12,7 @@ import {ReviewModal} from "../Order/ReviewModal";
 
 import {Review} from "../../../model/Review";
 
-import {Order, OrderItem} from "../../../model/Order";
 
-import {products} from "../../../data/products";
 
 /*const fakeOrderItems: OrderItem[] = [
     {

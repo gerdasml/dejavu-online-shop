@@ -1,10 +1,9 @@
 import * as React from "react";
 
-import { Card, Loader} from "semantic-ui-react";
+import { Loader} from "semantic-ui-react";
 
 import { RouteComponentProps } from "react-router-dom";
 import {Product} from "../../../model/Product";
-import {ProductCard} from "../../dumb/Home/ProductCard";
 
 import { notification } from "antd";
 import * as api from "../../../api";

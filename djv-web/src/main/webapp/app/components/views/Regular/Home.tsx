@@ -4,7 +4,6 @@ import { Header, Loader } from "semantic-ui-react";
 
 import * as api from "../../../api";
 
-
 import { Product } from "../../../model/Product";
 import { ProductContainer } from "../../dumb/Product/ProductContainer";
 

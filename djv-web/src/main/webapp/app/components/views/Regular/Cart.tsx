@@ -1,6 +1,5 @@
 import * as React from "react";
 
-
 import { Cart as CartModel } from "../../../model/Cart";
 
 import "../../../../style/cart.css";

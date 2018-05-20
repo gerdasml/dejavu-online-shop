@@ -13,12 +13,12 @@ import { MenuHeader } from "./views/Admin/layout/Header";
 import { LoginForm } from "./views/Admin/login/LoginForm";
 import { Orders } from "./views/Admin/orders/Orders";
 import { CreateProduct } from "./views/Admin/product/CreateProduct";
+import { ImportJob } from "./views/Admin/product/import/ImportJob";
+import { ImportJobs } from "./views/Admin/product/import/ImportJobs";
 import { SingleProduct } from "./views/Admin/product/SingleProduct";
 import { SingleUser } from "./views/Admin/users/SingleUser";
 import { Users } from "./views/Admin/users/Users";
 import { NotFound } from "./views/NotFound";
-import { ImportJobs } from "./views/Admin/product/import/ImportJobs";
-import { ImportJob } from "./views/Admin/product/import/ImportJob";
 
 const isLoggedInAsAdmin = async () => {
     const userResponse = await api.user.getProfile();
