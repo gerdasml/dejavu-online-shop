@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { message, notification } from "antd";
-import { Card, Icon, Pagination } from "semantic-ui-react";
+import { Card, Icon, Grid, Pagination, Accordion, Button } from "semantic-ui-react";
 
 import * as api from "../../../api";
 
@@ -12,6 +12,8 @@ import { Category } from "../../../model/Category";
 import { getProperties, ProductFilter, transform } from "../../../utils/product/productFilter";
 import { Filter } from "./Filter";
 import { FilterBuilder, hasProperties } from "../../../utils/product/filter";
+
+import "../../../../style/filter.css";
 
 interface ProductContainerProps {
     products: Product[];
@@ -25,12 +27,14 @@ interface ProductContainerState {
     properties?: ProductFilter[];
     filterOptions: Map<string, string[]>;
     filteredProducts: Product[];
+    activeIndex: boolean;
 }
 
 const PRODUCTS_PER_PAGE = 20;
 
 export class ProductContainer extends React.Component <ProductContainerProps, {}> {
     state: ProductContainerState = {
+        activeIndex: false,
         activePage: 1,
         isLoading: true,
         filterOptions: new Map<string, string[]>(),
@@ -80,27 +84,49 @@ export class ProductContainer extends React.Component <ProductContainerProps, {}
         );
     }
 
+    handleFilterOpenChange () {
+        if(this.state.activeIndex) {
+            this.setState({...this.state, activeIndex: false});
+        } else {
+            this.setState({...this.state, activeIndex: true});
+        }
+    }
+
     handlePaginationChange = (e: any, x: any) => this.setState({ ...this.state, activePage: x.activePage });
 
     render () {
         const properties = getProperties(this.props.category, this.props.products);
         return (
                 <div>
-                    {properties.map(x =>
-                        <Filter
-                            properties={x}
-                            onSelectChange={y => {
-                                const newState = this.state;
-                                newState.filterOptions.set(x.property, y);
-                                const prop = transform(newState.filterOptions);
-                                const result = new FilterBuilder()
-                                            .add(hasProperties(prop))
-                                            .apply(this.props.products);
-                                newState.filteredProducts = result;
-                                newState.activePage = 1;
-                                this.setState(newState);
+                    <Accordion className="filter-accordion">
+                        <Accordion.Title
+                            className="filter-title"
+                            active={this.state.activeIndex}
+                            onClick={this.handleFilterOpenChange.bind(this)}>
+                            <Button className="filter-accordion-button">Filter</Button>
+                        </Accordion.Title>
+                        <Accordion.Content active={this.state.activeIndex}>
+                            <Grid doubling stackable columns={5} className="accordion-content">
+                                {properties.map(x =>
+                                    <Grid.Column className="filter">
+                                        <Filter
+                                            properties={x}
+                                            onSelectChange={y => {
+                                                const newState = this.state;
+                                                newState.filterOptions.set(x.property, y);
+                                                const prop = transform(newState.filterOptions);
+                                                const result = new FilterBuilder()
+                                                            .add(hasProperties(prop))
+                                                            .apply(this.props.products);
+                                                newState.filteredProducts = result;
+                                                newState.activePage = 1;
+                                                this.setState(newState);
 
-                            }}/>)}
+                                            }}/>
+                                    </Grid.Column>)}
+                            </Grid>
+                        </Accordion.Content>
+                    </Accordion>
                     <Card.Group itemsPerRow={5} doubling>
                         {this.mapProducts()}
                     </Card.Group>

@@ -1,0 +1,26 @@
+.filter {
+    padding:5px!important;
+}
+
+.filter-accordion {
+    border: 1px solid grey;
+    border-top: none;
+    border-radius: 5px;
+}
+
+.filter-dropdown .ui.label{
+    font-weight: normal!important;
+}
+
+.filter-accordion-button {
+    width: 100%;
+    background-color: grey!important;
+}
+
+.filter-title {
+    padding: 0!important;
+}
+
+.accordion-content {
+    margin: 0!important;
+}
