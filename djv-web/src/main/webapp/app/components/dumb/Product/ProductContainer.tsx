@@ -11,7 +11,7 @@ import { ProductCard } from "../Home/ProductCard";
 import { Category } from "../../../model/Category";
 import { getProperties, ProductFilter, transform, getMin, getMax } from "../../../utils/product/productFilter";
 import { Filter } from "./Filter";
-import { FilterBuilder, hasProperties } from "../../../utils/product/filter";
+import { FilterBuilder, hasProperties, priceInRange } from "../../../utils/product/filter";
 
 import "../../../../style/filter.css";
 
@@ -28,6 +28,8 @@ interface ProductContainerState {
     filterOptions: Map<string, string[]>;
     filteredProducts: Product[];
     activeIndex: boolean;
+    minPrice: number;
+    maxPrice: number;
 }
 
 const PRODUCTS_PER_PAGE = 20;
@@ -38,7 +40,9 @@ export class ProductContainer extends React.Component <ProductContainerProps, {}
         activePage: 1,
         isLoading: true,
         filterOptions: new Map<string, string[]>(),
-        filteredProducts: this.props.products
+        filteredProducts: this.props.products,
+        minPrice: getMin(this.props.products),
+        maxPrice: getMax(this.props.products)
     };
 
     async componentDidMount () {
@@ -84,6 +88,18 @@ export class ProductContainer extends React.Component <ProductContainerProps, {}
         );
     }
 
+    filterProducts () {
+        const newState = this.state;
+        const prop = transform(newState.filterOptions);
+        const result = new FilterBuilder()
+                    .add(hasProperties(prop))
+                    .add(priceInRange(this.state.minPrice, this.state.maxPrice))
+                    .apply(this.props.products);
+        newState.filteredProducts = result;
+        newState.activePage = 1;
+        this.setState(newState);
+    }
+
     handleFilterOpenChange () {
         if(this.state.activeIndex) {
             this.setState({...this.state, activeIndex: false});
@@ -96,6 +112,8 @@ export class ProductContainer extends React.Component <ProductContainerProps, {}
 
     render () {
         const properties = getProperties(this.props.category, this.props.products);
+        const min = Math.floor(getMin(this.props.products));
+        const max = Math.ceil(getMax(this.props.products));
         return (
                 <div>
                     <Accordion className="filter-accordion">
@@ -111,11 +129,19 @@ export class ProductContainer extends React.Component <ProductContainerProps, {}
                                     <Slider
                                         className="filter-slider"
                                         range
-                                        min={getMin(this.props.products)}
-                                        max={getMax(this.props.products)}
+                                        min={min}
+                                        max={max}
+                                        defaultValue={[min, max]}
                                         marks={{
-                                            [getMin(this.props.products)]: getMin(this.props.products) + "Eur",
-                                            [getMax(this.props.products)]: getMax(this.props.products) + "Eur",
+                                            [min]: min + "Eur",
+                                            [max]: max + "Eur"
+                                        }}
+                                        onAfterChange={(e: [number, number]) => {
+                                            this.setState({
+                                                ...this.state,
+                                                minPrice: e[0],
+                                                maxPrice: e[1]
+                                            }, ()=> this.filterProducts());
                                         }}/>
                                 </Grid.Row>
                                 {properties.map(x =>
@@ -125,14 +151,7 @@ export class ProductContainer extends React.Component <ProductContainerProps, {}
                                             onSelectChange={y => {
                                                 const newState = this.state;
                                                 newState.filterOptions.set(x.property, y);
-                                                const prop = transform(newState.filterOptions);
-                                                const result = new FilterBuilder()
-                                                            .add(hasProperties(prop))
-                                                            .apply(this.props.products);
-                                                newState.filteredProducts = result;
-                                                newState.activePage = 1;
-                                                this.setState(newState);
-
+                                                this.setState(newState, ()=> this.filterProducts());
                                             }}/>
                                     </Grid.Column>)}
                             </Grid>
