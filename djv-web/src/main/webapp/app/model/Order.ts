@@ -1,6 +1,7 @@
 import { Address } from "./Address";
 import { Product } from "./Product";
 import { User } from "./User";
+import { Review } from "./Review";
 
 export enum OrderStatus {
     CREATED    = "CREATED",
@@ -23,6 +24,8 @@ export interface Order {
     total: number;
     user: User;
     items: OrderItem[];
+    reviewShown: boolean;
+    review: Review;
 }
 
 export interface OrderSummary {
