@@ -27,7 +27,7 @@ interface ProductContainerState {
     properties?: ProductFilter[];
     filterOptions: Map<string, string[]>;
     filteredProducts: Product[];
-    activeIndex: boolean;
+    isFilterExpanded: boolean;
     minPrice: number;
     maxPrice: number;
 }
@@ -36,7 +36,7 @@ const PRODUCTS_PER_PAGE = 20;
 
 export class ProductContainer extends React.Component <ProductContainerProps, ProductContainerState> {
     state: ProductContainerState = {
-        activeIndex: false,
+        isFilterExpanded: false,
         activePage: 1,
         isLoading: true,
         filterOptions: new Map<string, string[]>(),
@@ -47,7 +47,7 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
 
     componentWillReceiveProps (props: ProductContainerProps) {
         this.setState({
-            activeIndex: false,
+            isFilterExpanded: false,
             activePage: 1,
             isLoading: true,
             filterOptions: new Map<string, string[]>(),
@@ -113,10 +113,10 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
     }
 
     handleFilterOpenChange () {
-        if(this.state.activeIndex) {
-            this.setState({...this.state, activeIndex: false});
+        if(this.state.isFilterExpanded) {
+            this.setState({...this.state, isFilterExpanded: false});
         } else {
-            this.setState({...this.state, activeIndex: true});
+            this.setState({...this.state, isFilterExpanded: true});
         }
     }
 
@@ -131,11 +131,11 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
                     <Accordion className="filter-accordion">
                         <Accordion.Title
                             className="filter-title"
-                            active={this.state.activeIndex}
+                            active={this.state.isFilterExpanded}
                             onClick={this.handleFilterOpenChange.bind(this)}>
                             <Button className="filter-accordion-button">Filter</Button>
                         </Accordion.Title>
-                        <Accordion.Content active={this.state.activeIndex}>
+                        <Accordion.Content active={this.state.isFilterExpanded}>
                             <Grid doubling stackable columns={5} className="accordion-content">
                                 <Grid.Row centered>
                                     <Slider
