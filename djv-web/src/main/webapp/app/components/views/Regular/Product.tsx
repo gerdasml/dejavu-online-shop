@@ -14,10 +14,7 @@ import "../../../../style/product.css";
 import * as api from "../../../api";
 
 interface ProductRouteProps {
-    category?: string;
-    subcategory?: string;
-    subsubcategory?: string;
-    product: string;
+    identifier: string;
 }
 
 interface ProductState {
@@ -43,7 +40,7 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
         message.success("Successfully added product to cart");
     }
     handleProductInfo = async (props: RouteComponentProps<ProductRouteProps>): Promise<void> => {
-        const identifier = this.buildIdentifier(props);
+        const identifier = props.match.params.identifier;
         const response = await api.product.getProductByIdentifier(identifier);
         if(api.isError(response)) {
             notification.error({message: "Failed to load data", description: response.message});
@@ -67,15 +64,6 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
         this.setState({...this.state, loading: false});
     }
 
-    buildIdentifier = (props: RouteComponentProps<ProductRouteProps>): string => {
-        const {category, subcategory, subsubcategory, product} = props.match.params;
-        let result = "";
-        if (category !== undefined) result += category + "/";
-        if (subcategory !== undefined) result += subcategory + "/";
-        if (subsubcategory !== undefined) result += subsubcategory + "/";
-        result += product;
-        return result;
-    }
     render () {
         return (
             <div className="product">

@@ -10,9 +10,7 @@ import * as api from "../../../api";
 import { ProductContainer } from "../../dumb/Product/ProductContainer";
 
 interface CategoryRouteProps {
-    category: string;
-    subcategory?: string;
-    subsubcategory?: string;
+    identifier: string;
 }
 
 interface CategoryState {
@@ -37,7 +35,7 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
     }
 
     async loadData (props: RouteComponentProps<CategoryRouteProps>) {
-        const identifier = this.buildIdentifier(props);
+        const identifier = props.match.params.identifier;
         const response = await api.product.searchForProducts({categoryIdentifier: identifier});
         if (api.isError(response)) {
             notification.error({ message: "Failed to fetch product data", description: response.message });
@@ -45,18 +43,6 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
             return;
         }
         this.setState({ products: response, isLoading: false });
-    }
-
-    buildIdentifier = (props: RouteComponentProps<CategoryRouteProps>) => {
-        const {category, subcategory, subsubcategory} = props.match.params;
-        let result = category;
-        if (subcategory !== undefined) {
-            result += "/" + subcategory;
-        }
-        if (subsubcategory !== undefined) {
-            result += "/" + subsubcategory;
-        }
-        return result;
     }
 
     render () {
