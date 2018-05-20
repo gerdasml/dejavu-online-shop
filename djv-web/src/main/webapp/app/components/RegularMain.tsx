@@ -20,7 +20,7 @@ export const RegularMain = () => (
                 <Switch>
                     <Route exact path="/" component={Home} />
                     <Route path="/about" component={About} />
-                    <Route path="/product/:id" component={Product} />
+                    <Route path="/product/:category?/:subcategory?/:subsubcategory?/:product" component={Product} />
                     <Route path="/user/:id" component={User}/>
                     <Route path="/cart" component={Cart} />
                     <Route path="/profile" component = {Profile} />
