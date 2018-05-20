@@ -2,10 +2,9 @@ package lt.dejavu.product.api;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.service.SecurityService;
-import lt.dejavu.product.model.rest.request.CategorySearchRequest;
+import lt.dejavu.product.model.rest.request.CategoryRequest;
 import lt.dejavu.product.response.CategoryResponse;
 import lt.dejavu.product.response.CategoryTreeResponse;
-import lt.dejavu.product.model.rest.request.CategoryRequest;
 import lt.dejavu.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -33,12 +32,12 @@ public class CategoryApi {
         return categoryService.getCategory(categoryId);
     }
 
-    @PostMapping(
+    @GetMapping(
             path = "/",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public CategoryResponse categorySearch(@RequestBody CategorySearchRequest request) {
-        return categoryService.getCategoryByIdentifier(request.getIdentifier());
+    public CategoryResponse getCategoryByIdentifier(@RequestParam("identifier") String identifier) {
+        return categoryService.getCategoryByIdentifier(identifier);
     }
 
     @GetMapping(
