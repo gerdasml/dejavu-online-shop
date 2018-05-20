@@ -8,6 +8,7 @@ import * as api from "../../../api";
 import { CategoryTree } from "../../../model/CategoryTree";
 import { MenuItem } from "../../smart/Menu/MenuItem";
 import { SubMenu, SubMenuPosition } from "../../smart/Menu/SubMenu";
+import { DesktopMenu } from "./DesktopMenu";
 
 interface CategorySettings {
     categoryTree: CategoryTree;
@@ -63,17 +64,12 @@ export class DrawerMenu extends React.Component<{}, DrawerMenuState> {
     render () {
         return (
             <div>
-                <Grid id="allPageContent">
+                <Grid id="allPageContent" stackable>
                     <Grid.Row id="drawerRow">
                         <Grid.Column width={2} id="sidebar" stretched>
-                            <Menu vertical fluid inverted id="sidebarItems">
-                                {this.state.categories.map((itemCategory, itemIndex) =>
-                                    <MenuItem
-                                                categoryTree={itemCategory}
-                                                key={itemIndex}
-                                                onHover={this.onHover}/>
-                                            )}
-                            </Menu>
+                            <DesktopMenu categories={this.state.categories}
+                                        onHover={this.onHover} />
+                            {/* <MobileMenu categories={this.state.categories} /> */}
                         </Grid.Column>
                         <Grid.Column width={14} id="mainContent">
                         {this.props.children}
