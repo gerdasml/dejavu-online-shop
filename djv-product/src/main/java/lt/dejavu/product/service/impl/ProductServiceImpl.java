@@ -19,6 +19,7 @@ import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.repository.ProductPropertyRepository;
 import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.product.service.ProductService;
+import lt.dejavu.product.strategy.IdentifierGenerator;
 import lt.dejavu.utils.collections.UpdatableCollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -49,13 +49,14 @@ public class ProductServiceImpl implements ProductService {
     private final ProductPropertyRequestMapper productPropertyRequestMapper;
     private final ProductPropertyRepository productPropertyRepository;
 
+    private final IdentifierGenerator<Product> productIdentifierGenerator;
 
     private final ExcelService<Product> excelService;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository,
                               ProductRequestMapper productRequestMapper, ProductResponseMapper productResponseMapper, ExcelService<Product> excelService,
-                              ProductPropertyRequestMapper productPropertyRequestMapper, ProductPropertyRepository productPropertyRepository) {
+                              ProductPropertyRequestMapper productPropertyRequestMapper, ProductPropertyRepository productPropertyRepository, IdentifierGenerator<Product> productIdentifierGenerator) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.productRequestMapper = productRequestMapper;
@@ -66,6 +67,7 @@ public class ProductServiceImpl implements ProductService {
 
         this.excelService = excelService;
 
+        this.productIdentifierGenerator = productIdentifierGenerator;
     }
 
     @Override
@@ -99,10 +101,12 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public Long createProduct(ProductRequest request) {
-        Category productCategory = resolveProductCategory(request);
+        Category productCategory = resolveCategory(request.getCategoryId());
         Product product = productRequestMapper.mapToProduct(request, productCategory);
         product.setCreationDate(LocalDateTime.now());
         Long productId = productRepository.saveProduct(product);
+        product.setIdentifier(productIdentifierGenerator.generateIdentifier(product));
+        productRepository.updateProduct(product);
         Set<CategoryProperty> properties = getProductCategoryProperties(request, productCategory);
         Set<ProductProperty> propertyValues = productPropertyRequestMapper.mapProperties(product, properties, request.getProperties());
         productPropertyRepository.savePropertyValues(propertyValues);
@@ -118,9 +122,10 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public void updateProduct(long productId, ProductRequest request) {
-        Category productCategory = resolveProductCategory(request);
+        Category productCategory = resolveCategory(request.getCategoryId());
         Product oldProduct = getProductIfExist(productId);
         productRequestMapper.remapToProduct(oldProduct, request, productCategory);
+        oldProduct.setIdentifier(productIdentifierGenerator.generateIdentifier(oldProduct));
         Set<CategoryProperty> properties = getProductCategoryProperties(request, productCategory);
         Set<ProductProperty> propertyValues = productPropertyRequestMapper.mapProperties(oldProduct, properties, request.getProperties());
         UpdatableCollectionUtils.updateCollection(oldProduct.getProperties(), propertyValues);
@@ -149,11 +154,12 @@ public class ProductServiceImpl implements ProductService {
         return excelService.fromExcel(data);
     }
 
-    private Category resolveProductCategory(ProductRequest request) {
-        if (request.getCategoryId() == null) {
+    private Category resolveCategory(Long categoryId) {
+        if (categoryId == null) {
             throw new IllegalStateException("Product must have category");
         }
-        return getCategoryIfExist(request.getCategoryId());
+        Category category = getCategoryIfExist(categoryId);
+        return getCategoryIfExist(categoryId);
     }
 
     private Product getProductIfExist(long productId) {
