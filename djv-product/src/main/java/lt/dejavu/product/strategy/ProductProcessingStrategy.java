@@ -1,6 +1,5 @@
 package lt.dejavu.product.strategy;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lt.dejavu.excel.model.ConversionResult;
 import lt.dejavu.excel.model.ConversionStatus;
@@ -9,6 +8,7 @@ import lt.dejavu.excel.model.db.ImportStatus;
 import lt.dejavu.excel.model.db.Status;
 import lt.dejavu.excel.repository.ImportStatusRepository;
 import lt.dejavu.excel.strategy.ProcessingStrategy;
+import lt.dejavu.product.dto.mapper.ProductDtoMapper;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.repository.ProductRepository;
 import org.apache.logging.log4j.LogManager;
@@ -18,9 +18,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -28,12 +26,14 @@ public class ProductProcessingStrategy implements ProcessingStrategy<Product> {
     private final ImportStatusRepository importStatusRepository;
     private final ProductRepository productRepository;
     private final ObjectMapper objectMapper;
+    private final ProductDtoMapper productDtoMapper;
     private final Logger logger = LogManager.getLogger(ProductProcessingStrategy.class);
 
-    public ProductProcessingStrategy(ImportStatusRepository importStatusRepository, ProductRepository productRepository, ObjectMapper objectMapper) {
+    public ProductProcessingStrategy(ImportStatusRepository importStatusRepository, ProductRepository productRepository, ObjectMapper objectMapper, ProductDtoMapper productDtoMapper) {
         this.importStatusRepository = importStatusRepository;
         this.productRepository = productRepository;
         this.objectMapper = objectMapper;
+        this.productDtoMapper = productDtoMapper;
     }
 
     @Override
@@ -86,7 +86,7 @@ public class ProductProcessingStrategy implements ProcessingStrategy<Product> {
     private void processFailure(UUID jobId, Product product) {
         ImportStatus status = importStatusRepository.getImportStatus(jobId);
         try {
-            String newPayload = objectMapper.writeValueAsString(product);
+            String newPayload = objectMapper.writeValueAsString(productDtoMapper.mapToDto(product));
             status.getFailedItems().add(new FailedImportItem(status, newPayload));
         } catch (IOException e) {
             logger.warn(e);

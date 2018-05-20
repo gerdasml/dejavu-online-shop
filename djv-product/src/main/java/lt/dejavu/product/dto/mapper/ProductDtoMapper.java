@@ -59,14 +59,14 @@ public class ProductDtoMapper {
         return product;
     }
 
-    public Product remapToProduct(Product oldProduct, ProductDto productRequest, Category category) {
-        oldProduct.setName(productRequest.getName());
-        oldProduct.setIdentifier(productRequest.getIdentifier());
-        oldProduct.setDescription(productRequest.getDescription());
-        oldProduct.setPrice(productRequest.getPrice());
-        oldProduct.setMainImageUrl(productRequest.getMainImageUrl());
-        CommonCollectionUtils.updateCollection(oldProduct.getAdditionalImagesUrls(), productRequest.getAdditionalImagesUrls());
-        oldProduct.setCreationDate(productRequest.getCreationDate());
+    public Product remapToProduct(Product oldProduct, ProductDto productDto, Category category) {
+        oldProduct.setName(productDto.getName());
+        oldProduct.setIdentifier(productDto.getIdentifier());
+        oldProduct.setDescription(productDto.getDescription());
+        oldProduct.setPrice(productDto.getPrice());
+        oldProduct.setMainImageUrl(productDto.getMainImageUrl());
+        CommonCollectionUtils.updateCollection(oldProduct.getAdditionalImagesUrls(), productDto.getAdditionalImagesUrls());
+        oldProduct.setCreationDate(productDto.getCreationDate());
         oldProduct.setCategory(category);
         return oldProduct;
     }

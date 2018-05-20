@@ -43,8 +43,8 @@ public class ProductImportStatusDtoMapper {
 
     private ProductDto parseProductDtoString(FailedImportItem item){
         try {
-            return productDtoMapper.mapToDto((Product) objectMapper.readValue(item.getFailedItem(), new TypeReference<Product>() {
-            }));
+            return (ProductDto) objectMapper.readValue(item.getFailedItem(), new TypeReference<ProductDto>() {
+            });
         } catch (IOException ex) {
             logger.error(ex);
             throw new RuntimeException(ex);
