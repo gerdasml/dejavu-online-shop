@@ -12,57 +12,52 @@ import {ReviewModal} from "../Order/ReviewModal";
 
 import {Review} from "../../../model/Review";
 
-/*const fakeOrderItems: OrderItem[] = [
-    {
-        amount: 5,
-        product: products[0]
-    },
-    {
-        amount: 4,
-        product: products[1]
-    },
-    {
-        amount: 15,
-        product: products[2]
-    }
-];
-
-const fakeOrders: Order[] = [
-    {
-        id: 1,
-        items: fakeOrderItems
-    },
-    {
-        id: 2,
-        items: [fakeOrderItems[1]]
-    },
-    {
-        id: 3,
-        items: [fakeOrderItems[2]]
-    }
-];*/
+import * as api from "../../../api";
+import { Order } from "../../../model/Order";
 
 interface HeaderState {
     loggedIn: boolean;
     activeItem: String;
-    triggerReview: boolean;
+    ordersToReview: Order[];
 }
 
 export class Header extends React.Component <{}, HeaderState> {
     state: HeaderState = {
         activeItem: "home",
         loggedIn: getToken() !== null,
-        triggerReview: false
+        ordersToReview: []
     };
 
     handleLogout = () => {
         clearToken();
         this.setState ({...this.state, loggedIn: false});
     }
+
+    handleLogin = async () => {
+        this.setState ({...this.state, loggedIn: true});
+        const response = await api.review.getOrdersToReview();
+        if (api.isError(response)) {
+            // Don't show an error if the review fetch failed
+            return;
+        }
+        this.setState({...this.state, ordersToReview: response});
+    }
+
     handleItemClick = (e: any, { name }: any) => this.setState({ ...this.state, activeItem: name });
 
     handleReview = (orderId: number, review: Review) => {
-        console.log("order: " + orderId + review.comment + review.rating);
+        api.review.submitReview(orderId, review);
+        // No need to wait for the response
+        this.setState({
+            ...this.state,
+            ordersToReview: this.state.ordersToReview.slice(1)
+        });
+    }
+
+    handleReviewClose = () => {
+        Promise.all(this.state.ordersToReview.map(o => api.review.rejectReview(o.id)));
+        // No need to await
+        this.setState({...this.state, ordersToReview: []});
     }
 
     render () {
@@ -115,13 +110,16 @@ export class Header extends React.Component <{}, HeaderState> {
                                             to="/"
                                         />]
                             :
-                            <Login onLogin={() => this.setState ({...this.state, loggedIn: true}) }/>
+                            <Login onLogin={this.handleLogin.bind(this)}/>
                         }
                 </Menu.Menu>
                 </Menu>
-                <ReviewModal onReviewSubmit={this.handleReview.bind(this)}
-                onClose={()  => this.setState({triggerReview: false})}
-                open = {this.state.triggerReview} orders={[]}/>
+                <ReviewModal
+                    onReviewSubmit={this.handleReview.bind(this)}
+                    onClose={this.handleReviewClose.bind(this)}
+                    open = {this.state.ordersToReview.length > 0}
+                    order={this.state.ordersToReview[0]}
+                />
                 </div>
         );
     }
