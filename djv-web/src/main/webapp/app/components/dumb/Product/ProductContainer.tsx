@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { message, notification } from "antd";
+import { message, notification, Slider } from "antd";
 import { Card, Icon, Grid, Pagination, Accordion, Button } from "semantic-ui-react";
 
 import * as api from "../../../api";
@@ -9,7 +9,7 @@ import { Cart } from "../../../model/Cart";
 import { Product } from "../../../model/Product";
 import { ProductCard } from "../Home/ProductCard";
 import { Category } from "../../../model/Category";
-import { getProperties, ProductFilter, transform } from "../../../utils/product/productFilter";
+import { getProperties, ProductFilter, transform, getMin, getMax } from "../../../utils/product/productFilter";
 import { Filter } from "./Filter";
 import { FilterBuilder, hasProperties } from "../../../utils/product/filter";
 
@@ -107,6 +107,17 @@ export class ProductContainer extends React.Component <ProductContainerProps, {}
                         </Accordion.Title>
                         <Accordion.Content active={this.state.activeIndex}>
                             <Grid doubling stackable columns={5} className="accordion-content">
+                                <Grid.Row centered>
+                                    <Slider
+                                        className="filter-slider"
+                                        range
+                                        min={getMin(this.props.products)}
+                                        max={getMax(this.props.products)}
+                                        marks={{
+                                            [getMin(this.props.products)]: getMin(this.props.products) + "Eur",
+                                            [getMax(this.props.products)]: getMax(this.props.products) + "Eur",
+                                        }}/>
+                                </Grid.Row>
                                 {properties.map(x =>
                                     <Grid.Column className="filter">
                                         <Filter

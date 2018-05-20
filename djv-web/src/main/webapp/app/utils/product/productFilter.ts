@@ -27,3 +27,13 @@ export const transform = (filteredData: Map<string, string[]>): ProductPropertie
     filteredData.forEach((values, propName) => values.forEach(val => result.push({name: propName, value: val})));
     return result;
 };
+
+export const getMax = (products: Product[]): number => {
+    const result = products.reduce((prev, curr) => (prev.price > curr.price) ? prev : curr);
+    return result.price;
+};
+
+export const getMin = (products: Product[]): number => {
+    const result = products.reduce((prev, curr) => (prev.price < curr.price) ? prev : curr);
+    return result.price;
+};
