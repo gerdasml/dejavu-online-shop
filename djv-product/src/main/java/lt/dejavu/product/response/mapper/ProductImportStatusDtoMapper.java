@@ -46,7 +46,7 @@ public class ProductImportStatusDtoMapper {
             return productDtoMapper.map((Product) objectMapper.readValue(item.getFailedItem(), new TypeReference<Product>() {
             }));
         } catch (IOException ex) {
-            logger.warn(ex);
+            logger.error(ex);
             throw new RuntimeException(ex);
         }
     }
