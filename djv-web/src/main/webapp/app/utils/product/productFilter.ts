@@ -29,11 +29,13 @@ export const transform = (filteredData: Map<string, string[]>): ProductPropertie
 };
 
 export const getMax = (products: Product[]): number => {
+    if (products.length === 0) return 0;
     const result = products.reduce((prev, curr) => (prev.price > curr.price) ? prev : curr);
     return result.price;
 };
 
 export const getMin = (products: Product[]): number => {
+    if (products.length === 0) return 0;
     const result = products.reduce((prev, curr) => (prev.price < curr.price) ? prev : curr);
     return result.price;
 };

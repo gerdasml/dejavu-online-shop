@@ -128,6 +128,8 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
         const max = Math.ceil(getMax(this.props.products));
         return (
                 <div>
+                    { this.props.category !== undefined && this.props.products.length !== 0
+                    ?
                     <Accordion className="filter-accordion">
                         <Accordion.Title
                             className="filter-title"
@@ -169,6 +171,8 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
                             </Grid>
                         </Accordion.Content>
                     </Accordion>
+                    : ""
+                    }
                     <Card.Group itemsPerRow={5} doubling>
                         {this.mapProducts()}
                     </Card.Group>
