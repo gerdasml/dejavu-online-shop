@@ -1,4 +1,4 @@
-package lt.dejavu.product.response;
+package lt.dejavu.product.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +9,6 @@ import java.util.List;
 @Setter
 public class CategoryTreeResponse {
 
-    CategoryResponse category;
+    CategoryDto category;
     List<CategoryTreeResponse> children;
 }

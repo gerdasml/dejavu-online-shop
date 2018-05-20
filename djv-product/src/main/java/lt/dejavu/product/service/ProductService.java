@@ -1,7 +1,6 @@
 package lt.dejavu.product.service;
 
-import lt.dejavu.product.response.ProductDto;
-import lt.dejavu.product.model.rest.request.ProductRequest;
+import lt.dejavu.product.dto.ProductDto;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,11 +14,11 @@ public interface ProductService {
 
     List<ProductDto> getProductsByCategory(long categoryId);
 
-    Long createProduct(ProductRequest request);
+    Long createProduct(ProductDto request);
 
     void deleteProduct(long productId);
 
-    void updateProduct(long productId, ProductRequest request);
+    void updateProduct(long productId, ProductDto request);
 
     ByteArrayOutputStream exportProducts() throws IOException;
 

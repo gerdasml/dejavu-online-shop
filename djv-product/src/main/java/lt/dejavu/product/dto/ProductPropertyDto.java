@@ -1,4 +1,4 @@
-package lt.dejavu.product.response;
+package lt.dejavu.product.dto;
 
 import lombok.Getter;
 import lombok.Setter;

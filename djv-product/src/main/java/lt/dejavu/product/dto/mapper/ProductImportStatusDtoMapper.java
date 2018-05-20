@@ -1,12 +1,12 @@
-package lt.dejavu.product.response.mapper;
+package lt.dejavu.product.dto.mapper;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lt.dejavu.excel.model.db.FailedImportItem;
 import lt.dejavu.excel.model.db.ImportStatus;
 import lt.dejavu.product.model.Product;
-import lt.dejavu.product.response.ProductDto;
-import lt.dejavu.product.response.ProductImportStatusDto;
+import lt.dejavu.product.dto.ProductDto;
+import lt.dejavu.product.dto.ProductImportStatusDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -43,7 +43,7 @@ public class ProductImportStatusDtoMapper {
 
     private ProductDto parseProductDtoString(FailedImportItem item){
         try {
-            return productDtoMapper.map((Product) objectMapper.readValue(item.getFailedItem(), new TypeReference<Product>() {
+            return productDtoMapper.mapToDto((Product) objectMapper.readValue(item.getFailedItem(), new TypeReference<Product>() {
             }));
         } catch (IOException ex) {
             logger.error(ex);

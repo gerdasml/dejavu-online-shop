@@ -2,7 +2,7 @@ package lt.dejavu.order.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import lt.dejavu.product.response.ProductDto;
+import lt.dejavu.product.dto.ProductDto;
 
 import java.math.BigDecimal;
 

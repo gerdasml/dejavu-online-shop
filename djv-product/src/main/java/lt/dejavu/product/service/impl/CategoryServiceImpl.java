@@ -1,13 +1,11 @@
 package lt.dejavu.product.service.impl;
 
-import lt.dejavu.product.response.CategoryResponse;
-import lt.dejavu.product.response.CategoryTreeResponse;
-import lt.dejavu.product.response.mapper.CategoryResponseMapper;
+import lt.dejavu.product.dto.CategoryDto;
+import lt.dejavu.product.dto.CategoryTreeResponse;
+import lt.dejavu.product.dto.mapper.CategoryDtoMapper;
 import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.IllegalRequestDataException;
 import lt.dejavu.product.model.Category;
-import lt.dejavu.product.model.rest.mapper.CategoryRequestMapper;
-import lt.dejavu.product.model.rest.request.CategoryRequest;
 import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.repository.ProductPropertyRepository;
 import lt.dejavu.product.service.CategoryService;
@@ -21,43 +19,41 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final CategoryRequestMapper categoryRequestMapper;
-    private final CategoryResponseMapper categoryResponseMapper;
+    private final CategoryDtoMapper categoryDtoMapper;
     private final ProductPropertyRepository productPropertyRepository;
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryRequestMapper categoryRequestMapper, CategoryResponseMapper categoryResponseMapper, ProductPropertyRepository productPropertyRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryDtoMapper categoryDtoMapper, ProductPropertyRepository productPropertyRepository) {
         this.categoryRepository = categoryRepository;
-        this.categoryRequestMapper = categoryRequestMapper;
-        this.categoryResponseMapper = categoryResponseMapper;
+        this.categoryDtoMapper = categoryDtoMapper;
         this.productPropertyRepository = productPropertyRepository;
     }
 
     @Override
-    public CategoryResponse getCategory(long id) {
-        return categoryResponseMapper.map(getCategoryIfExist(id));
+    public CategoryDto getCategory(long id) {
+        return categoryDtoMapper.map(getCategoryIfExist(id));
     }
 
     @Override
-    public List<CategoryResponse> getRootCategories() {
-        return categoryResponseMapper.map(categoryRepository.getRootCategories());
+    public List<CategoryDto> getRootCategories() {
+        return categoryDtoMapper.map(categoryRepository.getRootCategories());
     }
 
     @Override
     public List<CategoryTreeResponse> getCategoryTree() {
-        return categoryResponseMapper.mapToTree(categoryRepository.getAllCategories());
+        return categoryDtoMapper.mapToTree(categoryRepository.getAllCategories());
     }
 
     @Override
-    public List<CategoryResponse> getSubCategories(long categoryId) {
-        return categoryResponseMapper.map(categoryRepository.getSubCategories(categoryId));
+    public List<CategoryDto> getSubCategories(long categoryId) {
+        return categoryDtoMapper.map(categoryRepository.getSubCategories(categoryId));
     }
 
     @Transactional
     @Override
-    public Long createCategory(CategoryRequest categoryRequest) {
-        Category parentCategory = resolveParentCategory(categoryRequest);
-        Category category = categoryRequestMapper.mapToCategory(categoryRequest, parentCategory);
+    public Long createCategory(CategoryDto categoryDto) {
+        Category parentCategory = resolveParentCategory(categoryDto);
+        Category category = categoryDtoMapper.mapToCategory(categoryDto, parentCategory);
         Long categoryId = categoryRepository.saveCategory(category);
         productPropertyRepository.saveProperties(category.getProperties());
         return categoryId;
@@ -65,11 +61,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Transactional
     @Override
-    public void updateCategory(long categoryId, CategoryRequest categoryRequest) {
-        validateNotSelfParent(categoryId, categoryRequest.getParentCategoryId());
+    public void updateCategory(long categoryId, CategoryDto categoryDto) {
+        validateNotSelfParent(categoryId, categoryDto.getParentCategoryId());
         Category oldCategory = getCategoryIfExist(categoryId);
-        Category parentCategory = resolveParentCategory(categoryRequest);
-        Category newCategory = categoryRequestMapper.remapToCategory(oldCategory, categoryRequest, parentCategory);
+        Category parentCategory = resolveParentCategory(categoryDto);
+        Category newCategory = categoryDtoMapper.remapToCategory(oldCategory, categoryDto, parentCategory);
         categoryRepository.updateCategory(newCategory);
     }
 
@@ -88,13 +84,13 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
-    private Category resolveParentCategory(CategoryRequest categoryRequest) {
-        if (categoryRequest.getParentCategoryId() == null) {
+    private Category resolveParentCategory(CategoryDto categoryDto) {
+        if (categoryDto.getParentCategoryId() == null) {
             return null;
         }
-        Category parentCategory = categoryRepository.getCategory(categoryRequest.getParentCategoryId());
+        Category parentCategory = categoryRepository.getCategory(categoryDto.getParentCategoryId());
         if (parentCategory == null) {
-            throw new CategoryNotFoundException("cannot find category with parent id: " + categoryRequest.getParentCategoryId());
+            throw new CategoryNotFoundException("cannot find category with parent id: " + categoryDto.getParentCategoryId());
         }
         return parentCategory;
     }
