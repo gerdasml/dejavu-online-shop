@@ -1,10 +1,9 @@
 import * as React from "react";
-import { Button, Form, Grid, Icon, Message, Modal, Segment } from "semantic-ui-react";
+import { Button, Form, Grid, Menu, Message, Modal, Segment } from "semantic-ui-react";
 import * as api from "../../../api";
 import { storeToken } from "../../../utils/token";
 import { Register } from "./Register";
 
-import "../../../../style/header.css";
 import "../../../../style/login.css";
 
 interface LoginState {
@@ -67,18 +66,12 @@ export class Login extends React.Component<LoginProps, LoginState> {
     }
     render () {
         return (
-            <Modal trigger={<Button id="loginHeaderButton"
-                className="headerButton"
-                icon
-                size="medium"
+            <Modal trigger={<Menu.Item
+                name="log in"
                 onClick={this.handleOpen.bind(this)}
-            >
-                LOG&nbsp;IN
-                <br />
-                <Icon name="sign in" size="big" />
-            </Button>}
-                open={this.state.open}
-                onClose={this.handleClose.bind(this)}
+            />}
+            open={this.state.open}
+            onClose={this.handleClose.bind(this)}
             >
                 <Modal.Content id="loginModal">
                     <Grid columns={2} divided>

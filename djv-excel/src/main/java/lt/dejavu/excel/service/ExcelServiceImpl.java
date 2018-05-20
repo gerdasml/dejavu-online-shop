@@ -11,10 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
@@ -30,7 +27,7 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
     }
 
     @Override
-    public ByteArrayOutputStream toExcel(List<T> items) throws IOException {
+    public ByteArrayOutputStream toExcel(Collection<T> items) throws IOException {
         Workbook wb = new XSSFWorkbook();
         CellStyle cellStyle = getCellStyle(wb);
         Sheet sheet = wb.createSheet();
@@ -70,10 +67,11 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
             try {
                 analyze(uuid, getIterator(file));
                 process(uuid, getIterator(file));
-            } catch (IOException e) {
+                processingStrategy.finish(uuid);
+            } catch (Exception e) {
                 processingStrategy.fail(uuid);
             }
-            processingStrategy.finish(uuid);
+
         });
         return uuid;
     }

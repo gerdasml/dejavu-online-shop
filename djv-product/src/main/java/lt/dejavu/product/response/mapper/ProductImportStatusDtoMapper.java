@@ -1,11 +1,11 @@
-package lt.dejavu.product.dto.mapper;
+package lt.dejavu.product.response.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lt.dejavu.excel.model.db.ImportStatus;
-import lt.dejavu.product.dto.ProductDto;
-import lt.dejavu.product.dto.ProductImportStatusDto;
+import lt.dejavu.product.response.ProductImportStatusDto;
+import lt.dejavu.product.response.ProductResponse;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class ProductImportStatusDtoMapper {
         dto.setStatus(status.getStatus());
         dto.setStartTime(status.getStartTime().toInstant());
         try {
-            dto.setFailedProducts(objectMapper.readValue(status.getFailedItems(), new TypeReference<List<ProductDto>>(){}));
+            dto.setFailedProducts(objectMapper.readValue(status.getFailedItems(), new TypeReference<List<ProductResponse>>(){}));
         } catch (IOException ignored) {}
 
         return dto;

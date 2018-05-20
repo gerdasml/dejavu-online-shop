@@ -51,11 +51,6 @@ public class ProductProcessingStrategy implements ProcessingStrategy<Product> {
 
     @Override
     public void process(UUID jobId, ConversionResult<Product> item) {
-        try {
-            Thread.sleep(5000); // TODO: remove this after testing is done
-        } catch (InterruptedException e) {
-
-        }
         if (item.getStatus() == ConversionStatus.SUCCESS) processSuccess(jobId, item.getResult());
         else processFailure(jobId, item.getResult());
     }

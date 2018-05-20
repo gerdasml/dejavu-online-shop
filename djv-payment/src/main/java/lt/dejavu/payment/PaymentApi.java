@@ -1,6 +1,6 @@
 package lt.dejavu.payment;
 
-import lt.dejavu.payment.model.Payment;
+import lt.dejavu.payment.model.Card;
 import lt.dejavu.payment.service.PaymentService;
 import lt.dejavu.payment.validation.ValidationError;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class PaymentApi {
     private PaymentService paymentService;
 
     @PostMapping("/validate")
-    public List<ValidationError> validate(@RequestBody Payment payment) {
-        return paymentService.validate(payment);
+    public List<ValidationError> validate(@RequestBody Card card) {
+        return paymentService.validate(card);
     }
 }

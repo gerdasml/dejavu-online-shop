@@ -1,19 +1,19 @@
 package lt.dejavu.product.service;
 
-import lt.dejavu.product.dto.CategoryDto;
-import lt.dejavu.product.dto.CategoryTreeDto;
+import lt.dejavu.product.response.CategoryResponse;
+import lt.dejavu.product.response.CategoryTreeResponse;
 import lt.dejavu.product.model.rest.request.CategoryRequest;
 
 import java.util.List;
 
 public interface CategoryService {
-    CategoryDto getCategory(long id);
+    CategoryResponse getCategory(long id);
 
-    List<CategoryDto> getRootCategories();
+    List<CategoryResponse> getRootCategories();
 
-    List<CategoryDto> getSubCategories(long category);
+    List<CategoryResponse> getSubCategories(long category);
 
-    List<CategoryTreeDto> getCategoryTree();
+    List<CategoryTreeResponse> getCategoryTree();
 
     Long createCategory(CategoryRequest categoryRequest);
 

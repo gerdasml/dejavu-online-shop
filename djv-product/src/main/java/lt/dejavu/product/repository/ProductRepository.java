@@ -3,14 +3,15 @@ package lt.dejavu.product.repository;
 import lt.dejavu.product.model.Product;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ProductRepository {
 
     Product getProduct(long id);
 
-    List<Product> getAllProducts();
+    Set<Product> getAllProducts();
 
-    List<Product> getProductsByCategory(long categoryId);
+    Set<Product> getProductsByCategory(long categoryId);
 
     long saveProduct(Product product);
 
