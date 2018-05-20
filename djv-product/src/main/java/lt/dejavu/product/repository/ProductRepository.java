@@ -9,6 +9,8 @@ public interface ProductRepository {
 
     Product getProduct(long id);
 
+    Product getProduct(String identifier);
+
     Set<Product> getAllProducts();
 
     Set<Product> getProductsByCategory(long categoryId);

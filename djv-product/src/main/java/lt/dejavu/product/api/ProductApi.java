@@ -59,6 +59,15 @@ public class ProductApi {
         return productService.getProductsByCategory(categoryId);
     }
 
+    @GetMapping(
+            path="/byIdentifier",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            params = "identifier"
+    )
+    public ProductResponse getProductByIdentifier(@RequestParam String identifier) {
+        return productService.getProduct(identifier);
+    }
+
     @PostMapping(
             path = "/category",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE

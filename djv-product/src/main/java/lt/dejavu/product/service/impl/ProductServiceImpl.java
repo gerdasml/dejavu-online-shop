@@ -79,6 +79,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductResponse getProduct(String identifier) {
+        return productResponseMapper.map(getProductIfExist(identifier));
+    }
+
+    @Override
     public List<ProductResponse> getProductsByCategory(long categoryId) {
         getCategoryIfExist(categoryId);
         return productResponseMapper.map(productRepository.getProductsByCategory(categoryId));
@@ -155,6 +160,14 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.getProduct(productId);
         if (product == null) {
             throw new ProductNotFoundException(productId);
+        }
+        return product;
+    }
+
+    private Product getProductIfExist(String identifier) {
+        Product product = productRepository.getProduct(identifier);
+        if (product == null) {
+            throw new ProductNotFoundException("The product with the specified identifier was not found");
         }
         return product;
     }

@@ -12,6 +12,8 @@ import java.util.UUID;
 public interface ProductService {
     ProductResponse getProduct(long id);
 
+    ProductResponse getProduct(String identifier);
+
     List<ProductResponse> getAllProducts();
 
     List<ProductResponse> getProductsByCategory(long categoryId);
