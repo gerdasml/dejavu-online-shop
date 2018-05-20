@@ -31,16 +31,11 @@ public class ImportStatus {
     @Column(name = "total")
     private int total;
 
-    @Column(name = "failedItem")
-    @ElementCollection
-    @CollectionTable(
-            name="failedImportItem",
-            joinColumns=@JoinColumn(name="statusId")
-
-    )
-    private List<String> failedItems;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "status",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<FailedImportItem> failedItems;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private Status status;
+
 }

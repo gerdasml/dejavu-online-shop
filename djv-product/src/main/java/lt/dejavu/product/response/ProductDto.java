@@ -21,5 +21,5 @@ public class ProductDto {
     private Collection<String> additionalImagesUrls;
     private LocalDateTime creationDate;
     private Long categoryId;
-    private List<ProductPropertyResponse> properties;
+    private List<ProductPropertyDto> properties;
 }

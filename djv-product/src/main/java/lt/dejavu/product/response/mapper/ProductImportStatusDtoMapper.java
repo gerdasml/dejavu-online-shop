@@ -1,9 +1,10 @@
 package lt.dejavu.product.response.mapper;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lt.dejavu.excel.model.db.FailedImportItem;
 import lt.dejavu.excel.model.db.ImportStatus;
+import lt.dejavu.product.model.Product;
 import lt.dejavu.product.response.ProductDto;
 import lt.dejavu.product.response.ProductImportStatusDto;
 import org.apache.logging.log4j.LogManager;
@@ -20,9 +21,11 @@ import static java.util.stream.Collectors.toList;
 public class ProductImportStatusDtoMapper {
     private final ObjectMapper objectMapper;
     private final Logger logger = LogManager.getLogger(ProductImportStatusDtoMapper.class);
+    private final ProductDtoMapper productDtoMapper;
 
-    public ProductImportStatusDtoMapper(ObjectMapper objectMapper) {
+    public ProductImportStatusDtoMapper(ObjectMapper objectMapper, ProductDtoMapper productDtoMapper) {
         this.objectMapper = objectMapper;
+        this.productDtoMapper = productDtoMapper;
     }
 
     public ProductImportStatusDto map(ImportStatus status) {
@@ -38,12 +41,12 @@ public class ProductImportStatusDtoMapper {
         return dto;
     }
 
-    private ProductDto parseProductDtoString(String item){
+    private ProductDto parseProductDtoString(FailedImportItem item){
         try {
-            return objectMapper.readValue(item, new TypeReference<ProductDto>() {
-            });
+            return productDtoMapper.map((Product) objectMapper.readValue(item.getFailedItem(), new TypeReference<Product>() {
+            }));
         } catch (IOException ex) {
-            logger.warn(ex.getMessage());
+            logger.warn(ex);
             throw new RuntimeException(ex);
         }
     }
@@ -53,7 +56,7 @@ public class ProductImportStatusDtoMapper {
         status.setStatus(dto.getStatus());
         status.setId(dto.getId());
         status.setStartTime(Timestamp.from(dto.getStartTime()));
-        status.setFailedItems(dto.getFailedProducts().stream().map(this::productDtoToString).collect(toList()));
+        status.setFailedItems(dto.getFailedProducts().stream().map(x -> productDtoToFailedImportItem(x, status)).collect(toList()));
         status.setFailureCount(dto.getFailureCount());
         status.setSuccessCount(dto.getSuccessCount());
         status.setTotal(dto.getTotal());
@@ -61,11 +64,17 @@ public class ProductImportStatusDtoMapper {
         return status;
     }
 
+    private FailedImportItem productDtoToFailedImportItem(ProductDto item, ImportStatus status){
+        String itemString = productDtoToString(item);
+        return new FailedImportItem(status, itemString);
+
+    }
+
     private String productDtoToString(ProductDto item){
         try {
             return objectMapper.writeValueAsString(item);
         } catch (IOException ex) {
-            logger.warn(ex.getMessage());
+            logger.warn(ex);
             throw new RuntimeException(ex);
         }
     }

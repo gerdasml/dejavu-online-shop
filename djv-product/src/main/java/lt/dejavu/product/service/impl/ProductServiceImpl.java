@@ -2,7 +2,7 @@ package lt.dejavu.product.service.impl;
 
 import lt.dejavu.excel.service.ExcelService;
 import lt.dejavu.product.response.ProductDto;
-import lt.dejavu.product.response.mapper.ProductResponseMapper;
+import lt.dejavu.product.response.mapper.ProductDtoMapper;
 import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.ProductNotFoundException;
 import lt.dejavu.product.exception.ProductPropertyNotFoundException;
@@ -42,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductRequestMapper productRequestMapper;
-    private final ProductResponseMapper productResponseMapper;
+    private final ProductDtoMapper productDtoMapper;
 
     private final ProductPropertyRequestMapper productPropertyRequestMapper;
     private final ProductPropertyRepository productPropertyRepository;
@@ -52,12 +52,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository,
-                              ProductRequestMapper productRequestMapper, ProductResponseMapper productResponseMapper, ExcelService<Product> excelService,
+                              ProductRequestMapper productRequestMapper, ProductDtoMapper productDtoMapper, ExcelService<Product> excelService,
                               ProductPropertyRequestMapper productPropertyRequestMapper, ProductPropertyRepository productPropertyRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.productRequestMapper = productRequestMapper;
-        this.productResponseMapper = productResponseMapper;
+        this.productDtoMapper = productDtoMapper;
 
         this.productPropertyRequestMapper = productPropertyRequestMapper;
         this.productPropertyRepository = productPropertyRepository;
@@ -68,18 +68,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> getAllProducts() {
-        return productResponseMapper.map(productRepository.getAllProducts());
+        return productDtoMapper.map(productRepository.getAllProducts());
     }
 
     @Override
     public ProductDto getProduct(long id) {
-        return productResponseMapper.map(getProductIfExist(id));
+        return productDtoMapper.map(getProductIfExist(id));
     }
 
     @Override
     public List<ProductDto> getProductsByCategory(long categoryId) {
         getCategoryIfExist(categoryId);
-        return productResponseMapper.map(productRepository.getProductsByCategory(categoryId));
+        return productDtoMapper.map(productRepository.getProductsByCategory(categoryId));
     }
 
     @Transactional

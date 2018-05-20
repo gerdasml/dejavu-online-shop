@@ -10,12 +10,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-public class ProductResponseMapper {
+public class ProductDtoMapper {
 
     private final ProductPropertiesResponseMapper propertiesMapper;
 
     @Autowired
-    public ProductResponseMapper(ProductPropertiesResponseMapper productPropertiesResponseMapper) {
+    public ProductDtoMapper(ProductPropertiesResponseMapper productPropertiesResponseMapper) {
         this.propertiesMapper = productPropertiesResponseMapper;
     }
 

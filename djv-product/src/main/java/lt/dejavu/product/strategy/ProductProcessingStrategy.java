@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lt.dejavu.excel.model.ConversionResult;
 import lt.dejavu.excel.model.ConversionStatus;
+import lt.dejavu.excel.model.db.FailedImportItem;
 import lt.dejavu.excel.model.db.ImportStatus;
 import lt.dejavu.excel.model.db.Status;
 import lt.dejavu.excel.repository.ImportStatusRepository;
@@ -55,8 +56,10 @@ public class ProductProcessingStrategy implements ProcessingStrategy<Product> {
 
     @Override
     public void process(UUID jobId, ConversionResult<Product> item) {
-        if (item.getStatus() == ConversionStatus.SUCCESS) processSuccess(jobId, item.getResult());
-        else processFailure(jobId, item.getResult());
+        if (item.getStatus() == ConversionStatus.SUCCESS)
+            processSuccess(jobId, item.getResult());
+        else
+            processFailure(jobId, item.getResult());
     }
 
     @Override
@@ -84,9 +87,9 @@ public class ProductProcessingStrategy implements ProcessingStrategy<Product> {
         ImportStatus status = importStatusRepository.getImportStatus(jobId);
         try {
             String newPayload = objectMapper.writeValueAsString(product);
-            status.getFailedItems().add(newPayload);
+            status.getFailedItems().add(new FailedImportItem(status, newPayload));
         } catch (IOException e) {
-            logger.warn(e.getMessage());
+            logger.warn(e);
         }
 
         status.setFailureCount(status.getFailureCount() + 1);

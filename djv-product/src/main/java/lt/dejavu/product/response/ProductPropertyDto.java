@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductPropertyResponse {
+public class ProductPropertyDto {
     Long propertyId;
     String name;
     String value;

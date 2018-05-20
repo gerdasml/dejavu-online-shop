@@ -5,6 +5,8 @@ import lt.dejavu.excel.iterator.PeekingIterator;
 import lt.dejavu.excel.model.ConversionResult;
 import lt.dejavu.excel.strategy.ExcelConversionStrategy;
 import lt.dejavu.excel.strategy.ProcessingStrategy;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -20,7 +22,7 @@ import java.util.stream.IntStream;
 public class ExcelServiceImpl<T> implements ExcelService<T> {
     private final ExcelConversionStrategy<T> conversionStrategy;
     private final ProcessingStrategy<T> processingStrategy;
-
+    private final static Logger logger = LogManager.getLogger(ExcelServiceImpl.class);
     public ExcelServiceImpl(ExcelConversionStrategy<T> conversionStrategy, ProcessingStrategy<T> processingStrategy) {
         this.conversionStrategy = conversionStrategy;
         this.processingStrategy = processingStrategy;
@@ -68,6 +70,7 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
                 process(uuid, getIterator(file));
                 processingStrategy.finish(uuid);
             } catch (Exception e) {
+                logger.error(e);
                 processingStrategy.fail(uuid);
             }
         });

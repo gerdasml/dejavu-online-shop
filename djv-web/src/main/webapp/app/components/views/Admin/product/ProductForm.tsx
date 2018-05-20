@@ -189,6 +189,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                             />
                     </Grid.Column>
                     <Grid.Column width="eight">
+                            dakjl;lfjkadsl;kjdsk;laj
                         <ProductDropdown
                             selected={this.state.category}
                             categories={this.state.categories}
