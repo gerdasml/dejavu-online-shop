@@ -8,12 +8,53 @@ import {Login} from "../Login/Login";
 import { clearToken, getToken } from "../../../utils/token";
 import { Logo } from "./Logo";
 
+import {ReviewModal} from "../Order/ReviewModal";
+
+import {Review} from "../../../model/Review";
+
+import {Order, OrderItem} from "../../../model/Order";
+
+import {products} from "../../../data/products";
+
+/*const fakeOrderItems: OrderItem[] = [
+    {
+        amount: 5,
+        product: products[0]
+    },
+    {
+        amount: 4,
+        product: products[1]
+    },
+    {
+        amount: 15,
+        product: products[2]
+    }
+];
+
+const fakeOrders: Order[] = [
+    {
+        id: 1,
+        items: fakeOrderItems
+    },
+    {
+        id: 2,
+        items: [fakeOrderItems[1]]
+    },
+    {
+        id: 3,
+        items: [fakeOrderItems[2]]
+    }
+];*/
+
 interface HeaderState {
     loggedIn: boolean;
+    triggerReview: boolean;
 }
 
 export class Header extends React.Component <{}, HeaderState> {
-    state = {loggedIn: getToken() !== null};
+    state = {
+        loggedIn: getToken() !== null,
+        triggerReview: false};
 
     handleLogout = () => {
         clearToken();
@@ -21,8 +62,13 @@ export class Header extends React.Component <{}, HeaderState> {
 
     }
 
+    handleReview = (orderId: number, review: Review) => {
+        console.log("order: " + orderId + review.comment + review.rating);
+    }
+
     render () {
         return (
+            <div>
             <Grid id="headerGrid">
                 <Grid.Column width={2} id="logoHeaderColumn">
                     <NavLink to="/">
@@ -126,10 +172,14 @@ export class Header extends React.Component <{}, HeaderState> {
                                 />
                             </Dropdown.Menu>
                         </Dropdown>
-                        : <Login onLogin={() => this.setState ({loggedIn: true}) }/>
+                        : <Login onLogin={() => this.setState ({loggedIn: true, triggerReview: true}) }/>
                     }
                 </Grid.Column>
             </Grid>
+            <ReviewModal onReviewSubmit={this.handleReview.bind(this)}
+                onClose={()  => this.setState({triggerReview: false})}
+                open = {this.state.triggerReview} orders={fakeOrders}/>
+            </div>
         );
     }
 }
