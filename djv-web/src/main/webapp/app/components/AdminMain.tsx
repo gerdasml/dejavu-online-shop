@@ -4,6 +4,8 @@ import { Route, Switch } from "react-router";
 import { notification, Spin } from "antd";
 
 import * as api from "../api";
+import { Discounts } from "../components/views/Admin/discounts/Discounts";
+import { DiscountEditor } from "../components/views/Admin/discounts/DiscountEditor";
 import { Products } from "../components/views/Admin/product/Products";
 import { UserType } from "../model/User";
 import { clearToken, storeToken } from "../utils/token";
@@ -91,6 +93,8 @@ export class AdminMain extends React.Component<{},AdminMainState> {
                         <Route path="/admin/categories" component={Categories}/>
                         <Route path="/admin/imports/:jobId" component={ImportJob} />
                         <Route path="/admin/imports/" component={ImportJobs} />
+                        <Route path="/admin/discounts/" component={Discounts} />
+                        <Route path="/admin/discount/create" component={DiscountEditor} />
                         <Route path="/" component={Admin} />
                         <Route component={NotFound} />
                     </Switch>
