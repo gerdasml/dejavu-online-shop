@@ -7,6 +7,7 @@ import { ImportStatus, Status, Product } from "../../../../../model/Product";
 
 import * as api from "../../../../../api";
 import { ProductForm } from "../ProductForm";
+import { CategoryTree } from "../../../../../model/CategoryTree";
 
 interface ImportJobsProps {
     jobId: string;
@@ -14,6 +15,7 @@ interface ImportJobsProps {
 
 interface ImportJobState {
     importJob?: ImportStatus;
+    categories?: CategoryTree[];
 }
 
 export class ImportJob extends React.Component<RouteComponentProps<ImportJobsProps>, ImportJobState> {
@@ -28,12 +30,20 @@ export class ImportJob extends React.Component<RouteComponentProps<ImportJobsPro
     }
 
     async loadData (props: RouteComponentProps<ImportJobsProps>) {
-        const response = await api.product.getImportStatus(props.match.params.jobId);
-        if (api.isError(response)) {
-            notification.error({message: "Failed to fetch data", description: response.message});
+        const [importStatusResponse, categoriesResponse] =
+        await Promise.all([api.product.getImportStatus(props.match.params.jobId), api.category.getCategoryTree()]);
+        if (api.isError(importStatusResponse)) {
+            notification.error({message: "Failed to fetch data", description: importStatusResponse.message});
             return;
         }
-        this.setState({importJob: response});
+        if(api.isError(categoriesResponse)) {
+            notification.error({message: "Failed to fetch category data", description: categoriesResponse.message});
+            return;
+        }
+        this.setState({
+            importJob: importStatusResponse,
+            categories: categoriesResponse
+        });
     }
 
     async handleSubmit (submittedProduct: Product) {
@@ -69,6 +79,7 @@ export class ImportJob extends React.Component<RouteComponentProps<ImportJobsPro
                     key={i}
                     product={p}
                     onSubmit={() => this.handleSubmit(p)}
+                    categories={this.state.categories}
                 />
                 <Divider />
             </div>
