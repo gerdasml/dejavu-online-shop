@@ -24,6 +24,7 @@ interface ProductContainerState {
     activePage: number;
     properties?: ProductFilter[];
     filterOptions: Map<string, string[]>;
+    filteredProducts: Product[];
 }
 
 const PRODUCTS_PER_PAGE = 20;
@@ -32,7 +33,8 @@ export class ProductContainer extends React.Component <ProductContainerProps, {}
     state: ProductContainerState = {
         activePage: 1,
         isLoading: true,
-        filterOptions: new Map<string, string[]>()
+        filterOptions: new Map<string, string[]>(),
+        filteredProducts: this.props.products
     };
 
     async componentDidMount () {
@@ -69,7 +71,7 @@ export class ProductContainer extends React.Component <ProductContainerProps, {}
     mapProducts () {
         const start = (this.state.activePage-1)*PRODUCTS_PER_PAGE;
         const end = start+PRODUCTS_PER_PAGE;
-        return this.props.products.slice(start,end).map( (x, i) =>
+        return this.state.filteredProducts.slice(start,end).map( (x, i) =>
             <ProductCard
             key={i}
             product={x}
@@ -94,8 +96,9 @@ export class ProductContainer extends React.Component <ProductContainerProps, {}
                                 const result = new FilterBuilder()
                                             .add(hasProperties(prop))
                                             .apply(this.props.products);
+                                newState.filteredProducts = result;
+                                newState.activePage = 1;
                                 this.setState(newState);
-                                console.log(result, prop, this.props.products);
 
                             }}/>)}
                     <Card.Group itemsPerRow={5} doubling>

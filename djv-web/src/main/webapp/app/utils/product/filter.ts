@@ -41,7 +41,7 @@ export const priceInRange = (low: number, high: number): Filter =>
     (p => p.price >= low && p.price <= high);
 
 export const hasProperties = (props: ProductProperties[]): Filter =>
-    (p => props.some(
+    (p => props.length === 0 ? true : props.some(
         elem => p.properties.filter(
             x => x.name === elem.name && x.value === elem.value
         ).length > 0
