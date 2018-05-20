@@ -34,7 +34,7 @@ interface ProductContainerState {
 
 const PRODUCTS_PER_PAGE = 20;
 
-export class ProductContainer extends React.Component <ProductContainerProps, {}> {
+export class ProductContainer extends React.Component <ProductContainerProps, ProductContainerState> {
     state: ProductContainerState = {
         activeIndex: false,
         activePage: 1,
@@ -44,6 +44,18 @@ export class ProductContainer extends React.Component <ProductContainerProps, {}
         minPrice: getMin(this.props.products),
         maxPrice: getMax(this.props.products)
     };
+
+    componentWillReceiveProps (props: ProductContainerProps) {
+        this.setState({
+            activeIndex: false,
+            activePage: 1,
+            isLoading: true,
+            filterOptions: new Map<string, string[]>(),
+            filteredProducts: props.products,
+            minPrice: getMin(props.products),
+            maxPrice: getMax(props.products)
+        });
+    }
 
     async componentDidMount () {
         this.setState({...this.state, isLoading: true});
