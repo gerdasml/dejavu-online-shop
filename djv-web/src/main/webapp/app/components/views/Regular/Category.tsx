@@ -4,6 +4,7 @@ import { Loader} from "semantic-ui-react";
 
 import { RouteComponentProps } from "react-router-dom";
 import {Product} from "../../../model/Product";
+import {Category as CategoryModel} from "../../../model/Category";
 
 import { notification } from "antd";
 import * as api from "../../../api";
@@ -15,6 +16,7 @@ interface CategoryRouteProps {
 
 interface CategoryState {
     products: Product[];
+    category?: CategoryModel;
     isLoading: boolean;
     error?: string;
 }
@@ -35,20 +37,28 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
     }
 
     async loadData (props: RouteComponentProps<CategoryRouteProps>) {
-        const response = await api.product.getProductsByCategory(props.match.params.id);
-        if (api.isError(response)) {
-            notification.error({ message: "Failed to fetch product data", description: response.message });
-            this.setState({ error: response.message, isLoading: false });
+        const [productResponse, categoryResponse] =
+            await Promise.all([api.product.getProductsByCategory(props.match.params.id),
+            api.category.getCategory(props.match.params.id)]);
+        if (api.isError(productResponse)) {
+            notification.error({ message: "Failed to fetch product data", description: productResponse.message });
+            this.setState({ error: productResponse.message, isLoading: false });
             return;
         }
-        this.setState({ products: response, isLoading: false });
+        if (api.isError(categoryResponse)) {
+            notification.error({ message: "Failed to fetch category data", description: categoryResponse.message});
+            this.setState({ error: categoryResponse.message, isLoading: false});
+            return;
+        }
+        this.setState({ products: productResponse, category: categoryResponse, isLoading: false });
     }
+
     render () {
         return (
             <div>
             {this.state.isLoading?
             <Loader active inline="centered" /> :
-            <ProductContainer products={this.state.products}/>}
+            <ProductContainer products={this.state.products} category={this.state.category}/>}
             </div>
             );
     }
