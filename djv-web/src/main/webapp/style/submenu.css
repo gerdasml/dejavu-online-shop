@@ -13,16 +13,20 @@
     display: flex;
     flex-direction: column;
     align-items: left;
-    background-color: black;
+    background-color: #020202;
     opacity: 0.8;
 }
 
 .submenu .item {
     display: inline;
     flex-basis: content;
-    color: white;
+    color: #f1f1f1;
     padding-left: 2%;
     font-size: small;
+}
+
+.submenu .item a {
+    color: #f1f1f1;
 }
 
 .submenu .item.main {
@@ -37,5 +41,6 @@
 }
 
 .divider {
-    background-color: red;
+    background-color: #ffce2b;
+    width: 40%;
 }

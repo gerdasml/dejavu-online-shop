@@ -6,8 +6,10 @@
 }
 
 #dejavu-menu .item{
-    color: #ffce2b;
+    color: #ffe693;
+    border-color: #8e8e8e;
 }
+
 
 #dejavu-menu .item:hover {
     background-color: #8e8e8e;
@@ -56,12 +58,12 @@
 }
 
 #logoHeaderColumn svg {
-    fill: #ffce2b; /* TODO: change color */
+    fill: #ffe693; /* TODO: change color */
     cursor: pointer;
 }
 
 #logoHeaderColumn svg:hover {
-    fill: #ffe693;
+    fill: #ffce2b;
 }
 
 
