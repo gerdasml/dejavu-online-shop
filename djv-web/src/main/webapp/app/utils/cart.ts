@@ -91,3 +91,26 @@ export const removeProduct = async (product: Product) => {
     saveLocalCart(cart);
     return cart;
 };
+
+export const onLogin = async () => {
+    if (!isLoggedIn()) {
+        console.error("Invalid `cart.onLogin` call");
+        return;
+    }
+    const onlineCart = await api.cart.getCart();
+    const offlineCart = getLocalCart();
+    saveLocalCart(EMPTY_CART);
+    const response = await Promise.all(
+        offlineCart.items.map(
+            item => api.cart.addToCart({
+                productId: item.product.id,
+                amount: item.amount
+            })
+        )
+    );
+    const errors = response.filter(r => api.isError(r));
+    if (errors.length > 0) {
+        return errors[0];
+    }
+    return await api.cart.getCart();
+};
