@@ -13,29 +13,54 @@ import {ReviewModal} from "../Order/ReviewModal";
 import {Review} from "../../../model/Review";
 import MediaQuery from "react-responsive";
 
+import * as api from "../../../api";
+import { Order } from "../../../model/Order";
+
 interface HeaderState {
     loggedIn: boolean;
     activeItem: String;
-    triggerReview: boolean;
     isSearch: boolean;
+    ordersToReview: Order[];
 }
 
 export class Header extends React.Component <{}, HeaderState> {
     state: HeaderState = {
         activeItem: "home",
         loggedIn: getToken() !== null,
-        triggerReview: false,
-        isSearch: false
+        isSearch: false,
+        ordersToReview: []
     };
 
     handleLogout = () => {
         clearToken();
         this.setState ({...this.state, loggedIn: false});
     }
+
+    handleLogin = async () => {
+        this.setState ({...this.state, loggedIn: true});
+        const response = await api.review.getOrdersToReview();
+        if (api.isError(response)) {
+            // Don't show an error if the review fetch failed
+            return;
+        }
+        this.setState({...this.state, ordersToReview: response});
+    }
+
     handleItemClick = (e: any, { name }: any) => this.setState({ ...this.state, activeItem: name });
 
     handleReview = (orderId: number, review: Review) => {
-        console.log("order: " + orderId + review.comment + review.rating);
+        api.review.submitReview(orderId, review);
+        // No need to wait for the response
+        this.setState({
+            ...this.state,
+            ordersToReview: this.state.ordersToReview.slice(1)
+        });
+    }
+
+    handleReviewClose = () => {
+        Promise.all(this.state.ordersToReview.map(o => api.review.rejectReview(o.id)));
+        // No need to await
+        this.setState({...this.state, ordersToReview: []});
     }
 
     render () {
@@ -93,7 +118,7 @@ export class Header extends React.Component <{}, HeaderState> {
                                                 to="/"
                                             />]
                                 :
-                                <Login onLogin={() => this.setState ({...this.state, loggedIn: true}) }/>
+                                <Login onLogin={this.handleLogin.bind(this)}/>
                             }
                         </MediaQuery>
                         <MediaQuery query="(max-width: 499px)">
@@ -133,7 +158,7 @@ export class Header extends React.Component <{}, HeaderState> {
                                                 <Icon name="log out"/>
                                             </Menu.Item>]
                                 :
-                                <Login onLogin={() => this.setState ({...this.state, loggedIn: true}) }/>
+                                <Login onLogin={this.handleLogin.bind(this)}/>
                             }
                         </MediaQuery>
                     </Menu.Menu>
@@ -150,9 +175,12 @@ export class Header extends React.Component <{}, HeaderState> {
                     :
                     ""
                 }
-                <ReviewModal onReviewSubmit={this.handleReview.bind(this)}
-                onClose={()  => this.setState({triggerReview: false})}
-                open = {this.state.triggerReview} orders={[]}/>
+                <ReviewModal
+                    onReviewSubmit={this.handleReview.bind(this)}
+                    onClose={this.handleReviewClose.bind(this)}
+                    open = {this.state.ordersToReview.length > 0}
+                    order={this.state.ordersToReview[0]}
+                />
                 </div>
         );
     }
