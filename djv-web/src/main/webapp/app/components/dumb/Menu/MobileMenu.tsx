@@ -2,6 +2,7 @@ import * as React from "react";
 import { CategoryTree } from "../../../model/CategoryTree";
 import { Menu } from "antd";
 import { Icon, SemanticICONS } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 interface MobileMenuProps {
     categories: CategoryTree[];
@@ -11,10 +12,13 @@ const categoryToMenu = (category: CategoryTree, index: number, indexPrefix: stri
     const key = indexPrefix + "_" + index;
     if(category.children.length === 0) {
         return (
-            <Menu.Item key={key}>
-                <Icon name={category.category.icon as SemanticICONS} />
-                <span>{category.category.name}</span>
-            </Menu.Item>);
+                <Menu.Item key={key}>
+                    <Link to={`/category/${category.category.identifier}`}>
+                        <Icon name={category.category.icon as SemanticICONS} />
+                        <span>{category.category.name}</span>
+                    </Link>
+                </Menu.Item>
+            );
     } else {
         return (
             <Menu.SubMenu
