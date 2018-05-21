@@ -18,7 +18,7 @@ export const products: Product[] = [
                 value: "pirstines"
             }
         ],
-        discount: {finalPrice: 250.45, type:"ABSOLUTE", value: "500"}
+        discount: {finalPrice: 250.45, type:"PERCENTAGE", value: "50"}
     },
     {
         description: "Galima kept viska su situ daiktu",
