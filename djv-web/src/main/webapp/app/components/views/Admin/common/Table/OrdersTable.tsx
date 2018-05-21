@@ -1,7 +1,7 @@
 // tslint:disable:max-classes-per-file
 import * as React from "react";
 
-import { Table, Rate, Tag, Tooltip, Divider } from "antd";
+import { Table, Rate, Tag, Divider } from "antd";
 import { Order, OrderStatus } from "../../../../../model/Order";
 import { OrderStatusCell } from "./OrderStatusCell";
 import { OrderTable } from "./OrderTable";

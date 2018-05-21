@@ -1,4 +1,5 @@
 import { ProductProperties } from "./ProductProperties";
+import { Discount } from "./Discount";
 
 export interface Product {
     id?: number;
@@ -11,6 +12,7 @@ export interface Product {
     properties?: ProductProperties[];
     creationDate?: Date;
     categoryId?: number;
+    discount?: ProductDiscount;
 }
 
 export enum Status {
@@ -28,4 +30,8 @@ export interface ImportStatus {
     total: number;
     failedProducts: Product[];
     startTime: Date;
+}
+
+interface ProductDiscount extends Discount {
+    finalPrice: number;
 }

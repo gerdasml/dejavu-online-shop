@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {Button, Icon, Loader, Modal, Pagination, Rating, Table} from "semantic-ui-react";
+import {Button, Icon, Loader, Modal, Pagination, Table} from "semantic-ui-react";
 
 import "../../../../style/profile.css";
 

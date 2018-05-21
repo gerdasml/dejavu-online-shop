@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { message, notification } from "antd";
-import { Grid, Header, Label, List, Loader} from "semantic-ui-react";
+import { Grid, Header, Icon, Label, List, Loader} from "semantic-ui-react";
 
 import {RouteComponentProps} from "react-router-dom";
 import * as ProductModel from "../../../model/Product";
@@ -10,11 +10,17 @@ import { Expander} from "../../smart/Product/Expander";
 import { PropertiesTable } from "../../smart/Product/PropertiesTable";
 import { PriceArea } from "./PriceArea";
 
+import {products} from "../../../data/products";
+
 import "../../../../style/product.css";
 import * as api from "../../../api";
 import { formatPrice } from "../../../utils/common";
 
 import * as CartManager from "../../../utils/cart";
+
+import "../../../../style/productPage.css";
+
+import { isNullOrUndefined } from "util";
 
 interface ProductRouteProps {
     identifier: string;
@@ -80,7 +86,21 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
                                     <Header size="large">{this.state.product.name}</Header>
                                 </List.Item>
                                 <List.Item>
+                                    {isNullOrUndefined(products[0].discount)
+                                    ?
                                     <Label tag>{formatPrice(this.state.product.price)}</Label>
+                                    :
+                                    <Label tag>{formatPrice(products[0].discount.finalPrice)}
+                                        <del id="oldPrice">{formatPrice(products[0].price)}</del></Label>
+                                    }
+                                    {
+                                        !isNullOrUndefined(products[0].discount) &&
+                                        products[0].discount.type === "PERCENTAGE"
+                                        ?
+                                        <Label>-{products[0].discount.value}<Icon name="percent"/></Label>
+                                        :
+                                        <div/>
+                                    }
                                 </List.Item>
                             </List>
                         </Grid.Column>
