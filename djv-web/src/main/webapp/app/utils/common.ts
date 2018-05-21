@@ -16,4 +16,7 @@ export const shortenString = (text: string, length: number = 100) => {
     return completedText;
 };
 
-export const formatPrice = (price: number): string => price.toFixed(2) + " €";
+export const formatPrice = (price: number): string =>
+    price === undefined || isNaN(+price)
+        ? undefined
+        : (+price).toFixed(2) + " €";
