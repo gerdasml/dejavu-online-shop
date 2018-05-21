@@ -1,10 +1,9 @@
 import * as React from "react";
 
-import { notification, message } from "antd";
+import { message, notification } from "antd";
 import { Grid, Header, Label, List, Loader} from "semantic-ui-react";
 
 import {RouteComponentProps} from "react-router-dom";
-import { Cart } from "../../../model/Cart";
 import * as ProductModel from "../../../model/Product";
 import { Carousel } from "../../dumb/Product/Carousel";
 import { Expander} from "../../smart/Product/Expander";
@@ -13,8 +12,11 @@ import { PriceArea } from "./PriceArea";
 
 import "../../../../style/product.css";
 import * as api from "../../../api";
+import { formatPrice } from "../../../utils/common";
 
-interface ProductRouteProps { id: number; }
+interface ProductRouteProps {
+    identifier: string;
+}
 
 interface ProductState {
     amount: number;
@@ -39,7 +41,8 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
         message.success("Successfully added product to cart");
     }
     handleProductInfo = async (props: RouteComponentProps<ProductRouteProps>): Promise<void> => {
-        const response = await api.product.getProduct(props.match.params.id);
+        const identifier = props.match.params.identifier;
+        const response = await api.product.getProductByIdentifier(identifier);
         if(api.isError(response)) {
             notification.error({message: "Failed to load data", description: response.message});
             return;
@@ -61,6 +64,7 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
         await this.handleProductInfo(this.props);
         this.setState({...this.state, loading: false});
     }
+
     render () {
         return (
             <div className="product">
@@ -77,7 +81,7 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
                                     <Header size="large">{this.state.product.name}</Header>
                                 </List.Item>
                                 <List.Item>
-                                    <Label tag>{this.state.product.price}</Label>
+                                    <Label tag>{formatPrice(this.state.product.price)}</Label>
                                 </List.Item>
                             </List>
                         </Grid.Column>

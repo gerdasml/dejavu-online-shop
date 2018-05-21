@@ -10,6 +10,8 @@ public interface CategoryService {
 
     List<CategoryDto> getRootCategories();
 
+    CategoryDto getCategoryByIdentifier(String identifier);
+
     List<CategoryDto> getSubCategories(long category);
 
     List<CategoryTreeResponse> getCategoryTree();

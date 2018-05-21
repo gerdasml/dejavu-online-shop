@@ -33,6 +33,18 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
+    public Category getCategory(String identifier) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Category> query = cb.createQuery(Category.class);
+        Root<Category> root = query.from(Category.class);
+        root.fetch(Category_.properties, JoinType.LEFT);
+        ParameterExpression<String> idParameter = cb.parameter(String.class);
+        query.where(cb.equal(root.get(Category_.identifier), idParameter));
+        List<Category> resultList = em.createQuery(query).setParameter(idParameter, identifier).getResultList();
+        return resultList.size() != 0 ? resultList.get(0) : null;
+    }
+
+    @Override
     public Set<Category> getRootCategories() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Category> query = cb.createQuery(Category.class);

@@ -1,10 +1,9 @@
 import * as React from "react";
-import { Button, Form, Grid, Icon, Message, Modal, Segment } from "semantic-ui-react";
+import { Button, Form, Grid, Menu, Message, Modal, Segment } from "semantic-ui-react";
 import * as api from "../../../api";
 import { storeToken } from "../../../utils/token";
-import {Register} from "./Register";
+import { Register } from "./Register";
 
-import "../../../../style/header.css";
 import "../../../../style/login.css";
 
 interface LoginState {
@@ -19,7 +18,7 @@ interface LoginProps {
     onLogin: () => void;
 }
 
-export class Login extends React.Component <LoginProps, LoginState> {
+export class Login extends React.Component<LoginProps, LoginState> {
     state = {
         email: "",
         error: "",
@@ -39,20 +38,20 @@ export class Login extends React.Component <LoginProps, LoginState> {
             ...this.state, password: value
         });
     }
-    handleOpen = () => this.setState({...this.state, open: true});
-    handleClose = () => this.setState({...this.state, open: false, error: ""});
+    handleOpen = () => this.setState({ ...this.state, open: true });
+    handleClose = () => this.setState({ ...this.state, open: false, error: "" });
     login = async (): Promise<void> => {
         this.setState({
             ...this.state, loading: true
         });
         const token = await api.auth.login(this.state.email, this.state.password);
-        if(api.isError(token)) {
+        if (api.isError(token)) {
             this.setState({
                 ...this.state, error: token.message, loading: false
             });
             return undefined;
         }
-        if(api.auth.isBanned(token)) {
+        if (api.auth.isBanned(token)) {
             this.setState({
                 ...this.state, error: "You are banned", loading: false
             });
@@ -67,16 +66,10 @@ export class Login extends React.Component <LoginProps, LoginState> {
     }
     render () {
         return (
-            <Modal trigger={<Button id="loginHeaderButton"
-                                    className="headerButton"
-                                    icon
-                                    size="medium"
-                                    onClick={this.handleOpen.bind(this)}
-            >
-                LOG&nbsp;IN
-                <br/>
-                <Icon name="sign in" size="big"/>
-            </Button>}
+            <Modal trigger={<Menu.Item
+                name="log in"
+                onClick={this.handleOpen.bind(this)}
+            />}
             open={this.state.open}
             onClose={this.handleClose.bind(this)}
             >
@@ -84,7 +77,7 @@ export class Login extends React.Component <LoginProps, LoginState> {
                     <Grid columns={2} divided>
                         <Grid.Column>
                             <Segment basic>
-                                <h3> Already registered user?<br/>Log in:</h3>
+                                <h3> Already registered user?<br />Log in:</h3>
                                 <Form
                                     loading={this.state.loading}
                                     error={this.state.error !== ""}
@@ -121,9 +114,9 @@ export class Login extends React.Component <LoginProps, LoginState> {
                         </Grid.Column>
                         <Grid.Column>
                             <Segment basic>
-                                <h3> Haven't used before?<br/>Sign up:</h3>
+                                <h3> Haven't used before?<br />Sign up:</h3>
                                 <div className="register">
-                                    <Register/>
+                                    <Register />
                                 </div>
                             </Segment>
                         </Grid.Column>

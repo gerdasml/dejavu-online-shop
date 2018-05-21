@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { RouteComponentProps } from "react-router-dom";
 
-import { Button, Icon, notification, Spin, Divider } from "antd";
-import { ImportStatus, Status, Product } from "../../../../../model/Product";
+import { Divider, notification, Spin } from "antd";
+import { ImportStatus, Product, Status } from "../../../../../model/Product";
 
 import * as api from "../../../../../api";
 import { ProductForm } from "../ProductForm";

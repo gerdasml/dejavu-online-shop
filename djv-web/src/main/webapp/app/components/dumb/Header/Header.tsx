@@ -1,135 +1,126 @@
 import * as React from "react";
-import {NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 
-import {Button, Dropdown, Grid, Icon, Image, Search} from "semantic-ui-react";
+import {Menu, Search} from "semantic-ui-react";
 import "../../../../style/header.css";
 import {Login} from "../Login/Login";
 
 import { clearToken, getToken } from "../../../utils/token";
 import { Logo } from "./Logo";
 
+import {ReviewModal} from "../Order/ReviewModal";
+
+import {Review} from "../../../model/Review";
+
+import * as api from "../../../api";
+import { Order } from "../../../model/Order";
+
 interface HeaderState {
     loggedIn: boolean;
+    activeItem: String;
+    ordersToReview: Order[];
 }
 
 export class Header extends React.Component <{}, HeaderState> {
-    state = {loggedIn: getToken() !== null};
+    state: HeaderState = {
+        activeItem: "home",
+        loggedIn: getToken() !== null,
+        ordersToReview: []
+    };
 
     handleLogout = () => {
         clearToken();
-        this.setState ({loggedIn: false});
+        this.setState ({...this.state, loggedIn: false});
+    }
 
+    handleLogin = async () => {
+        this.setState ({...this.state, loggedIn: true});
+        const response = await api.review.getOrdersToReview();
+        if (api.isError(response)) {
+            // Don't show an error if the review fetch failed
+            return;
+        }
+        this.setState({...this.state, ordersToReview: response});
+    }
+
+    handleItemClick = (e: any, { name }: any) => this.setState({ ...this.state, activeItem: name });
+
+    handleReview = (orderId: number, review: Review) => {
+        api.review.submitReview(orderId, review);
+        // No need to wait for the response
+        this.setState({
+            ...this.state,
+            ordersToReview: this.state.ordersToReview.slice(1)
+        });
+    }
+
+    handleReviewClose = () => {
+        Promise.all(this.state.ordersToReview.map(o => api.review.rejectReview(o.id)));
+        // No need to await
+        this.setState({...this.state, ordersToReview: []});
     }
 
     render () {
+        const { activeItem } = this.state;
         return (
-            <Grid id="headerGrid">
-                <Grid.Column width={2} id="logoHeaderColumn">
+            <div>
+                <Menu id="menuHeader">
+                    <Menu.Item
+                        className="logoContainer"
+                        id="logoHeaderColumn"
+                        active={activeItem === "menu"}
+                        onClick={this.handleItemClick}>
                     <NavLink to="/">
                         <Logo size="large" id="large-logo" />
                         <Logo size="small" id="small-logo" />
                     </NavLink>
-                </Grid.Column>
-                <Grid.Column width={8} id="infoSearchColumn">
-                    <Grid.Row id="mailPhoneRow">
-                        <div    className="headerInfo"
-                                id="mail">
-                            <Icon   title="dejavu.psk@gmail.com"
-                                    name="mail outline" />
-                            dejavu.psk@gmail.com
-                        </div>
-                        <div    className="headerInfo"
-                                id="phone">
-                            <Icon   title="+37060000000"
-                                    name="phone" />
-                            +37060000000
-                        </div>
-                    </Grid.Row>
-                    <Grid.Row id="searchRow">
-                        <Search id="searchBar"
-                                value="Search..."
-                                noResultsMessage="Not implemented exception. xD"
+                    </Menu.Item>
+                    <Menu.Menu position="right">
+                        <Menu.Item className="borderless">
+                            <Search id="searchBar"
+                                placeholder="Search..."
+                                noResultsMessage="No products were found"
                                 size="mini"
                                 fluid
-                        >
-                        </Search>
-                    </Grid.Row>
-                </Grid.Column>
-                <Grid.Column width={6} id="threeHeaderButtons">
-                    <Dropdown   className="headerButton"
-                                simple
-                                trigger={
-                        <Button className="headerButton"
-                                icon
-                                size="medium"
-                        >
-                            ABOUT
-                            <br/>
-                            <Icon name="info" size="big"/>
-                        </Button>
-                    } icon={null}>
-                        <Dropdown.Menu>
-                            <Dropdown.Item icon="question" text="F.A.Q." />
-                            <Dropdown.Divider />
-                            <Dropdown.Item icon="ship" text="Shipping" />
-                            <Dropdown.Divider />
-                            <Dropdown.Item icon="shopping basket" text="How to buy?" />
-                            <Dropdown.Divider />
-                            <Dropdown.Item icon="exclamation" text="RULES" />
-                            <Dropdown.Divider />
-                            <Dropdown.Item icon="wait" text="Warranty" />
-                            <Dropdown.Divider />
-                            <Dropdown.Item icon="info" text="About Us" />
-                        </Dropdown.Menu>
-                    </Dropdown>
-                    {/*  TODO: this generates a warning, if you fix it, fix the css as well */}
-                    {/* TODO: add current item count badge */}
-                    <Button className="headerButton"
-                            icon
-                            size="medium"
-                            as={NavLink}
+                            />
+                        </Menu.Item>
+                        <Menu.Item
+                            name="cart"
+                            active={activeItem === "cart"}
+                            onClick={this.handleItemClick}
+                            as={Link}
                             to="/cart"
-                            >
-                        CART
-                        <br/>
-                        <Icon name="cart" size="big"/>
-                    </Button>
-                    {
-                        this.state.loggedIn
-                        ? <Dropdown className="headerButton"
-                        simple
-                        direction="left"
-                        trigger={
-                            <Button className="headerButton"
-                            icon
-                            size="medium"
-                            >
-                                User
-                                <br/>
-                                <Icon name="user circle outline" size="big"/>
-                            </Button>
-                        } icon={null}>
-                            <Dropdown.Menu>
-                                <Dropdown.Item
-                                    icon="address card outline"
-                                    text="View profile"
-                                    as={NavLink}
-                                    to="/profile"
-                                />
-                                <Dropdown.Divider />
-                                <Dropdown.Item
-                                    icon="sign out"
-                                    text="Log&nbsp;out"
-                                    as={NavLink}
-                                    to="/"
-                                    onClick={this.handleLogout.bind(this)}
-                                />
-                            </Dropdown.Menu>
-                        </Dropdown>
-                        : <Login onLogin={() => this.setState ({loggedIn: true}) }/>
-                    }
-                </Grid.Column>
-            </Grid>
+                        >Cart
+                        </Menu.Item>
+                        {
+                            this.state.loggedIn
+                            ?
+                                    [<Menu.Item
+                                            name="profile"
+                                            active={activeItem === "profile"}
+                                            onClick={this.handleItemClick}
+                                            as={Link}
+                                            to="/profile"
+                                        />,
+                                        <Menu.Item
+                                            name="log out"
+                                            active={false}
+                                            onClick={this.handleLogout.bind(this)}
+                                            as={Link}
+                                            to="/"
+                                        />]
+                            :
+                            <Login onLogin={this.handleLogin.bind(this)}/>
+                        }
+                </Menu.Menu>
+                </Menu>
+                <ReviewModal
+                    onReviewSubmit={this.handleReview.bind(this)}
+                    onClose={this.handleReviewClose.bind(this)}
+                    open = {this.state.ordersToReview.length > 0}
+                    order={this.state.ordersToReview[0]}
+                />
+                </div>
         );
     }
 }

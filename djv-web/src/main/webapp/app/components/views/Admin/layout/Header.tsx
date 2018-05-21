@@ -1,5 +1,5 @@
 import * as React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { Menu } from "semantic-ui-react";
 
 export interface MenuHeaderState {
@@ -52,6 +52,12 @@ export class MenuHeader extends React.Component<MenuHeaderProps, MenuHeaderState
                 onClick={this.handleItemClick.bind(this)}
             />
             <Menu.Menu position="right">
+                <Menu.Item
+                    name="backToShop"
+                    active={false}
+                    as={Link} to="/"
+                    onClick={this.handleItemClick.bind(this)}
+                />
                 <Menu.Item
                     name="logout"
                     active={activeItem === "logout"}

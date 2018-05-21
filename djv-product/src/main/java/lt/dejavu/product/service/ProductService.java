@@ -1,6 +1,7 @@
 package lt.dejavu.product.service;
 
 import lt.dejavu.product.dto.ProductDto;
+import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,9 +13,13 @@ public interface ProductService {
 
     List<ProductDto> getAllProducts();
 
+    ProductDto getProduct(String identifier);
+
     List<ProductDto> getProductsByCategory(long categoryId);
 
     Long createProduct(ProductDto request);
+    
+    List<ProductDto> searchProducts(ProductSearchRequest request);
 
     void deleteProduct(long productId);
 

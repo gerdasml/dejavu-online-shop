@@ -9,6 +9,7 @@ import lt.dejavu.product.model.Category;
 import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.repository.ProductPropertyRepository;
 import lt.dejavu.product.service.CategoryService;
+import lt.dejavu.product.strategy.IdentifierGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +22,14 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryDtoMapper categoryDtoMapper;
     private final ProductPropertyRepository productPropertyRepository;
+    private final IdentifierGenerator<Category> categoryIdentifierGenerator;
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryDtoMapper categoryDtoMapper, ProductPropertyRepository productPropertyRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryDtoMapper categoryDtoMapper, ProductPropertyRepository productPropertyRepository, IdentifierGenerator<Category> categoryIdentifierGenerator) {
         this.categoryRepository = categoryRepository;
         this.categoryDtoMapper = categoryDtoMapper;
         this.productPropertyRepository = productPropertyRepository;
+        this.categoryIdentifierGenerator = categoryIdentifierGenerator;
     }
 
     @Override
@@ -37,6 +40,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDto> getRootCategories() {
         return categoryDtoMapper.map(categoryRepository.getRootCategories());
+	}
+
+	@Override
+    public CategoryDto getCategoryByIdentifier(String identifier) {
+        return categoryDtoMapper.map(getCategoryIfExist(identifier));
     }
 
     @Override
@@ -54,6 +62,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Long createCategory(CategoryDto categoryDto) {
         Category parentCategory = resolveParentCategory(categoryDto);
         Category category = categoryDtoMapper.mapToCategory(categoryDto, parentCategory);
+        category.setIdentifier(categoryIdentifierGenerator.generateIdentifier(category));
         Long categoryId = categoryRepository.saveCategory(category);
         productPropertyRepository.saveProperties(category.getProperties());
         return categoryId;
@@ -66,6 +75,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category oldCategory = getCategoryIfExist(categoryId);
         Category parentCategory = resolveParentCategory(categoryDto);
         Category newCategory = categoryDtoMapper.remapToCategory(oldCategory, categoryDto, parentCategory);
+        newCategory.setIdentifier(categoryIdentifierGenerator.generateIdentifier(newCategory));
         categoryRepository.updateCategory(newCategory);
     }
 
@@ -99,6 +109,14 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.getCategory(categoryId);
         if (category == null) {
             throw new CategoryNotFoundException(categoryId);
+        }
+        return category;
+    }
+
+    private Category getCategoryIfExist(String identifier) {
+        Category category = categoryRepository.getCategory(identifier);
+        if (category == null) {
+            throw new CategoryNotFoundException("The category with the specified identifier was not found");
         }
         return category;
     }

@@ -5,6 +5,7 @@ import { Table } from "antd";
 import { OrderItem } from "../../../../../model/Order";
 
 import { addKey, WithKey } from "../../../../../utils/table";
+import { formatPrice } from "../../../../../utils/common";
 
 type OrderItemRecord = OrderItem & WithKey;
 
@@ -29,7 +30,7 @@ export const OrderTable = (props: OrderTableProps) => (
         <OrderRecordColumn
             key = "price"
             title = "Unit price"
-            render={(_, record) => record.product.price}
+            render={(_, record) => formatPrice(record.product.price)}
         />
         <OrderRecordColumn
             key = "amount"

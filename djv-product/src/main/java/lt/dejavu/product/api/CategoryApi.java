@@ -32,6 +32,14 @@ public class CategoryApi {
     }
 
     @GetMapping(
+            path = "/",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public CategoryDto getCategoryByIdentifier(@RequestParam("identifier") String identifier) {
+        return categoryService.getCategoryByIdentifier(identifier);
+    }
+
+    @GetMapping(
             path = "/rootCategories",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )

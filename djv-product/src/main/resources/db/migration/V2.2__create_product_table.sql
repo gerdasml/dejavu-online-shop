@@ -7,5 +7,5 @@ CREATE TABLE `product` (
   `price` DECIMAL(10,2),
   `identifier` VARCHAR(255),
   `mainImageUrl` VARCHAR(255),
-  CONSTRAINT FK_product_category FOREIGN KEY (`category`) REFERENCES`category`(`id`) ON DELETE CASCADE
+  CONSTRAINT FK_product_category FOREIGN KEY (`category`) REFERENCES `category`(`id`) ON DELETE CASCADE
 );

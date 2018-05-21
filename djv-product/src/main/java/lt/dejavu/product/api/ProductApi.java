@@ -4,6 +4,7 @@ import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.product.dto.ProductDto;
 import lt.dejavu.product.dto.ProductImportStatusDto;
+import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 import lt.dejavu.product.service.ProductImportStatusService;
 import lt.dejavu.product.service.ProductService;
 import org.apache.commons.io.IOUtils;
@@ -55,6 +56,23 @@ public class ProductApi {
     )
     public List<ProductDto> getProductsByCategory(@PathVariable("categoryId") long categoryId) {
         return productService.getProductsByCategory(categoryId);
+    }
+
+    @GetMapping(
+            path="/byIdentifier",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            params = "identifier"
+    )
+    public ProductDto getProductByIdentifier(@RequestParam String identifier) {
+        return productService.getProduct(identifier);
+    }
+
+    @PostMapping(
+            path = "/category",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public List<ProductDto> productSearch(@RequestBody ProductSearchRequest request) {
+        return productService.searchProducts(request);
     }
 
     @PostMapping(
