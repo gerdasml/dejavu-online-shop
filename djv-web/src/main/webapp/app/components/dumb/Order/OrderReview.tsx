@@ -16,25 +16,17 @@ interface OrderReviewState {
     review: Review;
 }
 
+const INITIAL_STATE = {
+    review: { rating: 5, comment: "" }
+};
+
 export class OrderReview extends React.Component<OrderReviewProps, OrderReviewState> {
 
-    state = {
-        review: { rating: 5, comment: "" }
-    };
+    state = INITIAL_STATE;
 
-    handleRatingInput = (e: React.MouseEvent<HTMLDivElement>, rating) => {
-        // tslint:disable-next-line:radixs
-        const value = Number(rating.rating);
-        this.setState({
-            ...this.state, review: {rating: value, comment: this.state.review.comment}
-        });
-    }
-
-    handleCommentInput = (event: React.FormEvent<HTMLInputElement>) => {
-        const value = event.currentTarget.value;
-        this.setState({
-            ...this.state, review: {rating: this.state.review.rating, comment: value}
-        });
+    handleSubmit () {
+        this.props.onReview(this.state.review);
+        this.setState(INITIAL_STATE); // Reset the state after submit
     }
 
     render () {
@@ -43,12 +35,32 @@ export class OrderReview extends React.Component<OrderReviewProps, OrderReviewSt
             <Grid columns={2} divided>
                 <Grid.Column>
                     <Header as="h3" dividing>Rating</Header>
-                    <Rating icon="star" maxRating={5} defaultRating={5} size="huge"
-                        onRate={this.handleRatingInput}/>
+                    <Rating
+                        icon="star"
+                        maxRating={5}
+                        rating={this.state.review.rating}
+                        size="huge"
+                        onRate={(e, r) => this.setState({
+                            ...this.state,
+                            review: {
+                                ...this.state.review,
+                                rating: +r.rating
+                            }
+                        })}
+                    />
                     <Comment.Group>
                         <Header as="h3" dividing>Comment</Header>
                         <Form>
-                            <Form.TextArea onChange={this.handleCommentInput.bind(this)}/>
+                            <Form.TextArea
+                                value={this.state.review.comment}
+                                onChange={e => this.setState({
+                                    ...this.state,
+                                    review: {
+                                        ...this.state.review,
+                                        comment: e.currentTarget.value
+                                    }
+                                })}
+                            />
                         </Form>
                     </Comment.Group>
                 </Grid.Column>
@@ -76,8 +88,7 @@ export class OrderReview extends React.Component<OrderReviewProps, OrderReviewSt
                     </Table>
                 </Grid.Column>
             </Grid>
-            <Button content="Save" positive onClick={() =>
-                this.props.onReview(this.state.review)} />
+            <Button content="Save" positive onClick={this.handleSubmit.bind(this)} />
             <Button content="Cancel" negative onClick={this.props.onClose} />
             </div>
         );
