@@ -5,7 +5,7 @@ import {Button, Card, Header, Icon, Image, Label} from "semantic-ui-react";
 import { Product } from "../../../model/Product";
 
 import { NavLink } from "react-router-dom";
-import { shortenString } from "../../../utils/common";
+import { shortenString, formatPrice } from "../../../utils/common";
 
 interface ProductCardProps {
     product: Product;
@@ -15,7 +15,7 @@ interface ProductCardProps {
 export const ProductCard = (props: ProductCardProps) => (
         <Card>
             <NavLink to={`/product/${props.product.identifier}`}>
-                <Header attached>{props.product.price}€</Header>
+                <Header attached>{formatPrice(props.product.price)}</Header>
                 <Image src={props.product.mainImageUrl} />
                 <Card.Content>
                     <Card.Header>
