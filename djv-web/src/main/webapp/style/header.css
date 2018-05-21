@@ -1,15 +1,3 @@
-@media screen and (max-width: 900px) {
-    #large-logo {
-        display: none;
-    }
-}
-
-@media screen and (min-width: 900px) {
-    #small-logo {
-        display: none;
-    }
-}
-
 #menuHeader {
     height: 10vh;
     margin: 0;
@@ -31,12 +19,12 @@
     width: 12.5%;
 }
 
-.borderless {
-    border-left: 0;
-}
-
 .logoContainer * {
     height: 100%;
+}
+
+.search-header * {
+    width: 100%;
 }
 
 #searchBar{

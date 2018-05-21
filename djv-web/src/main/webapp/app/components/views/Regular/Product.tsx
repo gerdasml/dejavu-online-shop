@@ -72,7 +72,7 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
                 ?
                 <Loader active={true}/>
                 :
-                <Grid>
+                <Grid stackable>
                     <Grid.Row>
                         <Grid.Column width="eight">
                             <List horizontal>
@@ -94,8 +94,7 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
                                 mainPicture={this.state.product.mainImageUrl}
                                 additionalPictures={this.state.product.additionalImagesUrls}/>
                         </Grid.Column>
-                        <Grid.Column width="one"/>
-                        <Grid.Column width="seven" className="description">
+                        <Grid.Column width="eight" className="description">
                             <Expander text={this.state.product.description}/>
                         </Grid.Column>
                     </Grid.Row>

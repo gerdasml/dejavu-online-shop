@@ -137,7 +137,7 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
                             <Button className="filter-accordion-button">Filter</Button>
                         </Accordion.Title>
                         <Accordion.Content active={this.state.isFilterExpanded}>
-                            <Grid doubling stackable columns={5} className="accordion-content">
+                            <Grid doubling stackable columns={5} id="filter-father" className="accordion-content">
                                 <Grid.Row centered>
                                     <Slider
                                         className="filter-slider"
