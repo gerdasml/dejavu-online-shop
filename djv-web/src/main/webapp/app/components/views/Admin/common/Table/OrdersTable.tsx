@@ -30,7 +30,11 @@ export const OrdersTable = (props: OrdersTableProps) => (
                 { record.review !== undefined
                 ?
                 <span>
-                    <b>Review comment: </b> {record.review.comment}
+                    <b>Review comment: </b>
+                    { record.review.comment === undefined || record.review.comment.length === 0
+                    ? <Tag color="red">Not Given</Tag>
+                    : record.review.comment
+                    }
                     <Divider />
                 </span>
                 : ""
