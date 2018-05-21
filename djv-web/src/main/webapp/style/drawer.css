@@ -5,10 +5,15 @@
 
 #allPageContent #mainContent{
     padding: 1%;
+    background-color: #f1f1f1;
 }
 
 #allPageContent .sidebar{
     padding:0;
+}
+
+#allPageContent .item.menu-item {
+    color: #ffce2b;
 }
 
 #allPageContent .item.menu-item:hover{
@@ -22,6 +27,7 @@
 
 #sidebarItems{
     border-radius: 0px;
+    background-color: #393d40;
 }
 
 #sidebarItems > *{

@@ -1,6 +1,16 @@
 #menuHeader {
     height: 10vh;
     margin: 0;
+    background-color: #393D40;
+    border-radius: 0!important;
+}
+
+#dejavu-menu .item{
+    color: #ffce2b;
+}
+
+#dejavu-menu .item:hover {
+    background-color: #8e8e8e;
 }
 
 #menuHeader svg {
@@ -27,9 +37,14 @@
     width: 100%;
 }
 
+.hoverless {
+    background-color: #393D40!important;
+}
+
 #searchBar{
     width: 100%;
     height: auto;
+    background-color: #f1f1f1;
 }
 
 #logoHeaderColumn {
@@ -41,12 +56,12 @@
 }
 
 #logoHeaderColumn svg {
-    fill: black; /* TODO: change color */
+    fill: #ffce2b; /* TODO: change color */
     cursor: pointer;
 }
 
 #logoHeaderColumn svg:hover {
-    fill: gray;
+    fill: #ffe693;
 }
 
 
