@@ -1,4 +1,3 @@
-import * as api from "../../api";
 import { Category } from "../../model/Category";
 import { Product } from "../../model/Product";
 import { ProductProperties } from "../../model/ProductProperties";

@@ -3,7 +3,7 @@ import { Product } from "../model/Product";
 export const products: Product[] = [
     {
         description: "Didelis teleponas",
-        mainImageUrl: "http://159.89.106.85/image/3",
+        mainImageUrl: "/image/3",
         name: "Teleponas",
         price: 6969.69,
         properties: [
@@ -17,11 +17,12 @@ export const products: Product[] = [
                 propertyId: 2,
                 value: "pirstines"
             }
-        ]
+        ],
+        discount: {finalPrice: 250.45, type:"PERCENTAGE", value: "50"}
     },
     {
         description: "Galima kept viska su situ daiktu",
-        mainImageUrl: "http://159.89.106.85/image/3",
+        mainImageUrl: "/image/3",
         name: "Keptuve",
         price: 419.99,
         properties: [
@@ -35,7 +36,8 @@ export const products: Product[] = [
                 propertyId: 2,
                 value: "kepure"
             }
-        ]
+        ],
+        discount: {finalPrice: 250.45, type:"ABSOLUTE"}
     },
     {
         description: "It really sucks :)",
