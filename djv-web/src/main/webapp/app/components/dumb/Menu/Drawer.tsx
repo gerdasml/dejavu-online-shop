@@ -9,6 +9,8 @@ import { CategoryTree } from "../../../model/CategoryTree";
 import { MenuItem } from "../../smart/Menu/MenuItem";
 import { SubMenu, SubMenuPosition } from "../../smart/Menu/SubMenu";
 import { DesktopMenu } from "./DesktopMenu";
+import MediaQuery from "react-responsive";
+import { MobileMenu } from "./MobileMenu";
 
 interface CategorySettings {
     categoryTree: CategoryTree;
@@ -64,12 +66,16 @@ export class DrawerMenu extends React.Component<{}, DrawerMenuState> {
     render () {
         return (
             <div>
-                <Grid id="allPageContent" stackable>
+                <Grid id="allPageContent">
                     <Grid.Row id="drawerRow">
                         <Grid.Column width={2} id="sidebar" stretched>
-                            <DesktopMenu categories={this.state.categories}
-                                        onHover={this.onHover} />
-                            {/* <MobileMenu categories={this.state.categories} /> */}
+                            <MediaQuery query="(min-width: 1000px)">
+                                <DesktopMenu categories={this.state.categories}
+                                            onHover={this.onHover} />
+                            </MediaQuery>
+                            <MediaQuery query="(max-width: 999px)">
+                                <MobileMenu categories={this.state.categories} />
+                            </MediaQuery>
                         </Grid.Column>
                         <Grid.Column width={14} id="mainContent">
                         {this.props.children}
