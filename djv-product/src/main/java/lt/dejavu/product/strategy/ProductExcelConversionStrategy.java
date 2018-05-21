@@ -144,6 +144,9 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
              isValidPropertyName(productCategory),
              getPropertyByName(productCategory),
              property::setCategoryProperty);
+        if (result.getStatus().equals(ConversionStatus.FAILURE)) {
+            return;
+        }
         read(5,
              row,
              result,

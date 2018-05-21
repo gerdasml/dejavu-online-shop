@@ -6,7 +6,7 @@ databaseSchema: dejavu
 logging:
   level:
     lt.dejavu.web.logging.RequestLoggingFilter: DEBUG
-    lt.dejavu.payment.interceptor.LoggingRequestInterceptor: DEBUG
+    lt.dejavu.logging.logger.RequestLoggerImpl: ERROR
 
 spring:
   datasource:

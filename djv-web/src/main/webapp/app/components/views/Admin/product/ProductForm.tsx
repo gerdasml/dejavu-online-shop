@@ -7,7 +7,7 @@ import { CategoryTree } from "../../../../model/CategoryTree";
 import { Product } from "../../../../model/Product";
 import { ProductProperties } from "../../../../model/ProductProperties";
 import { ProductDescription } from "./ProductDescription";
-import { ProductDropdown } from "./ProductDropdown";
+import { CategoryDropdown } from "./CategoryDropdown";
 import { ProductName } from "./ProductName";
 import { ProductPictures } from "./ProductPictures";
 import { ProductPrice } from "./ProductPrice";
@@ -16,6 +16,7 @@ import { ProductPropertiesTable } from "./ProductPropertiesTable";
 export interface ProductFormProps {
     product?: Product;
     onSubmit?: () => void;
+    categories?: CategoryTree[];
 }
 
 export interface ProductFormState {
@@ -51,10 +52,13 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
     }
 
     async componentWillMount () {
-        const categories = await api.category.getCategoryTree();
-        if(api.isError(categories)) {
-            notification.error({message: "Failed to fetch category data", description: categories.message});
-            return;
+        const categories = this.props.categories;
+        if (categories === undefined) {
+            await api.category.getCategoryTree();
+            if(api.isError(categories)) {
+                notification.error({message: "Failed to fetch category data", description: categories.message});
+                return;
+            }
         }
         const newState = this.buildNewStateFromProps(this.props);
         newState.categories = categories;
@@ -208,7 +212,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                             />
                     </Grid.Column>
                     <Grid.Column width="eight">
-                        <ProductDropdown
+                        <CategoryDropdown
                             selected={this.state.category}
                             categories={this.state.categories}
                             onChange={this.handleCategoryChange.bind(this)}/>
