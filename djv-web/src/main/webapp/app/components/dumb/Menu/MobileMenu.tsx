@@ -34,12 +34,19 @@ const categoryToMenu = (category: CategoryTree, index: number, indexPrefix: stri
 };
 
 export const MobileMenu = (props: MobileMenuProps) => (
-    <div style={{ width: 256 }}>
         <Menu
           mode="inline"
           theme="dark"
         >
-            {props.categories.map((c, i) => categoryToMenu(c, i, ""))}
+            <Menu.SubMenu title={
+                    <span>
+                        <Icon name="bars" />
+                        <span>
+                            Menu
+                        </span>
+                    </span>
+                }>
+                {props.categories.map((c, i) => categoryToMenu(c, i, ""))}
+            </Menu.SubMenu>
         </Menu>
-      </div>
 );

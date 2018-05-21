@@ -69,18 +69,18 @@ export class DrawerMenu extends React.Component<{}, DrawerMenuState> {
                 <Grid id="allPageContent">
                     <Grid.Row id="drawerRow" stackable columns="equal">
                         <MediaQuery query="(min-width: 800px)">
-                            <Grid.Column width={2} id="sidebar" stretched>
+                            <Grid.Column width={2} className="sidebar desktop" stretched>
                                 <DesktopMenu categories={this.state.categories}
                                             onHover={this.onHover} />
                             </Grid.Column>
                         </MediaQuery>
                         <MediaQuery query="(max-width: 799px)">
-                            <Grid.Column width={16} id="sidebar" stretched>
+                            <Grid.Column width={16} className="sidebar mobile">
                                 <MobileMenu categories={this.state.categories} />
                             </Grid.Column>
                         </MediaQuery>
                         <Grid.Column id="mainContent">
-                        {this.props.children}
+                            {this.props.children}
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
