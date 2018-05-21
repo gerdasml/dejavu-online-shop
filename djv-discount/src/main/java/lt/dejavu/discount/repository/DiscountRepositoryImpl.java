@@ -31,7 +31,7 @@ public class DiscountRepositoryImpl implements DiscountRepository {
 
     @Override
     public void updateDiscount(long id, Discount newDiscount) {
-        Discount oldDiscount = em.find(Discount.class, id);
+        Discount oldDiscount = getDiscount(id);
         newDiscount.setId(id);
         em.merge(newDiscount);
     }

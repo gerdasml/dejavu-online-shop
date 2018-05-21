@@ -33,13 +33,13 @@ public class DiscountMapper {
             case PRODUCT:
                 discount = new ProductDiscount();
                 Product product = new Product();
-                product.setId(((ProductDiscountDto) dto).getTarget().getId());
+                product.setId(dto.getTargetId());
                 ((ProductDiscount) discount).setTarget(product);
                 break;
             case CATEGORY:
                 discount = new CategoryDiscount();
                 Category category = new Category();
-                category.setId(((CategoryDiscountDto) dto).getTarget().getId());
+                category.setId(dto.getTargetId());
                 ((CategoryDiscount) discount).setTarget(category);
                 break;
             default:

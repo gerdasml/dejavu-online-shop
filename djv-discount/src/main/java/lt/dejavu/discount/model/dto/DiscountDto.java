@@ -16,6 +16,7 @@ public class DiscountDto {
     private Long id;
     private DiscountType type;
     private DiscountTarget targetType = DiscountTarget.EVERYTHING;
+    private Long targetId;
     private BigDecimal value;
     private Instant activeFrom;
     private Instant activeTo;
