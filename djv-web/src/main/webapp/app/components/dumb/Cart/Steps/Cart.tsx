@@ -7,6 +7,8 @@ import { Cart as CartModel } from "../../../../model/Cart";
 
 import * as api from "../../../../api";
 
+import * as CartManager from "../../../../utils/cart";
+
 import { OrderItem } from "../../../../model/Order";
 import { OrderTable } from "../../Order/OrderTable";
 
@@ -29,10 +31,7 @@ export class Cart extends React.Component <CartProps, CartState> {
             ...this.state,
             isLoading: true,
         });
-        const amountChangeInfo = await api.cart.updateAmount({
-            amount: newAmount,
-            productId: orderItem.product.id,
-        });
+        const amountChangeInfo = await CartManager.updateAmount(orderItem.product, newAmount);
         if(api.isError(amountChangeInfo)) {
             notification.error({message: "Failed to change amount", description: amountChangeInfo.message});
         } else {
@@ -49,7 +48,7 @@ export class Cart extends React.Component <CartProps, CartState> {
             ...this.state,
             isLoading: true,
         });
-        const removeItemInfo = await api.cart.removeFromCart(item.product.id);
+        const removeItemInfo = await CartManager.removeProduct(item.product);
         if(api.isError(removeItemInfo)) {
             notification.error({message: "Failed to remove product from cart", description: removeItemInfo.message});
         } else {

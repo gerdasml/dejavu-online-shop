@@ -15,6 +15,8 @@ import { Loader } from "semantic-ui-react";
 import { Address } from "../../../model/Address";
 import { CartStep, CartStepHeader } from "../../dumb/Cart/CartStepHeader";
 
+import * as CartManager from "../../../utils/cart";
+
 interface CartState {
     currentStep: CartStep;
     isLoading: boolean;
@@ -34,14 +36,16 @@ export class Cart extends React.Component<{}, CartState> {
     };
 
     async componentDidMount () {
-        const cartInfo = await api.cart.getCart();
+        const cartInfo = await CartManager.getCart();
         if(api.isError(cartInfo)) {
             notification.error({message: "Failed to fetch cart.", description: cartInfo.message});
         } else {
             this.setState({
                 ...this.state,
                 cart: cartInfo,
-                shippingAddress: cartInfo.user.address
+                shippingAddress: cartInfo.user && cartInfo.user.address
+                                ? cartInfo.user.address
+                                : {}
             });
         }
         this.setState({

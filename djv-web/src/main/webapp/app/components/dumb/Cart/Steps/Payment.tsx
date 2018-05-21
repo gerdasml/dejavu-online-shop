@@ -137,7 +137,7 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
         };
         const checkoutResponse = await api.cart.checkout(checkoutInfo);
         if(api.isError(checkoutResponse)) {
-            notification.error({message: "Failed to change amount", description: checkoutResponse.message});
+            notification.error({message: "Failed to checkout", description: checkoutResponse.message});
             return false;
         }
         return true;
