@@ -13,6 +13,8 @@ import { PriceArea } from "./PriceArea";
 import "../../../../style/product.css";
 import * as api from "../../../api";
 
+import * as CartManager from "../../../utils/cart";
+
 interface ProductRouteProps {
     identifier: string;
 }
@@ -29,10 +31,7 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
         loading: true
     };
     async updateCart (amount: number) {
-        const addToCartInfo = await api.cart.addToCart({
-            amount,
-            productId: this.state.product.id
-        });
+        const addToCartInfo = await CartManager.addProduct(this.state.product, amount);
         if(api.isError(addToCartInfo)) {
             notification.error({message: "Failed to update cart", description: addToCartInfo.message});
             return;

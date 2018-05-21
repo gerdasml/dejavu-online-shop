@@ -13,6 +13,8 @@ import { getProperties, ProductFilter, transform, getMin, getMax } from "../../.
 import { Filter } from "./Filter";
 import { FilterBuilder, hasProperties, priceInRange } from "../../../utils/product/filter";
 
+import * as CartManager from "../../../utils/cart";
+
 import "../../../../style/filter.css";
 
 interface ProductContainerProps {
@@ -59,7 +61,7 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
 
     async componentDidMount () {
         this.setState({...this.state, isLoading: true});
-        const cartInfo = await api.cart.getCart();
+        const cartInfo = await CartManager.getCart();
         if(api.isError(cartInfo)) {
             notification.error({message: "Failed to fetch cart", description: cartInfo.message});
             // TODO: save to local storage if not logged in
@@ -73,10 +75,7 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
     }
 
     async addProductToCart (addedProduct: Product) {
-        const response = await api.cart.addToCart({
-            amount: 1,
-            productId: addedProduct.id,
-        });
+        const response = await CartManager.addProduct(addedProduct, 1);
         if(api.isError(response)) {
             notification.error({message: "Failed to add product to cart", description: response.message});
         } else {
