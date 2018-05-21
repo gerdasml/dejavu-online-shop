@@ -54,7 +54,6 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
 
     async componentWillMount () {
         const categories = this.props.categories;
-        console.log(categories);
         if (categories === undefined) {
             await api.category.getCategoryTree();
             if(api.isError(categories)) {
