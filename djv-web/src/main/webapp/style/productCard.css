@@ -1,3 +1,21 @@
 #priceHeader{
     padding-top: 10%;
+    color: #f1f1f1;
+}
+
+.card-header {
+    background-color: #393d40!important;
+    color: #f1f1f1!important;
+}
+
+.card-price-cart {
+    background-color: #393d40!important;
+}
+
+.card-price-cart .add-to-cart {
+    background-color: #ffce2b!important; 
+}
+
+.card-price-cart .add-to-cart .button-text {
+    color: #393d40!important;
 }
