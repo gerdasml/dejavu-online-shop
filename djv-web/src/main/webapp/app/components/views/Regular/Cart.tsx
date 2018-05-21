@@ -13,7 +13,6 @@ import * as api from "../../../api";
 import { Loader } from "semantic-ui-react";
 
 import { Address } from "../../../model/Address";
-import { User } from "../../../model/User";
 import { CartStep, CartStepHeader } from "../../dumb/Cart/CartStepHeader";
 
 interface CartState {

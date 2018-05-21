@@ -1,6 +1,5 @@
 import * as React from "react";
 
-
 import { notification, Spin } from "antd";
 import { ImportStatus } from "../../../../../model/Product";
 

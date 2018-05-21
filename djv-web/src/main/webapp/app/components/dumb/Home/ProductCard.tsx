@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button, Card, Grid, Header, Icon, Image, Label } from "semantic-ui-react";
+import { Button, Card, Grid, Header, Icon, Image } from "semantic-ui-react";
 
 import { Product } from "../../../model/Product";
 import { NavLink } from "react-router-dom";
