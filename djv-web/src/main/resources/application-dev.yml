@@ -24,4 +24,4 @@ flyway:
 
 storage:
   basePath: @project.build.directory@\files\images
-  # basePath resolves to djv-web/target/files/i mages
+  # basePath resolves to djv-web/target/files/images
