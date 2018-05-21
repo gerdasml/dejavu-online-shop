@@ -3,7 +3,7 @@ import * as React from "react";
 import { Button, Col, Input, Modal, Popconfirm, Row } from "antd";
 
 import { Category } from "../../../../model/Category";
-import { CategoryProperties } from "../../../../model/CategoryProperties";
+import { CategoryProperty } from "../../../../model/CategoryProperties";
 import { CategoryPropertiesTable } from "./CategoryPropertiesTable";
 
 import { Icon, SemanticICONS } from "semantic-ui-react";
@@ -20,7 +20,7 @@ interface CategoryFormProps {
 interface CategoryFormState {
     name?: string;
     icon?: string;
-    properties?: CategoryProperties[];
+    properties?: CategoryProperty[];
     isModalVisible: boolean;
 }
 
@@ -75,11 +75,11 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
                 </Row>
                 <Row>
                     <CategoryPropertiesTable
-                            properties={this.props.category ? this.props.category.properties: []}
-                            onChange={properties => this.setState({
+                            properties={this.state.properties || []}
+                            onChange={properties => {console.log(properties); this.setState({
                                 ...this.state,
                                 properties,
-                            })}/>
+                            })}}/>
                 </Row>
                 <Row type="flex" align="middle">
                     <Button

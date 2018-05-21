@@ -2,16 +2,16 @@
 import * as React from "react";
 
 import { Button, Icon, Table } from "antd";
-import { CategoryProperties } from "../../../../model/CategoryProperties";
+import { CategoryProperty } from "../../../../model/CategoryProperties";
 
 import { addKey, WithKey } from "../../../../utils/table";
 import { EditableCell } from "../common/EditableCell";
 
-type Property = CategoryProperties & WithKey;
+type Property = CategoryProperty & WithKey;
 
 interface PropertiesTableProps {
-    properties: CategoryProperties[];
-    onChange: (cp: CategoryProperties[]) => void;
+    properties: CategoryProperty[];
+    onChange: (cp: CategoryProperty[]) => void;
 }
 
 interface PropertiesTableState {
@@ -27,7 +27,7 @@ export class CategoryPropertiesTable extends React.Component<PropertiesTableProp
     };
 
     componentWillReceiveProps (nextProps: PropertiesTableProps) {
-        if(nextProps.properties.length === 0 || this.state.properties.length === 0) {
+        if(nextProps.properties.length !== 0 || this.state.properties.length !== 0) {
             this.setState({properties: nextProps.properties.map(addKey)});
         }
     }
