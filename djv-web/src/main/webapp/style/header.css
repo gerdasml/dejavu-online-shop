@@ -23,6 +23,10 @@
     height: 100%;
 }
 
+.search-header * {
+    width: 100%;
+}
+
 #searchBar{
     width: 100%;
     height: auto;

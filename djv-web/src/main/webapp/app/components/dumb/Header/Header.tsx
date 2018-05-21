@@ -17,13 +17,15 @@ interface HeaderState {
     loggedIn: boolean;
     activeItem: String;
     triggerReview: boolean;
+    isSearch: boolean;
 }
 
 export class Header extends React.Component <{}, HeaderState> {
     state: HeaderState = {
         activeItem: "home",
         loggedIn: getToken() !== null,
-        triggerReview: false
+        triggerReview: false,
+        isSearch: false
     };
 
     handleLogout = () => {
@@ -96,7 +98,8 @@ export class Header extends React.Component <{}, HeaderState> {
                         </MediaQuery>
                         <MediaQuery query="(max-width: 499px)">
                             <Menu.Item
-                                className="borderless">
+                                className="borderless"
+                                onClick={() => this.setState({...this.state, isSearch: !this.state.isSearch})}>
                                 <Icon name="search"/>
                             </Menu.Item>
                             <Menu.Item
@@ -135,6 +138,18 @@ export class Header extends React.Component <{}, HeaderState> {
                         </MediaQuery>
                     </Menu.Menu>
                 </Menu>
+                {
+                    this.state.isSearch
+                    ?
+                    <div>
+                        <Search
+                            className="search-header"
+                            fluid
+                            placeholder="Search..."/>
+                    </div>
+                    :
+                    ""
+                }
                 <ReviewModal onReviewSubmit={this.handleReview.bind(this)}
                 onClose={()  => this.setState({triggerReview: false})}
                 open = {this.state.triggerReview} orders={[]}/>
