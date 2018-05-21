@@ -9,6 +9,7 @@ import { WithKey } from "../../../../../utils/table";
 import "../../../../../../style/product.css";
 import { CategoryTree } from "../../../../../model/CategoryTree";
 import { findCategoryFromTree } from "../../../../../utils/categories";
+import { formatPrice } from "../../../../../utils/common";
 
 type ProductRecord = Product & WithKey;
 
@@ -45,7 +46,7 @@ export const ProductTable = (props: ProductTableProps) => (
         <ProductRecordColumn
             key = "price"
             title = "Price"
-            render={(_, record) => record.price}
+            render={(_, record) => formatPrice(record.price)}
         />
         <ProductRecordColumn
             key = "editRemove"

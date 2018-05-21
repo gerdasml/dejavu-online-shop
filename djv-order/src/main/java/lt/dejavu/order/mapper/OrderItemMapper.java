@@ -2,7 +2,7 @@ package lt.dejavu.order.mapper;
 
 import lt.dejavu.order.dto.OrderItemDto;
 import lt.dejavu.order.model.db.OrderItem;
-import lt.dejavu.product.response.mapper.ProductResponseMapper;
+import lt.dejavu.product.dto.mapper.ProductDtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,17 +13,17 @@ import static java.util.stream.Collectors.toList;
 
 @Component
 public class OrderItemMapper {
-    private final ProductResponseMapper productResponseMapper;
+    private final ProductDtoMapper productDtoMapper;
 
     @Autowired
-    public OrderItemMapper(ProductResponseMapper productResponseMapper) {
-        this.productResponseMapper = productResponseMapper;
+    public OrderItemMapper(ProductDtoMapper productDtoMapper) {
+        this.productDtoMapper = productDtoMapper;
     }
 
     public OrderItemDto map(OrderItem item) {
         OrderItemDto dto = new OrderItemDto();
         dto.setAmount(item.getAmount());
-        dto.setProduct(productResponseMapper.map(item.getProduct()));
+        dto.setProduct(productDtoMapper.mapToDto(item.getProduct()));
         dto.setTotal(item.getProduct().getPrice().multiply(BigDecimal.valueOf(item.getAmount())));
 
         return dto;

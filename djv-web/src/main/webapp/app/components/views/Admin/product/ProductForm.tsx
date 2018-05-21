@@ -7,7 +7,7 @@ import { CategoryTree } from "../../../../model/CategoryTree";
 import { Product } from "../../../../model/Product";
 import { ProductProperties } from "../../../../model/ProductProperties";
 import { ProductDescription } from "./ProductDescription";
-import { ProductDropdown } from "./ProductDropdown";
+import { CategoryDropdown } from "./CategoryDropdown";
 import { ProductName } from "./ProductName";
 import { ProductPictures } from "./ProductPictures";
 import { ProductPrice } from "./ProductPrice";
@@ -16,6 +16,7 @@ import { ProductPropertiesTable } from "./ProductPropertiesTable";
 export interface ProductFormProps {
     product?: Product;
     onSubmit?: () => void;
+    categories?: CategoryTree[];
 }
 
 export interface ProductFormState {
@@ -51,10 +52,13 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
     }
 
     async componentWillMount () {
-        const categories = await api.category.getCategoryTree();
-        if(api.isError(categories)) {
-            notification.error({message: "Failed to fetch category data", description: categories.message});
-            return;
+        const categories = this.props.categories;
+        if (categories === undefined) {
+            await api.category.getCategoryTree();
+            if(api.isError(categories)) {
+                notification.error({message: "Failed to fetch category data", description: categories.message});
+                return;
+            }
         }
         const newState = this.buildNewStateFromProps(this.props);
         newState.categories = categories;
@@ -142,6 +146,27 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
         }
         notification.warning({message: "Failed to save product", description: "Not all fields are filled"});
     }
+
+    async handleCategoryChange (categoryId: number) {
+        this.setState({
+            ...this.state, category: categoryId
+        });
+        const response = await api.category.getCategory(categoryId);
+        if (api.isError(response)) {
+            notification.error({message: "Failed to fetch category data", description: response.message});
+            return;
+        }
+        this.setState({
+            ...this.state,
+            properties: response.properties.map(
+                prop => ({
+                    name: prop.name,
+                    value: "",
+                    propertyId: prop.propertyId
+                })
+            )
+        });
+    }
     render () {
         return (
             <Grid>
@@ -187,12 +212,10 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                             />
                     </Grid.Column>
                     <Grid.Column width="eight">
-                        <ProductDropdown
+                        <CategoryDropdown
                             selected={this.state.category}
                             categories={this.state.categories}
-                            onChange={newCategory => this.setState({
-                                ...this.state, category: newCategory
-                            })}/>
+                            onChange={this.handleCategoryChange.bind(this)}/>
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>

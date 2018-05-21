@@ -1,4 +1,4 @@
-package lt.dejavu.product.response;
+package lt.dejavu.product.dto;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,6 +18,6 @@ public class ProductImportStatusDto {
     private int successCount;
     private int failureCount;
     private int total;
-    private List<ProductResponse> failedProducts;
+    private List<ProductDto> failedProducts;
     private Instant startTime;
 }

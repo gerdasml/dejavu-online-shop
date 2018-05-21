@@ -1,4 +1,4 @@
-package lt.dejavu.product.response;
+package lt.dejavu.product.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,12 +7,12 @@ import java.util.List;
 
 @Getter
 @Setter
-public class CategoryResponse {
+public class CategoryDto {
 
-    private long id;
+    private Long id;
     private String name;
     private String icon;
     private String identifier;
     private Long parentCategoryId;
-    private List<CategoryPropertyResponse> properties;
+    private List<CategoryPropertyDto> properties;
 }

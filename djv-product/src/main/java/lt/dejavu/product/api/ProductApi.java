@@ -2,10 +2,9 @@ package lt.dejavu.product.api;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.service.SecurityService;
+import lt.dejavu.product.dto.ProductDto;
+import lt.dejavu.product.dto.ProductImportStatusDto;
 import lt.dejavu.product.model.rest.request.ProductSearchRequest;
-import lt.dejavu.product.response.ProductImportStatusDto;
-import lt.dejavu.product.response.ProductResponse;
-import lt.dejavu.product.model.rest.request.ProductRequest;
 import lt.dejavu.product.service.ProductImportStatusService;
 import lt.dejavu.product.service.ProductService;
 import org.apache.commons.io.IOUtils;
@@ -39,7 +38,7 @@ public class ProductApi {
             path = "/",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<ProductResponse> getAllProducts() {
+    public List<ProductDto> getAllProducts() {
         return productService.getAllProducts();
     }
 
@@ -47,7 +46,7 @@ public class ProductApi {
             path = "/{productId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public ProductResponse getProduct(@PathVariable("productId") long productId) {
+    public ProductDto getProduct(@PathVariable("productId") long productId) {
         return productService.getProduct(productId);
     }
 
@@ -55,7 +54,7 @@ public class ProductApi {
             path = "/category/{categoryId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<ProductResponse> getProductsByCategory(@PathVariable("categoryId") long categoryId) {
+    public List<ProductDto> getProductsByCategory(@PathVariable("categoryId") long categoryId) {
         return productService.getProductsByCategory(categoryId);
     }
 
@@ -64,7 +63,7 @@ public class ProductApi {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             params = "identifier"
     )
-    public ProductResponse getProductByIdentifier(@RequestParam String identifier) {
+    public ProductDto getProductByIdentifier(@RequestParam String identifier) {
         return productService.getProduct(identifier);
     }
 
@@ -72,7 +71,7 @@ public class ProductApi {
             path = "/category",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<ProductResponse> productSearch(@RequestBody ProductSearchRequest request) {
+    public List<ProductDto> productSearch(@RequestBody ProductSearchRequest request) {
         return productService.searchProducts(request);
     }
 
@@ -83,7 +82,7 @@ public class ProductApi {
 
     public Long createProduct(HttpServletRequest request,
                               @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
-                              @RequestBody ProductRequest productRequest) throws ApiSecurityException {
+                              @RequestBody ProductDto productRequest) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         return productService.createProduct(productRequest);
     }
@@ -95,7 +94,7 @@ public class ProductApi {
     public void updateProduct(HttpServletRequest request,
                               @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
                               @PathVariable("productId") long productId,
-                              @RequestBody ProductRequest productRequest) throws ApiSecurityException {
+                              @RequestBody ProductDto productRequest) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         productService.updateProduct(productId, productRequest);
     }

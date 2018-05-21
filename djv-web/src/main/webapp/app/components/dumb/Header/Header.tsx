@@ -16,6 +16,8 @@ import MediaQuery from "react-responsive";
 import * as api from "../../../api";
 import { Order } from "../../../model/Order";
 
+import * as CartManager from "../../../utils/cart";
+
 interface HeaderState {
     loggedIn: boolean;
     activeItem: String;
@@ -44,6 +46,11 @@ export class Header extends React.Component <{}, HeaderState> {
             return;
         }
         this.setState({...this.state, ordersToReview: response});
+        const cartMergeResponse = await CartManager.onLogin();
+        if (api.isError(cartMergeResponse)) {
+            // TODO: should we show an error if the merge fails?
+            return;
+        }
     }
 
     handleItemClick = (e: any, { name }: any) => this.setState({ ...this.state, activeItem: name });
