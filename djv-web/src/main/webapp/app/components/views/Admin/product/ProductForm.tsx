@@ -142,6 +142,27 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
         }
         notification.warning({message: "Failed to save product", description: "Not all fields are filled"});
     }
+
+    async handleCategoryChange (categoryId: number) {
+        this.setState({
+            ...this.state, category: categoryId
+        });
+        const response = await api.category.getCategory(categoryId);
+        if (api.isError(response)) {
+            notification.error({message: "Failed to fetch category data", description: response.message});
+            return;
+        }
+        this.setState({
+            ...this.state,
+            properties: response.properties.map(
+                prop => ({
+                    name: prop.name,
+                    value: "",
+                    propertyId: prop.propertyId
+                })
+            )
+        });
+    }
     render () {
         return (
             <Grid>
@@ -190,9 +211,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                         <ProductDropdown
                             selected={this.state.category}
                             categories={this.state.categories}
-                            onChange={newCategory => this.setState({
-                                ...this.state, category: newCategory
-                            })}/>
+                            onChange={this.handleCategoryChange.bind(this)}/>
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
