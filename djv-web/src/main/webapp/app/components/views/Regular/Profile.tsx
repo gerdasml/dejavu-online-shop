@@ -16,8 +16,8 @@ export class Profile extends React.Component<{},{}> {
                     <ProfileInfo/>
                 </Grid.Column>
                 <Grid.Column width={10}>
-                <Header size="large" textAlign="center">Order History</Header>
-                <OrderHistory/>
+                    <Header size="large" textAlign="center">Order History</Header>
+                    <OrderHistory/>
                 </Grid.Column>
             </Grid>
         );

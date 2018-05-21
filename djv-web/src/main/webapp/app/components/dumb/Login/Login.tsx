@@ -88,7 +88,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
                     onClose={this.handleClose.bind(this)}
                     >
                 <Modal.Content id="loginModal">
-                    <Grid columns={2} divided>
+                    <Grid columns={2} divided stackable>
                         <Grid.Column>
                             <Segment basic>
                                 <h3> Already registered user?<br />Log in:</h3>
