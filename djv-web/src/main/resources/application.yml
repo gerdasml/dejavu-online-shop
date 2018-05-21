@@ -7,8 +7,6 @@ logging:
   level:
     lt.dejavu.web.logging.RequestLoggingFilter: DEBUG
     lt.dejavu.logging.logger.RequestLoggerImpl: ERROR
-    lt.dejavu.payment.interceptor.LoggingRequestInterceptor: DEBUG
-    lt.dejavu.excel.service.ExcelServiceImpl: DEBUG
 
 spring:
   datasource:
