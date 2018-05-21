@@ -1,10 +1,11 @@
 import * as React from "react";
-import { Button, Form, Grid, Menu, Message, Modal, Segment } from "semantic-ui-react";
+import { Button, Form, Grid, Menu, Message, Modal, Segment, Icon } from "semantic-ui-react";
 import * as api from "../../../api";
 import { storeToken } from "../../../utils/token";
 import { Register } from "./Register";
 
 import "../../../../style/login.css";
+import MediaQuery from "react-responsive";
 
 interface LoginState {
     loading: boolean;
@@ -66,13 +67,26 @@ export class Login extends React.Component<LoginProps, LoginState> {
     }
     render () {
         return (
-            <Modal trigger={<Menu.Item
-                name="log in"
-                onClick={this.handleOpen.bind(this)}
-            />}
-            open={this.state.open}
-            onClose={this.handleClose.bind(this)}
-            >
+            <Modal trigger={
+                <MediaQuery query="(min-width: 500px)">
+                {matches => matches
+                ?
+                <Menu.Item
+                        name="log in"
+                        onClick={this.handleOpen.bind(this)}
+                        />
+                :
+                <Menu.Item
+                        onClick={this.handleOpen.bind(this)}
+                >
+                    <Icon name="sign in"/>
+                </Menu.Item>
+                }
+                </MediaQuery>
+                    }
+                    open={this.state.open}
+                    onClose={this.handleClose.bind(this)}
+                    >
                 <Modal.Content id="loginModal">
                     <Grid columns={2} divided>
                         <Grid.Column>
@@ -82,7 +96,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
                                     loading={this.state.loading}
                                     error={this.state.error !== ""}
                                     onSubmit={this.login.bind(this)}
-                                >
+                                    >
                                     <Form.Field>
                                         <label>Email address</label>
                                         <input
@@ -90,7 +104,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
                                             placeholder="email"
                                             onChange={this.handleEmailInput.bind(this)}
                                             required
-                                        />
+                                            />
                                     </Form.Field>
                                     <Form.Field>
                                         <label>Password</label>
@@ -99,13 +113,13 @@ export class Login extends React.Component<LoginProps, LoginState> {
                                             placeholder="********"
                                             onChange={this.handlePasswordInput.bind(this)}
                                             required
-                                        />
+                                            />
                                     </Form.Field>
                                     <Message
                                         error
                                         header="Login failed"
                                         content={this.state.error}
-                                    />
+                                        />
                                     <Button type="submit">
                                         Log in
                                     </Button>
