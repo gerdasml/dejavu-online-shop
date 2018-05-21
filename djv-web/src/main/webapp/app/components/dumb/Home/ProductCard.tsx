@@ -4,7 +4,8 @@ import { Button, Card, Grid, Header, Icon, Image } from "semantic-ui-react";
 
 import { Product } from "../../../model/Product";
 import { NavLink } from "react-router-dom";
-import { shortenString } from "../../../utils/common";
+import { shortenString, formatPrice } from "../../../utils/common";
+
 import { isNullOrUndefined } from "util";
 
 import "../../../../style/productCard.css";

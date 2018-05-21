@@ -12,6 +12,7 @@ import { PriceArea } from "./PriceArea";
 
 import "../../../../style/product.css";
 import * as api from "../../../api";
+import { formatPrice } from "../../../utils/common";
 
 interface ProductRouteProps {
     identifier: string;
@@ -80,7 +81,7 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
                                     <Header size="large">{this.state.product.name}</Header>
                                 </List.Item>
                                 <List.Item>
-                                    <Label tag>{this.state.product.price}</Label>
+                                    <Label tag>{formatPrice(this.state.product.price)}</Label>
                                 </List.Item>
                             </List>
                         </Grid.Column>
