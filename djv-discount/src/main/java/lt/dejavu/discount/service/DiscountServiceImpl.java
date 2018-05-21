@@ -1,6 +1,8 @@
 package lt.dejavu.discount.service;
 
+import lt.dejavu.discount.exception.DiscountNotFoundException;
 import lt.dejavu.discount.model.DiscountTarget;
+import lt.dejavu.discount.model.db.Discount;
 import lt.dejavu.discount.model.dto.DiscountDto;
 import lt.dejavu.discount.model.dto.ProductDiscountDto;
 import lt.dejavu.discount.model.mapper.DiscountMapper;
@@ -32,7 +34,11 @@ public class DiscountServiceImpl implements DiscountService {
 
     @Override
     public DiscountDto getDiscountById(long id) {
-        return discountMapper.mapToDto(discountRepository.getDiscount(id));
+        Discount discount = discountRepository.getDiscount(id);
+        if (discount == null) {
+            throw new DiscountNotFoundException("The discount with the specified ID was not found");
+        }
+        return discountMapper.mapToDto(discount);
     }
 
     @Override
@@ -44,6 +50,9 @@ public class DiscountServiceImpl implements DiscountService {
     @Override
     public void updateDiscount(long id, DiscountDto newDiscount) {
         validateTarget(newDiscount);
+        if (discountRepository.getDiscount(id) == null) {
+            throw new DiscountNotFoundException("The discount with the specified ID was not found");
+        }
         discountRepository.updateDiscount(id, discountMapper.mapToDiscount(newDiscount));
     }
 

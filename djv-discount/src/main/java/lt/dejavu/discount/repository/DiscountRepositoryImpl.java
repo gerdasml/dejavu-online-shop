@@ -32,6 +32,7 @@ public class DiscountRepositoryImpl implements DiscountRepository {
     @Override
     public void updateDiscount(long id, Discount newDiscount) {
         Discount oldDiscount = getDiscount(id);
+        if (oldDiscount == null) return;
         newDiscount.setId(id);
         em.merge(newDiscount);
     }
@@ -48,6 +49,7 @@ public class DiscountRepositoryImpl implements DiscountRepository {
     @Override
     public void deleteDiscount(long id) {
         Discount discount = getDiscount(id);
+        if (discount == null) return;
         em.remove(discount);
     }
 }
