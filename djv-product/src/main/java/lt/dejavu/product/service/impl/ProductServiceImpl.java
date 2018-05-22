@@ -100,18 +100,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getProductsByCategory(long categoryId) {
+    public List<ProductDto> getProductsByCategory(long categoryId, Long offset, Long limit) {
         getCategoryIfExist(categoryId);
         List<ProductDto> products = productDtoMapper.mapToDto(productRepository.getProductsByCategory(categoryId));
+        if (limit == null) {
+            limit = Long.MAX_VALUE;
+        }
+        if (offset == null) {
+            offset = 0L;
+        }
+        products = products.stream().skip(offset).limit(limit).collect(toList());
         enrichProductsWithDiscount(products);
         return products;
     }
 
     @Override
-    public List<ProductDto> searchProducts(ProductSearchRequest request) {
+    public List<ProductDto> searchProducts(ProductSearchRequest request, Long offset, Long limit) {
         // TODO: maybe add some additional search options?
         Category category = getCategoryIfExist(request.getCategoryIdentifier());
-        return getProductsByCategory(category.getId());
+        return getProductsByCategory(category.getId(), offset, limit);
     }
 
     @Transactional

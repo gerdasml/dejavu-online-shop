@@ -55,8 +55,10 @@ public class ProductApi {
             path = "/category/{categoryId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<ProductDto> getProductsByCategory(@PathVariable("categoryId") long categoryId) {
-        return productService.getProductsByCategory(categoryId);
+    public List<ProductDto> getProductsByCategory(@PathVariable("categoryId") long categoryId,
+                                                  @RequestParam(value="offset", required=false) Long offset,
+                                                  @RequestParam(value="limit", required=false) Long limit) {
+        return productService.getProductsByCategory(categoryId, offset, limit);
     }
 
     @GetMapping(
@@ -72,8 +74,10 @@ public class ProductApi {
             path = "/category",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<ProductDto> productSearch(@RequestBody ProductSearchRequest request) {
-        return productService.searchProducts(request);
+    public List<ProductDto> productSearch(@RequestBody ProductSearchRequest request,
+                                          @RequestParam(value="offset", required=false) Long offset,
+                                          @RequestParam(value="limit", required=false) Long limit) {
+        return productService.searchProducts(request, offset, limit);
     }
 
     @PostMapping(

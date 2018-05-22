@@ -15,11 +15,11 @@ public interface ProductService {
 
     ProductDto getProduct(String identifier);
 
-    List<ProductDto> getProductsByCategory(long categoryId);
+    List<ProductDto> getProductsByCategory(long categoryId, Long offset, Long limit);
 
     Long createProduct(ProductDto request);
     
-    List<ProductDto> searchProducts(ProductSearchRequest request);
+    List<ProductDto> searchProducts(ProductSearchRequest request, Long offset, Long limit);
 
     void deleteProduct(long productId);
 
