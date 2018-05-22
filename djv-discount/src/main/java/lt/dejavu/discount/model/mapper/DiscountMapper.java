@@ -56,6 +56,9 @@ public class DiscountMapper {
     }
 
     public DiscountDto mapToDto(Discount discount) {
+        if (discount == null) {
+            return null;
+        }
         DiscountDto dto;
         if (discount instanceof ProductDiscount) {
             dto = new ProductDiscountDto();

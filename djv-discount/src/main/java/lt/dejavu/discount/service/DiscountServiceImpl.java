@@ -1,17 +1,21 @@
 package lt.dejavu.discount.service;
 
 import lt.dejavu.discount.exception.DiscountNotFoundException;
-import lt.dejavu.discount.model.db.ProductDiscount;
-import lt.dejavu.product.model.DiscountTarget;
 import lt.dejavu.discount.model.db.Discount;
-import lt.dejavu.product.dto.discount.DiscountDto;
-import lt.dejavu.product.dto.discount.ProductDiscountDto;
+import lt.dejavu.discount.model.db.ProductDiscount;
 import lt.dejavu.discount.model.mapper.DiscountMapper;
 import lt.dejavu.discount.repository.DiscountRepository;
+import lt.dejavu.product.dto.discount.DiscountDto;
+import lt.dejavu.product.dto.discount.ProductDiscountDto;
+import lt.dejavu.product.exception.CategoryNotFoundException;
+import lt.dejavu.product.exception.ProductNotFoundException;
+import lt.dejavu.product.model.Category;
+import lt.dejavu.product.model.DiscountTarget;
 import lt.dejavu.product.model.DiscountType;
-import lt.dejavu.product.service.CategoryService;
+import lt.dejavu.product.model.Product;
+import lt.dejavu.product.repository.CategoryRepository;
+import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.product.service.DiscountService;
-import lt.dejavu.product.service.ProductService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -22,14 +26,15 @@ import java.util.List;
 public class DiscountServiceImpl implements DiscountService {
     private final DiscountRepository discountRepository;
     private final DiscountMapper discountMapper;
-    private final ProductService productService;
-    private final CategoryService categoryService;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
-    public DiscountServiceImpl(DiscountRepository discountRepository, DiscountMapper discountMapper, ProductService productService, CategoryService categoryService) {
+
+    public DiscountServiceImpl(DiscountRepository discountRepository, DiscountMapper discountMapper, ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.discountRepository = discountRepository;
         this.discountMapper = discountMapper;
-        this.productService = productService;
-        this.categoryService = categoryService;
+        this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -72,6 +77,7 @@ public class DiscountServiceImpl implements DiscountService {
         ProductDiscount result = productDiscounts.stream().reduce(null, this::reduceDiscount);
         ProductDiscountDto dto = (ProductDiscountDto) discountMapper.mapToDto(result);
         dto.setFinalPrice(calculateNewPrice(result));
+        dto.setTarget(null);
         return dto;
     }
 
@@ -88,12 +94,13 @@ public class DiscountServiceImpl implements DiscountService {
 
     private BigDecimal calculateNewPrice(ProductDiscount discount) {
         BigDecimal priceDelta;
-        if ( discount.getType() == DiscountType.ABSOLUTE) {
+        if (discount.getType() == DiscountType.ABSOLUTE) {
             priceDelta = discount.getValue();
         } else {
             priceDelta = discount.getValue()
                                  .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP)
-                                 .multiply(discount.getTarget().getPrice());
+                                 .multiply(discount.getTarget().getPrice())
+                                 .setScale(2, RoundingMode.HALF_UP);
         }
         BigDecimal newPrice = discount.getTarget().getPrice().subtract(priceDelta);
         // TODO: how to handle negative prices?
@@ -104,9 +111,15 @@ public class DiscountServiceImpl implements DiscountService {
     private void validateTarget(DiscountDto dto) {
         if (dto.getTargetType() == DiscountTarget.EVERYTHING) return;
         if (dto.getTargetType() == DiscountTarget.PRODUCT) {
-            productService.getProduct(dto.getTargetId());
+            Product product = productRepository.getProduct(dto.getTargetId());
+            if (product == null) {
+                throw new ProductNotFoundException(dto.getTargetId());
+            }
         } else {
-            categoryService.getCategory(dto.getTargetId());
+            Category category = categoryRepository.getCategory(dto.getTargetId());
+            if (category == null) {
+                throw new CategoryNotFoundException(dto.getTargetId());
+            }
         }
     }
 }
