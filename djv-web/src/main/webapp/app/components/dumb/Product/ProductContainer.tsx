@@ -16,12 +16,14 @@ import { FilterBuilder, hasProperties, priceInRange } from "../../../utils/produ
 import * as CartManager from "../../../utils/cart";
 
 import "../../../../style/filter.css";
+import { ProductProperties } from "../../../model/ProductProperties";
 
 interface ProductContainerProps {
     products: Product[];
     category?: Category;
     onPageChange: (pageNumber: number) => void;
     activePage: number;
+    onFilterChange: (minPrice: number, maxPrice: number, properties: ProductProperties[]) => void;
 }
 
 interface ProductContainerState {
@@ -62,7 +64,6 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
         const cartInfo = await CartManager.getCart();
         if(api.isError(cartInfo)) {
             notification.error({message: "Failed to fetch cart", description: cartInfo.message});
-            // TODO: save to local storage if not logged in
         } else {
             this.setState({
                 ...this.state,
@@ -86,16 +87,8 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
     }
 
     filterProducts () {
-        const newState = this.state;
-        const prop = transform(newState.filterOptions);
-        const result = new FilterBuilder()
-                    .add(hasProperties(prop))
-                    .add(priceInRange(this.state.minPrice, this.state.maxPrice))
-                    .apply(this.props.products);
-        newState.filteredProducts = result;
-        console.log(newState.filteredProducts);
-        //newState.activePage = 1;
-        this.setState(newState);
+        const props = transform(this.state.filterOptions);
+        this.props.onFilterChange(this.state.minPrice, this.state.maxPrice, props);
     }
 
     handleFilterOpenChange () {

@@ -92,6 +92,7 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
                     category={this.state.category}
                     activePage={this.state.activePage}
                     onPageChange={this.handlePageChange.bind(this)}
+                    onFilterChange={(mn, mx, props) => console.log(mn, mx, props)}
                 />
                 }
             </div>

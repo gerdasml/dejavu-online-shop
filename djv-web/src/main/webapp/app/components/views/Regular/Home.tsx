@@ -64,6 +64,7 @@ export class Home extends React.Component< {}, HomeState> {
                     products={this.state.products}
                     activePage={this.state.activePage}
                     onPageChange={this.handlePageChange.bind(this)}
+                    onFilterChange={(mn, mx, props) => console.log(mn, mx, props)}
                 />
                 }
             </div>

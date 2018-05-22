@@ -2,8 +2,15 @@ import { ApiResponse } from "./ApiResponse";
 
 import { ImportStatus, Product } from "../model/Product";
 import { fetchData, HttpMethod } from "./utils";
+import { ProductProperties } from "../model/ProductProperties";
 
 const PATH_PREFIX = "/api/product";
+
+interface FilterRequest {
+    minPrice: number;
+    maxPrice: number;
+    properties?: ProductProperties[];
+}
 
 interface ProductSearchRequest {
     categoryIdentifier: string;
@@ -19,7 +26,7 @@ const buildPaginationPath = (relPath: string, offset?: number, limit?: number) =
         path += `?limit=${limit}`;
     }
     return path;
-}
+};
 
 // export const getProducts = (): Promise<ApiResponse<Product[]>> =>
 //     fetchData(PATH_PREFIX + "/", HttpMethod.GET);
