@@ -85,12 +85,14 @@ public class DiscountServiceImpl implements DiscountService {
                                   .filter(d -> doesDiscountApplyToProduct(d, product))
                                   .collect(toList());
         Discount result = productDiscounts.stream().reduce(null, (a, b) -> reduceDiscount(a, b, product));
+        if (result == null) {
+            return null;
+        }
         ProductDiscountDto dto =
                 (ProductDiscountDto) discountMapper.mapToDto(
                         discountMapper.mapToProductDiscount(result)
                                                             );
         dto.setFinalPrice(calculateNewPrice(result, product));
-        dto.setTarget(null);
         return dto;
     }
 
