@@ -4,12 +4,13 @@ import * as React from "react";
 import { Button, Icon, Table } from "antd";
 import { CategoryProperty } from "../../../../model/CategoryProperties";
 
-import { addKey, WithKey } from "../../../../utils/table";
+import { addKeyString, WithStringKey } from "../../../../utils/table";
 import { EditableCell } from "../common/EditableCell";
 
-type Property = CategoryProperty & WithKey;
+type Property = CategoryProperty & WithStringKey;
 
 interface PropertiesTableProps {
+    categoryId: number;
     properties: CategoryProperty[];
     onChange: (cp: CategoryProperty[]) => void;
 }
@@ -21,25 +22,26 @@ interface PropertiesTableState {
 class PropertiesTable extends Table<Property> {}
 class PropertyColumn extends Table.Column<Property> {}
 
+const addUniqueKey = (categoryId: number) =>
+    (x: CategoryProperty, idx: number) => addKeyString(x, categoryId + "-" + idx);
+
 export class CategoryPropertiesTable extends React.Component<PropertiesTableProps, PropertiesTableState> {
     state: PropertiesTableState = {
-        properties: this.props.properties.map(addKey)
+        properties: this.props.properties.map(addUniqueKey(this.props.categoryId))
     };
 
     componentWillReceiveProps (nextProps: PropertiesTableProps) {
-        if(nextProps.properties.length !== 0 || this.state.properties.length !== 0) {
-            this.setState({properties: nextProps.properties.map(addKey)});
-        }
+        this.setState({properties: nextProps.properties.map(addUniqueKey(nextProps.categoryId))});
     }
 
     handleAddRow () {
         const p = this.state.properties;
         const lastKey = p.length === 0 ? -1 : p[p.length-1].key;
-        const newProp: Property = {name: "", propertyId: undefined, key: lastKey+1};
+        const newProp: Property = {name: "", propertyId: undefined, key: this.props.categoryId + "-" + p.length+1};
         this.setState({properties: [...p, newProp]});
         this.updateParent([...p, newProp]);
     }
-    handleRemoveRow (keyToDelete: number) {
+    handleRemoveRow (keyToDelete: string) {
         const newProp = this.state.properties.filter(x => x.key !== keyToDelete);
         this.setState({properties: newProp});
         this.updateParent(newProp);
@@ -61,7 +63,7 @@ export class CategoryPropertiesTable extends React.Component<PropertiesTableProp
                     <PropertyColumn
                         key="name"
                         title="Name"
-                         render={(text, record, index) =>
+                        render={(text, record, index) =>
                             <EditableCell
                                 value={record.name}
                                 onChange={s=>this.updatePropertyName(index, s)}

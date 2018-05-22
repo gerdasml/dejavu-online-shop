@@ -75,6 +75,7 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
                 </Row>
                 <Row>
                     <CategoryPropertiesTable
+                            categoryId={this.props.category ? this.props.category.id : -1}
                             properties={this.state.properties || []}
                             onChange={properties => this.setState({
                                 ...this.state,
