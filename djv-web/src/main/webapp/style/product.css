@@ -25,6 +25,14 @@
     width: auto;
 }
 
+.add-to-cart {
+    background-color: #ffce2b!important; 
+}
+
+.add-to-cart .button-text {
+    color: #393d40!important;
+}
+
 .expander-color {
     color: #ffce2b;
     cursor: pointer;

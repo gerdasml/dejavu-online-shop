@@ -6,6 +6,16 @@
     border-bottom-right-radius: 0%;
 }
 
+#amountButtonMinus, #amountButtonPlus {
+    background-color: #393d40!important;
+    color: #ffe693!important;
+}
+
+.price-area-container {
+    display: flex!important;
+    justify-items: center;
+}
+ 
 #amountButtonPlus, #amountInput{
     border-top-left-radius: 0%;
     border-bottom-left-radius: 0%;
