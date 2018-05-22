@@ -1,3 +1,25 @@
 body {
     color: blue;
 }
+
+#products-pagination .active.item {
+    background-color: #ffe693!important;
+    color: #393d40!important;
+}
+
+#products-pagination .item {
+    background-color: #393d40!important;
+    color: #ffe693!important;
+}
+
+#products-pagination .item:hover {
+    background-color: #8e8e8e!important;
+}
+
+.pagination-father {
+    text-align: center;
+}
+#products-pagination {
+    margin-top: 15px!important;
+    float: unset!important;
+}
