@@ -28,4 +28,6 @@ public interface ProductService {
     ByteArrayOutputStream exportProducts() throws IOException;
 
     UUID importProducts(byte[] data) throws IOException;
+
+    long getTotalProductCount();
 }

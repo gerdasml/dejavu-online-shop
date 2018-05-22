@@ -84,4 +84,14 @@ public class ProductRepositoryImpl implements ProductRepository {
     public void updateProduct(Product product) {
         em.merge(product);
     }
+
+    @Override
+    public long getTotalProductCount() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<Product> root = countQuery.from(Product.class);
+        countQuery.select(cb.count(root));
+
+        return em.createQuery(countQuery).getSingleResult();
+    }
 }

@@ -73,3 +73,6 @@ export const getProductsByCategory = (id: number, offset?: number, limit?: numbe
 
 export const updateImportStatus = (jobId: string, newStatus: ImportStatus): Promise<ApiResponse<ImportStatus>> =>
     fetchData(PATH_PREFIX + "/import/status/" + jobId, HttpMethod.PUT, newStatus);
+
+export const getTotalProductCount = (): Promise<ApiResponse<number>> =>
+    fetchData(PATH_PREFIX + "/count", HttpMethod.GET);

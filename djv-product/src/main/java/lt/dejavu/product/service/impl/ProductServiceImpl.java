@@ -187,6 +187,11 @@ public class ProductServiceImpl implements ProductService {
         return excelService.fromExcel(data);
     }
 
+    @Override
+    public long getTotalProductCount() {
+        return productRepository.getTotalProductCount();
+    }
+
     private Category resolveCategory(Long categoryId) {
         if (categoryId == null) {
             throw new IllegalStateException("Product must have category");

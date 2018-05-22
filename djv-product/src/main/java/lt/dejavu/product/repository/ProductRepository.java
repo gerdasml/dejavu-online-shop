@@ -20,4 +20,6 @@ public interface ProductRepository {
     void deleteProduct(Product product);
 
     void updateProduct(Product product);
+
+    long getTotalProductCount();
 }

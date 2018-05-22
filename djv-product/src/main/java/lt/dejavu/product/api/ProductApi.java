@@ -43,6 +43,11 @@ public class ProductApi {
         return productService.getAllProducts(limit, offset);
     }
 
+    @GetMapping("/count")
+    public long getTotalProductCount() {
+        return productService.getTotalProductCount();
+    }
+
     @GetMapping(
             path = "/{productId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE

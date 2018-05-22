@@ -13,6 +13,7 @@ interface HomeState {
     isLoading: boolean;
     products: Product[];
     activePage: number;
+    productCount?: number;
 }
 
 const PRODUCTS_PER_PAGE = 20;
@@ -25,13 +26,19 @@ export class Home extends React.Component< {}, HomeState> {
     };
 
     async componentDidMount () {
-        const productsInfo = await api.product.getAllProducts(0, PRODUCTS_PER_PAGE);
+        const [productsInfo, productCount] = await Promise.all([
+            api.product.getAllProducts(0, PRODUCTS_PER_PAGE),
+            api.product.getTotalProductCount()
+        ]);
         if(api.isError(productsInfo)) {
             notification.error({message: "Failed to load products", description: productsInfo.message});
+        } else if(api.isError(productCount)) {
+            notification.error({message: "Failed to load products", description: productCount.message});
         } else {
             this.setState({
                 ...this.state,
                 products: productsInfo,
+                productCount
             });
         }
         this.setState({
@@ -65,7 +72,7 @@ export class Home extends React.Component< {}, HomeState> {
                     activePage={this.state.activePage}
                     onPageChange={this.handlePageChange.bind(this)}
                     onFilterChange={(mn, mx, props) => console.log(mn, mx, props)}
-                    totalProductCount={0} // TODO: fetch actual count
+                    totalProductCount={this.state.productCount}
                 />
                 }
             </div>
