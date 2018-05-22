@@ -29,6 +29,7 @@ rest:
   auth: ${rest.basePath}/auth
   cart: ${rest.basePath}/cart
   category: ${rest.basePath}/category
+  discount: ${rest.basePath}/discount
   health: ${rest.basePath}/health
   image: ${rest.basePath}/image
   order: ${rest.basePath}/order
