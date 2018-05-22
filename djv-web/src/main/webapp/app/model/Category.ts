@@ -8,3 +8,14 @@ export interface Category {
     name: string;
     properties?: CategoryProperties[];
 }
+
+export interface CategoryInfo {
+    productCount: number;
+    availableProperties: PropertySummary[];
+}
+
+export interface PropertySummary {
+    propertyId: number;
+    propertyName: string;
+    values: string[];
+}
