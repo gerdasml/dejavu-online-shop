@@ -76,10 +76,10 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
                 <Row>
                     <CategoryPropertiesTable
                             properties={this.state.properties || []}
-                            onChange={properties => {console.log(properties); this.setState({
+                            onChange={properties => this.setState({
                                 ...this.state,
                                 properties,
-                            })}}/>
+                            })}/>
                 </Row>
                 <Row type="flex" align="middle">
                     <Button
