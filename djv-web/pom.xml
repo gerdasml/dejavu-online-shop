@@ -50,6 +50,11 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>djv-discount</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>djv-logging</artifactId>
             <version>${project.version}</version>
         </dependency>

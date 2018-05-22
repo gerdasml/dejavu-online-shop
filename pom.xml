@@ -19,6 +19,7 @@
         <module>djv-cart</module>
         <module>djv-utils</module>
         <module>djv-excel</module>
+        <module>djv-discount</module>
     </modules>
     <packaging>pom</packaging>
 
