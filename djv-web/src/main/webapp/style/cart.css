@@ -86,6 +86,20 @@
 #approval .approvalText{
     text-align: center;
     margin-top: 5%;
+    font-weight: bold;
+}
+
+#approval span {
+    color: #393d40!important;
+}
+
+#approval .ui.message .header {
+    margin-bottom: 5px;
+    color: #ffce2b;
+}
+
+#approval .check.icon {
+    color: #ffce2b!important;
 }
 
 #order-table-father {

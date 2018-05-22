@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button, Icon } from "semantic-ui-react";
+import { Button, Icon, Message } from "semantic-ui-react";
 
 import "../../../../../style/cart.css";
 
@@ -11,14 +11,24 @@ interface ApprovalProps {
 }
 export const Approval = (props: ApprovalProps) => (
     <div id="approval">
-        <h3 className="approvalText">Your purchase was successful! </h3>
-        <br/>
-        <h3 className="approvalText">
-            To check your purchase info and delivery status open your profile.
-            It is displayed in the "Order history" table.
-        </h3>
-        <br/>
-        <h3 className="approvalText">You can now continue shopping.</h3>
+        <Message
+            className="approvalText"
+            icon="check"
+            header="Your purchase was successful!"
+            content={
+                <span>
+                    <p>
+                        To check your purchase info and delivery status open your profile.
+                    </p>
+                    <p>
+                        It is displayed in the "Order history" table.
+                    </p>
+                    <p>
+                        You can now continue shopping.
+                    </p>
+                </span>
+            }
+        />
         <Button
             id="continueButton"
             positive icon labelPosition="right"
