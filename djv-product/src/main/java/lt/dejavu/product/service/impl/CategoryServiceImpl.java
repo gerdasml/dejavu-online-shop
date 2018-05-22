@@ -120,7 +120,7 @@ public class CategoryServiceImpl implements CategoryService {
     private PropertySummaryDto buildPropertySummaryDto(Long id, String name, List<String> values) {
         PropertySummaryDto dto = new PropertySummaryDto();
         dto.setPropertyId(id);
-        dto.setName(name);
+        dto.setPropertyName(name);
         dto.setValues(values);
 
         return dto;

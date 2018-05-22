@@ -8,7 +8,7 @@ import java.util.List;
 @Getter
 @Setter
 public class PropertySummaryDto {
-    Long propertyId;
-    String name;
-    List<String> values;
+    private Long propertyId;
+    private String propertyName;
+    private List<String> values;
 }
