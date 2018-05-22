@@ -2,8 +2,8 @@ package lt.dejavu.discount;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.service.SecurityService;
-import lt.dejavu.discount.model.dto.DiscountDto;
-import lt.dejavu.discount.service.DiscountService;
+import lt.dejavu.product.dto.discount.DiscountDto;
+import lt.dejavu.product.service.DiscountService;
 import lt.dejavu.product.service.CategoryService;
 import lt.dejavu.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
-package lt.dejavu.discount.service;
+package lt.dejavu.product.service;
 
-import lt.dejavu.discount.model.dto.DiscountDto;
-import lt.dejavu.discount.model.dto.ProductDiscountDto;
+import lt.dejavu.product.dto.discount.DiscountDto;
+import lt.dejavu.product.dto.discount.ProductDiscountDto;
 
 import java.util.List;
 

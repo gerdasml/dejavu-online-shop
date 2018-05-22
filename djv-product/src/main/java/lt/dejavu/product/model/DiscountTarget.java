@@ -1,4 +1,4 @@
-package lt.dejavu.discount.model;
+package lt.dejavu.product.model;
 
 public enum DiscountTarget {
     EVERYTHING,

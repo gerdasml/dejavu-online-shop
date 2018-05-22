@@ -3,7 +3,7 @@ package lt.dejavu.discount.model.db;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lt.dejavu.discount.model.DiscountType;
+import lt.dejavu.product.model.DiscountType;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

@@ -8,6 +8,7 @@ import lt.dejavu.discount.model.dto.ProductDiscountDto;
 import lt.dejavu.discount.model.mapper.DiscountMapper;
 import lt.dejavu.discount.repository.DiscountRepository;
 import lt.dejavu.product.service.CategoryService;
+import lt.dejavu.product.service.DiscountService;
 import lt.dejavu.product.service.ProductService;
 import org.springframework.stereotype.Service;
 

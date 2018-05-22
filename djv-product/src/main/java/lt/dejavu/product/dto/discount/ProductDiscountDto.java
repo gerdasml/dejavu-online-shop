@@ -1,10 +1,10 @@
-package lt.dejavu.discount.model.dto;
+package lt.dejavu.product.dto.discount;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lt.dejavu.discount.model.DiscountTarget;
 import lt.dejavu.product.dto.ProductDto;
+import lt.dejavu.product.model.DiscountTarget;
 
 import java.math.BigDecimal;
 
