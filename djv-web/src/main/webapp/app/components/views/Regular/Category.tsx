@@ -63,7 +63,6 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
             this.setState({ ...this.state, isLoading: false});
             return;
         }
-        console.log(categoryInfoResponse);
         this.setState({
             activePage: 1,
             products: productResponse,
@@ -95,6 +94,8 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
                 { this.state.isLoading
                 ? <Loader active inline="centered" />
                 : <ProductContainer
+                    totalProductCount={this.state.categoryInfo.productCount}
+                    availableProperties={this.state.categoryInfo.availableProperties}
                     products={this.state.products}
                     category={this.state.category}
                     activePage={this.state.activePage}

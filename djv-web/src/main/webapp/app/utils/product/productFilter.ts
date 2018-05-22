@@ -1,4 +1,4 @@
-import { Category } from "../../model/Category";
+import { Category, PropertySummary } from "../../model/Category";
 import { Product } from "../../model/Product";
 import { ProductProperties } from "../../model/ProductProperties";
 
@@ -23,13 +23,13 @@ export const getProperties = (category: Category, products: Product[]): ProductF
     }));
 };
 
-export const transform = (filteredData: ProductFilter[]): ProductProperties[] => {
+export const transform = (filteredData: PropertySummary[]): ProductProperties[] => {
     const result: ProductProperties[] = [];
     filteredData.forEach(
         data => data.values.forEach(
             value => result.push({
                 propertyId: data.propertyId,
-                name: data.property,
+                name: data.propertyName,
                 value
             })
         )

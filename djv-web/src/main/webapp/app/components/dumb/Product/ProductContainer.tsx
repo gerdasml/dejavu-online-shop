@@ -8,7 +8,7 @@ import * as api from "../../../api";
 import { Cart } from "../../../model/Cart";
 import { Product } from "../../../model/Product";
 import { ProductCard } from "../Home/ProductCard";
-import { Category } from "../../../model/Category";
+import { Category, PropertySummary } from "../../../model/Category";
 import { getProperties, ProductFilter, transform, getMin, getMax } from "../../../utils/product/productFilter";
 import { Filter } from "./Filter";
 import { FilterBuilder, hasProperties, priceInRange } from "../../../utils/product/filter";
@@ -19,6 +19,8 @@ import "../../../../style/filter.css";
 import { ProductProperties } from "../../../model/ProductProperties";
 
 interface ProductContainerProps {
+    totalProductCount: number;
+    availableProperties?: PropertySummary[];
     products: Product[];
     category?: Category;
     onPageChange: (pageNumber: number) => void;
@@ -29,7 +31,7 @@ interface ProductContainerProps {
 interface ProductContainerState {
     isLoading: boolean;
     cart?: Cart;
-    filterOptions: ProductFilter[];
+    filterOptions: PropertySummary[];
     filteredProducts: Product[];
     isFilterExpanded: boolean;
     minPrice: number;
@@ -102,12 +104,13 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
     handlePaginationChange = (e: any, x: any) => this.props.onPageChange(x.activePage);
 
     render () {
-        const properties = getProperties(this.props.category, this.props.products);
         const min = Math.floor(getMin(this.props.products));
         const max = Math.ceil(getMax(this.props.products));
         return (
                 <div>
-                    { this.props.category !== undefined && this.props.products.length !== 0
+                    {  this.props.category !== undefined
+                    && this.props.products.length !== 0
+                    && this.props.availableProperties !== undefined
                     ?
                     <Accordion className="filter-accordion">
                         <Accordion.Title
@@ -137,7 +140,7 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
                                             }, ()=> this.filterProducts());
                                         }}/>
                                 </Grid.Row>
-                                {properties.map(x =>
+                                {this.props.availableProperties.map(x =>
                                     <Grid.Column className="filter">
                                         <Filter
                                             properties={x}
@@ -147,7 +150,11 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
                                                     [...newState.filterOptions.filter(
                                                         opt => opt.propertyId !== x.propertyId
                                                     ),
-                                                    {propertyId: x.propertyId, property: x.property, values: y}];
+                                                    {
+                                                        propertyId: x.propertyId,
+                                                        propertyName: x.propertyName,
+                                                        values: y
+                                                    }];
                                                 this.setState(newState, () => this.filterProducts());
                                             }}/>
                                     </Grid.Column>)}
@@ -174,7 +181,7 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
                         lastItem={{ content: <Icon name="angle double right" />, icon: true }}
                         prevItem={{ content: <Icon name="angle left" />, icon: true }}
                         nextItem={{ content: <Icon name="angle right" />, icon: true }}
-                        totalPages={100}
+                        totalPages={Math.ceil(this.props.totalProductCount / PRODUCTS_PER_PAGE)}
                     />
                 </div>
         );
