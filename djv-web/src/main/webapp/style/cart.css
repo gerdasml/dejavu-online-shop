@@ -106,11 +106,15 @@
 }
 
 .ui.positive.button, .ui.positive.buttons .button {
-    background-color: #ffce2b;
-    color: #393d40;
+    background-color: #ffce2b!important;
+    color: #393d40!important;
 }
 
 .ui.positive.button:hover, .ui.positive.buttons .button:hover {
-    background-color: #ffebba;
-    color: #393d40;
+    background-color: #ffebba!important;
+    color: #393d40!important;
+}
+
+.paymentInputContainer {
+    text-align: center;
 }
