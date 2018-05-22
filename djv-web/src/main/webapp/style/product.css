@@ -49,3 +49,23 @@
 .image-gallery-right-nav:hover:before {
     color: #ffce2b!important;
 }
+
+.product-name {
+    color: #393d40;
+    font-weight: bold;
+}
+
+#oldPrice{
+    padding-left: 2em;
+    color: #9b9999;
+}
+
+.normal-price-tag {
+    background-color: #393d40!important;
+    color: #FFE693!important;
+}
+
+.discount-tag {
+    background-color: #ffce2b!important;
+    color: #393d40!important;
+}
