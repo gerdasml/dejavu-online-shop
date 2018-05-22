@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lt.dejavu.product.dto.discount.ProductDiscountDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -27,4 +28,5 @@ public class ProductDto {
     private LocalDateTime creationDate;
     private Long categoryId;
     private Set<ProductPropertyDto> properties;
+    private ProductDiscountDto discount;
 }
