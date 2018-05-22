@@ -84,4 +84,15 @@ public class ProductRepositoryImpl implements ProductRepository {
     public void updateProduct(Product product) {
         em.merge(product);
     }
+
+    @Override
+    public void reassignProductsToParent(Category oldCategory) {
+        Category parent = oldCategory.getParentCategory();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaUpdate<Product> updateQuery = cb.createCriteriaUpdate(Product.class);
+        Root<Product> productRoot = updateQuery.from(Product.class);
+        updateQuery.set(Product_.category, parent);
+        updateQuery.where(cb.equal(productRoot.get(Product_.category), oldCategory));
+        em.createQuery(updateQuery).executeUpdate();
+    }
 }

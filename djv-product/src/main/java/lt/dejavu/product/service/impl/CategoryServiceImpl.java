@@ -8,6 +8,7 @@ import lt.dejavu.product.exception.IllegalRequestDataException;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.repository.ProductPropertyRepository;
+import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.product.service.CategoryService;
 import lt.dejavu.product.strategy.IdentifierGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,17 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
     private final CategoryDtoMapper categoryDtoMapper;
     private final ProductPropertyRepository productPropertyRepository;
     private final IdentifierGenerator<Category> categoryIdentifierGenerator;
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryDtoMapper categoryDtoMapper, ProductPropertyRepository productPropertyRepository, IdentifierGenerator<Category> categoryIdentifierGenerator) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ProductRepository productRepository,
+                               CategoryDtoMapper categoryDtoMapper, ProductPropertyRepository productPropertyRepository,
+                               IdentifierGenerator<Category> categoryIdentifierGenerator) {
         this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
         this.categoryDtoMapper = categoryDtoMapper;
         this.productPropertyRepository = productPropertyRepository;
         this.categoryIdentifierGenerator = categoryIdentifierGenerator;
@@ -82,6 +87,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteCategory(long categoryId) {
         Category category = getCategoryIfExist(categoryId);
+        productRepository.reassignProductsToParent(category);
+        categoryRepository.reassignCategoriesToParent(category);
         categoryRepository.deleteCategory(category);
     }
 
