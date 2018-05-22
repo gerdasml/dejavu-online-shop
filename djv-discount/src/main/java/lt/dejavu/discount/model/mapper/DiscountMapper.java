@@ -27,6 +27,20 @@ public class DiscountMapper {
         this.categoryMapper = categoryMapper;
     }
 
+    public ProductDiscount mapToProductDiscount (Discount discount) {
+        if (discount == null) {
+            return null;
+        }
+        ProductDiscount productDiscount = new ProductDiscount();
+        productDiscount.setActiveFrom(discount.getActiveFrom());
+        productDiscount.setActiveTo(discount.getActiveTo());
+        productDiscount.setId(discount.getId());
+        productDiscount.setType(discount.getType());
+        productDiscount.setValue(discount.getValue());
+
+        return productDiscount;
+    }
+
     public Discount mapToDiscount(DiscountDto dto) {
         Discount discount;
         switch (dto.getTargetType()) {
