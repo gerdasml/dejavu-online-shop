@@ -20,12 +20,13 @@ import "../../../../style/filter.css";
 interface ProductContainerProps {
     products: Product[];
     category?: Category;
+    onPageChange: (pageNumber: number) => void;
+    activePage: number;
 }
 
 interface ProductContainerState {
     isLoading: boolean;
     cart?: Cart;
-    activePage: number;
     properties?: ProductFilter[];
     filterOptions: Map<string, string[]>;
     filteredProducts: Product[];
@@ -39,7 +40,6 @@ const PRODUCTS_PER_PAGE = 20;
 export class ProductContainer extends React.Component <ProductContainerProps, ProductContainerState> {
     state: ProductContainerState = {
         isFilterExpanded: false,
-        activePage: 1,
         isLoading: true,
         filterOptions: new Map<string, string[]>(),
         filteredProducts: this.props.products,
@@ -50,7 +50,6 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
     componentWillReceiveProps (props: ProductContainerProps) {
         this.setState({
             isFilterExpanded: false,
-            activePage: 1,
             isLoading: true,
             filterOptions: new Map<string, string[]>(),
             filteredProducts: props.products,
@@ -87,18 +86,6 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
         }
     }
 
-    mapProducts () {
-        const start = (this.state.activePage-1)*PRODUCTS_PER_PAGE;
-        const end = start+PRODUCTS_PER_PAGE;
-        return this.state.filteredProducts.slice(start,end).map( (x, i) =>
-            <ProductCard
-            key={i}
-            product={x}
-            onProductAddToCart={this.addProductToCart.bind(this)}
-            />
-        );
-    }
-
     filterProducts () {
         const newState = this.state;
         const prop = transform(newState.filterOptions);
@@ -107,7 +94,7 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
                     .add(priceInRange(this.state.minPrice, this.state.maxPrice))
                     .apply(this.props.products);
         newState.filteredProducts = result;
-        newState.activePage = 1;
+        //newState.activePage = 1;
         this.setState(newState);
     }
 
@@ -119,7 +106,7 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
         }
     }
 
-    handlePaginationChange = (e: any, x: any) => this.setState({ ...this.state, activePage: x.activePage });
+    handlePaginationChange = (e: any, x: any) => this.props.onPageChange(x.activePage);
 
     render () {
         const properties = getProperties(this.props.category, this.props.products);
@@ -173,18 +160,24 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
                     : ""
                     }
                     <Card.Group itemsPerRow={5} doubling>
-                        {this.mapProducts()}
+                        {this.props.products.map((x, i) =>
+                            <ProductCard
+                            key={i}
+                            product={x}
+                            onProductAddToCart={this.addProductToCart.bind(this)}
+                            />
+                        )}
                     </Card.Group>
                     <Pagination
                         floated="left"
-                        activePage={this.state.activePage}
+                        activePage={this.props.activePage}
                         onPageChange={this.handlePaginationChange}
                         ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
                         firstItem={{ content: <Icon name="angle double left" />, icon: true }}
                         lastItem={{ content: <Icon name="angle double right" />, icon: true }}
                         prevItem={{ content: <Icon name="angle left" />, icon: true }}
                         nextItem={{ content: <Icon name="angle right" />, icon: true }}
-                        totalPages={Math.ceil(this.props.products.length/PRODUCTS_PER_PAGE)}
+                        totalPages={100}
                     />
                 </div>
         );
