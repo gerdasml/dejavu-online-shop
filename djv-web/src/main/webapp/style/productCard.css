@@ -1,6 +1,10 @@
-#priceHeader{
-    padding-top: 10%;
-    color: #f1f1f1;
+.priceHeader{
+    padding-top: 10%!important;
+    color: #f1f1f1!important;
+}
+
+.priceHeader *{
+    color: #8E8E8E!important;
 }
 
 .card-header {

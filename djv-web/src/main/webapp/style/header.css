@@ -60,6 +60,7 @@
 #logoHeaderColumn svg {
     fill: #ffe693; /* TODO: change color */
     cursor: pointer;
+    max-width: 100%;
 }
 
 #logoHeaderColumn svg:hover {

@@ -26,22 +26,20 @@ export const ProductCard = (props: ProductCardProps) => (
         ?
             <Image src={props.product.mainImageUrl}
                 label={{
+                className: "discount-ribbon",
                 as: "a",
-                color: "orange",
                 ribbon: "right",
                 size: "large",
-                icon: "percent",
-                content: props.product.discount.value
+                content: "- "+props.product.discount.value+"%"
                 }} />
         :
         <Image src={props.product.mainImageUrl}
             label={{
+            className: "discount-ribbon",
             as: "a",
-            color: "orange",
             ribbon: "right",
             size: "large",
-            icon: "euro",
-            content: "- " + props.product.discount.value
+            content: "- " + props.product.discount.value+"€"
             }} />
 
         }
@@ -55,9 +53,11 @@ export const ProductCard = (props: ProductCardProps) => (
                 <Grid.Column>
                     {isNullOrUndefined(props.product.discount)
                     ?
-                        <Header as="h3" id="priceHeader">{props.product.price}€</Header>
+                        <Header as="h3" className="priceHeader">{props.product.price}€
+                        <Header.Subheader style={{visibility: "hidden"}} as="del" content="."/>
+                        </Header>
                         :
-                        <Header as="h3">{props.product.discount.finalPrice}€
+                        <Header as="h3" className="priceHeader">{props.product.discount.finalPrice}€
                             <Header.Subheader as="del" content={props.product.price + "€"} />
                         </Header>
                     }

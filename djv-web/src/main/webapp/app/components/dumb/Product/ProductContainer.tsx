@@ -17,6 +17,7 @@ import * as CartManager from "../../../utils/cart";
 
 import "../../../../style/filter.css";
 import "../../../../style/style.css";
+import { products } from "../../../data/products";
 
 interface ProductContainerProps {
     products: Product[];
@@ -91,7 +92,7 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
     mapProducts () {
         const start = (this.state.activePage-1)*PRODUCTS_PER_PAGE;
         const end = start+PRODUCTS_PER_PAGE+1;
-        return this.state.filteredProducts.slice(start,end).map( (x, i) =>
+        return [products[0], ...this.state.filteredProducts].slice(start,end).map( (x, i) =>
             <ProductCard
             key={i}
             product={x}
