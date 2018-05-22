@@ -19,7 +19,7 @@ interface ImageCropperProps {
 }
 
 export class ImageCropper extends React.Component<ImageCropperProps, ImageCropperState> {
-    cropper: Cropper;
+    cropper: any;
     constructor (props: ImageCropperProps) {
         super(props);
         this.state = {
