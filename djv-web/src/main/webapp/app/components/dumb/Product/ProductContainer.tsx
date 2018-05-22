@@ -20,8 +20,8 @@ import { ProductProperties } from "../../../model/ProductProperties";
 
 interface ProductContainerProps {
     totalProductCount: number;
-    minPrice: number;
-    maxPrice: number;
+    minPrice?: number;
+    maxPrice?: number;
     availableProperties?: PropertySummary[];
     products: Product[];
     category?: Category;
