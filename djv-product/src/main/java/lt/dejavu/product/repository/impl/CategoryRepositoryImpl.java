@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.*;
+import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -114,5 +115,29 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         countQuery.where(cb.equal(root.get(Product_.category).get(Category_.id), idParameter));
 
         return em.createQuery(countQuery).setParameter(idParameter, categoryId).getSingleResult();
+    }
+
+    @Override
+    public BigDecimal getMinimumProductPrice(long categoryId) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<BigDecimal> query = cb.createQuery(BigDecimal.class);
+        Root<Product> root = query.from(Product.class);
+        query.select(cb.min(root.get(Product_.price)));
+        ParameterExpression<Long> idParameter = cb.parameter(Long.class);
+        query.where(cb.equal(root.get(Product_.category).get(Category_.id), idParameter));
+
+        return em.createQuery(query).setParameter(idParameter, categoryId).getSingleResult();
+    }
+
+    @Override
+    public BigDecimal getMaximumProductPrice(long categoryId) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<BigDecimal> query = cb.createQuery(BigDecimal.class);
+        Root<Product> root = query.from(Product.class);
+        query.select(cb.max(root.get(Product_.price)));
+        ParameterExpression<Long> idParameter = cb.parameter(Long.class);
+        query.where(cb.equal(root.get(Product_.category).get(Category_.id), idParameter));
+
+        return em.createQuery(query).setParameter(idParameter, categoryId).getSingleResult();
     }
 }

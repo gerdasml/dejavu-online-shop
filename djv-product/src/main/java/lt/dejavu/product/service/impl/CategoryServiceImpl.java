@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -96,10 +97,14 @@ public class CategoryServiceImpl implements CategoryService {
         getCategoryIfExist(categoryId);
         List<PropertySummaryDto> summaries = getPropertySummaries(categoryId);
         Long productCount = categoryRepository.getProductCount(categoryId);
+        BigDecimal minPrice = categoryRepository.getMinimumProductPrice(categoryId);
+        BigDecimal maxPrice = categoryRepository.getMaximumProductPrice(categoryId);
 
         CategoryInfoDto info = new CategoryInfoDto();
         info.setAvailableProperties(summaries);
         info.setProductCount(productCount);
+        info.setMaxPrice(maxPrice);
+        info.setMinPrice(minPrice);
 
         return info;
     }
