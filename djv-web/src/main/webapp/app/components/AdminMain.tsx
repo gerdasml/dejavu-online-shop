@@ -94,7 +94,8 @@ export class AdminMain extends React.Component<{},AdminMainState> {
                         <Route path="/admin/imports/:jobId" component={ImportJob} />
                         <Route path="/admin/imports/" component={ImportJobs} />
                         <Route path="/admin/discounts/" component={Discounts} />
-                        <Route path="/admin/discount/create" component={DiscountEditor} />
+                        <Route path="/admin/discount/create" component={CreateDiscount} />
+                        <Route path="/admin/discount/:id" component={SingleDiscount} />
                         <Route path="/" component={Admin} />
                         <Route component={NotFound} />
                     </Switch>

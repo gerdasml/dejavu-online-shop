@@ -32,15 +32,15 @@ export class Discounts extends React.Component <{}, DiscountsState> {
         });
     }
 
-    async handleDelete (id: number, targetType: DiscountTarget) {
-        // const deleteResponse = await api.discount.deleteDiscount(id, targetType);
+    async handleDelete (id: number) {
+        // const deleteResponse = await api.discount.deleteDiscount(id);
         // if(api.isError(deleteResponse)) {
         //     notification.error({message: "Failed to fetch category data", description: deleteResponse.message});
         //     return;
         // }
         this.setState({
             ...this.state,
-            discounts: this.state.discounts.filter(d => (d.id !== id && d.targetType !== targetType)),
+            discounts: this.state.discounts.filter(d => (d.id !== id)),
         });
     }
 
@@ -54,7 +54,7 @@ export class Discounts extends React.Component <{}, DiscountsState> {
                 </ButtonGroup>
                 <DiscountsTable
                     discounts={this.state.discounts}
-                    onDelete={(id: number, targetType: DiscountTarget) => this.handleDelete(id, targetType)}
+                    onDelete={(id: number) => this.handleDelete(id)}
                 />
             </Spin>
         );

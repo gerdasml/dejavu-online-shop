@@ -5,12 +5,17 @@ import { Dropdown, Button, Icon, Menu, DatePicker, InputNumber, notification } f
 import * as api from "../../../../api";
 
 import { RangePickerValue } from "antd/lib/date-picker/interface";
-import { ProductDropdown } from "../product/ProductDropdown";
+import { CategoryDropdown } from "../product/CategoryDropdown";
 import { Category } from "../../../../model/Category";
 import { CategoryTree } from "../../../../model/CategoryTree";
 import { timingSafeEqual } from "crypto";
 import { Product } from "../../../../model/Product";
-import { DiscountTarget, DiscountType } from "../../../../model/Discount";
+import { DiscountTarget, DiscountType, Discount } from "../../../../model/Discount";
+
+interface DiscountEditorProps {
+    discount?: Discount;
+    onSubmit?: () => void;
+}
 
 interface DiscountEditorState {
     discountTarget?: DiscountTarget;
@@ -23,7 +28,7 @@ interface DiscountEditorState {
     products: Product[];
 }
 
-export class DiscountEditor extends React.Component <{}, DiscountEditorState> {
+export class DiscountEditor extends React.Component <DiscountEditorProps, DiscountEditorState> {
     state: DiscountEditorState = {
         categories: [],
         discountTarget: undefined,
@@ -59,10 +64,20 @@ export class DiscountEditor extends React.Component <{}, DiscountEditorState> {
         });
     }
 
+    componentWillReceiveProps (props: DiscountEditorProps) {
+        const newState = this.state;
+        newState.discountTarget = props.discount.targetType;
+        newState.discountType = props.discount.type;
+        newState.dateStart = props.discount.activeFrom.toLocaleDateString();
+        newState.dateEnd = props.discount.activeTo.toLocaleDateString();
+        newState.discountValue = props.discount.value;
+        this.setState(newState);
+    }
+
     async getProductsForCategory (category: number) {
         const categoryProducts = await api.product.getProductsByCategory(category);
         if(api.isError(categoryProducts)) {
-            notification.error({message: "Failed to fetch category data", description: categoryProducts.message});
+            notification.error({message: "Failed to fetch products data", description: categoryProducts.message});
             return;
         }
         this.setState({
@@ -153,7 +168,7 @@ export class DiscountEditor extends React.Component <{}, DiscountEditorState> {
                 :
                 this.state.discountTarget === DiscountTarget.CATEGORY
                 ?
-                <ProductDropdown
+                <CategoryDropdown
                     selected={this.state.category}
                     categories={this.state.categories}
                     onChange={newCategory => this.setState({
@@ -165,7 +180,7 @@ export class DiscountEditor extends React.Component <{}, DiscountEditorState> {
                 :
                 this.state.discountTarget === DiscountTarget.PRODUCT
                 ?
-                [<ProductDropdown
+                [<CategoryDropdown
                     selected={this.state.category}
                     categories={this.state.categories}
                     onChange={newCategory => this.getProductsForCategory(newCategory)}

@@ -1,14 +1,15 @@
 // tslint:disable:max-classes-per-file
 import * as React from "react";
 import { Discount, DiscountTarget, DiscountType } from "../../../../model/Discount";
-import { Table } from "antd";
+import { Table, Button, Popconfirm } from "antd";
 import { WithKey } from "../../../../utils/table";
+import { NavLink } from "react-router-dom";
 
 type DiscountRecord = Discount & WithKey;
 
 interface DiscountsTableProps {
     discounts: Discount[];
-    onDelete: (id: number, targetType: DiscountTarget) => void;
+    onDelete: (id: number) => void;
 }
 
 class DiscountRecordTable extends Table<DiscountRecord> {}
@@ -24,10 +25,10 @@ const getTargetName = (record: DiscountRecord) => {
 
 const showAmount = (record: DiscountRecord) => {
     if(record.type === DiscountType.ABSOLUTE) {
-        const absoluteAmount = record.amount + "€";
+        const absoluteAmount = record.value + "€";
         return absoluteAmount;
     }
-    const percentageAmount = record.amount + "%";
+    const percentageAmount = record.value + "%";
     return percentageAmount;
 };
 
@@ -60,18 +61,17 @@ export const DiscountsTable = (props: DiscountsTableProps) => (
         <DiscountRecordColumn
             key = "period"
             title = "Period"
-            render={(_, record) => (record.dateStart + " ~ " + record.dateEnd)}
+            render={(_, record) => (record.activeFrom + " ~ " + record.activeTo)}
         />
-        // TODO: FINISHED HERE ( and create adminMain.tsx extra rout for editing)
-        {/* <DiscountRecordColumn
+        <DiscountRecordColumn
             key = "editRemove"
             render={(_, record) =>
                 <div>
-                    <NavLink to={`/admin/product/${record.id}`}>
+                    <NavLink to={`/admin/discount/${record.id}`}>
                         <Button icon="edit"/>
                     </NavLink>
                     <Popconfirm
-                        title="Are you sure you want to delete this product?"
+                        title="Are you sure you want to delete this discount?"
                         cancelText="No"
                         okText="Yes"
                         onConfirm={() => props.onDelete(record.id)}>
@@ -79,6 +79,6 @@ export const DiscountsTable = (props: DiscountsTableProps) => (
                     </Popconfirm>
                 </div>
             }
-        /> */}
+        />
     </DiscountRecordTable>
 );
