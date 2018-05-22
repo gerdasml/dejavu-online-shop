@@ -30,7 +30,7 @@
     background-color: #393d40;
 }
 #stepGroup .link.step.active * {
-    color: #ffce2b;
+    color: #ffe693;
 }
 
 #stepGroup .link.step * {
@@ -70,6 +70,11 @@
     margin-right:5%;
 }
 
+#addressForm {
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
 #editIcon{
     margin-left: 1%;
 }
@@ -81,4 +86,31 @@
 #approval .approvalText{
     text-align: center;
     margin-top: 5%;
+}
+
+#order-table-father {
+    margin-top: 15px;
+}
+
+#order-table th{
+    color: #ffe693;
+    background-color: #393d40;
+}
+
+.cart-total {
+    font-weight: bold;
+}
+
+.remove-button {
+    background-color: #F87060!important;
+}
+
+.ui.positive.button, .ui.positive.buttons .button {
+    background-color: #ffce2b;
+    color: #393d40;
+}
+
+.ui.positive.button:hover, .ui.positive.buttons .button:hover {
+    background-color: #ffebba;
+    color: #393d40;
 }
