@@ -1,7 +1,6 @@
 package lt.dejavu.product.repository.impl;
 
-import lt.dejavu.product.model.Category;
-import lt.dejavu.product.model.Category_;
+import lt.dejavu.product.model.*;
 import lt.dejavu.product.repository.CategoryRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,5 +89,30 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         root.fetch(Category_.parentCategory, JoinType.LEFT);
         return new LinkedHashSet<>(em.createQuery(query).getResultList());
 
+    }
+
+    @Override
+    public List<ProductProperty> getProductPropertiesForCategory(long categoryId) {
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<ProductProperty> query = cb.createQuery(ProductProperty.class);
+        Root<ProductProperty> root = query.from(ProductProperty.class);
+
+        ParameterExpression<Long> idParameter = cb.parameter(Long.class);
+        query.where(cb.equal(root.get(ProductProperty_.categoryProperty).get(CategoryProperty_.category).get(Category_.id), idParameter));
+
+        return em.createQuery(query).setParameter(idParameter, categoryId).getResultList();
+    }
+
+    @Override
+    public long getProductCount(long categoryId) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<Product> root = countQuery.from(Product.class);
+        countQuery.select(cb.count(root));
+        ParameterExpression<Long> idParameter = cb.parameter(Long.class);
+        countQuery.where(cb.equal(root.get(Product_.category).get(Category_.id), idParameter));
+
+        return em.createQuery(countQuery).setParameter(idParameter, categoryId).getSingleResult();
     }
 }

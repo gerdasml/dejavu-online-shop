@@ -3,6 +3,7 @@ package lt.dejavu.product.api;
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.product.dto.CategoryDto;
+import lt.dejavu.product.dto.CategoryInfoDto;
 import lt.dejavu.product.dto.CategoryTreeResponse;
 import lt.dejavu.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,11 @@ public class CategoryApi {
     )
     public CategoryDto getCategoryByIdentifier(@RequestParam("identifier") String identifier) {
         return categoryService.getCategoryByIdentifier(identifier);
+    }
+
+    @GetMapping("/{id}/info")
+    public CategoryInfoDto getCategoryPropertySummaries(@PathVariable("id") Long categoryId) {
+        return categoryService.getCategoryInfo(categoryId);
     }
 
     @GetMapping(
