@@ -13,7 +13,7 @@ export enum DiscountType {
 }
 
 export interface Discount {
-    id: number;
+    id?: number;
     targetType: DiscountTarget;
     target?: Product | Category;
     type: DiscountType;

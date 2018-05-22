@@ -6,6 +6,7 @@ import * as api from "../../../../api";
 
 import { RangePickerValue } from "antd/lib/date-picker/interface";
 import { CategoryDropdown } from "../product/CategoryDropdown";
+import { DiscountProductsTable } from "./DiscountProductsTable";
 import { Category } from "../../../../model/Category";
 import { CategoryTree } from "../../../../model/CategoryTree";
 import { timingSafeEqual } from "crypto";
@@ -26,6 +27,7 @@ interface DiscountEditorState {
     categories: CategoryTree[];
     category?: number;
     products: Product[];
+    product?: Product;
 }
 
 export class DiscountEditor extends React.Component <DiscountEditorProps, DiscountEditorState> {
@@ -68,8 +70,9 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
         const newState = this.state;
         newState.discountTarget = props.discount.targetType;
         newState.discountType = props.discount.type;
-        newState.dateStart = props.discount.activeFrom.toLocaleDateString();
-        newState.dateEnd = props.discount.activeTo.toLocaleDateString();
+        // TODO strings still not like they should be
+        newState.dateStart = (new Date (Date.parse(props.discount.activeFrom.toString())).toLocaleDateString());
+        newState.dateEnd = (new Date (Date.parse(props.discount.activeTo.toString())).toLocaleDateString());
         newState.discountValue = props.discount.value;
         this.setState(newState);
     }
@@ -112,6 +115,63 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
             dateStart: dateString[0],
             dateEnd: dateString[1],
         });
+    }
+
+    async handleSave () {
+        const newDiscountTargetType = this.state.discountTarget;
+        const newDiscountType = this.state.discountType;
+        const newDiscountValue = this.state.discountValue;
+        const newDiscountDateStart = new Date (Date.parse(this.state.dateStart));
+        const newDiscountDateEnd = new Date (Date.parse(this.state.dateStart));
+
+        let newDiscountTarget;
+        if(newDiscountTargetType === DiscountTarget.CATEGORY) {
+            const response = await api.category.getCategory(this.state.category);
+            if (api.isError(response)) {
+                notification.error({message: "Failed to fetch category data", description: response.message});
+                return;
+            }
+            newDiscountTarget = response;
+        } else if (newDiscountTargetType === DiscountTarget.PRODUCT) {
+            newDiscountTarget = this.state.product;
+        }
+
+        let newDiscount;
+        if(newDiscountTarget === undefined) {
+            newDiscount = {
+                targetType: newDiscountTargetType,
+                type: newDiscountType,
+                value: newDiscountValue,
+                activeFrom: newDiscountDateStart,
+                activeTo: newDiscountDateEnd,
+            };
+        } else {
+            newDiscount = {
+                targetType: newDiscountTargetType,
+                type: newDiscountType,
+                value: newDiscountValue,
+                target: newDiscountTarget,
+                activeFrom: newDiscountDateStart,
+                activeTo: newDiscountDateEnd,
+            };
+        }
+
+        if(this.props.discount === undefined) {
+            const response = await api.discount.addDiscount(newDiscount);
+            // TODO doesn't work, find out why.
+            if(api.isError(response)) {
+                notification.error({message: "Failed to create new discount", description: response.message});
+                return;
+            }
+        } else {
+            // TODO doesn't work, find out why.
+            const response = await api.discount.updateDiscount(this.props.discount.id,newDiscount);
+            if(api.isError(response)) {
+                notification.error({message: "Failed to edit this discount", description: response.message});
+                return;
+            }
+        }
+        // TODO redirect somewhere else
     }
 
     render () {
@@ -182,10 +242,18 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                     categories={this.state.categories}
                     onChange={newCategory => this.getProductsForCategory(newCategory)}
                 />,
-                <div></div>]
+                <DiscountProductsTable
+                    products={this.state.products}
+                    onSelect={selectedProduct => this.setState({...this.state, product: selectedProduct})}
+                />
+                ]
                 :
                 ""
                 }
+                <br/>
+                <Button onClick={this.handleSave.bind(this)}>
+                    Save
+                </Button>
             </div>
         );
     }
