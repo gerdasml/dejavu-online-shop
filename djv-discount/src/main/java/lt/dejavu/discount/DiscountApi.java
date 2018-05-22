@@ -20,12 +20,6 @@ public class DiscountApi {
     private DiscountService discountService;
 
     @Autowired
-    private ProductService productService;
-
-    @Autowired
-    private CategoryService categoryService;
-
-    @Autowired
     private SecurityService securityService;
 
     @GetMapping("/")
@@ -45,11 +39,11 @@ public class DiscountApi {
     }
 
     @PostMapping("/")
-    public void addDiscount(HttpServletRequest request,
+    public long addDiscount(HttpServletRequest request,
                             @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
                             @RequestBody DiscountDto discount) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
-        discountService.addDiscount(discount);
+        return discountService.addDiscount(discount);
     }
 
     @PutMapping("/{id}")

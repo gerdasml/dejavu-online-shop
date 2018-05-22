@@ -10,7 +10,7 @@ public interface DiscountService {
 
     DiscountDto getDiscountById(long id);
 
-    void addDiscount(DiscountDto discount);
+    long addDiscount(DiscountDto discount);
 
     void updateDiscount(long id, DiscountDto newDiscount);
 

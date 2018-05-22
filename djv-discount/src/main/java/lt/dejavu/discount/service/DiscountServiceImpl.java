@@ -56,9 +56,11 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public void addDiscount(DiscountDto discount) {
+    public long addDiscount(DiscountDto discount) {
         validateTarget(discount);
-        discountRepository.addDiscount(discountMapper.mapToDiscount(discount));
+        Discount dbDiscount = discountMapper.mapToDiscount(discount);
+        discountRepository.addDiscount(dbDiscount);
+        return dbDiscount.getId();
     }
 
     @Override
