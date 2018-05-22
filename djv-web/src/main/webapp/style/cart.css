@@ -26,8 +26,19 @@
     padding: 0%;
 }
 
-#stepGroup{
-    margin-top: 2%;
+#stepGroup .link.step.active, #stepGroup .link.step.active::after {
+    background-color: #393d40;
+}
+#stepGroup .link.step.active * {
+    color: #ffce2b;
+}
+
+#stepGroup .link.step * {
+    color: #393d40;
+}
+
+#stepGroup .link.step.disabled * {
+    color: #8e8e8e;
 }
 
 .trashIcon{
