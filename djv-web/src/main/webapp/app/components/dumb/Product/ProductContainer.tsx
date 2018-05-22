@@ -32,7 +32,6 @@ interface ProductContainerState {
     isLoading: boolean;
     cart?: Cart;
     filterOptions: PropertySummary[];
-    filteredProducts: Product[];
     isFilterExpanded: boolean;
     minPrice: number;
     maxPrice: number;
@@ -45,7 +44,6 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
         isFilterExpanded: false,
         isLoading: true,
         filterOptions: [],
-        filteredProducts: this.props.products,
         minPrice: getMin(this.props.products),
         maxPrice: getMax(this.props.products)
     };
@@ -55,7 +53,6 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
             isFilterExpanded: false,
             isLoading: true,
             filterOptions: [],
-            filteredProducts: props.products,
             minPrice: getMin(props.products),
             maxPrice: getMax(props.products)
         });
