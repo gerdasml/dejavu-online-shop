@@ -21,8 +21,17 @@ export const getProductByIdentifier = (identifier: string): Promise<ApiResponse<
 export const searchForProducts = (req: ProductSearchRequest): Promise<ApiResponse<Product[]>> =>
     fetchData(PATH_PREFIX + "/category", HttpMethod.POST, req);
 
-export const getAllProducts = (): Promise<ApiResponse<Product[]>> =>
-    fetchData(PATH_PREFIX + "/", HttpMethod.GET);
+export const getAllProducts = (offset?: number, limit?: number): Promise<ApiResponse<Product[]>> => {
+    let path = PATH_PREFIX + "/";
+    if (offset !== undefined && limit !== undefined) {
+        path += `?offset=${offset}&limit=${limit}`;
+    } else if (offset !== undefined) {
+        path += `?offset=${offset}`;
+    } else if(limit !== undefined) {
+        path += `?limit=${limit}`;
+    }
+    return fetchData(path, HttpMethod.GET);
+};
 
 export const createProduct = (product: Product): Promise<ApiResponse<number>> =>
     fetchData(PATH_PREFIX + "/", HttpMethod.POST, product);

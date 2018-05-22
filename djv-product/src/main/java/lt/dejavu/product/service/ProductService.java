@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface ProductService {
     ProductDto getProduct(long id);
 
-    List<ProductDto> getAllProducts();
+    List<ProductDto> getAllProducts(Long limit, Long offset);
 
     ProductDto getProduct(String identifier);
 

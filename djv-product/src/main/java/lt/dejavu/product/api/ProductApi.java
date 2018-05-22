@@ -38,8 +38,9 @@ public class ProductApi {
             path = "/",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<ProductDto> getAllProducts() {
-        return productService.getAllProducts();
+    public List<ProductDto> getAllProducts(@RequestParam(value="offset", required=false) Long offset,
+                                           @RequestParam(value="limit", required=false) Long limit) {
+        return productService.getAllProducts(limit, offset);
     }
 
     @GetMapping(

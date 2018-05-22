@@ -30,6 +30,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import java.io.ByteArrayOutputStream;
@@ -71,8 +72,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getAllProducts() {
+    public List<ProductDto> getAllProducts(Long limit, Long offset) {
         List<ProductDto> products = productDtoMapper.mapToDto(productRepository.getAllProducts());
+        if (limit == null) {
+            limit = Long.MAX_VALUE;
+        }
+        if (offset == null) {
+            offset = 0L;
+        }
+        products = products.stream().skip(offset).limit(limit).collect(toList());
         enrichProductsWithDiscount(products);
         return products;
     }
