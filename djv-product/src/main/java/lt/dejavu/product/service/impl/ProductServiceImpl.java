@@ -38,9 +38,6 @@ import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-
-    //TODO single responsabilty?
-
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductDtoMapper productDtoMapper;

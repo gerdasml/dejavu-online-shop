@@ -21,4 +21,6 @@ public interface CategoryRepository {
     void deleteCategory(Category category);
 
     Set<Category> getAllCategories();
+
+    void reassignCategoriesToParent(Category oldCategory);
 }

@@ -6,6 +6,7 @@ import lt.dejavu.product.dto.CategoryTreeResponse;
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.CategoryProperty;
 import lt.dejavu.utils.collections.UpdatableCollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -84,6 +85,9 @@ public class CategoryDtoMapper {
     }
 
     private Set<CategoryProperty> mapToProperties(Collection<CategoryPropertyDto> categoryPropertyDtos, Category category) {
+        if (CollectionUtils.isEmpty(categoryPropertyDtos)) {
+            return new LinkedHashSet<>();
+        }
         return categoryPropertyDtos.stream()
                 .map(request -> {
                     CategoryProperty property = new CategoryProperty();
