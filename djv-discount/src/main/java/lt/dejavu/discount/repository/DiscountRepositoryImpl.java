@@ -1,15 +1,18 @@
 package lt.dejavu.discount.repository;
 
-import lt.dejavu.auth.model.db.User;
 import lt.dejavu.discount.model.db.Discount;
 import lt.dejavu.discount.model.db.ProductDiscount;
+import lt.dejavu.discount.model.db.ProductDiscount_;
+import lt.dejavu.product.model.Product_;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
@@ -51,5 +54,17 @@ public class DiscountRepositoryImpl implements DiscountRepository {
         Discount discount = getDiscount(id);
         if (discount == null) return;
         em.remove(discount);
+    }
+
+    @Override
+    public List<ProductDiscount> getProductDiscounts(long productId) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<ProductDiscount> query = cb.createQuery(ProductDiscount.class);
+        Root<ProductDiscount> root = query.from(ProductDiscount.class);
+        Predicate condition = cb.equal(root.get(ProductDiscount_.target).get(Product_.id), productId);
+        query.where(condition);
+        TypedQuery<ProductDiscount> q = em.createQuery(query);
+
+        return q.getResultList();
     }
 }
