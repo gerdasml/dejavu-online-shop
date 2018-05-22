@@ -27,8 +27,7 @@ interface ProductContainerProps {
 interface ProductContainerState {
     isLoading: boolean;
     cart?: Cart;
-    properties?: ProductFilter[];
-    filterOptions: Map<string, string[]>;
+    filterOptions: ProductFilter[];
     filteredProducts: Product[];
     isFilterExpanded: boolean;
     minPrice: number;
@@ -41,7 +40,7 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
     state: ProductContainerState = {
         isFilterExpanded: false,
         isLoading: true,
-        filterOptions: new Map<string, string[]>(),
+        filterOptions: [],
         filteredProducts: this.props.products,
         minPrice: getMin(this.props.products),
         maxPrice: getMax(this.props.products)
@@ -51,7 +50,7 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
         this.setState({
             isFilterExpanded: false,
             isLoading: true,
-            filterOptions: new Map<string, string[]>(),
+            filterOptions: [],
             filteredProducts: props.products,
             minPrice: getMin(props.products),
             maxPrice: getMax(props.products)
@@ -94,6 +93,7 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
                     .add(priceInRange(this.state.minPrice, this.state.maxPrice))
                     .apply(this.props.products);
         newState.filteredProducts = result;
+        console.log(newState.filteredProducts);
         //newState.activePage = 1;
         this.setState(newState);
     }
@@ -150,8 +150,12 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
                                             properties={x}
                                             onSelectChange={y => {
                                                 const newState = this.state;
-                                                newState.filterOptions.set(x.property, y);
-                                                this.setState(newState, ()=> this.filterProducts());
+                                                newState.filterOptions =
+                                                    [...newState.filterOptions.filter(
+                                                        opt => opt.propertyId !== x.propertyId
+                                                    ),
+                                                    {propertyId: x.propertyId, property: x.property, values: y}];
+                                                this.setState(newState, () => this.filterProducts());
                                             }}/>
                                     </Grid.Column>)}
                             </Grid>
