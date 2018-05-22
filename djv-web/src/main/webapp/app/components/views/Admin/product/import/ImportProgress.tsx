@@ -20,7 +20,6 @@ interface ImportProgressState {
     status?: Status;
 }
 
-
 export class ImportProgress extends React.Component<ImportProgressProps, ImportProgressState> {
     state: ImportProgressState = {
         failureCount: 0,

@@ -1,4 +1,4 @@
-export interface CategoryProperties {
+export interface CategoryProperty {
     name: string;
     propertyId: number;
 }
