@@ -92,7 +92,6 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
             ...this.state,
             discountTarget: newDiscountTarget
         });
-        // console.log(this.state.dateStart, this.state.dateEnd);
     }
 
     updateDiscountType (newDiscountType: DiscountType) {
@@ -101,7 +100,6 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
             discountType: newDiscountType,
             discountValue: 0,
         });
-        // console.log(this.state.dateStart, this.state.dateEnd);
     }
 
     DiscountTargetFromString = (val: string) => DiscountTarget[val.toUpperCase() as keyof typeof DiscountTarget];
@@ -109,7 +107,6 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
     DiscountTypeFromString = (val: string) => DiscountType[val.toUpperCase() as keyof typeof DiscountType];
 
     updateDate (date: RangePickerValue, dateString: [string, string]) {
-        // console.log(date, dateString);
         this.setState({
             ...this.state,
             dateStart: dateString[0],

@@ -20,24 +20,24 @@ export class Discounts extends React.Component <{}, DiscountsState> {
     };
 
     async componentWillMount () {
-        // const discounts = await api.discount.getAllDiscounts();
-        // if(api.isError(discounts)) {
-        //     notification.error({message: "Failed to fetch category data", description: discounts.message});
-        //     return;
-        // }
-        const discounts: Discount[] = []; // Temporary solution until backend starts working
+        const discounts = await api.discount.getAllDiscounts();
+        if(api.isError(discounts)) {
+            notification.error({message: "Failed to fetch discounts data", description: discounts.message});
+            return;
+        }
         this.setState({
             ...this.state,
             discounts,
+            isLoading: false,
         });
     }
 
     async handleDelete (id: number) {
-        // const deleteResponse = await api.discount.deleteDiscount(id);
-        // if(api.isError(deleteResponse)) {
-        //     notification.error({message: "Failed to fetch category data", description: deleteResponse.message});
-        //     return;
-        // }
+        const deleteResponse = await api.discount.deleteDiscount(id);
+        if(api.isError(deleteResponse)) {
+            notification.error({message: "Failed to delete discount", description: deleteResponse.message});
+            return;
+        }
         this.setState({
             ...this.state,
             discounts: this.state.discounts.filter(d => (d.id !== id)),

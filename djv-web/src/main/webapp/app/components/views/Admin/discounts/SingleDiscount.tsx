@@ -30,18 +30,10 @@ export class SingleDiscount extends React.Component<RouteComponentProps<SingleDi
     }
 
     async loadData (props: RouteComponentProps<SingleDiscountProps>) {
-        // const response = await api.discount.getDiscount(props.match.params.id);
-        // if (api.isError(response)) {
-        //     notification.error({ message: "Failed to fetch discount data", description: response.message });
-        //     return;
-        // }
-        const response = {
-            id: 1000,
-            targetType: DiscountTarget.EVERYTHING,
-            type: DiscountType.PERCENTAGE,
-            value: 20,
-            activeFrom: new Date(Date.parse("2018-05-22")),
-            activeTo: new Date(Date.parse("2018-05-25")),
+        const response = await api.discount.getDiscount(props.match.params.id);
+        if (api.isError(response)) {
+            notification.error({ message: "Failed to fetch discount data", description: response.message });
+            return;
         }
         this.setState({discount: response});
     }

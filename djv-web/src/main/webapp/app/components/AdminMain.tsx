@@ -21,6 +21,8 @@ import { SingleProduct } from "./views/Admin/product/SingleProduct";
 import { SingleUser } from "./views/Admin/users/SingleUser";
 import { Users } from "./views/Admin/users/Users";
 import { NotFound } from "./views/NotFound";
+import { CreateDiscount } from "./views/Admin/discounts/DiscountCreate";
+import { SingleDiscount } from "./views/Admin/discounts/SingleDiscount";
 
 const isLoggedInAsAdmin = async () => {
     const userResponse = await api.user.getProfile();
