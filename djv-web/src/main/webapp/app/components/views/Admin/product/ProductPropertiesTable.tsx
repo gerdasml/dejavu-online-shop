@@ -31,14 +31,6 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
             this.setState({properties: nextProps.properties.map(addKey)});
         }
     }
-
-    handleAddRow () {
-        const p = this.state.properties;
-        const lastKey = p.length === 0 ? -1 : p[p.length-1].key;
-        const newProp: Property = {propertyId: undefined, name: "", value: "", key: lastKey+1};
-        this.setState({properties: [...p, newProp]});
-        this.updateParent([...p, newProp]);
-    }
     handleRemoveRow (keyToDelete: number) {
         const newProp = this.state.properties.filter(x => x.key !== keyToDelete);
         this.setState({properties: newProp});
@@ -79,7 +71,6 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
                                                     <Icon type="delete" />
                                                 </Button>}/>
                 </PropertiesTable>
-                <Button onClick={this.handleAddRow.bind(this)}>Add new property</Button>
             </div>
         );
     }

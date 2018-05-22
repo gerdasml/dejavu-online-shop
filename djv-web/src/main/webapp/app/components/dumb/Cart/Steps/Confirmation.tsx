@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Icon, List } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 import "../../../../../style/cart.css";
 
 import { Cart as CartModel } from "../../../../model/Cart";

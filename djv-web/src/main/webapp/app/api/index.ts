@@ -5,6 +5,7 @@ import * as image from "./image";
 import * as order from "./order";
 import * as payment from "./payment";
 import * as product from "./product";
+import * as review from "./review";
 import * as user from "./user";
 
 export {
@@ -15,6 +16,7 @@ export {
     order,
     payment,
     product,
+    review,
     user
 };
 

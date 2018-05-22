@@ -42,7 +42,7 @@ interface CartStepHeaderProps {
 
 export const CartStepHeader = (props: CartStepHeaderProps) =>
     (
-        <Step.Group size="mini" id="stepGroup">
+        <Step.Group size="mini" id="stepGroup" widths={5}>
             <StepItem
                 activeStep = {props.active}
                 onStepChange = {props.onStepChange}

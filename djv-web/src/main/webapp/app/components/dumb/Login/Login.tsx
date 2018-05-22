@@ -1,10 +1,11 @@
 import * as React from "react";
-import { Button, Form, Grid, Menu, Message, Modal, Segment } from "semantic-ui-react";
+import { Button, Form, Grid, Menu, Message, Modal, Segment, Icon } from "semantic-ui-react";
 import * as api from "../../../api";
 import { storeToken } from "../../../utils/token";
-import {Register} from "./Register";
+import { Register } from "./Register";
 
 import "../../../../style/login.css";
+import MediaQuery from "react-responsive";
 
 interface LoginState {
     loading: boolean;
@@ -18,7 +19,7 @@ interface LoginProps {
     onLogin: () => void;
 }
 
-export class Login extends React.Component <LoginProps, LoginState> {
+export class Login extends React.Component<LoginProps, LoginState> {
     state = {
         email: "",
         error: "",
@@ -38,20 +39,20 @@ export class Login extends React.Component <LoginProps, LoginState> {
             ...this.state, password: value
         });
     }
-    handleOpen = () => this.setState({...this.state, open: true});
-    handleClose = () => this.setState({...this.state, open: false, error: ""});
+    handleOpen = () => this.setState({ ...this.state, open: true });
+    handleClose = () => this.setState({ ...this.state, open: false, error: "" });
     login = async (): Promise<void> => {
         this.setState({
             ...this.state, loading: true
         });
         const token = await api.auth.login(this.state.email, this.state.password);
-        if(api.isError(token)) {
+        if (api.isError(token)) {
             this.setState({
                 ...this.state, error: token.message, loading: false
             });
             return undefined;
         }
-        if(api.auth.isBanned(token)) {
+        if (api.auth.isBanned(token)) {
             this.setState({
                 ...this.state, error: "You are banned", loading: false
             });
@@ -66,23 +67,36 @@ export class Login extends React.Component <LoginProps, LoginState> {
     }
     render () {
         return (
-            <Modal trigger={<Menu.Item
-                name="log in"
-                onClick={this.handleOpen.bind(this)}
-            />}
-            open={this.state.open}
-            onClose={this.handleClose.bind(this)}
-            >
+            <Modal trigger={
+                <MediaQuery query="(min-width: 500px)">
+                {matches => matches
+                ?
+                <Menu.Item
+                        name="log in"
+                        onClick={this.handleOpen.bind(this)}
+                        />
+                :
+                <Menu.Item
+                        onClick={this.handleOpen.bind(this)}
+                >
+                    <Icon name="sign in"/>
+                </Menu.Item>
+                }
+                </MediaQuery>
+                    }
+                    open={this.state.open}
+                    onClose={this.handleClose.bind(this)}
+                    >
                 <Modal.Content id="loginModal">
-                    <Grid columns={2} divided>
+                    <Grid columns={2} divided stackable>
                         <Grid.Column>
                             <Segment basic>
-                                <h3> Already registered user?<br/>Log in:</h3>
+                                <h3> Already registered user?<br />Log in:</h3>
                                 <Form
                                     loading={this.state.loading}
                                     error={this.state.error !== ""}
                                     onSubmit={this.login.bind(this)}
-                                >
+                                    >
                                     <Form.Field>
                                         <label>Email address</label>
                                         <input
@@ -90,7 +104,7 @@ export class Login extends React.Component <LoginProps, LoginState> {
                                             placeholder="email"
                                             onChange={this.handleEmailInput.bind(this)}
                                             required
-                                        />
+                                            />
                                     </Form.Field>
                                     <Form.Field>
                                         <label>Password</label>
@@ -99,13 +113,13 @@ export class Login extends React.Component <LoginProps, LoginState> {
                                             placeholder="********"
                                             onChange={this.handlePasswordInput.bind(this)}
                                             required
-                                        />
+                                            />
                                     </Form.Field>
                                     <Message
                                         error
                                         header="Login failed"
                                         content={this.state.error}
-                                    />
+                                        />
                                     <Button type="submit">
                                         Log in
                                     </Button>
@@ -114,9 +128,9 @@ export class Login extends React.Component <LoginProps, LoginState> {
                         </Grid.Column>
                         <Grid.Column>
                             <Segment basic>
-                                <h3> Haven't used before?<br/>Sign up:</h3>
+                                <h3> Haven't used before?<br />Sign up:</h3>
                                 <div className="register">
-                                    <Register/>
+                                    <Register />
                                 </div>
                             </Segment>
                         </Grid.Column>

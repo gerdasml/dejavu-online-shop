@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {Button, Icon, Loader, Modal, Pagination, Rating, Table} from "semantic-ui-react";
+import {Button, Icon, Loader, Modal, Pagination, Table} from "semantic-ui-react";
 
 import "../../../../style/profile.css";
 
@@ -8,6 +8,7 @@ import * as api from "../../../api";
 
 import {Order} from "../../../model/Order";
 import {OrderTable} from "../Order/OrderTable";
+import { formatPrice } from "../../../utils/common";
 
 interface OrderHistoryState {
     activePage: number;
@@ -56,7 +57,7 @@ export class OrderHistory extends React.Component<{},OrderHistoryState> {
                     this.parseDate(x.createdDate.toString()).toLocaleDateString()
                 }</Table.Cell>
                 <Table.Cell>{x.status}</Table.Cell>
-                <Table.Cell>{x.total}€</Table.Cell>
+                <Table.Cell>{formatPrice(x.total)}</Table.Cell>
                 <Table.Cell>
                     <Button icon circular onClick={() => this.showOrderTable(x)}>
                         <Icon name="info"/>

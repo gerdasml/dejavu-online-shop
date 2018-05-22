@@ -5,6 +5,7 @@ import {Button, Table} from "semantic-ui-react";
 import { Cart } from "../../../model/Cart";
 import { Order, OrderItem } from "../../../model/Order";
 import { Amount } from "../Cart/Amount";
+import { formatPrice } from "../../../utils/common";
 
 interface OrderTableProps {
     data: Order | Cart;
@@ -33,7 +34,7 @@ export const OrderTable = (props: OrderTableProps) => (
             {props.data.items.map((item,i) => (
                 <Table.Row key={i}>
                     <Table.Cell textAlign="center">{item.product.name}</Table.Cell>
-                    <Table.Cell textAlign="center">{item.product.price}</Table.Cell>
+                    <Table.Cell textAlign="center">{formatPrice(item.product.price)}</Table.Cell>
                     {/* TODO: use price formatting utility*/}
                     <Table.Cell textAlign="center">
                         { props.onAmountChange === undefined
@@ -54,7 +55,7 @@ export const OrderTable = (props: OrderTableProps) => (
                     </Table.Cell>
                     : ""
                     }
-                    <Table.Cell textAlign="center">{item.total}</Table.Cell>
+                    <Table.Cell textAlign="center">{formatPrice(item.total)}</Table.Cell>
                 </Table.Row>
             ))}
             <Table.Row>
@@ -62,7 +63,7 @@ export const OrderTable = (props: OrderTableProps) => (
                 ? <Table.Cell colSpan={4} textAlign="right"><h4>Total:</h4></Table.Cell>
                 : <Table.Cell colSpan={3} textAlign="right"><h4>Total:</h4></Table.Cell>
                 }
-                <Table.Cell textAlign="center">{props.data.total}</Table.Cell>
+                <Table.Cell textAlign="center">{formatPrice(props.data.total)}</Table.Cell>
             </Table.Row>
         </Table.Body>
         : ""

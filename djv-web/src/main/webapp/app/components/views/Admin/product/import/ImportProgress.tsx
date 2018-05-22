@@ -5,6 +5,8 @@ import { Progress, Spin, Tooltip } from "antd";
 import * as api from "../../../../../api";
 import { Status } from "../../../../../model/Product";
 
+const REFRESH_STATUS_INTERVAL = 500;
+
 interface ImportProgressProps {
     jobId: string;
     navigateToJob: () => void;
@@ -17,6 +19,7 @@ interface ImportProgressState {
     error?: string;
     status?: Status;
 }
+
 
 export class ImportProgress extends React.Component<ImportProgressProps, ImportProgressState> {
     state: ImportProgressState = {
@@ -33,7 +36,7 @@ export class ImportProgress extends React.Component<ImportProgressProps, ImportP
                 clearInterval(intervalId);
                 return;
             }
-            if (response.status === Status.FINISHED) {
+            if (response.status === Status.FINISHED || response.status === Status.FAILED) {
                 clearInterval(intervalId);
             }
             this.setState({
@@ -43,7 +46,7 @@ export class ImportProgress extends React.Component<ImportProgressProps, ImportP
                 successCount: response.successCount,
                 total: response.total,
             });
-        }, 100);
+        }, REFRESH_STATUS_INTERVAL);
     }
 
     render () {

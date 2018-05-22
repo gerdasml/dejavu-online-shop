@@ -2,9 +2,8 @@ package lt.dejavu.product.api;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.service.SecurityService;
-import lt.dejavu.product.response.CategoryResponse;
-import lt.dejavu.product.response.CategoryTreeResponse;
-import lt.dejavu.product.model.rest.request.CategoryRequest;
+import lt.dejavu.product.dto.CategoryDto;
+import lt.dejavu.product.dto.CategoryTreeResponse;
 import lt.dejavu.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -28,15 +27,23 @@ public class CategoryApi {
             path = "/{categoryId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public CategoryResponse getCategory(@PathVariable("categoryId") long categoryId) {
+    public CategoryDto getCategory(@PathVariable("categoryId") long categoryId) {
         return categoryService.getCategory(categoryId);
+    }
+
+    @GetMapping(
+            path = "/",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public CategoryDto getCategoryByIdentifier(@RequestParam("identifier") String identifier) {
+        return categoryService.getCategoryByIdentifier(identifier);
     }
 
     @GetMapping(
             path = "/rootCategories",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<CategoryResponse> getRootCategories() {
+    public List<CategoryDto> getRootCategories() {
         return categoryService.getRootCategories();
     }
 
@@ -52,7 +59,7 @@ public class CategoryApi {
             path = "/sub/{categoryId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<CategoryResponse> getSubCategories(@PathVariable("categoryId") long categoryId) {
+    public List<CategoryDto> getSubCategories(@PathVariable("categoryId") long categoryId) {
         return categoryService.getSubCategories(categoryId);
     }
 
@@ -63,7 +70,7 @@ public class CategoryApi {
 
     public Long createCategory(HttpServletRequest request,
                                @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
-                               @RequestBody CategoryRequest categoryRequest) throws ApiSecurityException {
+                               @RequestBody CategoryDto categoryRequest) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         return categoryService.createCategory(categoryRequest);
     }
@@ -75,7 +82,7 @@ public class CategoryApi {
     public void updateCategory(HttpServletRequest request,
                                @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
                                @PathVariable("categoryId") long categoryId,
-                               @RequestBody CategoryRequest categoryRequest) throws ApiSecurityException {
+                               @RequestBody CategoryDto categoryRequest) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
         categoryService.updateCategory(categoryId, categoryRequest);
     }

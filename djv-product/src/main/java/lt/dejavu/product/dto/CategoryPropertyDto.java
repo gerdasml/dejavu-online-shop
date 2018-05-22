@@ -1,12 +1,11 @@
-package lt.dejavu.product.response;
+package lt.dejavu.product.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductPropertyResponse {
+public class CategoryPropertyDto {
     Long propertyId;
     String name;
-    String value;
 }

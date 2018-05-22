@@ -5,13 +5,6 @@ export const stringifyAddress = (addr: Address) =>
     ? `${addr.street}, ${addr.zipCode} ${addr.city}, ${addr.country}`
     : undefined;
 
-export const toUrlFriendlyString = (s: string) =>
-    s
-    ? s.replace(/[^a-z0-9_]+/gi, "-")
-        .replace(/^-|-$/g, "")
-        .toLowerCase()
-    : "";
-
 export const shortenString = (text: string, length: number = 100) => {
     if(text.length <= length) {
         return text;
@@ -22,3 +15,8 @@ export const shortenString = (text: string, length: number = 100) => {
     const completedText = fixedText + "...";
     return completedText;
 };
+
+export const formatPrice = (price: number): string =>
+    price === undefined || isNaN(+price)
+        ? undefined
+        : (+price).toFixed(2) + " €";

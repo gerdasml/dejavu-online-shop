@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { message, notification } from "antd";
-import { Grid, Header, Label, List, Loader} from "semantic-ui-react";
+import { Grid, Header, Icon, Label, List, Loader} from "semantic-ui-react";
 
 import {RouteComponentProps} from "react-router-dom";
 import * as ProductModel from "../../../model/Product";
@@ -10,10 +10,21 @@ import { Expander} from "../../smart/Product/Expander";
 import { PropertiesTable } from "../../smart/Product/PropertiesTable";
 import { PriceArea } from "./PriceArea";
 
+import {products} from "../../../data/products";
+
 import "../../../../style/product.css";
 import * as api from "../../../api";
+import { formatPrice } from "../../../utils/common";
 
-interface ProductRouteProps { id: number; }
+import * as CartManager from "../../../utils/cart";
+
+import "../../../../style/productPage.css";
+
+import { isNullOrUndefined } from "util";
+
+interface ProductRouteProps {
+    identifier: string;
+}
 
 interface ProductState {
     amount: number;
@@ -27,10 +38,7 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
         loading: true
     };
     async updateCart (amount: number) {
-        const addToCartInfo = await api.cart.addToCart({
-            amount,
-            productId: this.state.product.id
-        });
+        const addToCartInfo = await CartManager.addProduct(this.state.product, amount);
         if(api.isError(addToCartInfo)) {
             notification.error({message: "Failed to update cart", description: addToCartInfo.message});
             return;
@@ -38,7 +46,8 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
         message.success("Successfully added product to cart");
     }
     handleProductInfo = async (props: RouteComponentProps<ProductRouteProps>): Promise<void> => {
-        const response = await api.product.getProduct(props.match.params.id);
+        const identifier = props.match.params.identifier;
+        const response = await api.product.getProductByIdentifier(identifier);
         if(api.isError(response)) {
             notification.error({message: "Failed to load data", description: response.message});
             return;
@@ -60,6 +69,7 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
         await this.handleProductInfo(this.props);
         this.setState({...this.state, loading: false});
     }
+
     render () {
         return (
             <div className="product">
@@ -68,7 +78,7 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
                 ?
                 <Loader active={true}/>
                 :
-                <Grid>
+                <Grid stackable>
                     <Grid.Row>
                         <Grid.Column width="eight">
                             <List horizontal>
@@ -76,7 +86,21 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
                                     <Header size="large">{this.state.product.name}</Header>
                                 </List.Item>
                                 <List.Item>
-                                    <Label tag>{this.state.product.price}</Label>
+                                    {isNullOrUndefined(products[0].discount)
+                                    ?
+                                    <Label tag>{formatPrice(this.state.product.price)}</Label>
+                                    :
+                                    <Label tag>{formatPrice(products[0].discount.finalPrice)}
+                                        <del id="oldPrice">{formatPrice(products[0].price)}</del></Label>
+                                    }
+                                    {
+                                        !isNullOrUndefined(products[0].discount) &&
+                                        products[0].discount.type === "PERCENTAGE"
+                                        ?
+                                        <Label>-{products[0].discount.value}<Icon name="percent"/></Label>
+                                        :
+                                        <div/>
+                                    }
                                 </List.Item>
                             </List>
                         </Grid.Column>
@@ -90,8 +114,7 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
                                 mainPicture={this.state.product.mainImageUrl}
                                 additionalPictures={this.state.product.additionalImagesUrls}/>
                         </Grid.Column>
-                        <Grid.Column width="one"/>
-                        <Grid.Column width="seven" className="description">
+                        <Grid.Column width="eight" className="description">
                             <Expander text={this.state.product.description}/>
                         </Grid.Column>
                     </Grid.Row>

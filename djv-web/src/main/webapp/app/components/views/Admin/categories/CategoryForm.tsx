@@ -7,7 +7,6 @@ import { CategoryProperties } from "../../../../model/CategoryProperties";
 import { CategoryPropertiesTable } from "./CategoryPropertiesTable";
 
 import { Icon, SemanticICONS } from "semantic-ui-react";
-import { toUrlFriendlyString } from "../../../../utils/common";
 import { IconSelect } from "./IconSelect";
 
 import "../../../../../style/admin/category.css";
@@ -48,7 +47,6 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
     buildCategory = (): Category => ({
         ...this.props.category,
         icon: this.state.icon,
-        identifier: toUrlFriendlyString(this.state.name),
         name: this.state.name,
         properties: this.state.properties,
     })

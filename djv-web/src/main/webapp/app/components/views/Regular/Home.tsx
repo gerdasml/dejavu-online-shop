@@ -39,7 +39,6 @@ export class Home extends React.Component< {}, HomeState> {
     render () {
         return (
             <div>
-                <Header size="large">Home</Header>
                 { this.state.isLoading
                 ?
                 <Loader active inline="centered" />

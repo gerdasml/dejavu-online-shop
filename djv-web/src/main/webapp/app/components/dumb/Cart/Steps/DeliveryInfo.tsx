@@ -6,7 +6,6 @@ import {AddressInput} from "../../Address/AddressInput";
 
 import "../../../../../style/cart.css";
 import { Address } from "../../../../model/Address";
-import { User } from "../../../../model/User";
 
 interface DeliveryInfoProps {
     onStepComplete: () => void;

@@ -1,8 +1,8 @@
 // tslint:disable:max-classes-per-file
 import * as React from "react";
 
-import { Table } from "antd";
-import { Order } from "../../../../../model/Order";
+import { Table, Rate, Tag, Divider } from "antd";
+import { Order, OrderStatus } from "../../../../../model/Order";
 import { OrderStatusCell } from "./OrderStatusCell";
 import { OrderTable } from "./OrderTable";
 
@@ -25,7 +25,23 @@ export const OrdersTable = (props: OrdersTableProps) => (
         bordered={true}
         dataSource={props.orders.map(addKey)}
         pagination={{pageSize: 25, hideOnSinglePage: true}}
-        expandedRowRender={(record: OrderRecord) => <OrderTable items={record.items} />}>
+        expandedRowRender={(record: OrderRecord) => (
+            <span>
+                { record.review !== undefined
+                ?
+                <span>
+                    <b>Review comment: </b>
+                    { record.review.comment === undefined || record.review.comment.length === 0
+                    ? <Tag color="red">Not Given</Tag>
+                    : record.review.comment
+                    }
+                    <Divider />
+                </span>
+                : ""
+                }
+                <OrderTable items={record.items} />
+            </span>
+        )}>
         <OrdersRecordColumn
             key="date"
             title="Date"
@@ -46,6 +62,19 @@ export const OrdersTable = (props: OrdersTableProps) => (
             key="shipping"
             title="Shipping address"
             render={(_, record) => stringifyAddress(record.shippingAddress)}
+        />
+        <OrdersRecordColumn
+            key="review"
+            title="Review"
+            render={(_, record) =>
+                record.reviewShown
+                    ? record.review === undefined
+                        ? <Tag color="red">REJECTED</Tag>
+                        : <Rate disabled defaultValue={record.review.rating} />
+                    : record.status === OrderStatus.DELIVERED
+                        ? <Tag color="orange">NOT SHOWN</Tag>
+                        : <Tag color="orange">N/A</Tag>
+            }
         />
         <OrdersRecordColumn
             key="total"

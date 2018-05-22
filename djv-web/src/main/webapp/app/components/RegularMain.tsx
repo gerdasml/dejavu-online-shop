@@ -13,18 +13,14 @@ export const RegularMain = () => (
     <div>
         <Header/>
             <DrawerMenu>
-                <Link to="/">Home</Link>
-                <Link to="/about">About</Link>
-                <Link to="/admin">Admin</Link>
-                <Link to="/cart">Cart</Link>
                 <Switch>
                     <Route exact path="/" component={Home} />
                     <Route path="/about" component={About} />
-                    <Route path="/product/:id" component={Product} />
+                    <Route path="/product/:identifier+" component={Product} />
                     <Route path="/user/:id" component={User}/>
                     <Route path="/cart" component={Cart} />
                     <Route path="/profile" component = {Profile} />
-                    <Route path="/category/:id" component={Category} />
+                    <Route path="/category/:identifier+" component={Category} />
                     <Route component={NotFound} />
                 </Switch>
             </DrawerMenu>

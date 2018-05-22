@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { InputNumber } from "antd";
+import { formatPrice } from "../../../../utils/common";
 
 export interface ProductPriceProps {
     price: number;
@@ -9,7 +10,7 @@ export interface ProductPriceProps {
 
 export const ProductPrice = (props: ProductPriceProps) => (
     <InputNumber
-        formatter={value => `${value} €`}
+        formatter={formatPrice}
         value={props.price}
         onChange={props.onChange}
         min={0}

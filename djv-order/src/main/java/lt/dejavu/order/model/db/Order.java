@@ -6,6 +6,7 @@ import lombok.Setter;
 import lt.dejavu.auth.model.db.Address;
 import lt.dejavu.auth.model.db.User;
 import lt.dejavu.order.model.OrderStatus;
+import lt.dejavu.order.model.ReviewStatus;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -26,6 +27,9 @@ public class Order {
     @Column(name = "status")
     private OrderStatus status;
 
+    @Column(name = "reviewShown")
+    private Boolean reviewShown;
+
     @OneToMany(mappedBy = "order")
     private List<OrderItem> items;
 
@@ -43,4 +47,8 @@ public class Order {
             inverseJoinColumns = @JoinColumn(name = "addressId")
     )
     private Address shippingAddress;
+
+    @OneToOne
+    @JoinColumn(name = "reviewId")
+    private Review review;
 }

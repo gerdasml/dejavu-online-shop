@@ -14,7 +14,7 @@ export const Approval = (props: ApprovalProps) => (
         <h3 className="approvalText">Your purchase was successful! </h3>
         <br/>
         <h3 className="approvalText">
-            To check your purchase info and delivery status open your profile. 
+            To check your purchase info and delivery status open your profile.
             It is displayed in the "Order history" table.
         </h3>
         <br/>
