@@ -66,6 +66,8 @@ export class Home extends React.Component< {}, HomeState> {
                     onPageChange={this.handlePageChange.bind(this)}
                     onFilterChange={(mn, mx, props) => console.log(mn, mx, props)}
                     totalProductCount={0} // TODO: fetch actual count
+                    minPrice={0} // TODO: fetch actual price
+                    maxPrice={10} // TODO: fetch actual price
                 />
                 }
             </div>

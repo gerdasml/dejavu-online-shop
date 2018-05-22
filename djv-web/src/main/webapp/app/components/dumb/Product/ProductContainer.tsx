@@ -20,6 +20,8 @@ import { ProductProperties } from "../../../model/ProductProperties";
 
 interface ProductContainerProps {
     totalProductCount: number;
+    minPrice: number;
+    maxPrice: number;
     availableProperties?: PropertySummary[];
     products: Product[];
     category?: Category;
@@ -44,8 +46,8 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
         isFilterExpanded: false,
         isLoading: true,
         filterOptions: [],
-        minPrice: getMin(this.props.products),
-        maxPrice: getMax(this.props.products)
+        minPrice: this.props.minPrice,
+        maxPrice: this.props.maxPrice
     };
 
     componentWillReceiveProps (props: ProductContainerProps) {
@@ -53,8 +55,8 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
             isFilterExpanded: false,
             isLoading: true,
             filterOptions: [],
-            minPrice: getMin(props.products),
-            maxPrice: getMax(props.products)
+            minPrice: props.minPrice,
+            maxPrice: props.maxPrice
         });
     }
 
@@ -101,8 +103,8 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
     handlePaginationChange = (e: any, x: any) => this.props.onPageChange(x.activePage);
 
     render () {
-        const min = Math.floor(getMin(this.props.products));
-        const max = Math.ceil(getMax(this.props.products));
+        const min = Math.floor(this.props.minPrice);
+        const max = Math.ceil(this.props.maxPrice);
         return (
                 <div>
                     {  this.props.category !== undefined

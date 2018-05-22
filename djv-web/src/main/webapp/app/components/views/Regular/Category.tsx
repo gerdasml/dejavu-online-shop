@@ -101,6 +101,8 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
                     activePage={this.state.activePage}
                     onPageChange={this.handlePageChange.bind(this)}
                     onFilterChange={(mn, mx, props) => console.log(mn, mx, props)}
+                    minPrice={this.state.categoryInfo.minPrice}
+                    maxPrice={this.state.categoryInfo.maxPrice}
                 />
                 }
             </div>

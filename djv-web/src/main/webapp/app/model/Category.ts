@@ -12,6 +12,8 @@ export interface Category {
 export interface CategoryInfo {
     productCount: number;
     availableProperties: PropertySummary[];
+    minPrice: number;
+    maxPrice: number;
 }
 
 export interface PropertySummary {
