@@ -19,16 +19,15 @@ import { RouteComponentProps } from "react-router";
 import { parse } from "query-string";
 import { NotFound } from "../NotFound";
 
-const QUERY_PARAM_NAME = "q";
 export class ProductSearchResults extends React.Component< RouteComponentProps<{}>, never> {
     render () {
         const query = parse(this.props.location.search);
-        if (query[QUERY_PARAM_NAME] === undefined) {
+        if (query[config.searchQueryParamName] === undefined) {
             return <NotFound />;
         }
         return (
             <ProductContainer
-                query={{name: query[QUERY_PARAM_NAME]}}
+                query={{name: query[config.searchQueryParamName]}}
                 noResultsMessage={<h2>Your query produced no results</h2>} // TODO: pretty message
             />
         );

@@ -65,7 +65,8 @@
     "slick-carousel": "^1.8.1",
     "svg-inline-loader": "^0.8.0",
     "svg-inline-react": "^3.1.0",
-    "ts-import-plugin": "^1.4.4"
+    "ts-import-plugin": "^1.4.4",
+    "ts-keycode-enum": "^1.0.4"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.json -c tslint.json app/**/*.{ts,tsx}",
