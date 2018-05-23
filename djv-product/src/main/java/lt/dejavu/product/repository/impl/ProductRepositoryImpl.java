@@ -1,6 +1,7 @@
 package lt.dejavu.product.repository.impl;
 
 import lt.dejavu.product.model.*;
+import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 import lt.dejavu.product.repository.ProductRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -100,5 +102,40 @@ public class ProductRepositoryImpl implements ProductRepository {
         countQuery.select(cb.count(root));
 
         return em.createQuery(countQuery).getSingleResult();
+    }
+
+    @Override
+    public Set<Product> searchForProducts(ProductSearchRequest request,
+                                          int offset,
+                                          int limit) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Product> query = cb.createQuery(Product.class);
+        Root<Product> root = query.from(Product.class);
+        List<Predicate> predicates = new ArrayList<>();
+        if (request.getCategoryIdentifier() != null) {
+            predicates.add(cb.equal(
+                    root.get(Product_.category).get(Category_.identifier),
+                    request.getCategoryIdentifier())
+                          );
+        }
+        if (request.getMinPrice() != null) {
+            predicates.add(cb.greaterThanOrEqualTo(
+                    root.get(Product_.price),
+                    request.getMinPrice()
+                                                  ));
+        }
+        if (request.getMaxPrice() != null) {
+            predicates.add(cb.lessThanOrEqualTo(
+                    root.get(Product_.price),
+                    request.getMaxPrice()
+                                                  ));
+        }
+
+        query.where(cb.and(predicates.toArray(new Predicate[0])));
+        TypedQuery<Product> q = em.createQuery(query);
+        q.setFirstResult(offset);
+        q.setMaxResults(limit);
+
+        return new LinkedHashSet<>(q.getResultList());
     }
 }
