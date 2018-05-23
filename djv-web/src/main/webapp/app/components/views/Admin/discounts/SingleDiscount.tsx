@@ -19,12 +19,10 @@ interface SingleDiscountProps {
 export class SingleDiscount extends React.Component<RouteComponentProps<SingleDiscountProps>,SingleDiscountState> {
     state: SingleDiscountState = {};
 
-    // required to load data on initial render
     async componentDidMount () {
         await this.loadData(this.props);
     }
 
-    // required to load data on each url change
     async componentWillReceiveProps (nextProps: RouteComponentProps<SingleDiscountProps>) {
         await this.loadData(nextProps);
     }

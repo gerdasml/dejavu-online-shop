@@ -61,7 +61,10 @@ export const DiscountsTable = (props: DiscountsTableProps) => (
         <DiscountRecordColumn
             key = "period"
             title = "Period"
-            render={(_, record) => (record.activeFrom + " ~ " + record.activeTo)}
+            render={(_, record) =>
+                ((new Date (Date.parse(record.activeFrom.toString())).toLocaleDateString())
+                + " ~ " +
+                (new Date (Date.parse(record.activeTo.toString())).toLocaleDateString()))}
         />
         <DiscountRecordColumn
             key = "editRemove"
