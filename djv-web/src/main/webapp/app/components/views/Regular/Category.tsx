@@ -123,7 +123,7 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
             maxPrice
         });
         const request = this.buildSearchRequest(this.props.match.params.identifier, minPrice, maxPrice);
-        await this.fetchNewProducts(request, this.state.activePage);
+        await this.fetchNewProducts(request, 1);
         this.setState({...this.state, isProductInfoLoading: false});
     }
 
