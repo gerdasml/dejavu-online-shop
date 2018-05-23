@@ -40,6 +40,8 @@ export const ProductList = (props: ProductListProps) => (
                 />
             )}
         </Card.Group>
+        { Math.ceil(props.totalProductCount / config.productsPerPage) > 1
+        ?
         <div className="pagination-father">
             <Pagination
                 id="products-pagination"
@@ -54,5 +56,7 @@ export const ProductList = (props: ProductListProps) => (
                 totalPages={Math.ceil(props.totalProductCount / config.productsPerPage)}
             />
         </div>
+        : ""
+        }
     </div>
 );
