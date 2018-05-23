@@ -13,12 +13,38 @@
     margin: 2%;
 }
 
+.profile-header {
+    color: #393d40;
+}
+
 .profileEditing{
     width: 100%;
     align-items: center;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #393d40;
+}
+
+.profileEditing.header {
+    margin-bottom: 5px;
+}
+
+.profileEditing button {
+    background-color: #ffce2b!important;
+    color: #393d40!important;
+}
+
+.profileEditing .ui.negative.button {
+    background-color: #f1f1f1!important;
+}
+
+.profileEditing .ui.negative.button:hover {
+    background-color: #fff!important;
+}
+
+.profileEditing button:hover {
+    background-color: #FFE693!important;
 }
 
 #changeProfile{
@@ -42,6 +68,12 @@
 
 #profileEdit{
     display: flex;
+    background-color: #ffce2b;
+    color: #393d40;
+}
+
+#profileEdit:hover {
+    background-color: #FFE693;
 }
 
 #changeProfile .readOnlyFields{
@@ -62,4 +94,14 @@
 
 #orderHistoryTable{
     text-align: center;
+}
+
+#orderHistoryTable th {
+    background-color: #393d40;
+    color: #FFE693;
+}
+
+#orderHistoryTable td button {
+    background-color: #393d40;
+    color: #FFE693;
 }
