@@ -114,8 +114,8 @@ export class OrderHistory extends React.Component<{},OrderHistoryState> {
                         />
                     </div>
                     <Modal size={"large"} open={this.state.activeOrder!==undefined} onClose={this.close}>
-                        <Modal.Header>
-                            Information about your order
+                        <Modal.Header className="modal-header">
+                            <h2>Information about your order</h2>
                         </Modal.Header>
                         <Modal.Content>
                             <OrderTable data={this.state.activeOrder}/>

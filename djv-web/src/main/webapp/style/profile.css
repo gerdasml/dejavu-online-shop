@@ -106,12 +106,12 @@
     color: #FFE693;
 }
 
-.change-password-header h2{
+.modal-header h2{
     color: #FFE693!important;
     font-weight: bold;
 }
 
-.change-password-header {
+.modal-header {
     background-color: #393d40!important;
 }
 

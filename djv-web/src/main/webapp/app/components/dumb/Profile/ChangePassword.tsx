@@ -77,7 +77,7 @@ export class ChangePassword extends React.Component<{}, ChangePasswordState> {
                 open={this.state.modalOpen}
                 onClose={this.handleClose}
                 >
-                <Modal.Header className="change-password-header"><h2>Change password</h2></Modal.Header>
+                <Modal.Header className="modal-header"><h2>Change password</h2></Modal.Header>
                 <Modal.Content id="registerModal">
                     <Form
                         loading={this.state.isLoading}
