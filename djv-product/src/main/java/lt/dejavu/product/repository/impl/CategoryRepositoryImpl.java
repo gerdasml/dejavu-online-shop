@@ -89,7 +89,17 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         root.fetch(Category_.properties, JoinType.LEFT);
         root.fetch(Category_.parentCategory, JoinType.LEFT);
         return new LinkedHashSet<>(em.createQuery(query).getResultList());
+    }
 
+    @Override
+    public void reassignCategoriesToParent(Category oldCategory) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaUpdate<Category> updateQuery = cb.createCriteriaUpdate(Category.class);
+        Category parent = oldCategory.getParentCategory();
+        Root<Category> productRoot = updateQuery.from(Category.class);
+        updateQuery.set(Category_.parentCategory, parent);
+        updateQuery.where(cb.equal(productRoot.get(Category_.parentCategory), oldCategory));
+        em.createQuery(updateQuery).executeUpdate();
     }
 
     @Override

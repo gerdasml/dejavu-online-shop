@@ -95,6 +95,17 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
+    public void reassignProductsToParent(Category oldCategory) {
+        Category parent = oldCategory.getParentCategory();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaUpdate<Product> updateQuery = cb.createCriteriaUpdate(Product.class);
+        Root<Product> productRoot = updateQuery.from(Product.class);
+        updateQuery.set(Product_.category, parent);
+        updateQuery.where(cb.equal(productRoot.get(Product_.category), oldCategory));
+        em.createQuery(updateQuery).executeUpdate();
+    }
+
+    @Override
     public long getTotalProductCount() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);

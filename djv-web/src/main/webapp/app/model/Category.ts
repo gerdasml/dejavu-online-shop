@@ -1,4 +1,4 @@
-import { CategoryProperties } from "./CategoryProperties";
+import { CategoryProperty } from "./CategoryProperties";
 
 export interface Category {
     id?: number;
@@ -6,7 +6,7 @@ export interface Category {
     identifier: string;
     icon: string;
     name: string;
-    properties?: CategoryProperties[];
+    properties?: CategoryProperty[];
 }
 
 export interface CategoryInfo {

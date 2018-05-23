@@ -25,6 +25,8 @@ public interface CategoryRepository {
 
     Set<Category> getAllCategories();
 
+    void reassignCategoriesToParent(Category oldCategory);
+
     List<ProductProperty> getProductPropertiesForCategory(long categoryId);
 
     long getProductCount(long categoryId);
