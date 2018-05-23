@@ -142,6 +142,12 @@ public class ProductRepositoryImpl implements ProductRepository {
                     request.getMaxPrice()
                                                ));
         }
+        if (request.getName() != null && !request.getName().isEmpty()) {
+            predicates.add(cb.like(
+                    cb.lower(root.get(Product_.name)),
+                    "%" + request.getName().toLowerCase() + "%"
+                                  ));
+        }
 
         if (request.getProperties() != null && request.getProperties().size() > 0) {
             SetJoin<Product, ProductProperty> join = root.join(Product_.properties);

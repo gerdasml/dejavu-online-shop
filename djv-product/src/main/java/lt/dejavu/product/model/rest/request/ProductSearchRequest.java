@@ -14,4 +14,5 @@ public class ProductSearchRequest {
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
     private List<ProductPropertyDto> properties;
+    private String name;
 }

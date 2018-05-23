@@ -16,6 +16,7 @@ export interface ProductSearchRequest {
     categoryIdentifier?: string;
     minPrice?: number;
     maxPrice?: number;
+    name?: string;
 }
 
 const buildPaginationPath = (relPath: string, offset?: number, limit?: number) => {
