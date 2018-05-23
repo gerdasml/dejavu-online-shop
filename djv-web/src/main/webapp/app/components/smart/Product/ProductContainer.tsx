@@ -19,6 +19,8 @@ import { Cart } from "../../../model/Cart";
 import * as CartManager from "../../../utils/cart";
 
 interface ProductContainerProps {
+    query: ProductSearchRequest;
+    filterData?: CategoryInfo;
     categoryIdentifier?: string;
 }
 
@@ -68,17 +70,19 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
     }
 
     async fetchData (props: ProductContainerProps) {
-        const productPromise = (
-            props.categoryIdentifier === undefined
-            ? api.product.getAllProducts(0, config.productsPerPage)
-            : api.product.searchForProducts({categoryIdentifier: props.categoryIdentifier}, 0, config.productsPerPage)
-        ).then(response => {
-            if (api.isError(response)) {
-                notification.error({ message: "Failed to fetch product data", description: response.message });
-            } else {
-                this.setState({...this.state, products: response});
-            }
-        });
+        const productPromise =
+            api.product.searchForProducts(props.query, 0, config.productsPerPage)
+            .then(response => {
+                if (api.isError(response)) {
+                    notification.error({ message: "Failed to fetch product data", description: response.message });
+                } else {
+                    this.setState({
+                        ...this.state,
+                        products: response.results,
+                        productCount: response.total
+                    });
+                }
+            });
 
         const cartPromise =
             CartManager.getCart()
@@ -93,60 +97,7 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
                 }
             });
 
-        let categoryPromise;
-
-        if (props.categoryIdentifier !== undefined) {
-            categoryPromise =
-                api.category.getCategoryByIdentifier(props.categoryIdentifier)
-                .then(response => {
-                    if (api.isError(response)) {
-                        notification.error({
-                            message: "Failed to fetch category data",
-                            description: response.message
-                        });
-                    } else {
-                        return api.category.getCategoryInfo(response.id);
-                    }
-                })
-                .then(response => {
-                    if (api.isError(response)) {
-                        notification.error({
-                            message: "Failed to fetch category info",
-                            description: response.message
-                        });
-                    } else {
-                        this.setState({
-                            ...this.state,
-                            categoryInfo: response,
-                            productCount: response.productCount
-                        });
-                    }
-                });
-        }
-
-        let productCountPromise;
-        if (this.props.categoryIdentifier === undefined) {
-            productCountPromise =
-                api.product.getTotalProductCount()
-                .then(response => {
-                    if (api.isError(response)) {
-                        notification.error({
-                            message: "Failed to fetch product information",
-                            description: response.message
-                        });
-                    } else {
-                        this.setState({
-                            ...this.state,
-                            productCount: response
-                        });
-                    }
-                });
-        }
-        await Promise.all([productPromise, cartPromise, categoryPromise, productCountPromise]);
-        this.setState({
-            isProductInfoLoading: false,
-            isFilterInfoLoading: false,
-        });
+        await Promise.all([productPromise, cartPromise]);
     }
 
     async handlePageChange (page: number) {
@@ -170,7 +121,12 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
         if (api.isError(products)) {
             notification.error({message: "Failed to load products", description: products.message});
         } else {
-            this.setState({...this.state, products, activePage: 1});
+            this.setState({
+                ...this.state,
+                products: products.results,
+                productCount: products.total,
+                activePage: 1
+            });
         }
     }
 
@@ -208,18 +164,18 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
     }
 
     renderFilter () {
-        if (this.props.categoryIdentifier === undefined) return "";
+        if (this.props.filterData === undefined) return "";
         if (this.state.isFilterInfoLoading) return "";
-        if (this.state.categoryInfo === undefined ||
-            this.state.categoryInfo.availableProperties === undefined ||
-            this.state.categoryInfo.availableProperties.length === 0 ||
-            this.state.categoryInfo.maxPrice === undefined ||
-            this.state.categoryInfo.minPrice === undefined) return "";
+        if (this.props.filterData === undefined ||
+            this.props.filterData.availableProperties === undefined ||
+            this.props.filterData.availableProperties.length === 0 ||
+            this.props.filterData.maxPrice === undefined ||
+            this.props.filterData.minPrice === undefined) return "";
         return (
             <ProductFilter
-                minPrice={this.state.categoryInfo.minPrice}
-                maxPrice={this.state.categoryInfo.maxPrice}
-                availableProperties={this.state.categoryInfo.availableProperties}
+                minPrice={this.props.filterData.minPrice}
+                maxPrice={this.props.filterData.maxPrice}
+                availableProperties={this.props.filterData.availableProperties}
                 onFilterChange={this.handleFilterChange.bind(this)}
             />
         );

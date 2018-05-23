@@ -43,7 +43,7 @@ export const getProductByIdentifier = (identifier: string): Promise<ApiResponse<
 
 export const searchForProducts =
     (req: ProductSearchRequest, offset?: number, limit?: number): Promise<ApiResponse<SearchResult<Product>>> =>
-        fetchData(buildPaginationPath("/category", offset, limit), HttpMethod.POST, req);
+        fetchData(buildPaginationPath("/search", offset, limit), HttpMethod.POST, req);
 
 export const getAllProducts = (offset?: number, limit?: number): Promise<ApiResponse<Product[]>> =>
     fetchData(buildPaginationPath("/", offset, limit), HttpMethod.GET);

@@ -117,11 +117,30 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public SearchResult<Product> searchForProducts(ProductSearchRequest request,
-                                          int offset,
-                                          int limit) {
+                                                   int offset,
+                                                   int limit) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> query = cb.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
+        query.where(buildPredicate(cb, root, request));
+
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<Product> countRoot = countQuery.from(Product.class);
+        countQuery.select(cb.count(countRoot));
+        countQuery.where(buildPredicate(cb, countRoot, request));
+
+        TypedQuery<Product> q = em.createQuery(query);
+        q.setFirstResult(offset);
+        q.setMaxResults(limit);
+
+        SearchResult<Product> result = new SearchResult<>();
+        result.setResults(new LinkedHashSet<>(q.getResultList()));
+        result.setTotal(em.createQuery(countQuery).getSingleResult());
+
+        return result;
+    }
+
+    private Predicate buildPredicate(CriteriaBuilder cb, Root<Product> root, ProductSearchRequest request) {
         List<Predicate> predicates = new ArrayList<>();
         if (request.getCategoryIdentifier() != null) {
             Join<Product, Category> join = root.join(Product_.category, JoinType.LEFT);
@@ -159,25 +178,6 @@ public class ProductRepositoryImpl implements ProductRepository {
                                                            )).toArray(Predicate[]::new)));
         }
 
-        query.where(cb.and(predicates.toArray(new Predicate[0])));
-        TypedQuery<Product> q = em.createQuery(query);
-        q.setFirstResult(offset);
-        q.setMaxResults(limit);
-
-        SearchResult<Product> result = new SearchResult<>();
-        result.setTotal(getCount(predicates.toArray(new Predicate[0]), Product.class));
-        result.setResults(new LinkedHashSet<>(q.getResultList()));
-
-        return result;
-    }
-
-    private <T> long getCount(Predicate[] predicates, Class<T> clazz) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-        Root<T> root = countQuery.from(clazz);
-        countQuery.select(cb.count(root));
-        countQuery.where(cb.and(predicates));
-
-        return em.createQuery(countQuery).getSingleResult();
+        return cb.and(predicates.toArray(new Predicate[0]));
     }
 }

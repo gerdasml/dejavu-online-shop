@@ -77,7 +77,7 @@ public class ProductApi {
     }
 
     @PostMapping(
-            path = "/category",
+            path = "/search",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public SearchResult<ProductDto> productSearch(@RequestBody ProductSearchRequest request,
