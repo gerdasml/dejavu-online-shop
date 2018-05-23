@@ -13,6 +13,7 @@ import { ProductContainer } from "../../dumb/Product/ProductContainer";
 import { config } from "../../../config";
 import { ProductProperties } from "../../../model/ProductProperties";
 import { ProductSearchRequest } from "../../../api/product";
+import { ProductFilter } from "../../dumb/Product/ProductFilter";
 
 interface CategoryRouteProps {
     identifier: string;
@@ -22,7 +23,8 @@ interface CategoryState {
     products: Product[];
     category?: CategoryModel;
     categoryInfo?: CategoryInfo;
-    isLoading: boolean;
+    isCategoryInfoLoading: boolean;
+    isProductInfoLoading: boolean;
     activePage: number;
     minPrice?: number;
     maxPrice?: number;
@@ -30,7 +32,8 @@ interface CategoryState {
 
 export class Category extends React.Component<RouteComponentProps<CategoryRouteProps>, CategoryState> {
     state: CategoryState = {
-        isLoading: true,
+        isCategoryInfoLoading: true,
+        isProductInfoLoading: true,
         products: [],
         activePage: 1
     };
@@ -45,6 +48,20 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
     }
 
     async loadData (props: RouteComponentProps<CategoryRouteProps>) {
+        this.setState({
+            ...this.state,
+            isProductInfoLoading: true,
+            isCategoryInfoLoading: true
+        });
+        await this.fetchData(props);
+        this.setState({
+            ...this.state,
+            isProductInfoLoading: false,
+            isCategoryInfoLoading: false
+        });
+    }
+
+    async fetchData (props: RouteComponentProps<CategoryRouteProps>) {
         const identifier = props.match.params.identifier;
         const [productResponse, categoryResponse] =
             await Promise.all(
@@ -53,18 +70,15 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
                 ]);
         if (api.isError(productResponse)) {
             notification.error({ message: "Failed to fetch product data", description: productResponse.message });
-            this.setState({ ...this.state, isLoading: false });
             return;
         }
         if (api.isError(categoryResponse)) {
             notification.error({ message: "Failed to fetch category data", description: categoryResponse.message});
-            this.setState({ ...this.state, isLoading: false});
             return;
         }
         const categoryInfoResponse = await api.category.getCategoryInfo(categoryResponse.id);
         if (api.isError(categoryInfoResponse)) {
             notification.error({message: "Failed to fetch category info", description: categoryInfoResponse.message});
-            this.setState({ ...this.state, isLoading: false});
             return;
         }
         this.setState({
@@ -72,21 +86,22 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
             products: productResponse,
             category: categoryResponse,
             categoryInfo: categoryInfoResponse,
-            isLoading: false
+            isProductInfoLoading: false,
+            isCategoryInfoLoading: false
         });
     }
 
     async handlePageChange (page: number) {
         this.setState({
             ...this.state,
-            isLoading: true
+            isProductInfoLoading: true
         });
         const request = this.buildSearchRequest(
             this.props.match.params.identifier,
             this.state.minPrice,
             this.state.maxPrice);
         await this.fetchNewProducts(request, page);
-        this.setState({...this.state, activePage: page, isLoading: false});
+        this.setState({...this.state, activePage: page, isProductInfoLoading: false});
     }
 
     async fetchNewProducts (req: ProductSearchRequest, page: number) {
@@ -103,13 +118,13 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
     async handleFilterChange (minPrice: number, maxPrice: number, properties: ProductProperties[]) {
         this.setState({
             ...this.state,
-            isLoading: true,
+            isProductInfoLoading: true,
             minPrice,
             maxPrice
         });
         const request = this.buildSearchRequest(this.props.match.params.identifier, minPrice, maxPrice);
         await this.fetchNewProducts(request, this.state.activePage);
-        this.setState({...this.state, isLoading: false});
+        this.setState({...this.state, isProductInfoLoading: false});
     }
 
     buildSearchRequest = (identifier: string, minPrice: number, maxPrice: number) => ({
@@ -121,19 +136,28 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
     render () {
         return (
             <div>
-                { this.state.isLoading
+                { this.state.isCategoryInfoLoading && this.state.isProductInfoLoading
                 ? <Loader active inline="centered" />
-                : <ProductContainer
-                    totalProductCount={this.state.categoryInfo.productCount}
-                    availableProperties={this.state.categoryInfo.availableProperties}
-                    products={this.state.products}
-                    category={this.state.category}
-                    activePage={this.state.activePage}
-                    onPageChange={this.handlePageChange.bind(this)}
-                    onFilterChange={this.handleFilterChange.bind(this)}
-                    minPrice={this.state.categoryInfo.minPrice}
-                    maxPrice={this.state.categoryInfo.maxPrice}
-                />
+                : [
+                    this.state.isCategoryInfoLoading
+                    ? <Loader active inline="centered" />
+                    :
+                    <ProductFilter
+                        minPrice={this.state.categoryInfo.minPrice}
+                        maxPrice={this.state.categoryInfo.maxPrice}
+                        availableProperties={this.state.categoryInfo.availableProperties}
+                        onFilterChange={this.handleFilterChange.bind(this)}
+                    />,
+                    this.state.isProductInfoLoading
+                    ? <Loader active inline="centered" />
+                    :
+                    <ProductContainer
+                        totalProductCount={this.state.categoryInfo.productCount}
+                        products={this.state.products}
+                        activePage={this.state.activePage}
+                        onPageChange={this.handlePageChange.bind(this)}
+                    />,
+                ]
                 }
             </div>
             );
