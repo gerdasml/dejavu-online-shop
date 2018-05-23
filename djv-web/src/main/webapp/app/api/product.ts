@@ -12,8 +12,10 @@ interface FilterRequest {
     properties?: ProductProperties[];
 }
 
-interface ProductSearchRequest {
-    categoryIdentifier: string;
+export interface ProductSearchRequest {
+    categoryIdentifier?: string;
+    minPrice?: number;
+    maxPrice?: number;
 }
 
 const buildPaginationPath = (relPath: string, offset?: number, limit?: number) => {

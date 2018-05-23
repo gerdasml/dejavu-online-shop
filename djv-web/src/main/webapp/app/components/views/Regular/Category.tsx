@@ -11,6 +11,8 @@ import * as api from "../../../api";
 import { ProductContainer } from "../../dumb/Product/ProductContainer";
 
 import { config } from "../../../config";
+import { ProductProperties } from "../../../model/ProductProperties";
+import { ProductSearchRequest } from "../../../api/product";
 
 interface CategoryRouteProps {
     identifier: string;
@@ -22,6 +24,8 @@ interface CategoryState {
     categoryInfo?: CategoryInfo;
     isLoading: boolean;
     activePage: number;
+    minPrice?: number;
+    maxPrice?: number;
 }
 
 export class Category extends React.Component<RouteComponentProps<CategoryRouteProps>, CategoryState> {
@@ -73,20 +77,46 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
     }
 
     async handlePageChange (page: number) {
-        this.setState({...this.state, isLoading: true});
+        this.setState({
+            ...this.state,
+            isLoading: true
+        });
+        const request = this.buildSearchRequest(
+            this.props.match.params.identifier,
+            this.state.minPrice,
+            this.state.maxPrice);
+        await this.fetchNewProducts(request, page);
+        this.setState({...this.state, activePage: page, isLoading: false});
+    }
+
+    async fetchNewProducts (req: ProductSearchRequest, page: number) {
         const offset = (page-1) * config.productsPerPage;
         const limit = config.productsPerPage;
-        const products =
-            await api.product.searchForProducts({
-                categoryIdentifier: this.props.match.params.identifier
-            }, offset, limit);
+        const products = await api.product.searchForProducts(req, offset, limit);
         if (api.isError(products)) {
             notification.error({message: "Failed to load products", description: products.message});
         } else {
             this.setState({...this.state, products, activePage: 1});
         }
-        this.setState({...this.state, activePage: page, isLoading: false});
     }
+
+    async handleFilterChange (minPrice: number, maxPrice: number, properties: ProductProperties[]) {
+        this.setState({
+            ...this.state,
+            isLoading: true,
+            minPrice,
+            maxPrice
+        });
+        const request = this.buildSearchRequest(this.props.match.params.identifier, minPrice, maxPrice);
+        await this.fetchNewProducts(request, this.state.activePage);
+        this.setState({...this.state, isLoading: false});
+    }
+
+    buildSearchRequest = (identifier: string, minPrice: number, maxPrice: number) => ({
+        categoryIdentifier: identifier,
+        minPrice,
+        maxPrice
+    })
 
     render () {
         return (
@@ -100,7 +130,7 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
                     category={this.state.category}
                     activePage={this.state.activePage}
                     onPageChange={this.handlePageChange.bind(this)}
-                    onFilterChange={(mn, mx, props) => console.log(mn, mx, props)}
+                    onFilterChange={this.handleFilterChange.bind(this)}
                     minPrice={this.state.categoryInfo.minPrice}
                     maxPrice={this.state.categoryInfo.maxPrice}
                 />
