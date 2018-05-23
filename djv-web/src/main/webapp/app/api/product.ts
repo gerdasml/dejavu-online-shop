@@ -53,3 +53,6 @@ export const getProductsByCategory = (id: number): Promise<ApiResponse<Product[]
 
 export const updateImportStatus = (jobId: string, newStatus: ImportStatus): Promise<ApiResponse<ImportStatus>> =>
     fetchData(PATH_PREFIX + "/import/status/" + jobId, HttpMethod.PUT, newStatus);
+
+export const getImportStatistics = (jobId: string): Promise<ApiResponse<ImportStatus>> =>
+    fetchData(PATH_PREFIX + "/import/statistics/" + jobId, HttpMethod.GET);

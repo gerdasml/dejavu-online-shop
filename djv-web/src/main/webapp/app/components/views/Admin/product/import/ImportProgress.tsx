@@ -29,7 +29,7 @@ export class ImportProgress extends React.Component<ImportProgressProps, ImportP
 
     componentWillMount () {
         const intervalId = setInterval(async () => {
-            const response = await api.product.getImportStatus(this.props.jobId);
+            const response = await api.product.getImportStatistics(this.props.jobId);
             if (api.isError(response)) {
                 this.setState({...this.state, error: response.message});
                 clearInterval(intervalId);
