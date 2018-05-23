@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button, Form } from "semantic-ui-react";
+import { Button, Form, Icon } from "semantic-ui-react";
 
 import {AddressInput} from "../../Address/AddressInput";
 
@@ -26,7 +26,16 @@ export class DeliveryInfo extends React.Component <DeliveryInfoProps, {}> {
                     formSize="big"
                     address={this.props.shippingAddress}
                     onAddressChange={ newAddress => this.handleNewAddress(newAddress)} />
-                <Button type="submit" positive onClick={this.props.onStepComplete}>Next</Button>
+                <Button
+                    icon
+                    type="submit"
+                    positive
+                    labelPosition="right"
+                    floated="right"
+                    onClick={this.props.onStepComplete}>
+                    Next
+                    <Icon name="chevron right" />
+                </Button>
             </Form>
         );
     }

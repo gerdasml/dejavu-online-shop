@@ -16,6 +16,8 @@ import { FilterBuilder, hasProperties, priceInRange } from "../../../utils/produ
 import * as CartManager from "../../../utils/cart";
 
 import "../../../../style/filter.css";
+import "../../../../style/style.css";
+import { products } from "../../../data/products";
 
 interface ProductContainerProps {
     products: Product[];
@@ -89,8 +91,8 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
 
     mapProducts () {
         const start = (this.state.activePage-1)*PRODUCTS_PER_PAGE;
-        const end = start+PRODUCTS_PER_PAGE;
-        return this.state.filteredProducts.slice(start,end).map( (x, i) =>
+        const end = start+PRODUCTS_PER_PAGE+1;
+        return [products[0], ...this.state.filteredProducts].slice(start,end).map( (x, i) =>
             <ProductCard
             key={i}
             product={x}
@@ -175,17 +177,20 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
                     <Card.Group itemsPerRow={5} doubling>
                         {this.mapProducts()}
                     </Card.Group>
-                    <Pagination
-                        floated="left"
-                        activePage={this.state.activePage}
-                        onPageChange={this.handlePaginationChange}
-                        ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
-                        firstItem={{ content: <Icon name="angle double left" />, icon: true }}
-                        lastItem={{ content: <Icon name="angle double right" />, icon: true }}
-                        prevItem={{ content: <Icon name="angle left" />, icon: true }}
-                        nextItem={{ content: <Icon name="angle right" />, icon: true }}
-                        totalPages={Math.ceil(this.props.products.length/PRODUCTS_PER_PAGE)}
-                    />
+                    <div className="pagination-father">
+                        <Pagination
+                            id="products-pagination"
+                            floated="left"
+                            activePage={this.state.activePage}
+                            onPageChange={this.handlePaginationChange}
+                            ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
+                            firstItem={{ content: <Icon name="angle double left" />, icon: true }}
+                            lastItem={{ content: <Icon name="angle double right" />, icon: true }}
+                            prevItem={{ content: <Icon name="angle left" />, icon: true }}
+                            nextItem={{ content: <Icon name="angle right" />, icon: true }}
+                            totalPages={Math.ceil(this.props.products.length/PRODUCTS_PER_PAGE)}
+                        />
+                    </div>
                 </div>
         );
     }

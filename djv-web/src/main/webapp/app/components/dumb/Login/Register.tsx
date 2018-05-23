@@ -93,6 +93,7 @@ export class Register extends React.Component <{}, RegistrationState> {
         return (
             <Modal trigger={<Button icon
                 size="medium"
+                className="login-window-button"
                 onClick={this.handleOpen.bind(this)}
             >
                 REGISTER
@@ -100,8 +101,8 @@ export class Register extends React.Component <{}, RegistrationState> {
                 open={this.state.open}
                 onClose={this.handleClose.bind(this)}
             >
+            <Modal.Header className="modal-header"><h2>Register</h2></Modal.Header>
                 <Modal.Content id="registerModal">
-                    <h2>Registration</h2>
                     <Form size = "small"
                         loading={this.state.loading}
                         error={this.state.error !== ""}
@@ -154,8 +155,12 @@ export class Register extends React.Component <{}, RegistrationState> {
                             header="Registration failed"
                             content={this.state.error}
                         />
-                        <Button onClick={this.handleClose.bind(this)}>Cancel</Button>
-                        <Button type="submit">Register</Button>
+                        <Button
+                            className="registration-cancel-button"
+                            onClick={this.handleClose.bind(this)}>Cancel</Button>
+                        <Button
+                            type="submit"
+                            className="registration-save-button">Register</Button>
                     </Form>
                 </Modal.Content>
             </Modal>

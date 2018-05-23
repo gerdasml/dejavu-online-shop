@@ -19,21 +19,22 @@ export class PriceArea extends React.Component<PriceAreaProps, PriceAreaState> {
     };
     render () {
         return (
-            <List horizontal>
+            <List horizontal className="price-area-container">
                 <List.Item className="productColumn">
                     <Amount onAmountChange={amount => this.setState({amount})} amount={this.state.amount}/>
                 </List.Item>
                 <List.Item >
                     <Button
+                        className="add-to-cart"
                         positive
                         animated="fade"
                         onClick={() => this.props.onAmountChange(this.state.amount)}
                     >
                         <Button.Content visible>
-                            <Icon name="shop"/>
+                            <Icon name="shop" className="button-text"/>
                         </Button.Content>
                         <Button.Content hidden>
-                            <Icon name="plus"/>1
+                            <Icon name="plus" className="button-text"/>
                         </Button.Content>
                     </Button>
                 </List.Item>
