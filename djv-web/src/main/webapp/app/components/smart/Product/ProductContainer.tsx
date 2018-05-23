@@ -204,7 +204,7 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
 
     renderFilter () {
         if (this.props.categoryIdentifier === undefined) return "";
-        if (this.state.isFilterInfoLoading) return <Loader active inline="centered" />;
+        if (this.state.isFilterInfoLoading) return "";
         return (
             <ProductFilter
                 minPrice={this.state.categoryInfo.minPrice}
