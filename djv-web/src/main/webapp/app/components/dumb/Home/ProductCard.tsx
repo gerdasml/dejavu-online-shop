@@ -17,7 +17,7 @@ interface ProductCardProps {
 
 export const ProductCard = (props: ProductCardProps) => (
     <Card as={NavLink} to={`/product/${props.product.identifier}`}>
-        <Header as="h3" attached >{props.product.name}</Header>
+        <Header className="card-header" as="h3" attached >{props.product.name}</Header>
         {isNullOrUndefined(props.product.discount)
         ?
             <Image src={props.product.mainImageUrl} />
@@ -26,22 +26,20 @@ export const ProductCard = (props: ProductCardProps) => (
         ?
             <Image src={props.product.mainImageUrl}
                 label={{
+                className: "discount-ribbon",
                 as: "a",
-                color: "orange",
                 ribbon: "right",
                 size: "large",
-                icon: "percent",
-                content: props.product.discount.value
+                content: "- "+props.product.discount.value+"%"
                 }} />
         :
         <Image src={props.product.mainImageUrl}
             label={{
+            className: "discount-ribbon",
             as: "a",
-            color: "orange",
             ribbon: "right",
             size: "large",
-            icon: "euro",
-            content: "- " + props.product.discount.value
+            content: "- " + props.product.discount.value+"€"
             }} />
 
         }
@@ -50,30 +48,33 @@ export const ProductCard = (props: ProductCardProps) => (
                 {shortenString(props.product.description)}
             </Card.Description>
         </Card.Content>
-        <Card.Content extra>
+        <Card.Content extra className="card-price-cart">
             <Grid columns={2}>
                 <Grid.Column>
                     {isNullOrUndefined(props.product.discount)
                     ?
-                        <Header as="h3" id="priceHeader">{props.product.price}€</Header>
+                        <Header as="h3" className="priceHeader">{props.product.price}€
+                        <Header.Subheader style={{visibility: "hidden"}} as="del" content="."/>
+                        </Header>
                         :
-                        <Header as="h3">{props.product.discount.finalPrice}€
+                        <Header as="h3" className="priceHeader">{props.product.discount.finalPrice}€
                             <Header.Subheader as="del" content={props.product.price + "€"} />
                         </Header>
                     }
                 </Grid.Column>
                 <Grid.Column>
                     <Button
+                        className="add-to-cart"
                         floated="right"
                         positive
                         animated="fade"
                         onClick={() => props.onProductAddToCart(props.product)}
                     >
-                        <Button.Content visible>
+                        <Button.Content visible className="button-text">
                             <Icon name="shop" />
                         </Button.Content>
-                        <Button.Content hidden>
-                            <Icon name="plus" />
+                        <Button.Content hidden className="button-text">
+                            <Icon name="plus" />1
                         </Button.Content>
                     </Button>
                 </Grid.Column>

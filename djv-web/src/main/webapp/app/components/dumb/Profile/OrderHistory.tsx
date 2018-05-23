@@ -3,6 +3,7 @@ import * as React from "react";
 import {Button, Icon, Loader, Modal, Pagination, Table} from "semantic-ui-react";
 
 import "../../../../style/profile.css";
+import "../../../../style/style.css";
 
 import * as api from "../../../api";
 
@@ -98,20 +99,23 @@ export class OrderHistory extends React.Component<{},OrderHistoryState> {
                             {this.mapOrders()}
                         </Table.Body>
                     </Table>
-                    <Pagination
-                        floated="right"
-                        activePage={this.state.activePage}
-                        onPageChange={this.handlePaginationChange}
-                        ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
-                        firstItem={{ content: <Icon name="angle double left" />, icon: true }}
-                        lastItem={{ content: <Icon name="angle double right" />, icon: true }}
-                        prevItem={{ content: <Icon name="angle left" />, icon: true }}
-                        nextItem={{ content: <Icon name="angle right" />, icon: true }}
-                        totalPages={Math.ceil(this.state.orders.length/5)}
-                    />
+                    <div className="pagination-father">
+                        <Pagination
+                            id="products-pagination"
+                            floated="right"
+                            activePage={this.state.activePage}
+                            onPageChange={this.handlePaginationChange}
+                            ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
+                            firstItem={{ content: <Icon name="angle double left" />, icon: true }}
+                            lastItem={{ content: <Icon name="angle double right" />, icon: true }}
+                            prevItem={{ content: <Icon name="angle left" />, icon: true }}
+                            nextItem={{ content: <Icon name="angle right" />, icon: true }}
+                            totalPages={Math.ceil(this.state.orders.length/5)}
+                        />
+                    </div>
                     <Modal size={"large"} open={this.state.activeOrder!==undefined} onClose={this.close}>
-                        <Modal.Header>
-                            Information about your order
+                        <Modal.Header className="modal-header">
+                            <h2>Information about your order</h2>
                         </Modal.Header>
                         <Modal.Content>
                             <OrderTable data={this.state.activeOrder}/>

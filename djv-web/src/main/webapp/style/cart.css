@@ -6,6 +6,16 @@
     border-bottom-right-radius: 0%;
 }
 
+#amountButtonMinus, #amountButtonPlus {
+    background-color: #393d40!important;
+    color: #ffe693!important;
+}
+
+.price-area-container {
+    display: flex!important;
+    justify-items: center;
+}
+ 
 #amountButtonPlus, #amountInput{
     border-top-left-radius: 0%;
     border-bottom-left-radius: 0%;
@@ -16,8 +26,19 @@
     padding: 0%;
 }
 
-#stepGroup{
-    margin-top: 2%;
+#stepGroup .link.step.active, #stepGroup .link.step.active::after {
+    background-color: #393d40;
+}
+#stepGroup .link.step.active * {
+    color: #ffe693;
+}
+
+#stepGroup .link.step * {
+    color: #393d40;
+}
+
+#stepGroup .link.step.disabled * {
+    color: #8e8e8e;
 }
 
 .trashIcon{
@@ -29,6 +50,10 @@
 }
 .datePicker{
     z-index: 5;   
+}
+
+#deliveryInfoForm {
+    padding-left: 10px;
 }
 
 #deliveryInfoForm label{
@@ -49,6 +74,11 @@
     margin-right:5%;
 }
 
+#addressForm {
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
 #editIcon{
     margin-left: 1%;
 }
@@ -59,5 +89,60 @@
 
 #approval .approvalText{
     text-align: center;
-    margin-top: 5%;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+#approval span {
+    color: #393d40!important;
+}
+
+#approval .ui.message .header {
+    margin-bottom: 5px;
+    color: #ffce2b;
+    font-size: 30px;
+    -webkit-text-stroke: 1px #393d40;
+}
+
+#approval .check.icon {
+    color: #ffce2b!important;
+    -webkit-text-stroke: 1px #393d40;
+}
+
+#order-table-father {
+    margin-top: 15px;
+}
+
+#order-table th{
+    color: #ffe693;
+    background-color: #393d40;
+}
+
+.cart-total {
+    font-weight: bold;
+}
+
+.remove-button {
+    background-color: #393d40!important;
+    color: #ffe693!important;
+}
+
+.ui.positive.button, .ui.positive.buttons .button {
+    background-color: #ffce2b!important;
+    color: #393d40!important;
+}
+
+.ui.positive.button:hover, .ui.positive.buttons .button:hover {
+    background-color: #ffebba!important;
+    color: #393d40!important;
+}
+
+.paymentInputContainer {
+    text-align: center;
+}
+
+@media (max-width: 766px) {
+    .cart-total {
+        text-align: center!important;
+    }
 }

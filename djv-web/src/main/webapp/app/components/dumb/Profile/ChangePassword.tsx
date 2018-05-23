@@ -77,9 +77,11 @@ export class ChangePassword extends React.Component<{}, ChangePasswordState> {
                 open={this.state.modalOpen}
                 onClose={this.handleClose}
                 >
-                <Modal.Header><h2>Change password</h2></Modal.Header>
+                <Modal.Header className="modal-header"><h2>Change password</h2></Modal.Header>
                 <Modal.Content id="registerModal">
-                    <Form loading={this.state.isLoading} error={this.state.error !== undefined}>
+                    <Form
+                        loading={this.state.isLoading}
+                        error={this.state.error !== undefined}>
                         <Form.Field inline>
                             <label>Current password:</label>
                             <input
@@ -111,11 +113,15 @@ export class ChangePassword extends React.Component<{}, ChangePasswordState> {
                             error
                             content={this.state.error}
                         />
-                        <Button onClick={this.handleClose.bind(this)} color="red" inverted>
+                        <Button
+                            onClick={this.handleClose.bind(this)}
+                            className="password-cancel-button">
                             <Icon name="remove" />
                             Cancel
                         </Button>
-                        <Button onClick={this.handleSubmit.bind(this)} color="green" inverted>
+                        <Button
+                            onClick={this.handleSubmit.bind(this)}
+                            className="password-save-button">
                             <Icon name="checkmark" />
                             Save
                         </Button>

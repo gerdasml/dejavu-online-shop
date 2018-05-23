@@ -76,7 +76,7 @@ export class Header extends React.Component <{}, HeaderState> {
             <div>
                 <Menu id="menuHeader">
                     <Menu.Item
-                        className="logoContainer borderless"
+                        className="logoContainer borderless hoverless"
                         id="logoHeaderColumn"
                         active={activeItem === "menu"}
                         onClick={this.handleItemClick}>
@@ -89,9 +89,9 @@ export class Header extends React.Component <{}, HeaderState> {
                         </MediaQuery>
                     </NavLink>
                     </Menu.Item>
-                    <Menu.Menu position="right">
+                    <Menu.Menu position="right" id="dejavu-menu">
                         <MediaQuery query="(min-width: 500px)">
-                            <Menu.Item className="borderless">
+                            <Menu.Item className="borderless hoverless">
                                 <Search id="searchBar"
                                     placeholder="Search..."
                                     noResultsMessage="No products were found"

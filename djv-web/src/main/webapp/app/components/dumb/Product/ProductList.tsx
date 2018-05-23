@@ -40,16 +40,19 @@ export const ProductList = (props: ProductListProps) => (
                 />
             )}
         </Card.Group>
-        <Pagination
-            floated="left"
-            activePage={props.activePage}
-            onPageChange={((e, x) => props.onPageChange(x.activePage as number))}
-            ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
-            firstItem={{ content: <Icon name="angle double left" />, icon: true }}
-            lastItem={{ content: <Icon name="angle double right" />, icon: true }}
-            prevItem={{ content: <Icon name="angle left" />, icon: true }}
-            nextItem={{ content: <Icon name="angle right" />, icon: true }}
-            totalPages={Math.ceil(props.totalProductCount / config.productsPerPage)}
-        />
+        <div className="pagination-father">
+            <Pagination
+                id="products-pagination"
+                floated="left"
+                activePage={props.activePage}
+                onPageChange={((e, x) => props.onPageChange(x.activePage as number))}
+                ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
+                firstItem={{ content: <Icon name="angle double left" />, icon: true }}
+                lastItem={{ content: <Icon name="angle double right" />, icon: true }}
+                prevItem={{ content: <Icon name="angle left" />, icon: true }}
+                nextItem={{ content: <Icon name="angle right" />, icon: true }}
+                totalPages={Math.ceil(props.totalProductCount / config.productsPerPage)}
+            />
+        </div>
     </div>
 );

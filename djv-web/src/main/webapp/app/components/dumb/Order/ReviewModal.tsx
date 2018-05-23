@@ -8,6 +8,8 @@ import { Review } from "../../../model/Review";
 
 import { OrderReview } from "./OrderReview";
 
+import "../../../../style/style.css";
+
 interface ReviewProps {
     onClose: () => void;
     open: boolean;
@@ -21,7 +23,7 @@ export class ReviewModal extends React.Component<ReviewProps, never> {
     render () {
         return (
             <Modal open={this.props.open}>
-                <Modal.Header>Please review your last Order</Modal.Header>
+                <Modal.Header className="review-modal">Please review your last order</Modal.Header>
                 <Modal.Content>
                     <OrderReview
                         order={this.props.order}

@@ -18,8 +18,6 @@ import { formatPrice } from "../../../utils/common";
 
 import * as CartManager from "../../../utils/cart";
 
-import "../../../../style/productPage.css";
-
 import { isNullOrUndefined } from "util";
 
 interface ProductRouteProps {
@@ -82,22 +80,31 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
                     <Grid.Row>
                         <Grid.Column width="eight">
                             <List horizontal>
-                                <List.Item>
+                                <List.Item className="product-name">
                                     <Header size="large">{this.state.product.name}</Header>
                                 </List.Item>
-                                <List.Item>
+                                <List.Item className="product-price-label">
                                     {isNullOrUndefined(products[0].discount)
                                     ?
-                                    <Label tag>{formatPrice(this.state.product.price)}</Label>
+                                    <Label tag className="normal-price-tag">
+                                        {formatPrice(this.state.product.price)}
+                                    </Label>
                                     :
-                                    <Label tag>{formatPrice(products[0].discount.finalPrice)}
-                                        <del id="oldPrice">{formatPrice(products[0].price)}</del></Label>
+                                    <Label tag className="normal-price-tag">
+                                        {formatPrice(products[0].discount.finalPrice)}
+                                        <del id="oldPrice">
+                                            {formatPrice(products[0].price)}
+                                        </del>
+                                    </Label>
                                     }
                                     {
                                         !isNullOrUndefined(products[0].discount) &&
                                         products[0].discount.type === "PERCENTAGE"
                                         ?
-                                        <Label>-{products[0].discount.value}<Icon name="percent"/></Label>
+                                        <Label className="discount-tag">
+                                            -{products[0].discount.value}
+                                            <Icon name="percent"/>
+                                        </Label>
                                         :
                                         <div/>
                                     }
