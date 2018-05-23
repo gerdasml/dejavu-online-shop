@@ -2,6 +2,7 @@ package lt.dejavu.product.repository;
 
 import lt.dejavu.product.model.Category;
 import lt.dejavu.product.model.Product;
+import lt.dejavu.product.model.SearchResult;
 import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 
 import java.util.Set;
@@ -26,5 +27,5 @@ public interface ProductRepository {
 
     long getTotalProductCount();
 
-    Set<Product> searchForProducts(ProductSearchRequest request, int offset, int limit);
+    SearchResult<Product> searchForProducts(ProductSearchRequest request, int offset, int limit);
 }

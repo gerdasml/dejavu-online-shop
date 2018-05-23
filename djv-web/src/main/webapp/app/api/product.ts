@@ -3,6 +3,7 @@ import { ApiResponse } from "./ApiResponse";
 import { ImportStatus, Product } from "../model/Product";
 import { fetchData, HttpMethod } from "./utils";
 import { ProductProperties } from "../model/ProductProperties";
+import { SearchResult } from "../model/SearchResult";
 
 const PATH_PREFIX = "/api/product";
 
@@ -41,7 +42,7 @@ export const getProductByIdentifier = (identifier: string): Promise<ApiResponse<
     fetchData(PATH_PREFIX + "/byIdentifier?identifier=" + identifier, HttpMethod.GET);
 
 export const searchForProducts =
-    (req: ProductSearchRequest, offset?: number, limit?: number): Promise<ApiResponse<Product[]>> =>
+    (req: ProductSearchRequest, offset?: number, limit?: number): Promise<ApiResponse<SearchResult<Product>>> =>
         fetchData(buildPaginationPath("/category", offset, limit), HttpMethod.POST, req);
 
 export const getAllProducts = (offset?: number, limit?: number): Promise<ApiResponse<Product[]>> =>

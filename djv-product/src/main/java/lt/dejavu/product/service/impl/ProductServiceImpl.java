@@ -6,14 +6,11 @@ import lt.dejavu.product.dto.ProductPropertyDto;
 import lt.dejavu.product.dto.discount.ProductDiscountDto;
 import lt.dejavu.product.dto.mapper.ProductDtoMapper;
 import lt.dejavu.product.dto.mapper.ProductPropertyDtoMapper;
+import lt.dejavu.product.model.*;
 import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.ProductNotFoundException;
 import lt.dejavu.product.exception.ProductPropertyNotFoundException;
-import lt.dejavu.product.model.Category;
-import lt.dejavu.product.model.CategoryProperty;
-import lt.dejavu.product.model.Product;
-import lt.dejavu.product.model.ProductProperty;
 import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.repository.ProductPropertyRepository;
 import lt.dejavu.product.repository.ProductRepository;
@@ -27,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -115,21 +113,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> searchProducts(ProductSearchRequest request, Integer offset, Integer limit) {
+    public SearchResult<ProductDto> searchProducts(ProductSearchRequest request, Integer offset, Integer limit) {
         if (limit == null) {
             limit = Integer.MAX_VALUE;
         }
         if (offset == null) {
             offset = 0;
         }
-        /*Category category = getCategoryIfExist(request.getCategoryIdentifier());
-        return getProductsByCategory(category.getId(), offset, limit);*/
-        List<ProductDto> products =
-                productDtoMapper.mapToDto(
-                        productRepository.searchForProducts(request, offset, limit)
-                                         );
-        enrichProductsWithDiscount(products);
-        return products;
+        SearchResult<Product> dbResult = productRepository.searchForProducts(request, offset, limit);
+        SearchResult<ProductDto> result = new SearchResult<>();
+        result.setTotal(dbResult.getTotal());
+        result.setResults(productDtoMapper.mapToDto(dbResult.getResults()));
+        enrichProductsWithDiscount(result.getResults());
+        return result;
     }
 
     @Transactional
@@ -166,7 +162,7 @@ public class ProductServiceImpl implements ProductService {
         productRepository.updateProduct(oldProduct);
     }
 
-    private void enrichProductsWithDiscount(List<ProductDto> products) {
+    private void enrichProductsWithDiscount(Collection<ProductDto> products) {
         products.parallelStream()
                 .forEach(this::enrichProductWithDiscount);
     }

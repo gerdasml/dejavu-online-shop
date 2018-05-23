@@ -1,6 +1,7 @@
 package lt.dejavu.product.service;
 
 import lt.dejavu.product.dto.ProductDto;
+import lt.dejavu.product.model.SearchResult;
 import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 
 import java.io.ByteArrayOutputStream;
@@ -19,7 +20,7 @@ public interface ProductService {
 
     Long createProduct(ProductDto request);
     
-    List<ProductDto> searchProducts(ProductSearchRequest request, Integer offset, Integer limit);
+    SearchResult<ProductDto> searchProducts(ProductSearchRequest request, Integer offset, Integer limit);
 
     void deleteProduct(long productId);
 

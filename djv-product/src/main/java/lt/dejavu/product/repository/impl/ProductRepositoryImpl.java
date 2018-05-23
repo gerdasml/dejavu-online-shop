@@ -116,7 +116,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Set<Product> searchForProducts(ProductSearchRequest request,
+    public SearchResult<Product> searchForProducts(ProductSearchRequest request,
                                           int offset,
                                           int limit) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -164,6 +164,20 @@ public class ProductRepositoryImpl implements ProductRepository {
         q.setFirstResult(offset);
         q.setMaxResults(limit);
 
-        return new LinkedHashSet<>(q.getResultList());
+        SearchResult<Product> result = new SearchResult<>();
+        result.setTotal(getCount(predicates.toArray(new Predicate[0]), Product.class));
+        result.setResults(new LinkedHashSet<>(q.getResultList()));
+
+        return result;
+    }
+
+    private <T> long getCount(Predicate[] predicates, Class<T> clazz) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<T> root = countQuery.from(clazz);
+        countQuery.select(cb.count(root));
+        countQuery.where(cb.and(predicates));
+
+        return em.createQuery(countQuery).getSingleResult();
     }
 }
