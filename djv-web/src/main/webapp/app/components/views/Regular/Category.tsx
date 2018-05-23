@@ -10,6 +10,8 @@ import { notification } from "antd";
 import * as api from "../../../api";
 import { ProductContainer } from "../../dumb/Product/ProductContainer";
 
+import { config } from "../../../config";
+
 interface CategoryRouteProps {
     identifier: string;
 }
@@ -21,8 +23,6 @@ interface CategoryState {
     isLoading: boolean;
     activePage: number;
 }
-
-const PRODUCTS_PER_PAGE = 20;
 
 export class Category extends React.Component<RouteComponentProps<CategoryRouteProps>, CategoryState> {
     state: CategoryState = {
@@ -44,7 +44,7 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
         const identifier = props.match.params.identifier;
         const [productResponse, categoryResponse] =
             await Promise.all(
-                [ api.product.searchForProducts({categoryIdentifier: identifier}, 0, PRODUCTS_PER_PAGE)
+                [ api.product.searchForProducts({categoryIdentifier: identifier}, 0, config.productsPerPage)
                 , api.category.getCategoryByIdentifier(props.match.params.identifier)
                 ]);
         if (api.isError(productResponse)) {
@@ -74,8 +74,8 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
 
     async handlePageChange (page: number) {
         this.setState({...this.state, isLoading: true});
-        const offset = (page-1) * PRODUCTS_PER_PAGE;
-        const limit = PRODUCTS_PER_PAGE;
+        const offset = (page-1) * config.productsPerPage;
+        const limit = config.productsPerPage;
         const products =
             await api.product.searchForProducts({
                 categoryIdentifier: this.props.match.params.identifier

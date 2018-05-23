@@ -18,6 +18,8 @@ import * as CartManager from "../../../utils/cart";
 import "../../../../style/filter.css";
 import { ProductProperties } from "../../../model/ProductProperties";
 
+import { config } from "../../../config";
+
 interface ProductContainerProps {
     totalProductCount: number;
     minPrice?: number;
@@ -38,8 +40,6 @@ interface ProductContainerState {
     minPrice: number;
     maxPrice: number;
 }
-
-const PRODUCTS_PER_PAGE = 20;
 
 export class ProductContainer extends React.Component <ProductContainerProps, ProductContainerState> {
     state: ProductContainerState = {
@@ -180,7 +180,7 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
                         lastItem={{ content: <Icon name="angle double right" />, icon: true }}
                         prevItem={{ content: <Icon name="angle left" />, icon: true }}
                         nextItem={{ content: <Icon name="angle right" />, icon: true }}
-                        totalPages={Math.ceil(this.props.totalProductCount / PRODUCTS_PER_PAGE)}
+                        totalPages={Math.ceil(this.props.totalProductCount / config.productsPerPage)}
                     />
                 </div>
         );

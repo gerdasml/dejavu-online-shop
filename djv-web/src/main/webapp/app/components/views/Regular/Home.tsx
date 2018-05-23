@@ -9,14 +9,14 @@ import * as api from "../../../api";
 import { Product } from "../../../model/Product";
 import { ProductContainer } from "../../dumb/Product/ProductContainer";
 
+import { config } from "../../../config";
+
 interface HomeState {
     isLoading: boolean;
     products: Product[];
     activePage: number;
     productCount?: number;
 }
-
-const PRODUCTS_PER_PAGE = 20;
 
 export class Home extends React.Component< {}, HomeState> {
     state: HomeState = {
@@ -27,7 +27,7 @@ export class Home extends React.Component< {}, HomeState> {
 
     async componentDidMount () {
         const [productsInfo, productCount] = await Promise.all([
-            api.product.getAllProducts(0, PRODUCTS_PER_PAGE),
+            api.product.getAllProducts(0, config.productsPerPage),
             api.product.getTotalProductCount()
         ]);
         if(api.isError(productsInfo)) {
@@ -49,8 +49,8 @@ export class Home extends React.Component< {}, HomeState> {
 
     async handlePageChange (page: number) {
         this.setState({...this.state, isLoading: true});
-        const offset = (page-1) * PRODUCTS_PER_PAGE;
-        const limit = PRODUCTS_PER_PAGE;
+        const offset = (page-1) * config.productsPerPage;
+        const limit = config.productsPerPage;
         const products = await api.product.getAllProducts(offset, limit);
         if (api.isError(products)) {
             notification.error({message: "Failed to load products", description: products.message});
