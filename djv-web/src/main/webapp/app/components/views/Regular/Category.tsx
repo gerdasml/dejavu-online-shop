@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Loader} from "semantic-ui-react";
+import { Loader, Header} from "semantic-ui-react";
 
 import { RouteComponentProps } from "react-router-dom";
 import {Product} from "../../../model/Product";
@@ -57,7 +57,8 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
             <ProductContainer
                 filterData={this.state.categoryInfo}
                 query={{categoryIdentifier: this.props.match.params.identifier}}
-                noResultsMessage="There are no products in this category"  // TODO: pretty message
+                noResultsMessage={<Header size="huge">No products were found</Header>}
+                categoryIdentifier={this.props.match.params.identifier}
             />
         );
     }

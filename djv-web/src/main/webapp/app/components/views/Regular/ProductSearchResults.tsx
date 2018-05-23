@@ -22,14 +22,18 @@ import { NotFound } from "../NotFound";
 export class ProductSearchResults extends React.Component< RouteComponentProps<{}>, never> {
     render () {
         const query = parse(this.props.location.search);
-        if (query[config.searchQueryParamName] === undefined) {
+        const searchPhrase = query[config.searchQueryParamName];
+        if (searchPhrase === undefined) {
             return <NotFound />;
         }
         return (
-            <ProductContainer
-                query={{name: query[config.searchQueryParamName]}}
-                noResultsMessage={<h2>Your query produced no results</h2>} // TODO: pretty message
-            />
+            <span>
+                <Header size="huge">Search results for <span className="search-query">{searchPhrase}</span></Header>
+                <ProductContainer
+                    query={{name: searchPhrase}}
+                    noResultsMessage={<Header size="large">No results</Header>}
+                />
+            </span>
         );
     }
 }

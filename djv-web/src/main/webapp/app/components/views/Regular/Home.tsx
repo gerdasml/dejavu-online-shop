@@ -20,7 +20,7 @@ export class Home extends React.Component< {}, never> {
         return (
             <ProductContainer
                 query={{}}
-                noResultsMessage="The shop has no products"  // TODO: pretty message
+                noResultsMessage={<Header size="huge">No products were found</Header>}
             />
         );
     }

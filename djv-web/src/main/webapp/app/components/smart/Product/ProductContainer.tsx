@@ -53,7 +53,9 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
 
     // required to load data on each url change
     async componentWillReceiveProps (nextProps: ProductContainerProps) {
-        await this.loadData(nextProps);
+        if (nextProps.categoryIdentifier !== this.props.categoryIdentifier) {
+            await this.loadData(nextProps);
+        }
     }
 
     async loadData (props: ProductContainerProps) {
