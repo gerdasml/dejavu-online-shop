@@ -18,7 +18,10 @@ import { ProductContainer } from "../../smart/Product/ProductContainer";
 export class Home extends React.Component< {}, never> {
     render () {
         return (
-            <ProductContainer query={{}} />
+            <ProductContainer
+                query={{}}
+                noResultsMessage="The shop has no products"  // TODO: pretty message
+            />
         );
     }
 }

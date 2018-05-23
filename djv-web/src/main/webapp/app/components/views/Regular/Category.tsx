@@ -57,6 +57,7 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
             <ProductContainer
                 filterData={this.state.categoryInfo}
                 query={{categoryIdentifier: this.props.match.params.identifier}}
+                noResultsMessage="There are no products in this category"  // TODO: pretty message
             />
         );
     }

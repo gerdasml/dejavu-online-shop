@@ -22,6 +22,7 @@ interface ProductContainerProps {
     query: ProductSearchRequest;
     filterData?: CategoryInfo;
     categoryIdentifier?: string;
+    noResultsMessage: string | React.ReactNode;
 }
 
 interface ProductContainerState {
@@ -183,6 +184,7 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
 
     renderProductList () {
         if (this.state.isProductInfoLoading) return <Loader active inline="centered" />;
+        if (this.state.productCount === 0) return this.props.noResultsMessage;
         return (
             <ProductList
                 totalProductCount={this.state.productCount}

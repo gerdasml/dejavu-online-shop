@@ -27,7 +27,10 @@ export class ProductSearchResults extends React.Component< RouteComponentProps<{
             return <NotFound />;
         }
         return (
-            <ProductContainer query={{name: query[QUERY_PARAM_NAME]}} />
+            <ProductContainer
+                query={{name: query[QUERY_PARAM_NAME]}}
+                noResultsMessage={<h2>Your query produced no results</h2>} // TODO: pretty message
+            />
         );
     }
 }
