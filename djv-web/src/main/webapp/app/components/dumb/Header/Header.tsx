@@ -18,28 +18,37 @@ import { Order } from "../../../model/Order";
 
 import * as CartManager from "../../../utils/cart";
 
+import { connect } from "react-redux";
+import { bindActionCreators} from "redux";
+import { login, logout } from "../../../redux/actions/auth";
+import { AuthReducerState, AuthAction } from "../../../redux/reducers/authReducer";
+
 interface HeaderState {
-    loggedIn: boolean;
     activeItem: String;
     isSearch: boolean;
     ordersToReview: Order[];
 }
 
-export class Header extends React.Component <{}, HeaderState> {
+interface HeaderReducerMethods{
+    dispatchLogin: () => AuthAction;
+    dispatchLogout: () => AuthAction;
+}
+
+export class Header extends React.Component <AuthReducerState & HeaderReducerMethods, HeaderState> {
     state: HeaderState = {
         activeItem: "home",
-        loggedIn: getToken() !== null,
         isSearch: false,
         ordersToReview: []
     };
 
     handleLogout = () => {
         clearToken();
-        this.setState ({...this.state, loggedIn: false});
+        console.log(this.props.dispatchLogout);
+        this.props.dispatchLogout();
     }
 
     handleLogin = async () => {
-        this.setState ({...this.state, loggedIn: true});
+        this.props.dispatchLogin();
         const response = await api.review.getOrdersToReview();
         if (api.isError(response)) {
             // Don't show an error if the review fetch failed
@@ -69,6 +78,8 @@ export class Header extends React.Component <{}, HeaderState> {
         // No need to await
         this.setState({...this.state, ordersToReview: []});
     }
+
+    isLoggedIn = () => this.props.loggedIn !== null ? this.props.loggedIn : getToken() !== null;
 
     render () {
         const { activeItem } = this.state;
@@ -108,7 +119,7 @@ export class Header extends React.Component <{}, HeaderState> {
                             >Cart
                             </Menu.Item>
                             {
-                                this.state.loggedIn
+                                this.isLoggedIn
                                 ?
                                         [<Menu.Item
                                                 name="profile"
@@ -144,7 +155,7 @@ export class Header extends React.Component <{}, HeaderState> {
                                 <Icon name="cart"/>
                             </Menu.Item>
                             {
-                                this.state.loggedIn
+                                this.props.loggedIn
                                 ?
                                         [<Menu.Item
                                                 name="profile"
@@ -192,3 +203,14 @@ export class Header extends React.Component <{}, HeaderState> {
         );
     }
 }
+
+export default connect(
+    (state: AuthReducerState) => ({
+        loggedIn: state.loggedIn
+    }),
+    dispatch => bindActionCreators({
+          dispatchLogin: login,
+          dispatchLogout: logout,
+    }
+    ,dispatch)
+)(Header);
