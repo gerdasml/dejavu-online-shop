@@ -113,8 +113,9 @@ public class ProductRepositoryImpl implements ProductRepository {
         Root<Product> root = query.from(Product.class);
         List<Predicate> predicates = new ArrayList<>();
         if (request.getCategoryIdentifier() != null) {
+            Join<Product, Category> join = root.join(Product_.category, JoinType.LEFT);
             predicates.add(cb.equal(
-                    root.get(Product_.category).get(Category_.identifier),
+                    join.get(Category_.identifier),
                     request.getCategoryIdentifier())
                           );
         }
@@ -128,7 +129,17 @@ public class ProductRepositoryImpl implements ProductRepository {
             predicates.add(cb.lessThanOrEqualTo(
                     root.get(Product_.price),
                     request.getMaxPrice()
-                                                  ));
+                                               ));
+        }
+
+        if (request.getProperties() != null && request.getProperties().size() > 0) {
+            SetJoin<Product, ProductProperty> join = root.join(Product_.properties);
+            predicates.add(cb.or(request.getProperties()
+                                        .stream()
+                                        .map(prop -> cb.and(
+                                                cb.equal(join.get(ProductProperty_.categoryProperty).get(CategoryProperty_.id), prop.getPropertyId()),
+                                                cb.equal(join.get(ProductProperty_.value), prop.getValue())
+                                                           )).toArray(Predicate[]::new)));
         }
 
         query.where(cb.and(predicates.toArray(new Predicate[0])));

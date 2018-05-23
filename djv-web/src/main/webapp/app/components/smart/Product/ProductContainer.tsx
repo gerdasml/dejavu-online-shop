@@ -32,6 +32,7 @@ interface ProductContainerState {
     products: Product[];
     categoryInfo?: CategoryInfo;
     productCount?: number;
+    selectedProperties: ProductProperties[];
 }
 
 export class ProductContainer extends React.Component<ProductContainerProps, ProductContainerState> {
@@ -39,7 +40,8 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
         isFilterInfoLoading: true,
         isProductInfoLoading: true,
         products: [],
-        activePage: 1
+        activePage: 1,
+        selectedProperties: []
     };
     // required to load data on initial render
     async componentDidMount () {
@@ -155,7 +157,8 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
         const request = this.buildSearchRequest(
             this.props.categoryIdentifier,
             this.state.minPrice,
-            this.state.maxPrice);
+            this.state.maxPrice,
+            this.state.selectedProperties);
         await this.fetchNewProducts(request, page);
         this.setState({...this.state, activePage: page, isProductInfoLoading: false});
     }
@@ -176,17 +179,19 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
             ...this.state,
             isProductInfoLoading: true,
             minPrice,
-            maxPrice
+            maxPrice,
+            selectedProperties: properties
         });
-        const request = this.buildSearchRequest(this.props.categoryIdentifier, minPrice, maxPrice);
+        const request = this.buildSearchRequest(this.props.categoryIdentifier, minPrice, maxPrice, properties);
         await this.fetchNewProducts(request, 1);
         this.setState({...this.state, isProductInfoLoading: false});
     }
 
-    buildSearchRequest = (identifier: string, minPrice: number, maxPrice: number) => ({
+    buildSearchRequest = (identifier: string, minPrice: number, maxPrice: number, properties: ProductProperties[]) => ({
         categoryIdentifier: identifier,
         minPrice,
-        maxPrice
+        maxPrice,
+        properties
     })
 
     async handleAddToCart (addedProduct: Product) {
