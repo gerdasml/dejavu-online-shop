@@ -105,3 +105,34 @@
     background-color: #393d40;
     color: #FFE693;
 }
+
+.change-password-header h2{
+    color: #FFE693!important;
+    font-weight: bold;
+}
+
+.change-password-header {
+    background-color: #393d40!important;
+}
+
+#registerModal label {
+    color: #393d40;
+}
+
+.password-save-button {
+    background-color: #ffce2b!important;
+    color: #393d40!important;
+}
+
+.password-save-button:hover {
+    background-color: #FFE693!important;
+}
+
+.password-cancel-button {
+    color: #FFE693!important;
+    background-color: #393d40!important;
+}
+
+.password-cancel-button:hover {
+    background-color: #8e8e8e!important;
+}
