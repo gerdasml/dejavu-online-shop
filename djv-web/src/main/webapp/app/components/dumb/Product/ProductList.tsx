@@ -20,7 +20,7 @@ import { ProductProperties } from "../../../model/ProductProperties";
 
 import { config } from "../../../config";
 
-interface ProductContainerProps {
+interface ProductListProps {
     totalProductCount: number;
     products: Product[];
     onPageChange: (pageNumber: number) => void;
@@ -29,7 +29,7 @@ interface ProductContainerProps {
     onAddToCart: (product: Product) => void;
 }
 
-export const ProductContainer = (props: ProductContainerProps) => (
+export const ProductList = (props: ProductListProps) => (
     <div>
         <Card.Group itemsPerRow={5} doubling>
             {props.products.map((x, i) =>

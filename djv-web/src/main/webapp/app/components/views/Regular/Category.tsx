@@ -8,7 +8,7 @@ import {Category as CategoryModel, CategoryInfo} from "../../../model/Category";
 
 import { notification, message } from "antd";
 import * as api from "../../../api";
-import { ProductContainer } from "../../dumb/Product/ProductContainer";
+import { ProductList } from "../../dumb/Product/ProductList";
 
 import { config } from "../../../config";
 import { ProductProperties } from "../../../model/ProductProperties";
@@ -189,7 +189,7 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
                     this.state.isProductInfoLoading
                     ? <Loader active inline="centered" />
                     :
-                    <ProductContainer
+                    <ProductList
                         totalProductCount={this.state.categoryInfo.productCount}
                         products={this.state.products}
                         activePage={this.state.activePage}

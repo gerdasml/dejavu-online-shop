@@ -7,7 +7,7 @@ import { Header, Loader } from "semantic-ui-react";
 import * as api from "../../../api";
 
 import { Product } from "../../../model/Product";
-import { ProductContainer } from "../../dumb/Product/ProductContainer";
+import { ProductList } from "../../dumb/Product/ProductList";
 
 import { config } from "../../../config";
 import { Cart } from "../../../model/Cart";
@@ -93,7 +93,7 @@ export class Home extends React.Component< {}, HomeState> {
                 ?
                 <Loader active inline="centered" />
                 :
-                <ProductContainer
+                <ProductList
                     products={this.state.products}
                     activePage={this.state.activePage}
                     onPageChange={this.handlePageChange.bind(this)}
