@@ -50,7 +50,7 @@ export const OrderTable = (props: OrderTableProps) => (
                     { props.onItemRemove !== undefined
                     ?
                     <Table.Cell textAlign="center">
-                        <Button negative icon="remove" className="remove-button"
+                        <Button negative icon="trash" className="remove-button"
                             onClick={() => props.onItemRemove(item)}
                         />
                     </Table.Cell>

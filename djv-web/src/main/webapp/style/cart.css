@@ -52,6 +52,10 @@
     z-index: 5;   
 }
 
+#deliveryInfoForm {
+    padding-left: 10px;
+}
+
 #deliveryInfoForm label{
     width: 12%;
     
@@ -85,7 +89,7 @@
 
 #approval .approvalText{
     text-align: center;
-    margin-top: 5%;
+    margin-top: 15px;
     font-weight: bold;
 }
 
@@ -96,10 +100,13 @@
 #approval .ui.message .header {
     margin-bottom: 5px;
     color: #ffce2b;
+    font-size: 30px;
+    -webkit-text-stroke: 1px #393d40;
 }
 
 #approval .check.icon {
     color: #ffce2b!important;
+    -webkit-text-stroke: 1px #393d40;
 }
 
 #order-table-father {
@@ -116,7 +123,8 @@
 }
 
 .remove-button {
-    background-color: #F87060!important;
+    background-color: #393d40!important;
+    color: #ffe693!important;
 }
 
 .ui.positive.button, .ui.positive.buttons .button {
@@ -131,4 +139,10 @@
 
 .paymentInputContainer {
     text-align: center;
+}
+
+@media (max-width: 766px) {
+    .cart-total {
+        text-align: center!important;
+    }
 }

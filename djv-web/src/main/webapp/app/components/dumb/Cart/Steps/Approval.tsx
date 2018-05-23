@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button, Icon, Message } from "semantic-ui-react";
+import { Button, Icon, Message, Header } from "semantic-ui-react";
 
 import "../../../../../style/cart.css";
 
@@ -14,7 +14,7 @@ export const Approval = (props: ApprovalProps) => (
         <Message
             className="approvalText"
             icon="check"
-            header="Your purchase was successful!"
+            header={<Header>Your purchase was successful!</Header>}
             content={
                 <span>
                     <p>
