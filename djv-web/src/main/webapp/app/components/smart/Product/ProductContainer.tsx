@@ -210,6 +210,11 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
     renderFilter () {
         if (this.props.categoryIdentifier === undefined) return "";
         if (this.state.isFilterInfoLoading) return "";
+        if (this.state.categoryInfo === undefined ||
+            this.state.categoryInfo.availableProperties === undefined ||
+            this.state.categoryInfo.availableProperties.length === 0 ||
+            this.state.categoryInfo.maxPrice === undefined ||
+            this.state.categoryInfo.minPrice === undefined) return "";
         return (
             <ProductFilter
                 minPrice={this.state.categoryInfo.minPrice}

@@ -47,8 +47,8 @@ export class ProductFilter extends React.Component <ProductFilterProps, ProductF
     }
 
     render () {
-        const min = Math.floor(this.props.minPrice);
-        const max = Math.ceil(this.props.maxPrice);
+        const min = this.props.minPrice === undefined ? undefined : Math.floor(this.props.minPrice);
+        const max = this.props.maxPrice === undefined ? undefined : Math.ceil(this.props.maxPrice);
         return (
             <Accordion className="filter-accordion">
                 <Accordion.Title
@@ -59,25 +59,30 @@ export class ProductFilter extends React.Component <ProductFilterProps, ProductF
                 </Accordion.Title>
                 <Accordion.Content active={this.state.isFilterExpanded}>
                     <Grid doubling stackable columns={5} id="filter-father" className="accordion-content">
-                        <Grid.Row centered>
-                            <Slider
-                                className="filter-slider"
-                                range
-                                min={min}
-                                max={max}
-                                defaultValue={[min, max]}
-                                marks={{
-                                    [min]: min + "Eur",
-                                    [max]: max + "Eur"
-                                }}
-                                onAfterChange={(e: [number, number]) => {
-                                    this.setState({
-                                        ...this.state,
-                                        minPrice: e[0],
-                                        maxPrice: e[1]
-                                    }, ()=> this.filterProducts());
-                                }}/>
-                        </Grid.Row>
+                            { min !== undefined && max !== undefined
+                            ?
+                            <Grid.Row centered>
+                                <Slider
+                                    className="filter-slider"
+                                    range
+                                    min={min}
+                                    max={max}
+                                    defaultValue={[min, max]}
+                                    marks={{
+                                        [min]: min + "Eur",
+                                        [max]: max + "Eur"
+                                    }}
+                                    onAfterChange={(e: [number, number]) => {
+                                        this.setState({
+                                            ...this.state,
+                                            minPrice: e[0],
+                                            maxPrice: e[1]
+                                        }, ()=> this.filterProducts());
+                                    }}
+                                />
+                            </Grid.Row>
+                            : ""
+                            }
                         {this.props.availableProperties.map(x =>
                             <Grid.Column className="filter">
                                 <Filter
