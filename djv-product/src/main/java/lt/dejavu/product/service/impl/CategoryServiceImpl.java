@@ -19,8 +19,10 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static java.util.stream.Collectors.*;
 
@@ -111,14 +113,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     private List<PropertySummaryDto> getPropertySummaries(long categoryId) {
         List<ProductProperty> properties = categoryRepository.getProductPropertiesForCategory(categoryId);
-        Map<Pair<Long, String>, List<String>> mapping = properties.stream().collect(
+        Map<Pair<Long, String>, Set<String>> mapping = properties.stream().collect(
                 groupingBy(
                         prop -> new Pair<>(prop.getCategoryProperty().getId(), prop.getCategoryProperty().getName()),
-                        mapping(ProductProperty::getValue, toList())
+                        mapping(ProductProperty::getValue, toSet())
                           ));
         return mapping.entrySet()
                       .stream()
-                      .map(x -> buildPropertySummaryDto(x.getKey().getKey(), x.getKey().getValue(), x.getValue()))
+                      .map(x -> buildPropertySummaryDto(x.getKey().getKey(), x.getKey().getValue(), new ArrayList<>(x.getValue())))
                       .collect(toList());
     }
 
