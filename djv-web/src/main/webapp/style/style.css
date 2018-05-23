@@ -56,3 +56,11 @@
 .order-review-cancel-button:hover {
     background-color: #8e8e8e!important;
 }
+
+.ui.loader:before {
+    border-color: #393d40!important;
+}
+
+.ui.loader:after {
+    border-color: #ffe693 transparent transparent!important;
+}
