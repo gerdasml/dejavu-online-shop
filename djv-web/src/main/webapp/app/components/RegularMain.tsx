@@ -8,6 +8,7 @@ import {About, Cart, Category, Home, Product, Profile, User} from "./views/Regul
 
 import { Footer } from "../components/dumb/Footer/Footer";
 import { Header } from "../components/dumb/Header/Header";
+import { ProductSearchResults } from "./views/Regular/ProductSearchResults";
 
 export const RegularMain = () => (
     <div>
@@ -16,6 +17,7 @@ export const RegularMain = () => (
                 <Switch>
                     <Route exact path="/" component={Home} />
                     <Route path="/about" component={About} />
+                    <Route path="/product/search" component={ProductSearchResults}/>
                     <Route path="/product/:identifier+" component={Product} />
                     <Route path="/user/:id" component={User}/>
                     <Route path="/cart" component={Cart} />
