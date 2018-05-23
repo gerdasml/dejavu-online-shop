@@ -38,8 +38,8 @@ public class ProductApi {
             path = "/",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<ProductDto> getAllProducts(@RequestParam(value="offset", required=false) Long offset,
-                                           @RequestParam(value="limit", required=false) Long limit) {
+    public List<ProductDto> getAllProducts(@RequestParam(value="offset", required=false) Integer offset,
+                                           @RequestParam(value="limit", required=false) Integer limit) {
         return productService.getAllProducts(limit, offset);
     }
 
@@ -61,8 +61,8 @@ public class ProductApi {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public List<ProductDto> getProductsByCategory(@PathVariable("categoryId") long categoryId,
-                                                  @RequestParam(value="offset", required=false) Long offset,
-                                                  @RequestParam(value="limit", required=false) Long limit) {
+                                                  @RequestParam(value="offset", required=false) Integer offset,
+                                                  @RequestParam(value="limit", required=false) Integer limit) {
         return productService.getProductsByCategory(categoryId, offset, limit);
     }
 
@@ -80,8 +80,8 @@ public class ProductApi {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public List<ProductDto> productSearch(@RequestBody ProductSearchRequest request,
-                                          @RequestParam(value="offset", required=false) Long offset,
-                                          @RequestParam(value="limit", required=false) Long limit) {
+                                          @RequestParam(value="offset", required=false) Integer offset,
+                                          @RequestParam(value="limit", required=false) Integer limit) {
         return productService.searchProducts(request, offset, limit);
     }
 

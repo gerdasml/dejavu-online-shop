@@ -72,15 +72,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getAllProducts(Long limit, Long offset) {
-        List<ProductDto> products = productDtoMapper.mapToDto(productRepository.getAllProducts());
+    public List<ProductDto> getAllProducts(Integer limit, Integer offset) {
         if (limit == null) {
-            limit = Long.MAX_VALUE;
+            limit = Integer.MAX_VALUE;
         }
         if (offset == null) {
-            offset = 0L;
+            offset = 0;
         }
-        products = products.stream().skip(offset).limit(limit).collect(toList());
+        List<ProductDto> products =
+                productDtoMapper.mapToDto(productRepository.getAllProducts(offset, limit));
         enrichProductsWithDiscount(products);
         return products;
     }
@@ -100,22 +100,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getProductsByCategory(long categoryId, Long offset, Long limit) {
+    public List<ProductDto> getProductsByCategory(long categoryId, Integer offset, Integer limit) {
         getCategoryIfExist(categoryId);
-        List<ProductDto> products = productDtoMapper.mapToDto(productRepository.getProductsByCategory(categoryId));
         if (limit == null) {
-            limit = Long.MAX_VALUE;
+            limit = Integer.MAX_VALUE;
         }
         if (offset == null) {
-            offset = 0L;
+            offset = 0;
         }
-        products = products.stream().skip(offset).limit(limit).collect(toList());
+        List<ProductDto> products =
+                productDtoMapper.mapToDto(
+                        productRepository.getProductsByCategory(categoryId, offset, limit)
+                                         );
+
         enrichProductsWithDiscount(products);
         return products;
     }
 
     @Override
-    public List<ProductDto> searchProducts(ProductSearchRequest request, Long offset, Long limit) {
+    public List<ProductDto> searchProducts(ProductSearchRequest request, Integer offset, Integer limit) {
         // TODO: maybe add some additional search options?
         Category category = getCategoryIfExist(request.getCategoryIdentifier());
         return getProductsByCategory(category.getId(), offset, limit);
@@ -179,7 +182,7 @@ public class ProductServiceImpl implements ProductService {
     
     @Override
     public ByteArrayOutputStream exportProducts() throws IOException {
-        return excelService.toExcel(productRepository.getAllProducts());
+        return excelService.toExcel(productRepository.getAllProducts(0, Integer.MAX_VALUE));
     }
 
     @Override

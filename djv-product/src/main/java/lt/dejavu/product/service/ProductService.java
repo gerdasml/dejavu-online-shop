@@ -11,15 +11,15 @@ import java.util.UUID;
 public interface ProductService {
     ProductDto getProduct(long id);
 
-    List<ProductDto> getAllProducts(Long limit, Long offset);
+    List<ProductDto> getAllProducts(Integer limit, Integer offset);
 
     ProductDto getProduct(String identifier);
 
-    List<ProductDto> getProductsByCategory(long categoryId, Long offset, Long limit);
+    List<ProductDto> getProductsByCategory(long categoryId, Integer offset, Integer limit);
 
     Long createProduct(ProductDto request);
     
-    List<ProductDto> searchProducts(ProductSearchRequest request, Long offset, Long limit);
+    List<ProductDto> searchProducts(ProductSearchRequest request, Integer offset, Integer limit);
 
     void deleteProduct(long productId);
 

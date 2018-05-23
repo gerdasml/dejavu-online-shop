@@ -11,9 +11,9 @@ public interface ProductRepository {
 
     Product getProduct(String identifier);
 
-    Set<Product> getAllProducts();
+    Set<Product> getAllProducts(int offset, int limit);
 
-    Set<Product> getProductsByCategory(long categoryId);
+    Set<Product> getProductsByCategory(long categoryId, int offset, int limit);
 
     long saveProduct(Product product);
 

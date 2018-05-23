@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.util.LinkedHashSet;
@@ -20,14 +21,17 @@ public class ProductRepositoryImpl implements ProductRepository {
     private EntityManager em;
 
     @Override
-    public Set<Product> getAllProducts() {
+    public Set<Product> getAllProducts(int offset, int limit) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> cq = cb.createQuery(Product.class);
         Root<Product> productRoot = cq.from(Product.class);
         productRoot.fetch(Product_.properties, JoinType.LEFT).fetch(ProductProperty_.categoryProperty, JoinType.LEFT);
         productRoot.fetch(Product_.additionalImagesUrls, JoinType.LEFT);
         CriteriaQuery<Product> all = cq.select(productRoot);
-        return new LinkedHashSet<>(em.createQuery(all).getResultList());
+        TypedQuery<Product> query = em.createQuery(all);
+        query.setFirstResult(offset);
+        query.setMaxResults(limit);
+        return new LinkedHashSet<>(query.getResultList());
     }
 
     @Override
@@ -58,7 +62,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Set<Product> getProductsByCategory(long categoryId) {
+    public Set<Product> getProductsByCategory(long categoryId, int offset, int limit) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> query = cb.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
@@ -66,7 +70,10 @@ public class ProductRepositoryImpl implements ProductRepository {
         root.fetch(Product_.additionalImagesUrls, JoinType.LEFT);
         ParameterExpression<Long> categoryIdParameter = cb.parameter(Long.class);
         query.where(cb.equal(root.get(Product_.category).get(Category_.id), categoryIdParameter));
-        return new LinkedHashSet<>(em.createQuery(query).setParameter(categoryIdParameter, categoryId).getResultList());
+        TypedQuery<Product> q = em.createQuery(query).setParameter(categoryIdParameter, categoryId);
+        q.setFirstResult(offset);
+        q.setMaxResults(limit);
+        return new LinkedHashSet<>(q.getResultList());
     }
 
     @Override
