@@ -29,31 +29,27 @@ interface ProductContainerProps {
     onAddToCart: (product: Product) => void;
 }
 
-export class ProductContainer extends React.Component <ProductContainerProps, never> {
-    render () {
-        return (
-            <div>
-                <Card.Group itemsPerRow={5} doubling>
-                    {this.props.products.map((x, i) =>
-                        <ProductCard
-                        key={i}
-                        product={x}
-                        onProductAddToCart={this.props.onAddToCart}
-                        />
-                    )}
-                </Card.Group>
-                <Pagination
-                    floated="left"
-                    activePage={this.props.activePage}
-                    onPageChange={((e, x) => this.props.onPageChange(x.activePage as number))}
-                    ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
-                    firstItem={{ content: <Icon name="angle double left" />, icon: true }}
-                    lastItem={{ content: <Icon name="angle double right" />, icon: true }}
-                    prevItem={{ content: <Icon name="angle left" />, icon: true }}
-                    nextItem={{ content: <Icon name="angle right" />, icon: true }}
-                    totalPages={Math.ceil(this.props.totalProductCount / config.productsPerPage)}
+export const ProductContainer = (props: ProductContainerProps) => (
+    <div>
+        <Card.Group itemsPerRow={5} doubling>
+            {props.products.map((x, i) =>
+                <ProductCard
+                key={i}
+                product={x}
+                onProductAddToCart={props.onAddToCart}
                 />
-            </div>
-        );
-    }
-}
+            )}
+        </Card.Group>
+        <Pagination
+            floated="left"
+            activePage={props.activePage}
+            onPageChange={((e, x) => props.onPageChange(x.activePage as number))}
+            ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
+            firstItem={{ content: <Icon name="angle double left" />, icon: true }}
+            lastItem={{ content: <Icon name="angle double right" />, icon: true }}
+            prevItem={{ content: <Icon name="angle left" />, icon: true }}
+            nextItem={{ content: <Icon name="angle right" />, icon: true }}
+            totalPages={Math.ceil(props.totalProductCount / config.productsPerPage)}
+        />
+    </div>
+);
