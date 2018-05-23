@@ -6,7 +6,7 @@ import { RouteComponentProps } from "react-router-dom";
 import {Product} from "../../../model/Product";
 import {Category as CategoryModel, CategoryInfo} from "../../../model/Category";
 
-import { notification } from "antd";
+import { notification, message } from "antd";
 import * as api from "../../../api";
 import { ProductContainer } from "../../dumb/Product/ProductContainer";
 
@@ -14,6 +14,9 @@ import { config } from "../../../config";
 import { ProductProperties } from "../../../model/ProductProperties";
 import { ProductSearchRequest } from "../../../api/product";
 import { ProductFilter } from "../../dumb/Product/ProductFilter";
+import { Cart } from "../../../model/Cart";
+
+import * as CartManager from "../../../utils/cart";
 
 interface CategoryRouteProps {
     identifier: string;
@@ -28,6 +31,7 @@ interface CategoryState {
     activePage: number;
     minPrice?: number;
     maxPrice?: number;
+    cart?: Cart;
 }
 
 export class Category extends React.Component<RouteComponentProps<CategoryRouteProps>, CategoryState> {
@@ -63,31 +67,52 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
 
     async fetchData (props: RouteComponentProps<CategoryRouteProps>) {
         const identifier = props.match.params.identifier;
-        const [productResponse, categoryResponse] =
+        const [productResponse, categoryResponse, cartResponse] =
             await Promise.all(
                 [ api.product.searchForProducts({categoryIdentifier: identifier}, 0, config.productsPerPage)
                 , api.category.getCategoryByIdentifier(props.match.params.identifier)
+                , CartManager.getCart()
                 ]);
         if (api.isError(productResponse)) {
             notification.error({ message: "Failed to fetch product data", description: productResponse.message });
-            return;
+        } else {
+            this.setState({
+                ...this.state,
+                activePage: 1,
+                products: productResponse
+            });
         }
         if (api.isError(categoryResponse)) {
             notification.error({ message: "Failed to fetch category data", description: categoryResponse.message});
-            return;
+        } else {
+            this.setState({
+                ...this.state,
+                category: categoryResponse,
+            });
+            const categoryInfoResponse = await api.category.getCategoryInfo(categoryResponse.id);
+            if (api.isError(categoryInfoResponse)) {
+                notification.error({
+                    message: "Failed to fetch category info",
+                    description: categoryInfoResponse.message
+                });
+            } else {
+                this.setState({
+                    ...this.state,
+                    categoryInfo: categoryInfoResponse,
+                });
+            }
         }
-        const categoryInfoResponse = await api.category.getCategoryInfo(categoryResponse.id);
-        if (api.isError(categoryInfoResponse)) {
-            notification.error({message: "Failed to fetch category info", description: categoryInfoResponse.message});
-            return;
+        if (api.isError(cartResponse)) {
+            notification.error({message: "Failed to load cart", description: cartResponse.message});
+        } else {
+            this.setState({
+                ...this.state,
+                cart: cartResponse
+            });
         }
         this.setState({
-            activePage: 1,
-            products: productResponse,
-            category: categoryResponse,
-            categoryInfo: categoryInfoResponse,
             isProductInfoLoading: false,
-            isCategoryInfoLoading: false
+            isCategoryInfoLoading: false,
         });
     }
 
@@ -133,6 +158,19 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
         maxPrice
     })
 
+    async handleAddToCart (addedProduct: Product) {
+        const response = await CartManager.addProduct(addedProduct, 1);
+        if(api.isError(response)) {
+            notification.error({message: "Failed to add product to cart", description: response.message});
+        } else {
+            this.setState({
+                ...this.state,
+                cart: response
+            });
+            message.success("Successfully added product to cart");
+        }
+    }
+
     render () {
         return (
             <div>
@@ -156,6 +194,8 @@ export class Category extends React.Component<RouteComponentProps<CategoryRouteP
                         products={this.state.products}
                         activePage={this.state.activePage}
                         onPageChange={this.handlePageChange.bind(this)}
+                        cart={this.state.cart}
+                        onAddToCart={this.handleAddToCart.bind(this)}
                     />,
                 ]
                 }

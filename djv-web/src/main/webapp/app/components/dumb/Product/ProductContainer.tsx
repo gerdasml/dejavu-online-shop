@@ -25,53 +25,11 @@ interface ProductContainerProps {
     products: Product[];
     onPageChange: (pageNumber: number) => void;
     activePage: number;
+    cart: Cart;
+    onAddToCart: (product: Product) => void;
 }
 
-interface ProductContainerState {
-    isLoading: boolean;
-    cart?: Cart;
-}
-
-export class ProductContainer extends React.Component <ProductContainerProps, ProductContainerState> {
-    state: ProductContainerState = {
-        isLoading: true
-    };
-
-    componentWillReceiveProps (props: ProductContainerProps) {
-        this.setState({
-            isLoading: true
-        });
-    }
-
-    async componentDidMount () {
-        this.setState({...this.state, isLoading: true});
-        const cartInfo = await CartManager.getCart();
-        if(api.isError(cartInfo)) {
-            notification.error({message: "Failed to fetch cart", description: cartInfo.message});
-        } else {
-            this.setState({
-                ...this.state,
-                cart: cartInfo
-            });
-        }
-        this.setState({...this.state, isLoading: false});
-    }
-
-    async addProductToCart (addedProduct: Product) {
-        const response = await CartManager.addProduct(addedProduct, 1);
-        if(api.isError(response)) {
-            notification.error({message: "Failed to add product to cart", description: response.message});
-        } else {
-            this.setState({
-                ...this.state,
-                cart: response
-            });
-            message.success("Successfully added product to cart");
-        }
-    }
-
-    handlePaginationChange = (e: any, x: any) => this.props.onPageChange(x.activePage);
-
+export class ProductContainer extends React.Component <ProductContainerProps, never> {
     render () {
         return (
             <div>
@@ -80,14 +38,14 @@ export class ProductContainer extends React.Component <ProductContainerProps, Pr
                         <ProductCard
                         key={i}
                         product={x}
-                        onProductAddToCart={this.addProductToCart.bind(this)}
+                        onProductAddToCart={this.props.onAddToCart}
                         />
                     )}
                 </Card.Group>
                 <Pagination
                     floated="left"
                     activePage={this.props.activePage}
-                    onPageChange={this.handlePaginationChange}
+                    onPageChange={((e, x) => this.props.onPageChange(x.activePage as number))}
                     ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
                     firstItem={{ content: <Icon name="angle double left" />, icon: true }}
                     lastItem={{ content: <Icon name="angle double right" />, icon: true }}

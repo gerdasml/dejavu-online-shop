@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { notification } from "antd";
+import { notification, message } from "antd";
 
 import { Header, Loader } from "semantic-ui-react";
 
@@ -10,12 +10,16 @@ import { Product } from "../../../model/Product";
 import { ProductContainer } from "../../dumb/Product/ProductContainer";
 
 import { config } from "../../../config";
+import { Cart } from "../../../model/Cart";
+
+import * as CartManager from "../../../utils/cart";
 
 interface HomeState {
     isLoading: boolean;
     products: Product[];
     activePage: number;
     productCount?: number;
+    cart?: Cart;
 }
 
 export class Home extends React.Component< {}, HomeState> {
@@ -26,21 +30,30 @@ export class Home extends React.Component< {}, HomeState> {
     };
 
     async componentDidMount () {
-        const [productsInfo, productCount] = await Promise.all([
+        const [productsInfo, productCount, cartInfo] = await Promise.all([
             api.product.getAllProducts(0, config.productsPerPage),
-            api.product.getTotalProductCount()
+            api.product.getTotalProductCount(),
+            CartManager.getCart()
         ]);
+
         if(api.isError(productsInfo)) {
             notification.error({message: "Failed to load products", description: productsInfo.message});
-        } else if(api.isError(productCount)) {
+        } else {
+            this.setState({...this.state, products: productsInfo});
+        }
+
+        if(api.isError(productCount)) {
             notification.error({message: "Failed to load products", description: productCount.message});
         } else {
-            this.setState({
-                ...this.state,
-                products: productsInfo,
-                productCount
-            });
+            this.setState({...this.state, productCount});
         }
+
+        if(api.isError(cartInfo)) {
+            notification.error({message: "Failed to load cart", description: cartInfo.message});
+        } else {
+            this.setState({...this.state, cart: cartInfo});
+        }
+
         this.setState({
             ...this.state,
             isLoading: false,
@@ -60,6 +73,19 @@ export class Home extends React.Component< {}, HomeState> {
         this.setState({...this.state, activePage: page, isLoading: false});
     }
 
+    async handleAddToCart (addedProduct: Product) {
+        const response = await CartManager.addProduct(addedProduct, 1);
+        if(api.isError(response)) {
+            notification.error({message: "Failed to add product to cart", description: response.message});
+        } else {
+            this.setState({
+                ...this.state,
+                cart: response
+            });
+            message.success("Successfully added product to cart");
+        }
+    }
+
     render () {
         return (
             <div>
@@ -72,6 +98,8 @@ export class Home extends React.Component< {}, HomeState> {
                     activePage={this.state.activePage}
                     onPageChange={this.handlePageChange.bind(this)}
                     totalProductCount={this.state.productCount}
+                    cart={this.state.cart}
+                    onAddToCart={this.handleAddToCart.bind(this)}
                 />
                 }
             </div>
