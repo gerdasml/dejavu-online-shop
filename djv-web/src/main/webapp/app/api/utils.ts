@@ -1,7 +1,7 @@
 import { ApiResponse } from "./ApiResponse";
 
 import { ApiError } from ".";
-import {buildAuthHeader} from "../utils/token";
+import {buildAuthHeader, clearToken} from "../utils/token";
 
 interface Headers {
     [header: string]: string;
@@ -60,6 +60,7 @@ export const fetchData = <T, K>(url: string, method: HttpMethod, payload?: T): P
     const req = buildRequest(url, method, payload);
     return fetch(req.url, req.params)
             .then(r => {
+                if(r.status === 401) clearToken();
                 if(!r.ok) throw r;
                 if(r.headers.get("content-length") === "0") return "";
                 return r.json();
@@ -70,3 +71,4 @@ export const fetchData = <T, K>(url: string, method: HttpMethod, payload?: T): P
                 return r.json();
             });
 };
+
