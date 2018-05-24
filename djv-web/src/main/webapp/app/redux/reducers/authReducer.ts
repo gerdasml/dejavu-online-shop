@@ -20,13 +20,11 @@ const initialState: AuthReducerState = {
 export default  (state: AuthReducerState = initialState, action: AuthAction): AuthReducerState => {
     switch (action.type) {
         case AuthActionType.LOGIN:
-            console.log("loggin");
             return {
                ...state,
                 loggedIn: true,
             };
         case AuthActionType.LOGOUT:
-            console.log("logout");
             return {
                 ...state,
                 loggedIn: false,

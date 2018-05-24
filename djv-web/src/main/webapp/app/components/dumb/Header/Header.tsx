@@ -34,7 +34,7 @@ interface HeaderReducerMethods{
     dispatchLogout: () => AuthAction;
 }
 
-export class Header extends React.Component <AuthReducerState & HeaderReducerMethods, HeaderState> {
+class Header extends React.Component <AuthReducerState & HeaderReducerMethods, HeaderState> {
     state: HeaderState = {
         activeItem: "home",
         isSearch: false,
@@ -43,7 +43,6 @@ export class Header extends React.Component <AuthReducerState & HeaderReducerMet
 
     handleLogout = () => {
         clearToken();
-        console.log(this.props.dispatchLogout);
         this.props.dispatchLogout();
     }
 
@@ -79,9 +78,12 @@ export class Header extends React.Component <AuthReducerState & HeaderReducerMet
         this.setState({...this.state, ordersToReview: []});
     }
 
-    isLoggedIn = () => this.props.loggedIn !== null ? this.props.loggedIn : getToken() !== null;
-
+    isLoggedIn = (): boolean => {
+        console.log("a");
+        return this.props.loggedIn !== null ? this.props.loggedIn : getToken() !== null;
+    }
     render () {
+        const loggedIn = this.isLoggedIn();
         const { activeItem } = this.state;
         return (
             <div>
@@ -119,7 +121,7 @@ export class Header extends React.Component <AuthReducerState & HeaderReducerMet
                             >Cart
                             </Menu.Item>
                             {
-                                this.isLoggedIn
+                                loggedIn
                                 ?
                                         [<Menu.Item
                                                 name="profile"
@@ -155,7 +157,7 @@ export class Header extends React.Component <AuthReducerState & HeaderReducerMet
                                 <Icon name="cart"/>
                             </Menu.Item>
                             {
-                                this.props.loggedIn
+                                loggedIn
                                 ?
                                         [<Menu.Item
                                                 name="profile"
@@ -211,6 +213,5 @@ export default connect(
     dispatch => bindActionCreators({
           dispatchLogin: login,
           dispatchLogout: logout,
-    }
-    ,dispatch)
+    }, dispatch)
 )(Header);

@@ -1,6 +1,6 @@
 import { AuthAction, AuthActionType } from "../reducers/authReducer";
 
-export const login = () =>
+export const login = (): AuthAction =>
     ({type: AuthActionType.LOGIN});
 
 export const logout = (): AuthAction =>

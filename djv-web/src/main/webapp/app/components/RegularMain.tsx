@@ -7,23 +7,23 @@ import { NotFound } from "./views/NotFound";
 import {About, Cart, Category, Home, Product, Profile, User} from "./views/Regular";
 
 import { Footer } from "../components/dumb/Footer/Footer";
-import { Header } from "../components/dumb/Header/Header";
+import Header from "../components/dumb/Header/Header";
 
 export const RegularMain = () => (
     <div>
         <Header/>
-            <DrawerMenu>
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route path="/about" component={About} />
-                    <Route path="/product/:identifier+" component={Product} />
-                    <Route path="/user/:id" component={User}/>
-                    <Route path="/cart" component={Cart} />
-                    <Route path="/profile" component = {Profile} />
-                    <Route path="/category/:identifier+" component={Category} />
-                    <Route component={NotFound} />
-                </Switch>
-            </DrawerMenu>
+        <DrawerMenu>
+            <Switch>
+                <Route exact path="/" component={Home} />
+                <Route path="/about" component={About} />
+                <Route path="/product/:identifier+" component={Product} />
+                <Route path="/user/:id" component={User}/>
+                <Route path="/cart" component={Cart} />
+                <Route path="/profile" component = {Profile} />
+                <Route path="/category/:identifier+" component={Category} />
+                <Route component={NotFound} />
+            </Switch>
+        </DrawerMenu>
         <Footer/>
     </div>
 );
