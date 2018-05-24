@@ -37,7 +37,12 @@
 
 .search-header * {
     width: 100%;
-    background-color: #f1f1f1;
+    background-color: #f1f1f1!important;
+    border-radius: 100px!important;
+}
+
+.search-wrapper {
+    background-color: #393D40;
 }
 
 .hoverless {

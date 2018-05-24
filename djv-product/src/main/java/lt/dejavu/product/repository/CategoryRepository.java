@@ -1,7 +1,10 @@
 package lt.dejavu.product.repository;
 
 import lt.dejavu.product.model.Category;
+import lt.dejavu.product.model.ProductProperty;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 public interface CategoryRepository {
@@ -23,4 +26,12 @@ public interface CategoryRepository {
     Set<Category> getAllCategories();
 
     void reassignCategoriesToParent(Category oldCategory);
+
+    List<ProductProperty> getProductPropertiesForCategory(long categoryId);
+
+    long getProductCount(long categoryId);
+
+    BigDecimal getMinimumProductPrice(long categoryId);
+
+    BigDecimal getMaximumProductPrice(long categoryId);
 }

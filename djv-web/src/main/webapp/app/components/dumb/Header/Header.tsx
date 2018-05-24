@@ -17,6 +17,7 @@ import * as api from "../../../api";
 import { Order } from "../../../model/Order";
 
 import * as CartManager from "../../../utils/cart";
+import { ProductSearch } from "./ProductSearch";
 
 interface HeaderState {
     loggedIn: boolean;
@@ -92,12 +93,7 @@ export class Header extends React.Component <{}, HeaderState> {
                     <Menu.Menu position="right" id="dejavu-menu">
                         <MediaQuery query="(min-width: 500px)">
                             <Menu.Item className="borderless hoverless">
-                                <Search id="searchBar"
-                                    placeholder="Search..."
-                                    noResultsMessage="No products were found"
-                                    size="mini"
-                                    fluid
-                                />
+                                <ProductSearch />
                             </Menu.Item>
                             <Menu.Item
                                 name="cart"
@@ -173,11 +169,8 @@ export class Header extends React.Component <{}, HeaderState> {
                 {
                     this.state.isSearch
                     ?
-                    <div>
-                        <Search
-                            className="search-header"
-                            fluid
-                            placeholder="Search..."/>
+                    <div className="search-wrapper">
+                        <ProductSearch fluid />
                     </div>
                     :
                     ""

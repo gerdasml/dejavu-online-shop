@@ -3,9 +3,10 @@ import { Dropdown } from "semantic-ui-react";
 import { ProductFilter } from "../../../utils/product/productFilter";
 
 import "../../../../style/filter.css";
+import { PropertySummary } from "../../../model/Category";
 
 export interface FilterProps {
-    properties: ProductFilter;
+    properties: PropertySummary;
     onSelectChange: (select: string[]) => void;
 }
 
@@ -15,7 +16,7 @@ export class Filter extends React.Component<FilterProps, {}> {
         return (
             <Dropdown
                 className="filter-dropdown"
-                placeholder={this.props.properties.property}
+                placeholder={this.props.properties.propertyName}
                 fluid
                 multiple
                 selection

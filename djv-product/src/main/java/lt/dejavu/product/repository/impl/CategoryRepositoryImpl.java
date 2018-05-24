@@ -1,7 +1,6 @@
 package lt.dejavu.product.repository.impl;
 
-import lt.dejavu.product.model.Category;
-import lt.dejavu.product.model.Category_;
+import lt.dejavu.product.model.*;
 import lt.dejavu.product.repository.CategoryRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.*;
+import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -100,5 +100,54 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         updateQuery.set(Category_.parentCategory, parent);
         updateQuery.where(cb.equal(productRoot.get(Category_.parentCategory), oldCategory));
         em.createQuery(updateQuery).executeUpdate();
+    }
+
+    @Override
+    public List<ProductProperty> getProductPropertiesForCategory(long categoryId) {
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<ProductProperty> query = cb.createQuery(ProductProperty.class);
+        Root<ProductProperty> root = query.from(ProductProperty.class);
+
+        ParameterExpression<Long> idParameter = cb.parameter(Long.class);
+        query.where(cb.equal(root.get(ProductProperty_.categoryProperty).get(CategoryProperty_.category).get(Category_.id), idParameter));
+
+        return em.createQuery(query).setParameter(idParameter, categoryId).getResultList();
+    }
+
+    @Override
+    public long getProductCount(long categoryId) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<Product> root = countQuery.from(Product.class);
+        countQuery.select(cb.count(root));
+        ParameterExpression<Long> idParameter = cb.parameter(Long.class);
+        countQuery.where(cb.equal(root.get(Product_.category).get(Category_.id), idParameter));
+
+        return em.createQuery(countQuery).setParameter(idParameter, categoryId).getSingleResult();
+    }
+
+    @Override
+    public BigDecimal getMinimumProductPrice(long categoryId) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<BigDecimal> query = cb.createQuery(BigDecimal.class);
+        Root<Product> root = query.from(Product.class);
+        query.select(cb.min(root.get(Product_.price)));
+        ParameterExpression<Long> idParameter = cb.parameter(Long.class);
+        query.where(cb.equal(root.get(Product_.category).get(Category_.id), idParameter));
+
+        return em.createQuery(query).setParameter(idParameter, categoryId).getSingleResult();
+    }
+
+    @Override
+    public BigDecimal getMaximumProductPrice(long categoryId) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<BigDecimal> query = cb.createQuery(BigDecimal.class);
+        Root<Product> root = query.from(Product.class);
+        query.select(cb.max(root.get(Product_.price)));
+        ParameterExpression<Long> idParameter = cb.parameter(Long.class);
+        query.where(cb.equal(root.get(Product_.category).get(Category_.id), idParameter));
+
+        return em.createQuery(query).setParameter(idParameter, categoryId).getSingleResult();
     }
 }

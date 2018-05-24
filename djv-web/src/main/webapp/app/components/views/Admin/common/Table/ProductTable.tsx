@@ -10,6 +10,7 @@ import "../../../../../../style/product.css";
 import { CategoryTree } from "../../../../../model/CategoryTree";
 import { findCategoryFromTree } from "../../../../../utils/categories";
 import { formatPrice } from "../../../../../utils/common";
+import { TablePaginationConfig } from "antd/lib/table";
 
 type ProductRecord = Product & WithKey;
 
@@ -17,6 +18,10 @@ interface ProductTableProps {
     products: Product[];
     categories: CategoryTree[];
     onDelete: (id: number) => void;
+    isLoading: boolean;
+    onChange: (pagination: TablePaginationConfig, filters: string[], sorter: any) => void;
+    totalItems: number;
+    pageSize: number;
 }
 
 class ProductRecordTable extends Table<ProductRecord> {}
@@ -27,7 +32,10 @@ export const ProductTable = (props: ProductTableProps) => (
     <ProductRecordTable
         bordered={true}
         dataSource={props.products.map(p => ({...p, key: p.id}))}
-        pagination={{pageSize: 25, hideOnSinglePage: true}}>
+        pagination={{pageSize: props.pageSize, hideOnSinglePage: true, total: props.totalItems}}
+        loading={props.isLoading}
+        onChange={props.onChange}
+    >
         <ProductRecordColumn
             key = "picture"
             title = "Picture"
