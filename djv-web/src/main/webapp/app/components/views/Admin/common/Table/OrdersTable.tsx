@@ -8,6 +8,7 @@ import { OrderTable } from "./OrderTable";
 
 import { stringifyAddress } from "../../../../../utils/common";
 import { addKey, WithKey } from "../../../../../utils/table";
+import { config } from "../../../../../config";
 
 type OrderRecord = Order & WithKey;
 
@@ -22,6 +23,7 @@ const dateToString = (d: Date) => new Date(Date.parse(d.toString())).toLocaleDat
 
 export const OrdersTable = (props: OrdersTableProps) => (
     <OrdersRecordTable
+        scroll={{x: config.adminTableScrollWidth}}
         bordered={true}
         dataSource={props.orders.map(addKey)}
         pagination={{pageSize: 25, hideOnSinglePage: true}}

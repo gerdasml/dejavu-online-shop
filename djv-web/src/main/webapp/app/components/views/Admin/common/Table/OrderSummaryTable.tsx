@@ -7,6 +7,7 @@ import { Button, Table, Tag } from "antd";
 import { OrderSummary } from "../../../../../model/Order";
 
 import { addKey, WithKey } from "../../../../../utils/table";
+import { config } from "../../../../../config";
 
 type Summary = OrderSummary & WithKey;
 
@@ -20,6 +21,7 @@ class SummaryColumn extends Table.Column<Summary> {}
 
 export const OrderSummaryTable = (props: OrderSummaryTableProps) => (
     <SummaryTable
+        scroll={{x: config.adminTableScrollWidth}}
         dataSource={props.summaries.map(addKey)}
         pagination={{pageSize: 25, hideOnSinglePage: true}}>
         <SummaryColumn

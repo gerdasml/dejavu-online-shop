@@ -7,10 +7,12 @@ import { Product } from "../../../../../model/Product";
 import { WithKey } from "../../../../../utils/table";
 
 import "../../../../../../style/product.css";
+import "../../../../../../style/admin/table.css";
 import { CategoryTree } from "../../../../../model/CategoryTree";
 import { findCategoryFromTree } from "../../../../../utils/categories";
 import { formatPrice } from "../../../../../utils/common";
 import { TablePaginationConfig } from "antd/lib/table";
+import { config } from "../../../../../config";
 
 type ProductRecord = Product & WithKey;
 
@@ -30,6 +32,7 @@ class ProductRecordColumn extends Table.Column<ProductRecord> {}
 
 export const ProductTable = (props: ProductTableProps) => (
     <ProductRecordTable
+        scroll={{x: config.adminTableScrollWidth}}
         bordered={true}
         dataSource={props.products.map(p => ({...p, key: p.id}))}
         pagination={{pageSize: props.pageSize, hideOnSinglePage: true, total: props.totalItems}}

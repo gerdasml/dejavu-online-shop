@@ -6,6 +6,7 @@ import { Table, Tag } from "antd";
 
 import { ImportStatus } from "../../../../../model/Product";
 import { addKey, WithKey } from "../../../../../utils/table";
+import { config } from "../../../../../config";
 
 type ImportJobRecord = ImportStatus & WithKey;
 
@@ -19,6 +20,7 @@ class ImportJobStatusColumn extends Table.Column<ImportJobRecord> {}
 
 export const ImportJobsTable = (props: ImportJobStatusTableProps) => (
     <ImportJobStatusTable
+        scroll={{x: config.adminTableScrollWidth}}
         bordered={true}
         dataSource={props.jobs.map(addKey)}
         pagination={{pageSize: 25, hideOnSinglePage: true}}>
