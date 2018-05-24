@@ -19,9 +19,31 @@ export class DeliveryInfo extends React.Component <DeliveryInfoProps, {}> {
         this.props.onShippingInfoChange(address);
     }
 
+    handleNameInput = (event: React.FormEvent<HTMLInputElement>) => {
+        const value = event.currentTarget.value;
+    }
+
+    handleLastNameInput = (event: React.FormEvent<HTMLInputElement>) => {
+        const value = event.currentTarget.value;
+    }
+
     render () {
         return (
             <Form size = "big" id="deliveryInfoForm">
+                <Form.Field inline>
+                    <label>Name: </label>
+                    <input
+                        type="text"
+                        placeholder="Name"
+                        onChange={this.handleNameInput.bind(this)} />
+                </Form.Field>
+                <Form.Field inline>
+                    <label>Last name: </label>
+                    <input
+                        type="text"
+                        placeholder="Last name"
+                        onChange={this.handleLastNameInput.bind(this)} />
+                </Form.Field>
                 <AddressInput
                     formSize="big"
                     address={this.props.shippingAddress}
