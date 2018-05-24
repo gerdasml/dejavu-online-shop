@@ -39,16 +39,17 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         List<String> firstRow =
                 Arrays.asList(
                         item.getName(),
-                        item.getDescription(),
                         item.getPrice().toString(),
-                        item.getCategory().getId().toString(), // TODO: identifier
+                        "SKU", // TODO: place actual SKU code
+                        item.getDescription(),
+                        item.getCategory().getIdentifier(),
                         properties.get(0).getCategoryProperty().getName(),
                         properties.get(0).getValue()
                  );
         result.add(firstRow);
         properties.stream().skip(1).forEach(p -> {
             List<String> row = new ArrayList<>(Arrays.asList(
-                    "", "", "", "", p.getCategoryProperty().getName(), p.getValue()
+                    "", "", "", "", "", p.getCategoryProperty().getName(), p.getValue()
                                                             ));
             result.add(row);
         });
@@ -59,8 +60,9 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
     public List<String> getHeader() {
         return Arrays.asList(
                 "Product Name",
-                "Description",
                 "Price",
+                "SKU Code",
+                "Description",
                 "Category",
                 "Properties",
                 "Properties"); // Repeat header name to merge properly
@@ -86,12 +88,12 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
 
     @Override
     public List<Integer> getColumnsToMerge() {
-        return Arrays.asList(0, 1, 2, 3);
+        return Arrays.asList(0, 1, 2, 3, 4);
     }
 
     @Override
     public List<Integer> getColumnWidths() {
-        return Stream.of(19, 40, 12, 37, 31, 31)
+        return Stream.of(19, 15, 15, 40, 37, 31, 31)
                      .map(x -> x * 256)
                      .collect(toList());
     }
