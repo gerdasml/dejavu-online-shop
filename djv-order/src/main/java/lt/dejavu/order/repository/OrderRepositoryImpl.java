@@ -53,7 +53,8 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public long saveOrder(Order order) {
         em.persist(order);
-        em.persist(order.getShippingAddress());
+        em.persist(order.getShippingInformation());
+        em.persist(order.getShippingInformation().getShippingAddress());
         order.getItems().forEach(em::persist);
         return order.getId();
     }

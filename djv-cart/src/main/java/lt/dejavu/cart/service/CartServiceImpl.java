@@ -14,6 +14,7 @@ import lt.dejavu.order.dto.OrderDto;
 import lt.dejavu.order.model.OrderStatus;
 import lt.dejavu.order.model.ReviewStatus;
 import lt.dejavu.order.model.db.OrderItem;
+import lt.dejavu.order.model.db.ShippingInformation;
 import lt.dejavu.order.service.OrderService;
 import lt.dejavu.payment.exception.PaymentException;
 import lt.dejavu.payment.model.Card;
@@ -97,24 +98,24 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public void checkout(long userId, Card cardInfo, Address shippingAddress) throws PaymentException {
+    public void checkout(long userId, Card cardInfo, ShippingInformation shippingInformation) throws PaymentException {
         CartResponse cart = getCart(userId);
         Payment payment = buildPayment(cart, cardInfo);
-        OrderDto order = buildOrder(cart, shippingAddress);
+        OrderDto order = buildOrder(cart, shippingInformation);
 
         paymentService.pay(payment);
         orderService.createOrder(order);
         cartRepository.deleteCart(userId);
     }
 
-    private OrderDto buildOrder(CartResponse cart, Address shippingAddress) {
+    private OrderDto buildOrder(CartResponse cart, ShippingInformation shippingInformation) {
         OrderDto order = new OrderDto();
         order.setCreatedDate(Timestamp.from(Instant.now()));
         order.setUser(cart.getUser());
         order.setItems(cart.getItems());
         order.setStatus(OrderStatus.CREATED);
         order.setReviewShown(false);
-        order.setShippingAddress(shippingAddress);
+        order.setShippingInformation(shippingInformation);
 
         return order;
     }
