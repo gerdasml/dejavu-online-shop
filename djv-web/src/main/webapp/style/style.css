@@ -58,9 +58,9 @@
 }
 
 .ui.loader:before {
-    border-color: #393d40!important;
+    border-color: #ffe693!important;
 }
 
 .ui.loader:after {
-    border-color: #ffe693 transparent transparent!important;
+    border-color: #ffce2b transparent transparent!important;
 }
