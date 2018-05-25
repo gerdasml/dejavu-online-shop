@@ -61,9 +61,16 @@ export const OrdersTable = (props: OrdersTableProps) => (
             render={(_, record) => <OrderStatusCell orderId={record.id} status={record.status} />}
         />
         <OrdersRecordColumn
+            key="recipient"
+            title="Recipient"
+            render={(_, record) =>
+                `${record.shippingInformation.recipientFirstName} ${record.shippingInformation.recipientLastName}`
+            }
+        />
+        <OrdersRecordColumn
             key="shipping"
             title="Shipping address"
-            render={(_, record) => stringifyAddress(record.shippingAddress)}
+            render={(_, record) => stringifyAddress(record.shippingInformation.shippingAddress)}
         />
         <OrdersRecordColumn
             key="review"

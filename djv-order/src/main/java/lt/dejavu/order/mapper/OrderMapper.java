@@ -32,7 +32,7 @@ public class OrderMapper {
         dto.setStatus(order.getStatus());
         dto.setReviewShown(order.getReviewShown());
         dto.setUser(userMapper.map(order.getUser()));
-        dto.setShippingAddress(order.getShippingAddress());
+        dto.setShippingInformation(order.getShippingInformation());
         dto.setReview(reviewMapper.map(order.getReview()));
         List<OrderItemDto> items = itemMapper.map(order.getItems());
         dto.setItems(items);
