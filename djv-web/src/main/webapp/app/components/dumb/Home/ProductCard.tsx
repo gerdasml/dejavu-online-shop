@@ -16,15 +16,27 @@ interface ProductCardProps {
 }
 
 export const ProductCard = (props: ProductCardProps) => (
-    <Card as={NavLink} to={`/product/${props.product.identifier}`}>
-        <Header className="card-header" as="h3" attached >{props.product.name}</Header>
+    <Card link>
+        <Header
+            className="card-header"
+            as={NavLink}
+            to={`/product/${props.product.identifier}`}
+            attached >
+            <h3>{props.product.name}</h3>
+        </Header>
         {isNullOrUndefined(props.product.discount)
         ?
-            <Image src={props.product.mainImageUrl} />
+            <Image
+                src={props.product.mainImageUrl} 
+                as={NavLink}
+                to={`/product/${props.product.identifier}`}/>
         :
         props.product.discount.type === "PERCENTAGE"
         ?
-            <Image src={props.product.mainImageUrl}
+            <Image
+                as={NavLink}
+                to={`/product/${props.product.identifier}`}
+                src={props.product.mainImageUrl}
                 label={{
                 className: "discount-ribbon",
                 as: "a",
@@ -33,7 +45,10 @@ export const ProductCard = (props: ProductCardProps) => (
                 content: "- "+props.product.discount.value+"%"
                 }} />
         :
-        <Image src={props.product.mainImageUrl}
+        <Image
+            as={NavLink}
+            to={`/product/${props.product.identifier}`}
+            src={props.product.mainImageUrl}
             label={{
             className: "discount-ribbon",
             as: "a",
@@ -43,7 +58,9 @@ export const ProductCard = (props: ProductCardProps) => (
             }} />
 
         }
-        <Card.Content>
+        <Card.Content
+            as={NavLink}
+            to={`/product/${props.product.identifier}`}>
             <Card.Description>
                 {shortenString(props.product.description)}
             </Card.Description>
