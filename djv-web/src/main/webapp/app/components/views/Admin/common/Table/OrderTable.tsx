@@ -20,7 +20,7 @@ class OrderRecordColumn extends Table.Column<OrderItemRecord> {}
 
 export const OrderTable = (props: OrderTableProps) => (
     <OrderRecordTable
-        scroll={{x: config.adminTableScrollWidth}}
+        scroll={{x: config.adminTableScrollWidth.common}}
         bordered={true}
         dataSource={props.items.map(addKey)}
         pagination={{pageSize: 25, hideOnSinglePage: true}}>

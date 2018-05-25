@@ -23,7 +23,7 @@ const dateToString = (d: Date) => new Date(Date.parse(d.toString())).toLocaleDat
 
 export const OrdersTable = (props: OrdersTableProps) => (
     <OrdersRecordTable
-        scroll={{x: config.adminTableScrollWidth}}
+        scroll={{x: config.adminTableScrollWidth.common}}
         bordered={true}
         dataSource={props.orders.map(addKey)}
         pagination={{pageSize: 25, hideOnSinglePage: true}}
