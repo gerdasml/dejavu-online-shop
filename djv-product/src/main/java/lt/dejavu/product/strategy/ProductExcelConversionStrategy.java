@@ -59,7 +59,7 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
     @Override
     public List<String> getHeader() {
         return Arrays.asList(
-                "Product Name",
+                "Title",
                 "Price",
                 "SKU Code",
                 "Description",
@@ -104,43 +104,69 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         result.setResult(new Product());
         result.getResult().setProperties(new HashSet<>());
 
+        readName(row, result);
+        readPrice(row, result);
+        readImage(row, result);
+        readSkuCode(row, result);
+        readDescription(row, result);
+        readCategory(row, result);
+        readProperty(result, row);
+        return result;
+    }
+
+    private void readName(List<String> row, ConversionResult<Product> result) {
         read(0,
              row,
              result,
-             val -> true,
-             val -> val == null ? "" : val,
+             val -> val != null && val.length() > 0,
+             val -> val,
              val -> result.getResult().setName(val));
+    }
+
+    private void readPrice(List<String> row, ConversionResult<Product> result) {
         read(1,
-             row,
-             result,
-             val -> true,
-             val -> val == null ? "" : val,
-             val -> result.getResult().setDescription(val));
-        read(2,
              row,
              result,
              this::isValidBigDecimal,
              BigDecimal::new,
              val -> result.getResult().setPrice(val));
-        read(3,
+    }
+
+    private void readImage(List<String> row, ConversionResult<Product> result) {
+        // TODO: read image as path (columnIndex: 2)
+    }
+
+    private void readSkuCode(List<String> row, ConversionResult<Product> result) {
+        // TODO: read SKU code (columnIndex: 3)
+    }
+
+    private void readDescription(List<String> row, ConversionResult<Product> result) {
+        read(4,
+             row,
+             result,
+             val -> true,
+             val -> val == null ? "" : val,
+             val -> result.getResult().setDescription(val));
+    }
+
+    private void readCategory(List<String> row, ConversionResult<Product> result) {
+        read(5,
              row,
              result,
              this::isValidCategory,
              this::getCategory,
              val -> result.getResult().setCategory(val));
-        readProperty(result, row);
-        return result;
     }
 
     private void readProperty(ConversionResult<Product> result,
                               List<String> row) {
         Category productCategory = result.getResult().getCategory();
-        if (result.getResult().getCategory() == null) {
+        if (productCategory == null) {
             return;
         }
         ProductProperty property = new ProductProperty();
         property.setProduct(result.getResult());
-        read(4,
+        read(6,
              row,
              result,
              isValidPropertyName(productCategory),
@@ -149,7 +175,7 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         if (result.getStatus().equals(ConversionStatus.FAILURE)) {
             return;
         }
-        read(5,
+        read(7,
              row,
              result,
              val -> true,
@@ -163,22 +189,15 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         }
     }
 
-    private Category getCategory(String s) {
-        long id = Long.parseLong(s);
-        return categoryRepository.getCategory(id);
+    private Category getCategory(String identifier) {
+        return categoryRepository.getCategory(identifier);
     }
 
-    private boolean isValidCategory(String s) {
-        if (s == null || s.length() == 0) {
+    private boolean isValidCategory(String identifier) {
+        if (identifier == null || identifier.length() == 0) {
             return false;
         }
-        long id;
-        try {
-            id = Long.parseLong(s); // TODO: identifier
-        } catch(Exception ignored) {
-            return false;
-        }
-        return categoryRepository.getCategory(id) != null;
+        return categoryRepository.getCategory(identifier) != null;
     }
 
     private Predicate<String> isValidPropertyName(Category category) {
