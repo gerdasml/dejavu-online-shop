@@ -67,7 +67,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
     }
     render () {
         return (
-            <Modal trigger={
+            <Modal closeIcon trigger={
                 <MediaQuery query="(min-width: 500px)">
                 {matches => matches
                 ?
