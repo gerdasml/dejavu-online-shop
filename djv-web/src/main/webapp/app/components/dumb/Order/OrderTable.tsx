@@ -6,6 +6,7 @@ import { Cart } from "../../../model/Cart";
 import { Order, OrderItem } from "../../../model/Order";
 import { Amount } from "../Cart/Amount";
 import { formatPrice } from "../../../utils/common";
+import "../../../../style/cart.css";
 
 interface OrderTableProps {
     data: Order | Cart;
@@ -14,9 +15,9 @@ interface OrderTableProps {
 }
 
 export const OrderTable = (props: OrderTableProps) => (
-    <Table celled striped>
+    <Table celled striped id="order-table-father">
         <Table.Header>
-            <Table.Row>
+            <Table.Row id="order-table">
                 <Table.HeaderCell textAlign="center">Product name</Table.HeaderCell>
                 <Table.HeaderCell textAlign="center">Unit price</Table.HeaderCell>
                 <Table.HeaderCell textAlign="center">Quantity</Table.HeaderCell>
@@ -49,7 +50,7 @@ export const OrderTable = (props: OrderTableProps) => (
                     { props.onItemRemove !== undefined
                     ?
                     <Table.Cell textAlign="center">
-                        <Button negative icon="remove"
+                        <Button negative icon="trash" className="remove-button"
                             onClick={() => props.onItemRemove(item)}
                         />
                     </Table.Cell>
@@ -60,8 +61,8 @@ export const OrderTable = (props: OrderTableProps) => (
             ))}
             <Table.Row>
                 { props.onItemRemove !== undefined
-                ? <Table.Cell colSpan={4} textAlign="right"><h4>Total:</h4></Table.Cell>
-                : <Table.Cell colSpan={3} textAlign="right"><h4>Total:</h4></Table.Cell>
+                ? <Table.Cell colSpan={4} textAlign="right"><h4 className="cart-total">Total:</h4></Table.Cell>
+                : <Table.Cell colSpan={3} textAlign="right"><h4 className="cart-total">Total:</h4></Table.Cell>
                 }
                 <Table.Cell textAlign="center">{formatPrice(props.data.total)}</Table.Cell>
             </Table.Row>

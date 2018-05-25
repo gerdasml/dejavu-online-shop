@@ -52,17 +52,19 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
     }
 
     async componentWillMount () {
-        const categories = this.props.categories;
-        if (categories === undefined) {
-            await api.category.getCategoryTree();
-            if(api.isError(categories)) {
-                notification.error({message: "Failed to fetch category data", description: categories.message});
-                return;
-            }
-        }
+        const categories = this.props.categories || await this.resolveCategories();
         const newState = this.buildNewStateFromProps(this.props);
         newState.categories = categories;
         this.setState(newState);
+    }
+
+     resolveCategories = async () => {
+        const categoryResponse = await api.category.getCategoryTree();
+        if(api.isError(categoryResponse)) {
+            notification.error({message: "Failed to fetch category data", description: categoryResponse.message});
+            return [];
+        }
+        return categoryResponse;
     }
 
     buildNewStateFromProps = (props: ProductFormProps): ProductFormState => {

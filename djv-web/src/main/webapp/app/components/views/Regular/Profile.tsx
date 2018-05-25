@@ -12,11 +12,11 @@ export class Profile extends React.Component<{},{}> {
         return(
             <Grid stackable>
                 <Grid.Column width={6}>
-                    <Header size="large" textAlign="center">User profile information</Header>
+                    <Header size="large" textAlign="center" className="profile-header">User profile information</Header>
                     <ProfileInfo/>
                 </Grid.Column>
                 <Grid.Column width={10}>
-                    <Header size="large" textAlign="center">Order History</Header>
+                    <Header size="large" textAlign="center" className="profile-header">Order History</Header>
                     <OrderHistory/>
                 </Grid.Column>
             </Grid>

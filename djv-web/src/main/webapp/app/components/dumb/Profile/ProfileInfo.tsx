@@ -137,12 +137,11 @@ export class ProfileInfo extends React.Component<{}, ProfileState> {
     render () {
         return(
             <Form size="mini" id="changeProfile" loading={this.state.isLoading}>
-                <div className="profileEditing">
+                <div className="profileEditing header">
                     { this.state.beingEdited
                     ?
                     <Button.Group id="profileSave">
                         <Button negative onClick= {() => this.cancelChanges()}>Cancel</Button>
-                        <Button.Or />
                         <Button positive onClick= {() => this.saveChanges()}>Save</Button>
                     </Button.Group>
                     :
@@ -271,7 +270,6 @@ export class ProfileInfo extends React.Component<{}, ProfileState> {
                     </label>
                     }
                 </Form.Field>
-                <hr/>
                 <ChangePassword />
             </Form>
         );
