@@ -22,15 +22,15 @@ import { connect } from "react-redux";
 import { bindActionCreators} from "redux";
 import { login, logout } from "../../../redux/actions/auth";
 import { AuthReducerState, AuthAction } from "../../../redux/reducers/authReducer";
-
+import { StoreState} from "../../../redux/reducers";
 interface HeaderState {
     activeItem: String;
     isSearch: boolean;
     ordersToReview: Order[];
 }
 
-interface HeaderReducerMethods{
-    dispatchLogin: () => AuthAction;
+interface HeaderReducerMethods {
+    dispatchLogin: (token: string) => AuthAction;
     dispatchLogout: () => AuthAction;
 }
 
@@ -46,8 +46,8 @@ class Header extends React.Component <AuthReducerState & HeaderReducerMethods, H
         this.props.dispatchLogout();
     }
 
-    handleLogin = async () => {
-        this.props.dispatchLogin();
+    handleLogin = async (token: string) => {
+        this.props.dispatchLogin(token);
         const response = await api.review.getOrdersToReview();
         if (api.isError(response)) {
             // Don't show an error if the review fetch failed
@@ -78,10 +78,7 @@ class Header extends React.Component <AuthReducerState & HeaderReducerMethods, H
         this.setState({...this.state, ordersToReview: []});
     }
 
-    isLoggedIn = (): boolean => {
-        console.log("a");
-        return this.props.loggedIn !== null ? this.props.loggedIn : getToken() !== null;
-    }
+    isLoggedIn = (): boolean => this.props.loggedIn !== undefined ? this.props.loggedIn : getToken() !== null;
     render () {
         const loggedIn = this.isLoggedIn();
         const { activeItem } = this.state;
@@ -207,8 +204,8 @@ class Header extends React.Component <AuthReducerState & HeaderReducerMethods, H
 }
 
 export default connect(
-    (state: AuthReducerState) => ({
-        loggedIn: state.loggedIn
+    (state: StoreState) => ({
+        loggedIn: state.auth.loggedIn
     }),
     dispatch => bindActionCreators({
           dispatchLogin: login,

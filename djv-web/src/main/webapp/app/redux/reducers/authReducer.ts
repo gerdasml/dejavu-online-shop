@@ -1,10 +1,10 @@
-import { ReducersMapObject, Reducer } from "redux";
+import { ReducersMapObject, Reducer, Action } from "redux";
 
 export interface AuthReducerState {
-    loggedIn?: boolean;
+    loggedIn: boolean;
 }
 
-export interface AuthAction {
+export class AuthAction implements Action {
     type: AuthActionType;
 }
 

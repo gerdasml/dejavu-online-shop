@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Button, Form, Grid, Menu, Message, Modal, Segment, Icon } from "semantic-ui-react";
 import * as api from "../../../api";
-import { storeToken } from "../../../utils/token";
 import { Register } from "./Register";
 
 import "../../../../style/login.css";
@@ -16,7 +15,7 @@ interface LoginState {
 }
 
 interface LoginProps {
-    onLogin: () => void;
+    onLogin: (token: string) => void;
 }
 
 export class Login extends React.Component<LoginProps, LoginState> {
@@ -58,12 +57,11 @@ export class Login extends React.Component<LoginProps, LoginState> {
             });
             return undefined;
         }
-        storeToken(token.token);
         this.setState({
             ...this.state, error: "", loading: false
         });
         this.handleClose();
-        this.props.onLogin();
+        this.props.onLogin(token.token);
     }
     render () {
         return (
