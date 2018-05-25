@@ -18,10 +18,11 @@ import "../../../../../style/payment.css";
 import { ApiError } from "../../../../api";
 
 import { Address } from "../../../../model/Address";
+import { ShippingInformation } from "../../../../model/ShippingInformation";
 
 interface PaymentProps {
     onStepComplete: () => void;
-    shippingAddress: Address;
+    shippingInformation: ShippingInformation;
 }
 
 interface PaymentState {
@@ -129,10 +130,10 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
 
     pay = async () => {
         const paymentCard = this.buildCard();
-        const address = this.props.shippingAddress;
+        const shippingInformation = this.props.shippingInformation;
         const checkoutInfo = {
             card: paymentCard,
-            shippingAddress: address,
+            shippingInformation,
         };
         const checkoutResponse = await api.cart.checkout(checkoutInfo);
         if(api.isError(checkoutResponse)) {
