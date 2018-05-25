@@ -9,11 +9,23 @@ import lt.dejavu.product.model.CategoryProperty;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.model.ProductProperty;
 import lt.dejavu.product.repository.CategoryRepository;
+import lt.dejavu.storage.image.model.ImageFormat;
+import lt.dejavu.storage.image.model.ImageInfo;
+import lt.dejavu.storage.image.service.ImageStorageService;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.util.TriConsumer;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -25,9 +37,20 @@ import static java.util.stream.Collectors.toList;
 @Component
 public class ProductExcelConversionStrategy implements ExcelConversionStrategy<Product> {
     private final CategoryRepository categoryRepository;
+    private final ImageStorageService imageStorageService;
+    private final List<TriConsumer<Integer, List<String>, ConversionResult<Product>>> rowReaders = Arrays.asList(
+            this::readName,
+            this::readPrice,
+            this::readImage,
+            this::readSkuCode,
+            this::readDescription,
+            this::readCategory,
+            this::readProperty
+                                                                                                                );
 
-    public ProductExcelConversionStrategy(CategoryRepository categoryRepository) {
+    public ProductExcelConversionStrategy(CategoryRepository categoryRepository, ImageStorageService imageStorageService) {
         this.categoryRepository = categoryRepository;
+        this.imageStorageService = imageStorageService;
     }
 
     @Override
@@ -47,7 +70,7 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
                         item.getCategory().getIdentifier(),
                         properties.get(0).getCategoryProperty().getName(),
                         properties.get(0).getValue()
-                 );
+                             );
         result.add(firstRow);
         properties.stream().skip(1).forEach(p -> {
             List<String> row = new ArrayList<>(Arrays.asList(
@@ -100,16 +123,6 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
                      .collect(toList());
     }
 
-    private final List<TriConsumer<Integer, List<String>, ConversionResult<Product>>> rowReaders = Arrays.asList(
-            this::readName,
-            this::readPrice,
-            this::readImage,
-            this::readSkuCode,
-            this::readDescription,
-            this::readCategory,
-            this::readProperty
-                                                                                                          );
-
     private ConversionResult<Product> rowToProduct(List<String> row) {
         ConversionResult<Product> result = new ConversionResult<>();
         result.setStatus(ConversionStatus.SUCCESS);
@@ -140,7 +153,12 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
     }
 
     private void readImage(int columnIndex, List<String> row, ConversionResult<Product> result) {
-        // TODO: read image as path (columnIndex: 2)
+        read(columnIndex,
+             row,
+             result,
+             this::isValidImageFile,
+             this::getImageUrl,
+             url -> result.getResult().setMainImageUrl(url));
     }
 
     private void readSkuCode(int columnIndex, List<String> row, ConversionResult<Product> result) {
@@ -183,7 +201,7 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         if (result.getStatus().equals(ConversionStatus.FAILURE)) {
             return;
         }
-        read(columnIndex+1,
+        read(columnIndex + 1,
              row,
              result,
              val -> true,
@@ -195,6 +213,30 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         if (property.getCategoryProperty().getName() != null || property.getValue() != null) {
             result.getResult().getProperties().add(property);
         }
+    }
+
+    private boolean isValidImageFile(String path) {
+        File f = new File(path);
+        if (!f.exists() || !f.canRead()) return false;
+        String ext = FilenameUtils.getExtension(f.getName());
+        ImageFormat format = ImageFormat.resolve(ext);
+        return format != ImageFormat.UNKNOWN;
+    }
+
+    private String getImageUrl(String path) {
+        File f = new File(path);
+        try {
+            byte[] bytes = FileUtils.readFileToByteArray(f);
+            ImageInfo info = new ImageInfo();
+            info.setFilename(f.getName());
+            info.setExtension(FilenameUtils.getExtension(f.getName()));
+            info.setUploadDateTime(Timestamp.from(Instant.now()));
+            ImageInfo imageInfo = imageStorageService.saveImage(bytes, info);
+            return imageInfo.getUrl();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private Category getCategory(String identifier) {
