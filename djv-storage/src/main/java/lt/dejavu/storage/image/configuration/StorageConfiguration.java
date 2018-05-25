@@ -21,6 +21,6 @@ public class StorageConfiguration {
 
     @Bean
     public List<ImageFormat> allowedImageFormats() {
-        return Arrays.asList(ImageFormat.PNG, ImageFormat.JPG);
+        return Arrays.asList(ImageFormat.values());
     }
 }
