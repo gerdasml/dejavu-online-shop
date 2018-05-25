@@ -4,6 +4,7 @@ import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.product.dto.ProductDto;
 import lt.dejavu.product.dto.ProductImportStatusDto;
+import lt.dejavu.product.model.SearchResult;
 import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 import lt.dejavu.product.service.ProductImportStatusService;
 import lt.dejavu.product.service.ProductService;
@@ -38,8 +39,14 @@ public class ProductApi {
             path = "/",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<ProductDto> getAllProducts() {
-        return productService.getAllProducts();
+    public List<ProductDto> getAllProducts(@RequestParam(value="offset", required=false) Integer offset,
+                                           @RequestParam(value="limit", required=false) Integer limit) {
+        return productService.getAllProducts(limit, offset);
+    }
+
+    @GetMapping("/count")
+    public long getTotalProductCount() {
+        return productService.getTotalProductCount();
     }
 
     @GetMapping(
@@ -54,8 +61,10 @@ public class ProductApi {
             path = "/category/{categoryId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<ProductDto> getProductsByCategory(@PathVariable("categoryId") long categoryId) {
-        return productService.getProductsByCategory(categoryId);
+    public List<ProductDto> getProductsByCategory(@PathVariable("categoryId") long categoryId,
+                                                  @RequestParam(value="offset", required=false) Integer offset,
+                                                  @RequestParam(value="limit", required=false) Integer limit) {
+        return productService.getProductsByCategory(categoryId, offset, limit);
     }
 
     @GetMapping(
@@ -68,11 +77,13 @@ public class ProductApi {
     }
 
     @PostMapping(
-            path = "/category",
+            path = "/search",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<ProductDto> productSearch(@RequestBody ProductSearchRequest request) {
-        return productService.searchProducts(request);
+    public SearchResult<ProductDto> productSearch(@RequestBody ProductSearchRequest request,
+                                                  @RequestParam(value="offset", required=false) Integer offset,
+                                                  @RequestParam(value="limit", required=false) Integer limit) {
+        return productService.searchProducts(request, offset, limit);
     }
 
     @PostMapping(

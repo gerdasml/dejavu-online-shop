@@ -8,6 +8,15 @@
     color: red;
 }
 
+.login-window h3{
+    color: #393D40;
+    font-weight: bold;
+}
+
+.login-window label {
+    color: #393D40!important;
+}
+
 #registerModal Button{
     margin-top: 7%;
     margin-left: 12%;
@@ -37,4 +46,41 @@
 
 .register{
 padding-top: 15%;
+}
+
+.login-window-button {
+    background-color: #ffce2b!important;
+    color: #393D40!important;
+}
+
+.login-window-button:hover {
+    background-color: #FFE693!important;
+}
+
+.modal-header {
+    background-color: #393D40!important;
+    color: #FFE693!important;
+    font-weight: bold;
+    text-align: center;
+}
+
+#registerModal label {
+    color: #393D40!important;
+}
+
+.registration-cancel-button {
+    background-color: #393D40!important;
+    color: #FFE693!important;
+}
+.registration-cancel-button:hover {
+    background-color: #8e8e8e!important;
+}
+
+.registration-save-button {
+    background-color: #ffce2b!important;
+    color: #393D40!important;
+}
+
+.registration-save-button:hover {
+    background-color: #FFE693!important;
 }

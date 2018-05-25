@@ -1,51 +1,27 @@
 import * as React from "react";
 
-import { notification } from "antd";
+import { notification, message } from "antd";
 
 import { Header, Loader } from "semantic-ui-react";
 
 import * as api from "../../../api";
 
 import { Product } from "../../../model/Product";
-import { ProductContainer } from "../../dumb/Product/ProductContainer";
+import { ProductList } from "../../dumb/Product/ProductList";
 
-interface HomeState {
-    isLoading: boolean;
-    products: Product[];
-}
+import { config } from "../../../config";
+import { Cart } from "../../../model/Cart";
 
-export class Home extends React.Component< {}, HomeState> {
-    state: HomeState = {
-        isLoading: true,
-        products: [],
-    };
+import * as CartManager from "../../../utils/cart";
+import { ProductContainer } from "../../smart/Product/ProductContainer";
 
-    async componentDidMount () {
-        const productsInfo = await api.product.getAllProducts();
-        if(api.isError(productsInfo)) {
-            notification.error({message: "Failed to load products", description: productsInfo.message});
-        } else {
-            this.setState({
-                ...this.state,
-                products: productsInfo,
-            });
-        }
-        this.setState({
-            ...this.state,
-            isLoading: false,
-        });
-    }
-
+export class Home extends React.Component< {}, never> {
     render () {
         return (
-            <div>
-                { this.state.isLoading
-                ?
-                <Loader active inline="centered" />
-                :
-                <ProductContainer products={this.state.products}/>
-                }
-            </div>
+            <ProductContainer
+                query={{}}
+                noResultsMessage={<Header size="huge">No products were found</Header>}
+            />
         );
     }
 }

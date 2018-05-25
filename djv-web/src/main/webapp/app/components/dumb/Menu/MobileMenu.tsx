@@ -42,7 +42,7 @@ export const MobileMenu = (props: MobileMenuProps) => (
           mode="inline"
           theme="dark"
         >
-            <Menu.SubMenu title={
+            <Menu.SubMenu id="mobile-menu-title" title={
                     <span>
                         <Icon name="bars" />
                         <span>

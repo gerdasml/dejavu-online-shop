@@ -1,3 +1,70 @@
-body {
-    color: blue;
+#products-pagination .active.item {
+    background-color: #ffe693!important;
+    color: #393d40!important;
+}
+
+#products-pagination .item {
+    background-color: #393d40!important;
+    color: #ffe693!important;
+}
+
+#products-pagination .item:hover {
+    background-color: #8e8e8e!important;
+}
+
+.pagination-father {
+    text-align: center;
+}
+#products-pagination {
+    margin-top: 15px!important;
+    float: unset!important;
+}
+
+.review-modal {
+    background-color: #393d40!important;
+    color: #ffe693!important;
+    font-weight: bold;
+    text-align: center;
+}
+
+.review-modal-content h3{
+    color: #393d40;
+    font-weight: bold;
+}
+
+.review-table th{
+    background-color: #393d40!important;
+    color: #ffe693!important;
+}
+
+.search-query {
+    color: #8e8e8e;
+}
+
+.order-review-save-button {
+    background-color: #ffce2b!important;
+    color: #393d40!important;
+    margin-top: 10px!important;
+}
+
+.order-review-save-button:hover {
+    background-color: #ffe693!important;
+}
+
+.order-review-cancel-button {
+    background-color: #393d40!important;
+    color: #ffe693!important;
+    margin-top: 10px!important;
+}
+
+.order-review-cancel-button:hover {
+    background-color: #8e8e8e!important;
+}
+
+.ui.loader:before {
+    border-color: #ffe693!important;
+}
+
+.ui.loader:after {
+    border-color: #ffce2b transparent transparent!important;
 }

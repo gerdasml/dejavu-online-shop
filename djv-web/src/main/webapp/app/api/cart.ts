@@ -5,6 +5,7 @@ import { Cart } from "../model/Cart";
 import { Card } from "../model/Payment";
 
 import { fetchData, HttpMethod } from "./utils";
+import { ShippingInformation } from "../model/ShippingInformation";
 
 const PATH_PREFIX = "/api/cart";
 
@@ -15,7 +16,7 @@ export interface ModifyCartRequest {
 
 export interface CheckoutRequest {
     card: Card;
-    shippingAddress: Address;
+    shippingInformation: ShippingInformation;
 }
 
 export const getCart = (): Promise<ApiResponse<Cart>> =>

@@ -63,6 +63,6 @@ public class CartApi {
                          @RequestBody CheckoutRequest checkoutRequest
                         ) throws ApiSecurityException, PaymentException {
         long userId = securityService.authorize(authHeader, request);
-        cartService.checkout(userId, checkoutRequest.getCard(), checkoutRequest.getShippingAddress());
+        cartService.checkout(userId, checkoutRequest.getCard(), checkoutRequest.getShippingInformation());
     }
 }

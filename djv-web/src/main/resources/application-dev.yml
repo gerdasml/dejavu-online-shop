@@ -8,7 +8,7 @@ spring:
     username: sa
     password:
     debug:
-      show-sql: false
+      show-sql: true
       format-sql: true
   h2:
     console:

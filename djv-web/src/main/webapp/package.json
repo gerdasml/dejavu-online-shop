@@ -22,9 +22,12 @@
   ],
   "dependencies": {
     "@types/mime-types": "^2.1.0",
+    "@types/query-string": "^5.1.0",
+    "@types/react": "^16.0.38",
     "@types/react-credit-cards": "^0.7.0",
     "@types/react-cropper": "^0.10.2",
     "@types/react-dates": "^16.0.5",
+    "@types/react-dom": "^16.0.4",
     "@types/react-image-gallery": "^0.8.2",
     "@types/react-responsive": "^3.0.1",
     "@types/react-router-dom": "^4.2.5",
@@ -37,6 +40,7 @@
     "history": "^4.7.2",
     "lodash": "^4.5.1",
     "mime-types": "^2.1.18",
+    "query-string": "^6.1.0",
     "react": "^16.2.0",
     "react-credit-cards": "^0.7.0",
     "react-cropper": "^1.0.1",
@@ -61,7 +65,8 @@
     "slick-carousel": "^1.8.1",
     "svg-inline-loader": "^0.8.0",
     "svg-inline-react": "^3.1.0",
-    "ts-import-plugin": "^1.4.4"
+    "ts-import-plugin": "^1.4.4",
+    "ts-keycode-enum": "^1.0.4"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.json -c tslint.json app/**/*.{ts,tsx}",

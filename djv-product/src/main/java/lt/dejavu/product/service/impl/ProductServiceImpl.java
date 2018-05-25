@@ -6,14 +6,11 @@ import lt.dejavu.product.dto.ProductPropertyDto;
 import lt.dejavu.product.dto.discount.ProductDiscountDto;
 import lt.dejavu.product.dto.mapper.ProductDtoMapper;
 import lt.dejavu.product.dto.mapper.ProductPropertyDtoMapper;
+import lt.dejavu.product.model.*;
 import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.ProductNotFoundException;
 import lt.dejavu.product.exception.ProductPropertyNotFoundException;
-import lt.dejavu.product.model.Category;
-import lt.dejavu.product.model.CategoryProperty;
-import lt.dejavu.product.model.Product;
-import lt.dejavu.product.model.ProductProperty;
 import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.repository.ProductPropertyRepository;
 import lt.dejavu.product.repository.ProductRepository;
@@ -27,9 +24,11 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import java.io.ByteArrayOutputStream;
@@ -68,8 +67,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getAllProducts() {
-        List<ProductDto> products = productDtoMapper.mapToDto(productRepository.getAllProducts());
+    public List<ProductDto> getAllProducts(Integer limit, Integer offset) {
+        if (limit == null) {
+            limit = Integer.MAX_VALUE;
+        }
+        if (offset == null) {
+            offset = 0;
+        }
+        List<ProductDto> products =
+                productDtoMapper.mapToDto(productRepository.getAllProducts(offset, limit));
         enrichProductsWithDiscount(products);
         return products;
     }
@@ -89,18 +95,37 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getProductsByCategory(long categoryId) {
+    public List<ProductDto> getProductsByCategory(long categoryId, Integer offset, Integer limit) {
         getCategoryIfExist(categoryId);
-        List<ProductDto> products = productDtoMapper.mapToDto(productRepository.getProductsByCategory(categoryId));
+        if (limit == null) {
+            limit = Integer.MAX_VALUE;
+        }
+        if (offset == null) {
+            offset = 0;
+        }
+        List<ProductDto> products =
+                productDtoMapper.mapToDto(
+                        productRepository.getProductsByCategory(categoryId, offset, limit)
+                                         );
+
         enrichProductsWithDiscount(products);
         return products;
     }
 
     @Override
-    public List<ProductDto> searchProducts(ProductSearchRequest request) {
-        // TODO: maybe add some additional search options?
-        Category category = getCategoryIfExist(request.getCategoryIdentifier());
-        return getProductsByCategory(category.getId());
+    public SearchResult<ProductDto> searchProducts(ProductSearchRequest request, Integer offset, Integer limit) {
+        if (limit == null) {
+            limit = Integer.MAX_VALUE;
+        }
+        if (offset == null) {
+            offset = 0;
+        }
+        SearchResult<Product> dbResult = productRepository.searchForProducts(request, offset, limit);
+        SearchResult<ProductDto> result = new SearchResult<>();
+        result.setTotal(dbResult.getTotal());
+        result.setResults(productDtoMapper.mapToDto(dbResult.getResults()));
+        enrichProductsWithDiscount(result.getResults());
+        return result;
     }
 
     @Transactional
@@ -137,7 +162,7 @@ public class ProductServiceImpl implements ProductService {
         productRepository.updateProduct(oldProduct);
     }
 
-    private void enrichProductsWithDiscount(List<ProductDto> products) {
+    private void enrichProductsWithDiscount(Collection<ProductDto> products) {
         products.parallelStream()
                 .forEach(this::enrichProductWithDiscount);
     }
@@ -161,12 +186,17 @@ public class ProductServiceImpl implements ProductService {
     
     @Override
     public ByteArrayOutputStream exportProducts() throws IOException {
-        return excelService.toExcel(productRepository.getAllProducts());
+        return excelService.toExcel(productRepository.getAllProducts(0, Integer.MAX_VALUE));
     }
 
     @Override
     public UUID importProducts(byte[] data) throws IOException {
         return excelService.fromExcel(data);
+    }
+
+    @Override
+    public long getTotalProductCount() {
+        return productRepository.getTotalProductCount();
     }
 
     private Category resolveCategory(Long categoryId) {
