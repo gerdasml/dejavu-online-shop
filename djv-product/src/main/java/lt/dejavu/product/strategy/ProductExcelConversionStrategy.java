@@ -9,6 +9,7 @@ import lt.dejavu.product.model.CategoryProperty;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.model.ProductProperty;
 import lt.dejavu.product.repository.CategoryRepository;
+import org.apache.logging.log4j.util.TriConsumer;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -16,6 +17,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -73,7 +75,7 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         ConversionResult<Product> result = rowToProduct(rowIterator.next());
         while (rowIterator.hasNext() && rowIterator.peek().get(0).isEmpty()) {
             List<String> row = rowIterator.next();
-            readProperty(result, row);
+            readProperty(6, row, result);
         }
         return result;
     }
@@ -98,24 +100,29 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
                      .collect(toList());
     }
 
+    private final List<TriConsumer<Integer, List<String>, ConversionResult<Product>>> rowReaders = Arrays.asList(
+            this::readName,
+            this::readPrice,
+            this::readImage,
+            this::readSkuCode,
+            this::readDescription,
+            this::readCategory,
+            this::readProperty
+                                                                                                          );
+
     private ConversionResult<Product> rowToProduct(List<String> row) {
         ConversionResult<Product> result = new ConversionResult<>();
         result.setStatus(ConversionStatus.SUCCESS);
         result.setResult(new Product());
         result.getResult().setProperties(new HashSet<>());
 
-        readName(row, result);
-        readPrice(row, result);
-        readImage(row, result);
-        readSkuCode(row, result);
-        readDescription(row, result);
-        readCategory(row, result);
-        readProperty(result, row);
+        IntStream.range(0, rowReaders.size())
+                 .forEach(idx -> rowReaders.get(idx).accept(idx, row, result));
         return result;
     }
 
-    private void readName(List<String> row, ConversionResult<Product> result) {
-        read(0,
+    private void readName(int columnIndex, List<String> row, ConversionResult<Product> result) {
+        read(columnIndex,
              row,
              result,
              val -> val != null && val.length() > 0,
@@ -123,8 +130,8 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
              val -> result.getResult().setName(val));
     }
 
-    private void readPrice(List<String> row, ConversionResult<Product> result) {
-        read(1,
+    private void readPrice(int columnIndex, List<String> row, ConversionResult<Product> result) {
+        read(columnIndex,
              row,
              result,
              this::isValidBigDecimal,
@@ -132,16 +139,16 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
              val -> result.getResult().setPrice(val));
     }
 
-    private void readImage(List<String> row, ConversionResult<Product> result) {
+    private void readImage(int columnIndex, List<String> row, ConversionResult<Product> result) {
         // TODO: read image as path (columnIndex: 2)
     }
 
-    private void readSkuCode(List<String> row, ConversionResult<Product> result) {
+    private void readSkuCode(int columnIndex, List<String> row, ConversionResult<Product> result) {
         // TODO: read SKU code (columnIndex: 3)
     }
 
-    private void readDescription(List<String> row, ConversionResult<Product> result) {
-        read(4,
+    private void readDescription(int columnIndex, List<String> row, ConversionResult<Product> result) {
+        read(columnIndex,
              row,
              result,
              val -> true,
@@ -149,8 +156,8 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
              val -> result.getResult().setDescription(val));
     }
 
-    private void readCategory(List<String> row, ConversionResult<Product> result) {
-        read(5,
+    private void readCategory(int columnIndex, List<String> row, ConversionResult<Product> result) {
+        read(columnIndex,
              row,
              result,
              this::isValidCategory,
@@ -158,15 +165,16 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
              val -> result.getResult().setCategory(val));
     }
 
-    private void readProperty(ConversionResult<Product> result,
-                              List<String> row) {
+    private void readProperty(int columnIndex,
+                              List<String> row,
+                              ConversionResult<Product> result) {
         Category productCategory = result.getResult().getCategory();
         if (productCategory == null) {
             return;
         }
         ProductProperty property = new ProductProperty();
         property.setProduct(result.getResult());
-        read(6,
+        read(columnIndex,
              row,
              result,
              isValidPropertyName(productCategory),
@@ -175,7 +183,7 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         if (result.getStatus().equals(ConversionStatus.FAILURE)) {
             return;
         }
-        read(7,
+        read(columnIndex+1,
              row,
              result,
              val -> true,
