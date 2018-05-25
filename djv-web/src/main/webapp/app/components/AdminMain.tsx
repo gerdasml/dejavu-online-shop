@@ -19,6 +19,11 @@ import { SingleProduct } from "./views/Admin/product/SingleProduct";
 import { SingleUser } from "./views/Admin/users/SingleUser";
 import { Users } from "./views/Admin/users/Users";
 import { NotFound } from "./views/NotFound";
+import { connect } from "react-redux";
+import { StoreState } from "../redux/reducers";
+import { bindActionCreators } from "redux";
+import { login, logout } from "../redux/actions/auth";
+import { AuthAction, AuthReducerState } from "../redux/reducers/authReducer";
 
 const isLoggedInAsAdmin = async () => {
     const userResponse = await api.user.getProfile();
@@ -31,21 +36,25 @@ const isLoggedInAsAdmin = async () => {
 
 export interface AdminMainState {
     isLoading: boolean;
-    isAdmin: boolean;
 }
 
-export class AdminMain extends React.Component<{},AdminMainState> {
+interface AuthReducerMethods {
+    dispatchLogin: (token?: string) => AuthAction;
+    dispatchLogout: () => AuthAction;
+}
+
+class AdminMain extends React.Component<AuthReducerState & AuthReducerMethods,AdminMainState> {
     state: AdminMainState = {
-        isAdmin: false,
-        isLoading: true
+        isLoading: true,
     };
     async handlelogin (email: string, password: string) {
         this.setState({...this.state, isLoading: true});
         if(await this.executeLogin(email, password)) {
             if(await isLoggedInAsAdmin()) {
-                this.setState({...this.state, isAdmin: true});
+                this.props.dispatchLogin();
             } else {
                 notification.error({message: "Failed to authenticate", description: "You are not authorized."});
+                this.props.dispatchLogout();
             }
         }
         this.setState({...this.state, isLoading: false});
@@ -65,19 +74,18 @@ export class AdminMain extends React.Component<{},AdminMainState> {
     }
     async componentDidMount () {
         if (await isLoggedInAsAdmin()) {
-            this.setState({...this.state, isAdmin: true});
+            this.props.dispatchLogin();
         }
         this.setState({...this.state, isLoading: false});
     }
     handleLogout () {
-        clearToken();
-        this.setState({...this.state, isAdmin: false});
+       this.props.dispatchLogout();
     }
     render () {
         return (
             <Spin spinning={this.state.isLoading}>
             {
-                this.state.isAdmin
+                this.props.loggedIn
                 ?
                 <div>
                     <MenuHeader onLogout={this.handleLogout.bind(this)}/>
@@ -101,3 +109,13 @@ export class AdminMain extends React.Component<{},AdminMainState> {
         );
     }
 }
+
+export default connect(
+    (state: StoreState) => ({
+        loggedIn: state.auth.loggedIn
+    }),
+    dispatch => bindActionCreators({
+          dispatchLogin: login,
+          dispatchLogout: logout,
+    }, dispatch)
+)(AdminMain);
