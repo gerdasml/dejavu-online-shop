@@ -198,7 +198,7 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
              isValidPropertyName(productCategory),
              getPropertyByName(productCategory),
              property::setCategoryProperty);
-        if (result.getStatus().equals(ConversionStatus.FAILURE)) {
+        if (property.getCategoryProperty() == null) {
             return;
         }
         read(columnIndex + 1,
@@ -256,7 +256,7 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
 
 
     private Function<String, CategoryProperty> getPropertyByName(Category category) {
-        return s -> category.getProperties().stream().filter(prop -> prop.getName().equals(s)).findFirst().orElseThrow(IllegalStateException::new);
+        return s -> category.getProperties().stream().filter(prop -> prop.getName().equals(s)).findFirst().orElse(null);
     }
 
     private boolean isValidBigDecimal(String s) {
