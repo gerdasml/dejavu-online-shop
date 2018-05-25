@@ -29,6 +29,7 @@ public class ProductDtoMapper {
         ProductDto dto = new ProductDto();
         dto.setId(product.getId());
         dto.setName(product.getName());
+        dto.setSkuCode(product.getSkuCode());
         dto.setDescription(product.getDescription());
         dto.setCreationDate(product.getCreationDate());
         dto.setIdentifier(product.getIdentifier());

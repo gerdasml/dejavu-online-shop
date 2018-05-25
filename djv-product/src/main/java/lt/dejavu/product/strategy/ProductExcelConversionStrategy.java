@@ -65,7 +65,7 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
                 Arrays.asList(
                         item.getName(),
                         item.getPrice().toString(),
-                        "SKU", // TODO: place actual SKU code
+                        item.getSkuCode(),
                         item.getDescription(),
                         item.getCategory().getIdentifier(),
                         properties.get(0).getCategoryProperty().getName(),
@@ -162,7 +162,12 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
     }
 
     private void readSkuCode(int columnIndex, List<String> row, ConversionResult<Product> result) {
-        // TODO: read SKU code (columnIndex: 3)
+        read(columnIndex,
+             row,
+             result,
+             s -> s != null && s.length() > 0,
+             s -> s,
+             code -> result.getResult().setSkuCode(code));
     }
 
     private void readDescription(int columnIndex, List<String> row, ConversionResult<Product> result) {
