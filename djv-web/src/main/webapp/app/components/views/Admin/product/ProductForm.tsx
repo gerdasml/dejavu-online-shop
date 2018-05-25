@@ -171,7 +171,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
     }
     render () {
         return (
-            <Grid>
+            <Grid stackable>
                 <Grid.Row>
                     <Grid.Column width="eight">
                         <ProductName
@@ -206,18 +206,18 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Column width="eight">
+                        <CategoryDropdown
+                            selected={this.state.category}
+                            categories={this.state.categories}
+                            onChange={this.handleCategoryChange.bind(this)}/>
+                    </Grid.Column>
+                    <Grid.Column width="eight">
                         <ProductPropertiesTable
                             properties={this.state.properties}
                             onChange={newProperties => this.setState({
                                 ...this.state, properties: newProperties
                             })}
-                            />
-                    </Grid.Column>
-                    <Grid.Column width="eight">
-                        <CategoryDropdown
-                            selected={this.state.category}
-                            categories={this.state.categories}
-                            onChange={this.handleCategoryChange.bind(this)}/>
+                        />
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
