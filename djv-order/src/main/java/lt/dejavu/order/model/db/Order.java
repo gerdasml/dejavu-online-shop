@@ -40,11 +40,7 @@ public class Order {
     private User user;
 
     @OneToOne
-    @JoinTable(
-            name = "order_shippingInformation",
-            joinColumns = @JoinColumn(name = "orderId"),
-            inverseJoinColumns = @JoinColumn(name = "shippingInformationId")
-    )
+    @JoinColumn(name="shippingInformationId")
     private ShippingInformation shippingInformation;
 
     @OneToOne

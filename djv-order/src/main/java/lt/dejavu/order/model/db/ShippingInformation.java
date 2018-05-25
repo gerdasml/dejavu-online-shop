@@ -27,10 +27,6 @@ public class ShippingInformation {
     private String recipientLastName ;
 
     @OneToOne
-    @JoinTable(
-            name = "shippingInformation_address",
-            joinColumns = @JoinColumn(name = "shippingInformationId"),
-            inverseJoinColumns = @JoinColumn(name = "addressId")
-    )
+    @JoinColumn(name = "addressId")
     private Address shippingAddress;
 }
