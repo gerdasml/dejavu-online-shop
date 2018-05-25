@@ -47,6 +47,11 @@ export const ProductTable = (props: ProductTableProps) => (
             render={(_, record) => record.name}
         />
         <ProductRecordColumn
+            key = "skuCode"
+            title = "Sku code"
+            render={(_, record) => record.skuCode}
+        />
+        <ProductRecordColumn
             key = "category"
             title = "Category"
             render={(_, record) => findCategoryFromTree(props.categories, record.categoryId).name}
