@@ -21,7 +21,7 @@ class SummaryColumn extends Table.Column<Summary> {}
 
 export const OrderSummaryTable = (props: OrderSummaryTableProps) => (
     <SummaryTable
-        scroll={{x: config.adminTableScrollWidth}}
+        scroll={{x: config.adminTableScrollWidth.common}}
         dataSource={props.summaries.map(addKey)}
         pagination={{pageSize: 25, hideOnSinglePage: true}}>
         <SummaryColumn
