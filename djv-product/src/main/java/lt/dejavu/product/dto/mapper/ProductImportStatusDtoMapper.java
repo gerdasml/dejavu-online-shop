@@ -21,11 +21,9 @@ import static java.util.stream.Collectors.toList;
 public class ProductImportStatusDtoMapper {
     private final ObjectMapper objectMapper;
     private final Logger logger = LogManager.getLogger(ProductImportStatusDtoMapper.class);
-    private final ProductDtoMapper productDtoMapper;
 
-    public ProductImportStatusDtoMapper(ObjectMapper objectMapper, ProductDtoMapper productDtoMapper) {
+    public ProductImportStatusDtoMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
-        this.productDtoMapper = productDtoMapper;
     }
 
     public ProductImportStatusDto map(ImportStatus status) {
@@ -37,7 +35,6 @@ public class ProductImportStatusDtoMapper {
         dto.setStatus(status.getStatus());
         dto.setStartTime(status.getStartTime().toInstant());
         dto.setFailedProducts(status.getFailedItems().stream().map(this::parseProductDtoString).collect(toList()));
-
         return dto;
     }
 
@@ -71,7 +68,6 @@ public class ProductImportStatusDtoMapper {
         status.setFailureCount(dto.getFailureCount());
         status.setSuccessCount(dto.getSuccessCount());
         status.setTotal(dto.getTotal());
-
         return status;
     }
 
