@@ -1,5 +1,7 @@
 package lt.dejavu.excel.service;
 
+import javafx.util.Pair;
+import lt.dejavu.excel.custom.OptimizedXSSFSheetDecorator;
 import lt.dejavu.excel.iterator.ConvertingIterator;
 import lt.dejavu.excel.iterator.PeekingIterator;
 import lt.dejavu.excel.model.ConversionResult;
@@ -12,17 +14,22 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
+import static java.util.stream.Collectors.toList;
+
 @Component
 public class ExcelServiceImpl<T> implements ExcelService<T> {
+    private final static Logger logger = LogManager.getLogger(ExcelServiceImpl.class);
     private final ExcelConversionStrategy<T> conversionStrategy;
     private final ProcessingStrategy<T> processingStrategy;
-    private final static Logger logger = LogManager.getLogger(ExcelServiceImpl.class);
+
     public ExcelServiceImpl(ExcelConversionStrategy<T> conversionStrategy, ProcessingStrategy<T> processingStrategy) {
         this.conversionStrategy = conversionStrategy;
         this.processingStrategy = processingStrategy;
@@ -30,14 +37,16 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
 
     @Override
     public ByteArrayOutputStream toExcel(Collection<T> items) throws IOException {
-        Workbook wb = new XSSFWorkbook();
+        XSSFWorkbook wb = new XSSFWorkbook();
         CellStyle cellStyle = getCellStyle(wb);
-        Sheet sheet = wb.createSheet();
+        Sheet sheet = new OptimizedXSSFSheetDecorator(wb.createSheet());
         setColumnWidths(sheet);
         Row headerRow = sheet.createRow(0);
         populateRow(headerRow, conversionStrategy.getHeader(), getHeaderCellStyle(wb));
         formatHeader(headerRow);
         AtomicInteger rowIndex = new AtomicInteger(1);
+        List<Pair<Integer, Integer>> mergeIntervals = new ArrayList<>();
+
         items.stream()
              .map(conversionStrategy::toRows)
              .forEach(itemData -> {
@@ -47,18 +56,27 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
                      populateRow(row, rowData, cellStyle);
                  });
                  int toRow = rowIndex.get() - 1;
-                 conversionStrategy.getColumnsToMerge()
-                                   .forEach(i ->
-                                                    sheet.addMergedRegion(
-                                                            new CellRangeAddress(fromRow, toRow, i, i)
-                                                                         )
-                                           );
+                 mergeIntervals.add(new Pair<>(fromRow, toRow));
              });
+
+        conversionStrategy.getColumnsToMerge().parallelStream().forEach(col ->
+            mergeIntervals.parallelStream().forEach(row ->
+                sheet.addMergedRegionUnsafe(new CellRangeAddress(row.getKey(), row.getValue(), col, col))
+            )
+        );
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         wb.write(outputStream);
         return outputStream;
     }
+
+//    private void profile(String opName, Runnable runnable) {
+//        logger.warn(String.format(">>> %s STARTED", opName));
+//        long start = System.currentTimeMillis();
+//        runnable.run();
+//        long end = System.currentTimeMillis();
+//        logger.warn(String.format("<<< %s ENDED (%s ms)", opName, String.valueOf(end-start)));
+//    }
 
     @Override
     public UUID fromExcel(byte[] file) throws IOException {
