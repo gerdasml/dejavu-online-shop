@@ -5,6 +5,7 @@ export interface Product {
     id?: number;
     identifier?: string;
     name: string;
+    skuCode: string;
     mainImageUrl?: string;
     additionalImagesUrls?: string[];
     description: string;

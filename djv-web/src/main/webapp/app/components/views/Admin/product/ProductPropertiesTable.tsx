@@ -6,6 +6,7 @@ import { ProductProperties } from "../../../../model/ProductProperties";
 
 import { addKey, WithKey } from "../../../../utils/table";
 import { EditableCell } from "../common/EditableCell";
+import { config } from "../../../../config";
 
 type Property = ProductProperties & WithKey;
 
@@ -48,7 +49,10 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
     render () {
         return (
             <div>
-                <PropertiesTable pagination={false} dataSource={this.state.properties}>
+                <PropertiesTable
+                    scroll={{x: config.adminTableScrollWidth.properties}}
+                    pagination={false}
+                    dataSource={this.state.properties}>
                     <PropertyColumn
                         key="name"
                         title="Name"

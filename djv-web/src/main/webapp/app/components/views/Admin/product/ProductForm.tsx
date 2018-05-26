@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid } from "semantic-ui-react";
 
-import { Button, message, notification } from "antd";
+import { Button, message, notification, Input } from "antd";
 import * as api from "../../../../api";
 import { CategoryTree } from "../../../../model/CategoryTree";
 import { Product } from "../../../../model/Product";
@@ -27,6 +27,7 @@ export interface ProductFormState {
     properties: ProductProperties[];
     category?: number;
     categories: CategoryTree[];
+    skuCode: string;
 }
 
 export class ProductForm extends React.Component<ProductFormProps,ProductFormState> {
@@ -36,7 +37,8 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
         description: "",
         name: "",
         pictures: [],
-        properties: []
+        properties: [],
+        skuCode: ""
     };
 
     componentWillReceiveProps (nextProps: ProductFormProps) {
@@ -71,6 +73,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
         const newState = this.state;
         if (props.product !== undefined) {
             newState.category = props.product.categoryId;
+            newState.skuCode = props.product.skuCode;
             newState.description = props.product.description;
             newState.name = props.product.name;
             newState.price = props.product.price;
@@ -88,6 +91,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
     isValid () {
         if(this.state.name &&
            this.state.price &&
+           this.state.skuCode &&
            this.state.description &&
            this.state.pictures.length > 0  &&
            this.state.category) return true;
@@ -108,6 +112,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
             pictures: [],
             price: undefined,
             properties: [],
+            skuCode: ""
         });
         return true;
     }
@@ -131,7 +136,8 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                 mainImageUrl: this.state.pictures[0],
                 name: this.state.name,
                 price: this.state.price,
-                properties: this.state.properties
+                properties: this.state.properties,
+                skuCode: this.state.skuCode
             };
             if (this.props.product === undefined ||
                 this.props.product.id === undefined ||
@@ -171,7 +177,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
     }
     render () {
         return (
-            <Grid>
+            <Grid stackable>
                 <Grid.Row>
                     <Grid.Column width="eight">
                         <ProductName
@@ -185,6 +191,13 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                             price={this.state.price}
                             onChange={newPrice => this.setState({
                                 ...this.state, price: newPrice
+                            })}/>
+                        <Input
+                            addonBefore="Sku code:"
+                            placeholder="Enter sku code..."
+                            value={this.state.skuCode}
+                            onChange={e => this.setState({
+                                ...this.state, skuCode: e.target.value
                             })}/>
                     </Grid.Column>
                 </Grid.Row>
@@ -206,18 +219,18 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Column width="eight">
+                        <CategoryDropdown
+                            selected={this.state.category}
+                            categories={this.state.categories}
+                            onChange={this.handleCategoryChange.bind(this)}/>
+                    </Grid.Column>
+                    <Grid.Column width="eight">
                         <ProductPropertiesTable
                             properties={this.state.properties}
                             onChange={newProperties => this.setState({
                                 ...this.state, properties: newProperties
                             })}
-                            />
-                    </Grid.Column>
-                    <Grid.Column width="eight">
-                        <CategoryDropdown
-                            selected={this.state.category}
-                            categories={this.state.categories}
-                            onChange={this.handleCategoryChange.bind(this)}/>
+                        />
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>

@@ -2,6 +2,7 @@ package lt.dejavu.cart.service;
 
 import lt.dejavu.auth.model.db.Address;
 import lt.dejavu.cart.model.rest.CartResponse;
+import lt.dejavu.order.model.db.ShippingInformation;
 import lt.dejavu.payment.exception.PaymentException;
 import lt.dejavu.payment.model.Card;
 
@@ -14,5 +15,5 @@ public interface CartService {
 
     CartResponse removeProduct(long userId, long productId);
 
-    void checkout(long userId, Card cardInfo, Address shippingAddress) throws PaymentException;
+    void checkout(long userId, Card cardInfo, ShippingInformation shippingInformation) throws PaymentException;
 }

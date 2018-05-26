@@ -16,12 +16,13 @@ import { Address } from "../../../model/Address";
 import { CartStep, CartStepHeader } from "../../dumb/Cart/CartStepHeader";
 
 import * as CartManager from "../../../utils/cart";
+import { ShippingInformation } from "../../../model/ShippingInformation";
 
 interface CartState {
     currentStep: CartStep;
     isLoading: boolean;
     cart: CartModel;
-    shippingAddress?: Address;
+    shippingInformation?: ShippingInformation;
 }
 
 export class Cart extends React.Component<{}, CartState> {
@@ -35,6 +36,21 @@ export class Cart extends React.Component<{}, CartState> {
         isLoading: true,
     };
 
+    buildShippingInformation (cart: CartModel) {
+        const info: ShippingInformation = {
+            recipientFirstName: undefined,
+            recipientLastName: undefined,
+            shippingAddress: {}
+        };
+        const user = cart.user;
+        if(user !== undefined) {
+            info.recipientFirstName = user.firstName;
+            info.recipientLastName = user.lastName;
+            info.shippingAddress = user.address;
+        }
+        return info;
+    }
+
     async componentDidMount () {
         const cartInfo = await CartManager.getCart();
         if(api.isError(cartInfo)) {
@@ -43,9 +59,7 @@ export class Cart extends React.Component<{}, CartState> {
             this.setState({
                 ...this.state,
                 cart: cartInfo,
-                shippingAddress: cartInfo.user && cartInfo.user.address
-                                ? cartInfo.user.address
-                                : {}
+                shippingInformation: this.buildShippingInformation.bind(this)(cartInfo)
             });
         }
         this.setState({
@@ -87,8 +101,8 @@ export class Cart extends React.Component<{}, CartState> {
                 ?
                 <Step.DeliveryInfo
                     onStepComplete={this.nextStep}
-                    shippingAddress={this.state.shippingAddress}
-                    onShippingInfoChange={address => this.setState({...this.state, shippingAddress: address})}
+                    shippingInformation={this.state.shippingInformation}
+                    onShippingInfoChange={info => this.setState({...this.state, shippingInformation: info})}
                 />
                 : ""
                 }
@@ -97,7 +111,7 @@ export class Cart extends React.Component<{}, CartState> {
                 : ""
                 }
                 {this.state.currentStep === CartStep.PAYMENT
-                ? <Step.Payment onStepComplete={this.nextStep} shippingAddress={this.state.shippingAddress}/>
+                ? <Step.Payment onStepComplete={this.nextStep} shippingInformation={this.state.shippingInformation}/>
                 : ""
                 }
                 {this.state.currentStep === CartStep.APPROVAL

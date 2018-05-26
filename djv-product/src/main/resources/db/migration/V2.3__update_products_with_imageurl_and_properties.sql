@@ -11,7 +11,8 @@ CREATE TABLE `product_property` (
   `value` VARCHAR(255) NOT NULL,
   `category_property_Id` BIGINT NOT NULL,
   `productId` BIGINT NOT NULL,
-  CONSTRAINT `FK_productProperty_categoryProperty` FOREIGN KEY (category_property_Id) REFERENCES category_property(id) ON DELETE CASCADE
+  CONSTRAINT `FK_productProperty_categoryProperty` FOREIGN KEY (category_property_Id) REFERENCES category_property(id) ON DELETE CASCADE,
+  CONSTRAINT `FK_productProperty_productId` FOREIGN KEY (productId) REFERENCES product(id) ON DELETE CASCADE
 );
 
 CREATE TABLE `additional_image_url` (

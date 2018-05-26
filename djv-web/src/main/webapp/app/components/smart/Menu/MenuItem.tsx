@@ -16,7 +16,7 @@ export class MenuItem extends React.Component<MenuItemProps, never> {
     }
 
     getPosition () {
-        const rect = ReactDOM.findDOMNode(this)
+        const rect = (ReactDOM.findDOMNode(this) as any)
                             .getBoundingClientRect();
         return {
             left: rect.left + window.pageXOffset + rect.width,

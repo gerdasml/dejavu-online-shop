@@ -31,7 +31,7 @@ public class ImportStatus {
     @Column(name = "total")
     private int total;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "status",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "status",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<FailedImportItem> failedItems;
 
     @Column(name = "status")

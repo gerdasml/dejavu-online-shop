@@ -20,7 +20,7 @@ class ImportJobStatusColumn extends Table.Column<ImportJobRecord> {}
 
 export const ImportJobsTable = (props: ImportJobStatusTableProps) => (
     <ImportJobStatusTable
-        scroll={{x: config.adminTableScrollWidth}}
+        scroll={{x: config.adminTableScrollWidth.common}}
         bordered={true}
         dataSource={props.jobs.map(addKey)}
         pagination={{pageSize: 25, hideOnSinglePage: true}}>
