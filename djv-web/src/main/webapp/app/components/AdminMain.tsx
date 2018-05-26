@@ -4,6 +4,8 @@ import { Route, Switch } from "react-router";
 import { notification, Spin } from "antd";
 
 import * as api from "../api";
+import { Discounts } from "../components/views/Admin/discounts/Discounts";
+import { DiscountEditor } from "../components/views/Admin/discounts/DiscountEditor";
 import { Products } from "../components/views/Admin/product/Products";
 import { UserType } from "../model/User";
 import { clearToken, storeToken } from "../utils/token";
@@ -19,6 +21,10 @@ import { SingleProduct } from "./views/Admin/product/SingleProduct";
 import { SingleUser } from "./views/Admin/users/SingleUser";
 import { Users } from "./views/Admin/users/Users";
 import { NotFound } from "./views/NotFound";
+
+import { CreateDiscount } from "./views/Admin/discounts/DiscountCreate";
+import { SingleDiscount } from "./views/Admin/discounts/SingleDiscount";
+
 import { connect } from "react-redux";
 import { StoreState } from "../redux/reducers";
 import { bindActionCreators } from "redux";
@@ -99,6 +105,9 @@ class AdminMain extends React.Component<AuthReducerState & AuthReducerMethods,Ad
                         <Route path="/admin/categories" component={Categories}/>
                         <Route path="/admin/imports/:jobId" component={ImportJob} />
                         <Route path="/admin/imports/" component={ImportJobs} />
+                        <Route path="/admin/discounts/" component={Discounts} />
+                        <Route path="/admin/discount/create" component={CreateDiscount} />
+                        <Route path="/admin/discount/:id" component={SingleDiscount} />
                         <Route path="/" component={Admin} />
                         <Route component={NotFound} />
                     </Switch>

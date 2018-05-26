@@ -10,8 +10,6 @@ import { Expander} from "../../smart/Product/Expander";
 import { PropertiesTable } from "../../smart/Product/PropertiesTable";
 import { PriceArea } from "./PriceArea";
 
-import {products} from "../../../data/products";
-
 import "../../../../style/product.css";
 import * as api from "../../../api";
 import { formatPrice } from "../../../utils/common";
@@ -84,29 +82,32 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
                                     <Header size="large">{this.state.product.name}</Header>
                                 </List.Item>
                                 <List.Item className="product-price-label">
-                                    {isNullOrUndefined(products[0].discount)
+                                    {isNullOrUndefined(this.state.product.discount)
                                     ?
                                     <Label tag className="normal-price-tag">
                                         {formatPrice(this.state.product.price)}
                                     </Label>
                                     :
                                     <Label tag className="normal-price-tag">
-                                        {formatPrice(products[0].discount.finalPrice)}
+                                        {formatPrice(this.state.product.discount.finalPrice)}
                                         <del id="oldPrice">
-                                            {formatPrice(products[0].price)}
+                                            {formatPrice(this.state.product.price)}
                                         </del>
                                     </Label>
                                     }
                                     {
-                                        !isNullOrUndefined(products[0].discount) &&
-                                        products[0].discount.type === "PERCENTAGE"
+                                        !isNullOrUndefined(this.state.product.discount) &&
+                                        this.state.product.discount.type === "PERCENTAGE"
                                         ?
                                         <Label className="discount-tag">
-                                            -{products[0].discount.value}
+                                            -{this.state.product.discount.value}
                                             <Icon name="percent"/>
                                         </Label>
                                         :
-                                        <div/>
+                                        <Label className="discount-tag">
+                                            -{this.state.product.discount.value}
+                                            <Icon name="euro"/>
+                                        </Label>
                                     }
                                 </List.Item>
                             </List>

@@ -7,6 +7,7 @@ import * as payment from "./payment";
 import * as product from "./product";
 import * as review from "./review";
 import * as user from "./user";
+import * as discount from "./discount";
 
 export {
     auth,
@@ -17,7 +18,8 @@ export {
     payment,
     product,
     review,
-    user
+    user,
+    discount
 };
 
 export * from "./ApiError";
