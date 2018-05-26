@@ -135,8 +135,10 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
             if (!lastVal.equals(currentVal)) {
                 if (last != i - 1) {
                     sheet.addMergedRegion(new CellRangeAddress(0, 0, last, i - 1));
+                    last = i + 1;
+                } else {
+                    last = i;
                 }
-                last = i + 1;
             }
         }
         if (last != cellCount - 1) {
