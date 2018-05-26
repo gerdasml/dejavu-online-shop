@@ -9,6 +9,9 @@
 
 .card-header {
     background-color: #393d40!important;
+}
+
+.card-header h3 {
     color: #f1f1f1!important;
 }
 

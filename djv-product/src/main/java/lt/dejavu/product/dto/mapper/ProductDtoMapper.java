@@ -29,6 +29,7 @@ public class ProductDtoMapper {
         ProductDto dto = new ProductDto();
         dto.setId(product.getId());
         dto.setName(product.getName());
+        dto.setSkuCode(product.getSkuCode());
         dto.setDescription(product.getDescription());
         dto.setCreationDate(product.getCreationDate());
         dto.setIdentifier(product.getIdentifier());
@@ -49,6 +50,7 @@ public class ProductDtoMapper {
     public Product mapToProduct(ProductDto productRequest, Category category) {
         Product product = new Product();
         product.setName(productRequest.getName());
+        product.setSkuCode(productRequest.getSkuCode());
         product.setIdentifier(productRequest.getIdentifier());
         product.setDescription(productRequest.getDescription());
         product.setPrice(productRequest.getPrice());
@@ -61,6 +63,7 @@ public class ProductDtoMapper {
 
     public Product remapToProduct(Product oldProduct, ProductDto productDto, Category category) {
         oldProduct.setName(productDto.getName());
+        oldProduct.setSkuCode(productDto.getSkuCode());
         oldProduct.setIdentifier(productDto.getIdentifier());
         oldProduct.setDescription(productDto.getDescription());
         oldProduct.setPrice(productDto.getPrice());

@@ -20,6 +20,7 @@ public class ProductDto {
 
     private Long id;
     private String name;
+    private String skuCode;
     private String identifier;
     private String description;
     private BigDecimal price;
