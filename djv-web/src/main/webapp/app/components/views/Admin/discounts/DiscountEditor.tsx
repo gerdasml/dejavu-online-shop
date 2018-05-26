@@ -1,8 +1,7 @@
 import * as React from "react";
-// import * as Moment from "moment";
+import * as Moment from "moment";
 
 import { Dropdown, Button, Icon, Menu, DatePicker, InputNumber, notification, message } from "antd";
-
 import * as api from "../../../../api";
 
 import { RangePickerValue } from "antd/lib/date-picker/interface";
@@ -22,8 +21,8 @@ interface DiscountEditorProps {
 interface DiscountEditorState {
     discountTarget?: DiscountTarget;
     discountType?: DiscountType;
-    dateStart?: string;
-    dateEnd?: string;
+    dateStart?: Date;
+    dateEnd?: Date;
     discountValue: number;
     categories: CategoryTree[];
     category?: number;
@@ -38,20 +37,24 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
         discountType: undefined,
         discountValue: 0,
         products: [],
+        selectedProductIds: [],
     };
 
     discountTargetMenu = (
-        <Menu onClick={e => this.updateDiscountTarget(this.DiscountTargetFromString(e.key))}>
-          <Menu.Item key={DiscountTarget.EVERYTHING}>{DiscountTarget.EVERYTHING}</Menu.Item>
-          <Menu.Item key={DiscountTarget.CATEGORY}>{DiscountTarget.CATEGORY}</Menu.Item>
-          <Menu.Item key={DiscountTarget.PRODUCT}>{DiscountTarget.PRODUCT}</Menu.Item>
+        <Menu onClick={e =>this.setState({...this.state, discountTarget: this.DiscountTargetFromString(e.key)})}>
+            <Menu.Item key={DiscountTarget.EVERYTHING}>{DiscountTarget.EVERYTHING}</Menu.Item>
+            <Menu.Item key={DiscountTarget.CATEGORY}>{DiscountTarget.CATEGORY}</Menu.Item>
+            <Menu.Item key={DiscountTarget.PRODUCT}>{DiscountTarget.PRODUCT}</Menu.Item>
         </Menu>
     );
 
     discountTypeMenu = (
-        <Menu onClick={e => this.updateDiscountType(this.DiscountTypeFromString(e.key))}>
-          <Menu.Item key={DiscountType.ABSOLUTE}>{DiscountType.ABSOLUTE}</Menu.Item>
-          <Menu.Item key={DiscountType.PERCENTAGE}>{DiscountType.PERCENTAGE}</Menu.Item>
+        <Menu onClick={e =>this.setState({ ...this.state,
+                discountType: this.DiscountTypeFromString(e.key),
+                discountValue: 0,
+        })}>
+            <Menu.Item key={DiscountType.ABSOLUTE}>{DiscountType.ABSOLUTE}</Menu.Item>
+            <Menu.Item key={DiscountType.PERCENTAGE}>{DiscountType.PERCENTAGE}</Menu.Item>
         </Menu>
     );
 
@@ -61,21 +64,27 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
             notification.error({message: "Failed to fetch category data", description: categories.message});
             return;
         }
-        this.setState({
-            ...this.state,
-            categories,
-        });
+        this.setState({...this.state,categories});
     }
 
     componentWillReceiveProps (props: DiscountEditorProps) {
         const newState = this.state;
-        newState.discountTarget = props.discount.targetType;
-        newState.discountType = props.discount.type;
-        // TODO strings still not like they should be
-        newState.dateStart = (new Date (Date.parse(props.discount.activeFrom.toString())).toLocaleDateString());
-        newState.dateEnd = (new Date (Date.parse(props.discount.activeTo.toString())).toLocaleDateString());
-        newState.discountValue = props.discount.value;
-        this.setState(newState);
+        if(props.discount !== undefined) {
+            newState.discountTarget = props.discount.targetType;
+            newState.discountType = props.discount.type;
+            newState.dateStart = new Date (Date.parse(props.discount.activeFrom.toString()));
+            newState.dateEnd = new Date (Date.parse(props.discount.activeTo.toString()));
+            newState.discountValue = props.discount.value;
+            this.setState(newState);
+        } else {
+            this.setState({
+                categories: [],
+                discountTarget: undefined,
+                discountType: undefined,
+                discountValue: 0,
+                products: [],
+            });
+        }
     }
 
     async getProductsForCategory (category: number) {
@@ -84,26 +93,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
             notification.error({message: "Failed to fetch products data", description: categoryProducts.message});
             return;
         }
-        this.setState({
-            ...this.state,
-            category,
-            products: categoryProducts,
-        });
-    }
-
-    updateDiscountTarget (newDiscountTarget: DiscountTarget) {
-        this.setState({
-            ...this.state,
-            discountTarget: newDiscountTarget
-        });
-    }
-
-    updateDiscountType (newDiscountType: DiscountType) {
-        this.setState({
-            ...this.state,
-            discountType: newDiscountType,
-            discountValue: 0,
-        });
+        this.setState({...this.state,category,products: categoryProducts});
     }
 
     DiscountTargetFromString = (val: string) => DiscountTarget[val.toUpperCase() as keyof typeof DiscountTarget];
@@ -113,8 +103,8 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
     updateDate (date: RangePickerValue, dateString: [string, string]) {
         this.setState({
             ...this.state,
-            dateStart: dateString[0],
-            dateEnd: dateString[1],
+            dateStart: new Date(Date.parse(dateString[0])),
+            dateEnd: new Date(Date.parse(dateString[1])),
         });
     }
 
@@ -122,8 +112,8 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
         const newDiscountTargetType = this.state.discountTarget;
         const newDiscountType = this.state.discountType;
         const newDiscountValue = this.state.discountValue;
-        const newDiscountDateStart = new Date (Date.parse(this.state.dateStart));
-        const newDiscountDateEnd = new Date (Date.parse(this.state.dateStart));
+        const newDiscountDateStart = this.state.dateStart;
+        const newDiscountDateEnd = this.state.dateEnd;
 
         let anyErrors: boolean = false;
         if( newDiscountTargetType === undefined) {
@@ -155,10 +145,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
 
         if (newDiscountTargetType === DiscountTarget.CATEGORY) {
             const newDiscountTargetId = this.state.category;
-            newDiscount = {
-                ...newDiscount,
-                targetId: newDiscountTargetId,
-            };
+            newDiscount = {...newDiscount, targetId: newDiscountTargetId};
         }
 
         if(newDiscountTargetType !== DiscountTarget.PRODUCT) {
@@ -184,8 +171,6 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
 
             if(this.props.discount !== undefined) {
                 const firstProductId = productToDiscountIds.pop();
-                console.log("1stproductid: " + firstProductId);
-                console.log("propsuose: " + this.props.discount.id);
                 const response = await api.discount.updateDiscount(this.props.discount.id,
                     {
                         ...newDiscount,
@@ -212,98 +197,21 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
             }
         }
 
-        message.success("Discount successfully created.");
-
-        // TODO redirect to admin discounts page
+        message.success("Discount procedure was successful.");
     }
 
-    notifyError = (error: string) => {
-        notification.error({message: error,
-                            description: "All fields must be filled in."});
-    }
-
-    // async handleSave () {
-    //     const newDiscountTargetType = this.state.discountTarget;
-    //     const newDiscountType = this.state.discountType;
-    //     const newDiscountValue = this.state.discountValue;
-    //     const newDiscountDateStart = new Date (Date.parse(this.state.dateStart));
-    //     const newDiscountDateEnd = new Date (Date.parse(this.state.dateStart));
-
-    //     let newDiscountTargetId;
-    //     if(newDiscountTargetType === DiscountTarget.CATEGORY) {
-    //         newDiscountTargetId = this.state.category;
-    //     } else if (newDiscountTargetType === DiscountTarget.PRODUCT) {
-    //         newDiscountTargetId = this.state.product.id;
-    //     }
-
-    //     let newDiscount;
-    //     if(newDiscountTargetId === undefined) {
-    //         newDiscount = {
-    //             targetType: newDiscountTargetType,
-    //             type: newDiscountType,
-    //             value: newDiscountValue,
-    //             activeFrom: newDiscountDateStart,
-    //             activeTo: newDiscountDateEnd,
-    //         };
-    //         if( newDiscount.targetType === undefined ||
-    //             newDiscount.type === undefined ||
-    //             newDiscount.value < 0 ||
-    //             newDiscount.activeFrom === undefined ||
-    //             newDiscount.activeTo === undefined) {
-    //             notification.error({message: "Discount properties are invalid",
-    //                                 description: "Fill in all the missing fields."});
-    //             return;
-    //         }
-    //     } else {
-    //         newDiscount = {
-    //             targetType: newDiscountTargetType,
-    //             type: newDiscountType,
-    //             value: newDiscountValue,
-    //             targetId: newDiscountTargetId,
-    //             activeFrom: newDiscountDateStart,
-    //             activeTo: newDiscountDateEnd,
-    //         };
-    //         if( newDiscount.targetType === undefined ||
-    //             newDiscount.type === undefined ||
-    //             newDiscount.value < 0 ||
-    //             newDiscount.activeFrom === undefined ||
-    //             newDiscount.activeTo === undefined ||
-    //             newDiscount.targetId === undefined) {
-    //             notification.error({message: "Discount properties are invalid",
-    //                                 description: "Fill in all the missing fields."});
-    //             return;
-    //         }
-    //     }
-
-    //     if(this.props.discount === undefined) {
-    //         const response = await api.discount.addDiscount(newDiscount);
-    //         if(api.isError(response)) {
-    //             notification.error({message: "Failed to create new discount", description: response.message});
-    //             return;
-    //         }
-    //     } else {
-    //         const response = await api.discount.updateDiscount(this.props.discount.id,newDiscount);
-    //         if(api.isError(response)) {
-    //             notification.error({message: "Failed to edit this discount", description: response.message});
-    //             return;
-    //         }
-    //     }
-    //     // TODO redirect to admin discounts page
-    // }
+    notifyError= (error: string)=> {notification.error({message: error,description: "All fields must be filled in."});};
 
     extractProductIds = (products: Product[]) => {
         const productIds = products.map(p => p.id);
-        this.setState({
-            ...this.state,
-            selectedProductIds: productIds,
-        });
+        this.setState({...this.state, selectedProductIds: productIds});
     }
 
     render () {
         return (
             <div>
-                <Dropdown overlay={this.discountTargetMenu}>
-                    <Button style={{ marginLeft: 0 }}>
+                <Dropdown overlay={this.discountTargetMenu} disabled={this.props.discount !== undefined}>
+                    <Button>
                         { this.state.discountTarget === undefined
                         ? "Discount target"
                         : this.state.discountTarget
@@ -311,11 +219,20 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                         <Icon type="down" />
                     </Button>
                 </Dropdown>
+                { this.state.dateStart === undefined || this.state.dateEnd === undefined
+                ?
                 <DatePicker.RangePicker
                     onChange={this.updateDate.bind(this)}
-                    /* TODO: import moment and set default value to props value*/
-                    /*defaultValue={[moment({this.props.activeFrom}, dateFormat), moment({this.props.activeTo}, dateFormat)]}*/
+                    format={"YYYY-MM-DD"}
                 />
+                :
+                <DatePicker.RangePicker
+                    onChange={this.updateDate.bind(this)}
+                    value={[ Moment(this.state.dateStart),
+                                    Moment(this.state.dateEnd)]}
+                    format={"YYYY-MM-DD"}
+                />
+                }
                 <Dropdown overlay={this.discountTypeMenu}>
                     <Button style={{ marginLeft: 0 }}>
                         { this.state.discountType === undefined
@@ -325,10 +242,8 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                         <Icon type="down" />
                     </Button>
                 </Dropdown>
-                { this.state.discountType === undefined
-                ? ""
-                :
-                this.state.discountType === DiscountType.ABSOLUTE
+                { this.state.discountType === undefined ? ""
+                : this.state.discountType === DiscountType.ABSOLUTE
                 ?
                 <InputNumber
                     defaultValue={this.state.discountValue}
@@ -350,10 +265,8 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                 />
                 }
                 <br/>
-                { this.state.discountTarget === undefined
-                ? ""
-                :
-                this.state.discountTarget === DiscountTarget.CATEGORY
+                { this.state.discountTarget === undefined ? ""
+                : this.state.discountTarget === DiscountTarget.CATEGORY
                 ?
                 <CategoryDropdown
                     selected={this.state.category}
@@ -364,8 +277,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                         })
                     }
                 />
-                :
-                this.state.discountTarget === DiscountTarget.PRODUCT
+                : this.state.discountTarget === DiscountTarget.PRODUCT
                 ?
                 [<CategoryDropdown
                     selected={this.state.category}
@@ -377,13 +289,10 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                     onSelect={selectedProducts => this.extractProductIds(selectedProducts)}
                 />
                 ]
-                :
-                ""
+                : ""
                 }
                 <br/>
-                <Button onClick={this.handleSave.bind(this)}>
-                    Save
-                </Button>
+                <Button onClick={this.handleSave.bind(this)}>Save</Button>
             </div>
         );
     }
