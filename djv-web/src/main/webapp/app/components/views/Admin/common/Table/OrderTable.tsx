@@ -18,6 +18,7 @@ class OrderRecordTable extends Table<OrderItemRecord> {}
 class OrderRecordColumn extends Table.Column<OrderItemRecord> {}
 
 export const OrderTable = (props: OrderTableProps) => (
+    <div id="orderRecordTable">
     <OrderRecordTable
         bordered={true}
         dataSource={props.items.map(addKey)}
@@ -43,4 +44,5 @@ export const OrderTable = (props: OrderTableProps) => (
             dataIndex="total"
         />
     </OrderRecordTable>
+    </div>
 );

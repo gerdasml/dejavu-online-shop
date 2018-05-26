@@ -9,6 +9,8 @@ import { OrderTable } from "./OrderTable";
 import { stringifyAddress } from "../../../../../utils/common";
 import { addKey, WithKey } from "../../../../../utils/table";
 
+import "../../../../../../style/admin/orders.css";
+
 type OrderRecord = Order & WithKey;
 
 interface OrdersTableProps {
