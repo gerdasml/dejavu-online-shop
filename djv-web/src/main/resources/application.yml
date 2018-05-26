@@ -14,6 +14,9 @@ spring:
     testWhileIdle: true
     timeBetweenEvictionRunsMillis: 60000
     validationQuery: SELECT 1
+  http:
+    multipart:
+      max-file-size: 10MB
 
 server:
   compression:

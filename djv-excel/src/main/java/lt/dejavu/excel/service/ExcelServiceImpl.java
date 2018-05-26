@@ -7,6 +7,7 @@ import lt.dejavu.excel.iterator.PeekingIterator;
 import lt.dejavu.excel.model.ConversionResult;
 import lt.dejavu.excel.strategy.ExcelConversionStrategy;
 import lt.dejavu.excel.strategy.ProcessingStrategy;
+import lt.dejavu.utils.debug.Profiler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.*;
@@ -21,8 +22,6 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
-
-import static java.util.stream.Collectors.toList;
 
 @Component
 public class ExcelServiceImpl<T> implements ExcelService<T> {
@@ -47,26 +46,39 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
         AtomicInteger rowIndex = new AtomicInteger(1);
         List<Pair<Integer, Integer>> mergeIntervals = new ArrayList<>();
 
-        items.stream()
-             .map(conversionStrategy::toRows)
-             .forEach(itemData -> {
-                 int fromRow = rowIndex.get();
-                 itemData.forEach(rowData -> {
-                     Row row = sheet.createRow(rowIndex.getAndIncrement());
-                     populateRow(row, rowData, cellStyle);
-                 });
-                 int toRow = rowIndex.get() - 1;
-                 mergeIntervals.add(new Pair<>(fromRow, toRow));
-             });
+        Profiler.time("Write excel", () -> {
+              items.stream()
+                   .map(conversionStrategy::toRows)
+                   .forEach(itemData -> {
+                       int fromRow = rowIndex.get();
+                       itemData.forEach(rowData -> {
+                           Row row = sheet.createRow(rowIndex.getAndIncrement());
+                           populateRow(row, rowData, cellStyle);
+                       });
+                       int toRow = rowIndex.get() - 1;
+                       mergeIntervals.add(new Pair<>(fromRow, toRow));
+                   });
+          });
 
-        conversionStrategy.getColumnsToMerge().parallelStream().forEach(col ->
-            mergeIntervals.parallelStream().forEach(row ->
-                sheet.addMergedRegionUnsafe(new CellRangeAddress(row.getKey(), row.getValue(), col, col))
-            )
-        );
+        Profiler.time("Merge", () -> {
+            conversionStrategy.getColumnsToMerge()
+                              .parallelStream()
+                              .forEach(col ->
+                                               mergeIntervals.parallelStream()
+                                                             .forEach(row ->
+                                                                              sheet.addMergedRegionUnsafe(new CellRangeAddress(row.getKey(), row.getValue(), col, col))
+                                                                     )
+                                      );
+        });
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        wb.write(outputStream);
+        Profiler.time("Write", () -> {
+            try {
+                wb.write(outputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         return outputStream;
     }
 
