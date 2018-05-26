@@ -14,6 +14,9 @@ export const getDiscount = (id: number): Promise<ApiResponse<Discount>> =>
 export const addDiscount = (discount: Discount): Promise<ApiResponse<number>> =>
     fetchData(PATH_PREFIX + "/", HttpMethod.POST, discount);
 
+export const addDiscounts = (discounts: Discount[]): Promise<ApiResponse<number[]>> =>
+    fetchData(PATH_PREFIX + "/batch", HttpMethod.POST, discounts);
+
 export const updateDiscount = (id: number, discount: Discount): Promise<ApiResponse<void>> =>
     fetchData(PATH_PREFIX + "/" + id.toString(), HttpMethod.PUT, discount);
 

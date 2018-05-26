@@ -1,7 +1,7 @@
 import * as React from "react";
 // import * as Moment from "moment";
 
-import { Dropdown, Button, Icon, Menu, DatePicker, InputNumber, notification } from "antd";
+import { Dropdown, Button, Icon, Menu, DatePicker, InputNumber, notification, message } from "antd";
 
 import * as api from "../../../../api";
 
@@ -28,7 +28,7 @@ interface DiscountEditorState {
     categories: CategoryTree[];
     category?: number;
     products: Product[];
-    product?: Product;
+    selectedProductIds?: number[];
 }
 
 export class DiscountEditor extends React.Component <DiscountEditorProps, DiscountEditorState> {
@@ -125,66 +125,178 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
         const newDiscountDateStart = new Date (Date.parse(this.state.dateStart));
         const newDiscountDateEnd = new Date (Date.parse(this.state.dateStart));
 
-        let newDiscountTargetId;
-        if(newDiscountTargetType === DiscountTarget.CATEGORY) {
-            newDiscountTargetId = this.state.category;
-        } else if (newDiscountTargetType === DiscountTarget.PRODUCT) {
-            newDiscountTargetId = this.state.product.id;
+        let anyErrors: boolean = false;
+        if( newDiscountTargetType === undefined) {
+            this.notifyError("Discount target type was not selected.");
+            anyErrors = true;
+
+        } else if (newDiscountType === undefined) {
+            this.notifyError("Discount type was not selected.");
+            anyErrors = true;
+        } else if (newDiscountValue === 0) {
+            this.notifyError("Discount value must be a positive number.");
+            anyErrors = true;
+        } else if (newDiscountDateStart === undefined || newDiscountDateEnd === undefined) {
+            this.notifyError("Discount date period was not selected.");
+            anyErrors = true;
         }
 
-        let newDiscount;
-        if(newDiscountTargetId === undefined) {
+        if(anyErrors === true) {
+            return;
+        }
+
+        let newDiscount: Discount = {
+            targetType: newDiscountTargetType,
+            type: newDiscountType,
+            value: newDiscountValue,
+            activeFrom: newDiscountDateStart,
+            activeTo: newDiscountDateEnd,
+        };
+
+        if (newDiscountTargetType === DiscountTarget.CATEGORY) {
+            const newDiscountTargetId = this.state.category;
             newDiscount = {
-                targetType: newDiscountTargetType,
-                type: newDiscountType,
-                value: newDiscountValue,
-                activeFrom: newDiscountDateStart,
-                activeTo: newDiscountDateEnd,
-            };
-            if( newDiscount.targetType === undefined ||
-                newDiscount.type === undefined ||
-                newDiscount.value < 0 ||
-                newDiscount.activeFrom === undefined ||
-                newDiscount.activeTo === undefined) {
-                notification.error({message: "Discount properties are invalid",
-                                    description: "Fill in all the missing fields."});
-                return;
-            }
-        } else {
-            newDiscount = {
-                targetType: newDiscountTargetType,
-                type: newDiscountType,
-                value: newDiscountValue,
+                ...newDiscount,
                 targetId: newDiscountTargetId,
-                activeFrom: newDiscountDateStart,
-                activeTo: newDiscountDateEnd,
             };
-            if( newDiscount.targetType === undefined ||
-                newDiscount.type === undefined ||
-                newDiscount.value < 0 ||
-                newDiscount.activeFrom === undefined ||
-                newDiscount.activeTo === undefined ||
-                newDiscount.targetId === undefined) {
-                notification.error({message: "Discount properties are invalid",
-                                    description: "Fill in all the missing fields."});
+        }
+
+        if(newDiscountTargetType !== DiscountTarget.PRODUCT) {
+            if(this.props.discount === undefined) {
+                const response = await api.discount.addDiscount(newDiscount);
+                if(api.isError(response)) {
+                    notification.error({message: "Failed to create new discount", description: response.message});
+                    return;
+                }
+            } else {
+                const response = await api.discount.updateDiscount(this.props.discount.id,newDiscount);
+                if(api.isError(response)) {
+                    notification.error({message: "Failed to edit this discount", description: response.message});
+                    return;
+                }
+            }
+        } else if (newDiscountTargetType === DiscountTarget.PRODUCT) {
+            const productToDiscountIds = this.state.selectedProductIds;
+            if(productToDiscountIds === undefined || productToDiscountIds.length === 0) {
+                this.notifyError("At least one product must be selected.");
                 return;
+            }
+
+            if(this.props.discount !== undefined) {
+                const firstProductId = productToDiscountIds.pop();
+                console.log("1stproductid: " + firstProductId);
+                console.log("propsuose: " + this.props.discount.id);
+                const response = await api.discount.updateDiscount(this.props.discount.id,
+                    {
+                        ...newDiscount,
+                        targetId: firstProductId
+                    }
+                );
+                if(api.isError(response)) {
+                    notification.error({message: "Failed to edit this discount.", description: response.message});
+                    return;
+                }
+            }
+
+            if(productToDiscountIds.length > 0) {
+                const response = await api.discount.addDiscounts(productToDiscountIds.map(pid =>
+                    ({
+                        ...newDiscount,
+                        targetId: pid,
+                    })
+                ));
+                if(api.isError(response)) {
+                    notification.error({message: "Failed to create new discount(s).", description: response.message});
+                    return;
+                }
             }
         }
 
-        if(this.props.discount === undefined) {
-            const response = await api.discount.addDiscount(newDiscount);
-            if(api.isError(response)) {
-                notification.error({message: "Failed to create new discount", description: response.message});
-                return;
-            }
-        } else {
-            const response = await api.discount.updateDiscount(this.props.discount.id,newDiscount);
-            if(api.isError(response)) {
-                notification.error({message: "Failed to edit this discount", description: response.message});
-                return;
-            }
-        }
+        message.success("Discount successfully created.");
+
         // TODO redirect to admin discounts page
+    }
+
+    notifyError = (error: string) => {
+        notification.error({message: error,
+                            description: "All fields must be filled in."});
+    }
+
+    // async handleSave () {
+    //     const newDiscountTargetType = this.state.discountTarget;
+    //     const newDiscountType = this.state.discountType;
+    //     const newDiscountValue = this.state.discountValue;
+    //     const newDiscountDateStart = new Date (Date.parse(this.state.dateStart));
+    //     const newDiscountDateEnd = new Date (Date.parse(this.state.dateStart));
+
+    //     let newDiscountTargetId;
+    //     if(newDiscountTargetType === DiscountTarget.CATEGORY) {
+    //         newDiscountTargetId = this.state.category;
+    //     } else if (newDiscountTargetType === DiscountTarget.PRODUCT) {
+    //         newDiscountTargetId = this.state.product.id;
+    //     }
+
+    //     let newDiscount;
+    //     if(newDiscountTargetId === undefined) {
+    //         newDiscount = {
+    //             targetType: newDiscountTargetType,
+    //             type: newDiscountType,
+    //             value: newDiscountValue,
+    //             activeFrom: newDiscountDateStart,
+    //             activeTo: newDiscountDateEnd,
+    //         };
+    //         if( newDiscount.targetType === undefined ||
+    //             newDiscount.type === undefined ||
+    //             newDiscount.value < 0 ||
+    //             newDiscount.activeFrom === undefined ||
+    //             newDiscount.activeTo === undefined) {
+    //             notification.error({message: "Discount properties are invalid",
+    //                                 description: "Fill in all the missing fields."});
+    //             return;
+    //         }
+    //     } else {
+    //         newDiscount = {
+    //             targetType: newDiscountTargetType,
+    //             type: newDiscountType,
+    //             value: newDiscountValue,
+    //             targetId: newDiscountTargetId,
+    //             activeFrom: newDiscountDateStart,
+    //             activeTo: newDiscountDateEnd,
+    //         };
+    //         if( newDiscount.targetType === undefined ||
+    //             newDiscount.type === undefined ||
+    //             newDiscount.value < 0 ||
+    //             newDiscount.activeFrom === undefined ||
+    //             newDiscount.activeTo === undefined ||
+    //             newDiscount.targetId === undefined) {
+    //             notification.error({message: "Discount properties are invalid",
+    //                                 description: "Fill in all the missing fields."});
+    //             return;
+    //         }
+    //     }
+
+    //     if(this.props.discount === undefined) {
+    //         const response = await api.discount.addDiscount(newDiscount);
+    //         if(api.isError(response)) {
+    //             notification.error({message: "Failed to create new discount", description: response.message});
+    //             return;
+    //         }
+    //     } else {
+    //         const response = await api.discount.updateDiscount(this.props.discount.id,newDiscount);
+    //         if(api.isError(response)) {
+    //             notification.error({message: "Failed to edit this discount", description: response.message});
+    //             return;
+    //         }
+    //     }
+    //     // TODO redirect to admin discounts page
+    // }
+
+    extractProductIds = (products: Product[]) => {
+        const productIds = products.map(p => p.id);
+        this.setState({
+            ...this.state,
+            selectedProductIds: productIds,
+        });
     }
 
     render () {
@@ -262,7 +374,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                 />,
                 <DiscountProductsTable
                     products={this.state.products}
-                    onSelect={selectedProduct => this.setState({...this.state, product: selectedProduct})}
+                    onSelect={selectedProducts => this.extractProductIds(selectedProducts)}
                 />
                 ]
                 :

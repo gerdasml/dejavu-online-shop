@@ -17,6 +17,7 @@ class DiscountRecordTable extends Table<DiscountRecord> {}
 class DiscountRecordColumn extends Table.Column<DiscountRecord> {}
 
 const getTargetName = (record: DiscountRecord) => {
+    console.log("existing discount: " + record.id);
     if(record.target === undefined) {
         return "-";
     }

@@ -10,7 +10,7 @@ type ProductRecord = Product & WithKey;
 
 interface DiscountProductsTableProps {
     products: Product[];
-    onSelect: (product: Product) => void;
+    onSelect: (selectedProducts: Product[]) => void;
 }
 
 class ProductRecordTable extends Table<ProductRecord> {}
@@ -20,14 +20,9 @@ class ProductRecordColumn extends Table.Column<ProductRecord> {}
 export const DiscountProductsTable = (props: DiscountProductsTableProps) => (
     <ProductRecordTable
         bordered={true}
+        rowSelection={{onChange: (keys,rows: any) => props.onSelect(rows)}}
         dataSource={props.products.map(p => ({...p, key: p.id}))}
         pagination={{pageSize: 25, hideOnSinglePage: true}}
-        // TODO: redo row product selection (only one should be selected and shown as selected)
-        onRow={(record: ProductRecord) => {
-            return {
-                onClick: () => {props.onSelect(record)},
-            };
-        }}
     >
         <ProductRecordColumn
             key = "picture"

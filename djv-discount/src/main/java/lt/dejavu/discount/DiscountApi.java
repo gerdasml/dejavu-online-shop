@@ -46,6 +46,14 @@ public class DiscountApi {
         return discountService.addDiscount(discount);
     }
 
+    @PostMapping("/batch")
+    public List<Long> addDiscountBatch(HttpServletRequest request,
+                            @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
+                            @RequestBody List<DiscountDto> discounts) throws ApiSecurityException {
+        securityService.authorize(authHeader, request);
+        return discountService.addDiscounts(discounts);
+    }
+
     @PutMapping("/{id}")
     public void updateDiscount(HttpServletRequest request,
                                @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
