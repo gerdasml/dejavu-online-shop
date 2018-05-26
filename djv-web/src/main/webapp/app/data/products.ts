@@ -7,6 +7,7 @@ export const products: Product[] = [
         description: "Didelis teleponas",
         mainImageUrl: "/image/3",
         name: "Teleponas",
+        skuCode: "SK 123",
         price: 6969.69,
         properties: [
             {

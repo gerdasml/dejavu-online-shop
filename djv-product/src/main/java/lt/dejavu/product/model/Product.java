@@ -22,6 +22,9 @@ public class Product {
     @Column(name = "id")
     private Long id;
 
+    @Column(name="skuCode")
+    private String skuCode;
+
     @Column(name = "name")
     private String name;
 
