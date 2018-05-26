@@ -41,6 +41,17 @@ public class ProductImportStatusDtoMapper {
         return dto;
     }
 
+    public ProductImportStatusDto mapToStatiscticsDto(ImportStatus status) {
+        ProductImportStatusDto dto = new ProductImportStatusDto();
+        dto.setId(status.getId());
+        dto.setFailureCount(status.getFailureCount());
+        dto.setSuccessCount(status.getSuccessCount());
+        dto.setTotal(status.getTotal());
+        dto.setStatus(status.getStatus());
+        dto.setStartTime(status.getStartTime().toInstant());
+        return dto;
+    }
+
     private ProductDto parseProductDtoString(FailedImportItem item){
         try {
             return (ProductDto) objectMapper.readValue(item.getFailedItem(), new TypeReference<ProductDto>() {
