@@ -2,6 +2,7 @@ import { Address } from "./Address";
 import { Product } from "./Product";
 import { User } from "./User";
 import { Review } from "./Review";
+import { ShippingInformation } from "./ShippingInformation";
 
 export enum OrderStatus {
     CREATED    = "CREATED",
@@ -19,7 +20,7 @@ export interface OrderItem {
 export interface Order {
     id: number;
     createdDate: Date;
-    shippingAddress: Address;
+    shippingInformation: ShippingInformation;
     status: OrderStatus;
     total: number;
     user: User;

@@ -1,8 +1,9 @@
-import { Category } from "../../model/Category";
+import { Category, PropertySummary } from "../../model/Category";
 import { Product } from "../../model/Product";
 import { ProductProperties } from "../../model/ProductProperties";
 
 export interface ProductFilter {
+    propertyId: number;
     property: string;
     values: string[];
 }
@@ -10,6 +11,7 @@ export interface ProductFilter {
 export const getProperties = (category: Category, products: Product[]): ProductFilter[] => {
     if(category === undefined) return [];
     return category.properties.map(prop => ({
+        propertyId: prop.propertyId,
         property: prop.name,
         values: products.map(
             prod => prod.properties
@@ -21,9 +23,17 @@ export const getProperties = (category: Category, products: Product[]): ProductF
     }));
 };
 
-export const transform = (filteredData: Map<string, string[]>): ProductProperties[] => {
+export const transform = (filteredData: PropertySummary[]): ProductProperties[] => {
     const result: ProductProperties[] = [];
-    filteredData.forEach((values, propName) => values.forEach(val => result.push({name: propName, value: val})));
+    filteredData.forEach(
+        data => data.values.forEach(
+            value => result.push({
+                propertyId: data.propertyId,
+                name: data.propertyName,
+                value
+            })
+        )
+    );
     return result;
 };
 

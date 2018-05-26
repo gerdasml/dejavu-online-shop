@@ -1,13 +1,13 @@
 import {Product} from "./Product";
 import {Category} from "./Category";
 
-enum DiscountTarget {
+export enum DiscountTarget {
     EVERYTHING = "EVERYTHING",
     CATEGORY   = "CATEGORY",
     PRODUCT    = "PRODUCT"
 }
 
-enum DiscountType {
+export enum DiscountType {
     ABSOLUTE   = "ABSOLUTE",
     PERCENTAGE = "PERCENTAGE"
 }

@@ -6,6 +6,7 @@ import { OrderItem } from "../../../../../model/Order";
 
 import { addKey, WithKey } from "../../../../../utils/table";
 import { formatPrice } from "../../../../../utils/common";
+import { config } from "../../../../../config";
 
 type OrderItemRecord = OrderItem & WithKey;
 
@@ -19,6 +20,7 @@ class OrderRecordColumn extends Table.Column<OrderItemRecord> {}
 
 export const OrderTable = (props: OrderTableProps) => (
     <OrderRecordTable
+        scroll={{x: config.adminTableScrollWidth.common}}
         bordered={true}
         dataSource={props.items.map(addKey)}
         pagination={{pageSize: 25, hideOnSinglePage: true}}>

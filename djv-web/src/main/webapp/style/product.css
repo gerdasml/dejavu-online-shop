@@ -15,7 +15,8 @@
 }
 
 .priceArea{
-    color: blue; 
+    color: #393d40; 
+    font-weight: bold;
     margin-right:5px;
 }
 
@@ -24,7 +25,52 @@
     width: auto;
 }
 
+.add-to-cart {
+    background-color: #ffce2b!important; 
+}
+
+.add-to-cart .button-text {
+    color: #393d40!important;
+}
+
 .expander-color {
-    color: blue;
+    color: #ffce2b;
     cursor: pointer;
+}
+
+.image-gallery-thumbnail.active {
+    border-color: #FFE693!important;
+}
+
+.image-gallery-left-nav:hover:before {
+    color: #ffce2b!important;
+}
+
+.image-gallery-right-nav:hover:before {
+    color: #ffce2b!important;
+}
+
+.product-name {
+    color: #393d40;
+    font-weight: bold;
+}
+
+#oldPrice{
+    padding-left: 2em;
+    color: #9b9999;
+}
+
+.normal-price-tag {
+    background-color: #393d40!important;
+    color: #FFE693!important;
+}
+
+.discount-tag {
+    background-color: #ffce2b!important;
+    color: #393d40!important;
+}
+
+.discount-ribbon {
+    background-color: #ffce2b!important;
+    color: #393d40!important;
 }

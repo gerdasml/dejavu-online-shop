@@ -19,11 +19,13 @@ export class LoginForm extends React.Component<LoginFormsProps, LoginFormsState>
         return (
             <div>
                 <Input
+                    onPressEnter={() => this.props.onLogin(this.state.email, this.state.password)}
                     placeholder="Enter your username"
                     prefix={<Icon type="user" className="login-form-icon" />}
                     onChange={e => this.setState({...this.state, email: e.target.value})}
                 />
                 <Input
+                    onPressEnter={() => this.props.onLogin(this.state.email, this.state.password)}
                     placeholder="Enter your password"
                     type="password"
                     prefix={<Icon type="lock" className="login-form-icon" />}

@@ -14,9 +14,10 @@
 }
 
 .filter-accordion {
-    border: 1px solid grey;
+    border: 1px solid #dbdbdb;
     border-top: none;
     border-radius: 5px;
+    margin-bottom: 15px;
 }
 
 .filter-dropdown .ui.label{
@@ -25,7 +26,8 @@
 
 .filter-accordion-button {
     width: 100%;
-    background-color: grey!important;
+    background-color: #dbdbdb!important;
+    color: #393d40!important;
 }
 
 .filter-title {
@@ -38,4 +40,16 @@
 
 .filter-slider {
     width: 80%;
+}
+
+.filter-slider .ant-slider-handle {
+    border-color: #ffce2b!important;
+}
+
+.filter-slider .ant-slider-track {
+    background-color: #ffce2b!important;
+}
+
+.filter-slider .ant-slider-step:hover {
+    background-color: #ffe693!important;
 }

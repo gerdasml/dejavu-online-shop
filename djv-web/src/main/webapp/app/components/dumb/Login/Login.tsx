@@ -67,7 +67,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
     }
     render () {
         return (
-            <Modal trigger={
+            <Modal closeIcon trigger={
                 <MediaQuery query="(min-width: 500px)">
                 {matches => matches
                 ?
@@ -90,7 +90,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
                 <Modal.Content id="loginModal">
                     <Grid columns={2} divided stackable>
                         <Grid.Column>
-                            <Segment basic>
+                            <Segment basic className="login-window">
                                 <h3> Already registered user?<br />Log in:</h3>
                                 <Form
                                     loading={this.state.loading}
@@ -120,14 +120,14 @@ export class Login extends React.Component<LoginProps, LoginState> {
                                         header="Login failed"
                                         content={this.state.error}
                                         />
-                                    <Button type="submit">
+                                    <Button type="submit" className="login-window-button">
                                         Log in
                                     </Button>
                                 </Form>
                             </Segment>
                         </Grid.Column>
                         <Grid.Column>
-                            <Segment basic>
+                            <Segment basic className="login-window">
                                 <h3> Haven't used before?<br />Sign up:</h3>
                                 <div className="register">
                                     <Register />

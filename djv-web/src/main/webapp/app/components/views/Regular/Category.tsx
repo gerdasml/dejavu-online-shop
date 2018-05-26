@@ -1,69 +1,65 @@
 import * as React from "react";
 
-import { Loader} from "semantic-ui-react";
+import { Loader, Header} from "semantic-ui-react";
 
 import { RouteComponentProps } from "react-router-dom";
 import {Product} from "../../../model/Product";
-import {Category as CategoryModel} from "../../../model/Category";
+import {Category as CategoryModel, CategoryInfo} from "../../../model/Category";
 
-import { notification } from "antd";
+import { notification, message } from "antd";
 import * as api from "../../../api";
-import { ProductContainer } from "../../dumb/Product/ProductContainer";
+import { ProductList } from "../../dumb/Product/ProductList";
+
+import { config } from "../../../config";
+import { ProductProperties } from "../../../model/ProductProperties";
+import { ProductSearchRequest } from "../../../api/product";
+import { ProductFilter } from "../../dumb/Product/ProductFilter";
+import { Cart } from "../../../model/Cart";
+
+import * as CartManager from "../../../utils/cart";
+import { ProductContainer } from "../../smart/Product/ProductContainer";
 
 interface CategoryRouteProps {
     identifier: string;
 }
 
-interface CategoryState {
-    products: Product[];
-    category?: CategoryModel;
-    isLoading: boolean;
-    error?: string;
+interface CategoryRouteState {
+    categoryInfo?: CategoryInfo;
 }
-export class Category extends React.Component<RouteComponentProps<CategoryRouteProps>, CategoryState> {
-    state: CategoryState = {
-        error: "",
-        isLoading: true,
-        products: []
-    };
-    // required to load data on initial render
-    async componentDidMount () {
-        await this.loadData(this.props);
+
+export class Category extends React.Component<RouteComponentProps<CategoryRouteProps>, CategoryRouteState> {
+    state: CategoryRouteState = {};
+
+    async componentWillMount () {
+        await this.fetchData(this.props);
     }
 
-    // required to load data on each url change
-    async componentWillReceiveProps (nextProps: RouteComponentProps<CategoryRouteProps>) {
-        await this.loadData(nextProps);
+    async componentWillReceiveProps (props: RouteComponentProps<CategoryRouteProps>) {
+        await this.fetchData(props);
     }
 
-    async loadData (props: RouteComponentProps<CategoryRouteProps>) {
-        const identifier = props.match.params.identifier;
-        const [productResponse, categoryResponse] =
-            await Promise.all(
-                [ api.product.searchForProducts({categoryIdentifier: identifier})
-                , api.category.getCategoryByIdentifier(props.match.params.identifier)
-                ]);
-        if (api.isError(productResponse)) {
-            notification.error({ message: "Failed to fetch product data", description: productResponse.message });
-            this.setState({ error: productResponse.message, isLoading: false });
-            return;
-        }
+    async fetchData (props: RouteComponentProps<CategoryRouteProps>) {
+        const categoryResponse = await api.category.getCategoryByIdentifier(props.match.params.identifier);
         if (api.isError(categoryResponse)) {
-            notification.error({ message: "Failed to fetch category data", description: categoryResponse.message});
-            this.setState({ error: categoryResponse.message, isLoading: false});
+            notification.error({message: "Failed to fetch category data", description: categoryResponse.message});
             return;
         }
-        this.setState({ products: productResponse, category: categoryResponse, isLoading: false });
+        const infoResponse = await api.category.getCategoryInfo(categoryResponse.id);
+        if (api.isError(infoResponse)) {
+            notification.error({message: "Failed to fetch category info", description: infoResponse.message});
+            return;
+        }
+        this.setState({...this.state, categoryInfo: infoResponse});
     }
 
     render () {
         return (
-            <div>
-                { this.state.isLoading
-                ? <Loader active inline="centered" />
-                : <ProductContainer products={this.state.products} category={this.state.category}/>
-                }
-            </div>
-            );
+            <ProductContainer
+                filterData={this.state.categoryInfo}
+                query={{categoryIdentifier: this.props.match.params.identifier}}
+                noResultsMessage={<Header size="huge">No products were found</Header>}
+                categoryIdentifier={this.props.match.params.identifier}
+            />
+        );
     }
 }

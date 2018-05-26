@@ -5,7 +5,7 @@ import { notification } from "antd";
 import Card from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
 
-import { Button, Form, List, Message } from "semantic-ui-react";
+import { Button, Form, List, Message, Icon } from "semantic-ui-react";
 
 import { clearNumber, formatCardNumber, formatExpirationDate } from "../../../../utils/cardInput";
 
@@ -18,10 +18,11 @@ import "../../../../../style/payment.css";
 import { ApiError } from "../../../../api";
 
 import { Address } from "../../../../model/Address";
+import { ShippingInformation } from "../../../../model/ShippingInformation";
 
 interface PaymentProps {
     onStepComplete: () => void;
-    shippingAddress: Address;
+    shippingInformation: ShippingInformation;
 }
 
 interface PaymentState {
@@ -112,8 +113,7 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
 
     isErrorPresent = (name: string) => this.state.errors.some(e => e.location === name);
 
-    handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    handleFormSubmit = async () => {
         this.setState({
             ...this.state,
             errors: [],
@@ -130,10 +130,10 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
 
     pay = async () => {
         const paymentCard = this.buildCard();
-        const address = this.props.shippingAddress;
+        const shippingInformation = this.props.shippingInformation;
         const checkoutInfo = {
             card: paymentCard,
-            shippingAddress: address,
+            shippingInformation,
         };
         const checkoutResponse = await api.cart.checkout(checkoutInfo);
         if(api.isError(checkoutResponse)) {
@@ -159,7 +159,8 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
 
     render () {
         return (
-            <div className="paymentInputContainer">
+            <div>
+                <div className="paymentInputContainer">
                 <List horizontal verticalAlign="middle">
                     <List.Item>
                         <Card
@@ -170,8 +171,8 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
                             focused={this.state.focused.toString() as CardFieldStr}
                         />
                     </List.Item>
-                    <List.Item>
-                        <Form size="mini" onSubmit={this.handleFormSubmit} loading={this.state.isLoading}>
+                    <List.Item className="payment-form">
+                        <Form size="mini" loading={this.state.isLoading}>
                             <Form.Input
                                 required
                                 placeholder="Card number"
@@ -200,7 +201,9 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
                                     onFocus={this.handleInputFocus}
                                     value={this.state.expiry}
                                     onChange={e => this.handleInputChange(e)}
-                                    error={this.isErrorPresent("expiration.month") || this.isErrorPresent("expiration.year")}
+                                    error={
+                                        this.isErrorPresent("expiration.month") ||
+                                        this.isErrorPresent("expiration.year")}
                                 />
                                 <Form.Input
                                     required
@@ -212,10 +215,21 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
                                     error={this.isErrorPresent("card.cvv")}
                                 />
                             </Form.Group>
-                            <Button type="submit" fluid positive>Next</Button>
                         </Form>
                     </List.Item>
                 </List>
+                </div>
+                <Button
+                    icon
+                    type="submit"
+                    positive
+                    labelPosition="right"
+                    floated="right"
+                    onClick={this.handleFormSubmit}>
+                    Next
+                    <Icon name="chevron right" />
+                    </Button>
+                    <div className="payment-messages">
                 {
                     this.state.errors.map((x, i) =>
                         <Message
@@ -224,6 +238,7 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
                             content={x.message}
                         />)
                 }
+                </div>
             </div>
         );
     }

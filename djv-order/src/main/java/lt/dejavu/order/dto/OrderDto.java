@@ -6,6 +6,7 @@ import lt.dejavu.auth.dto.UserDto;
 import lt.dejavu.auth.model.db.Address;
 import lt.dejavu.order.model.OrderStatus;
 import lt.dejavu.order.model.ReviewStatus;
+import lt.dejavu.order.model.db.ShippingInformation;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -21,6 +22,6 @@ public class OrderDto {
     private UserDto user;
     private List<OrderItemDto> items;
     private BigDecimal total;
-    private Address shippingAddress;
+    private ShippingInformation shippingInformation;
     private ReviewDto review;
 }
