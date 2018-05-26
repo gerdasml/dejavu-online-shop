@@ -17,6 +17,7 @@ import { formatPrice } from "../../../utils/common";
 import * as CartManager from "../../../utils/cart";
 
 import { isNullOrUndefined } from "util";
+import { DiscountType } from "../../../model/Discount";
 
 interface ProductRouteProps {
     identifier: string;
@@ -97,17 +98,22 @@ export class Product extends React.Component<RouteComponentProps<ProductRoutePro
                                     }
                                     {
                                         !isNullOrUndefined(this.state.product.discount) &&
-                                        this.state.product.discount.type === "PERCENTAGE"
+                                        this.state.product.discount.type === DiscountType.PERCENTAGE
                                         ?
                                         <Label className="discount-tag">
                                             -{this.state.product.discount.value}
                                             <Icon name="percent"/>
                                         </Label>
                                         :
+                                        !isNullOrUndefined(this.state.product.discount) &&
+                                        this.state.product.discount.type === DiscountType.ABSOLUTE
+                                        ?
                                         <Label className="discount-tag">
                                             -{this.state.product.discount.value}
                                             <Icon name="euro"/>
                                         </Label>
+                                        :
+                                        <div/>
                                     }
                                 </List.Item>
                             </List>
