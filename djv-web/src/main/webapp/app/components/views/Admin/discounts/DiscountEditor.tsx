@@ -97,7 +97,6 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
     }
 
     DiscountTargetFromString = (val: string) => DiscountTarget[val.toUpperCase() as keyof typeof DiscountTarget];
-
     DiscountTypeFromString = (val: string) => DiscountType[val.toUpperCase() as keyof typeof DiscountType];
 
     updateDate (date: RangePickerValue, dateString: [string, string]) {
@@ -119,18 +118,19 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
         if( newDiscountTargetType === undefined) {
             this.notifyError("Discount target type was not selected.");
             anyErrors = true;
-
-        } else if (newDiscountType === undefined) {
+        }
+        if (newDiscountType === undefined) {
             this.notifyError("Discount type was not selected.");
             anyErrors = true;
-        } else if (newDiscountValue === 0) {
+        }
+        if (newDiscountValue === 0) {
             this.notifyError("Discount value must be a positive number.");
             anyErrors = true;
-        } else if (newDiscountDateStart === undefined || newDiscountDateEnd === undefined) {
+        }
+        if (newDiscountDateStart === undefined || newDiscountDateEnd === undefined) {
             this.notifyError("Discount date period was not selected.");
             anyErrors = true;
         }
-
         if(anyErrors === true) {
             return;
         }

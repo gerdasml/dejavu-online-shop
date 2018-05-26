@@ -25,11 +25,9 @@ const getTargetName = (record: DiscountRecord) => {
 
 const showAmount = (record: DiscountRecord) => {
     if(record.type === DiscountType.ABSOLUTE) {
-        const absoluteAmount = record.value + "€";
-        return absoluteAmount;
+        return record.value + "€";
     }
-    const percentageAmount = record.value + "%";
-    return percentageAmount;
+    return record.value + "%";
 };
 
 export const DiscountsTable = (props: DiscountsTableProps) => (
