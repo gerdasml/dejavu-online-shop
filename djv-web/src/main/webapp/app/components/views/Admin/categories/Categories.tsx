@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button, Col, message, notification, Row, Spin } from "antd";
+import { Button, message, notification, Spin } from "antd";
 
 import * as api from "../../../../api";
 
@@ -8,6 +8,7 @@ import { Category } from "../../../../model/Category";
 import { CategoryTree } from "../../../../model/CategoryTree";
 import { CategoryForm } from "./CategoryForm";
 import { CategoryTreeView } from "./CategoryTreeView";
+import { Grid } from "semantic-ui-react";
 
 interface CategoriesState {
     categories: CategoryTree[];
@@ -82,8 +83,8 @@ export class Categories extends React.Component<never, CategoriesState> {
     render () {
         return (
             <Spin spinning={this.state.categories.length === 0}>
-                <Row>
-                    <Col span={10}>
+                <Grid stackable>
+                    <Grid.Column width="seven">
                         <Button
                             icon="plus"
                             onClick={() => this.setState({
@@ -102,14 +103,20 @@ export class Categories extends React.Component<never, CategoriesState> {
                             onCategoryMove={(cat, parent) => this.handleParentUpdate(cat, parent)}
                             onSelect={cat => this.setState({...this.state, selectedCategory: cat})}
                         />
-                    </Col>
-                    <Col span={this.state.selectedCategory ? 14 : 0}>
-                        <CategoryForm
+                    </Grid.Column>
+                    <Grid.Column width="nine">
+                        {
+                            this.state.selectedCategory
+                            ?
+                            <CategoryForm
                             category={this.state.selectedCategory}
                             onSave={this.handleSave.bind(this)}
                             onDelete={this.handleDelete.bind(this)} />
-                    </Col>
-                </Row>
+                            :
+                            ""
+                        }
+                    </Grid.Column>
+                </Grid>
             </Spin>
         );
     }

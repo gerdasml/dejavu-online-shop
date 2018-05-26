@@ -1,32 +1,47 @@
 package lt.dejavu.product.service.impl;
 
+import javafx.util.Pair;
 import lt.dejavu.product.dto.CategoryDto;
+import lt.dejavu.product.dto.CategoryInfoDto;
 import lt.dejavu.product.dto.CategoryTreeResponse;
+import lt.dejavu.product.dto.PropertySummaryDto;
 import lt.dejavu.product.dto.mapper.CategoryDtoMapper;
 import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.IllegalRequestDataException;
 import lt.dejavu.product.model.Category;
+import lt.dejavu.product.model.ProductProperty;
 import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.repository.ProductPropertyRepository;
+import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.product.service.CategoryService;
 import lt.dejavu.product.strategy.IdentifierGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static java.util.stream.Collectors.*;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
     private final CategoryDtoMapper categoryDtoMapper;
     private final ProductPropertyRepository productPropertyRepository;
     private final IdentifierGenerator<Category> categoryIdentifierGenerator;
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryDtoMapper categoryDtoMapper, ProductPropertyRepository productPropertyRepository, IdentifierGenerator<Category> categoryIdentifierGenerator) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ProductRepository productRepository,
+                               CategoryDtoMapper categoryDtoMapper, ProductPropertyRepository productPropertyRepository,
+                               IdentifierGenerator<Category> categoryIdentifierGenerator) {
         this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
         this.categoryDtoMapper = categoryDtoMapper;
         this.productPropertyRepository = productPropertyRepository;
         this.categoryIdentifierGenerator = categoryIdentifierGenerator;
@@ -40,9 +55,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDto> getRootCategories() {
         return categoryDtoMapper.map(categoryRepository.getRootCategories());
-	}
+    }
 
-	@Override
+    @Override
     public CategoryDto getCategoryByIdentifier(String identifier) {
         return categoryDtoMapper.map(getCategoryIfExist(identifier));
     }
@@ -82,7 +97,47 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteCategory(long categoryId) {
         Category category = getCategoryIfExist(categoryId);
+        productRepository.reassignProductsToParent(category);
+        categoryRepository.reassignCategoriesToParent(category);
         categoryRepository.deleteCategory(category);
+    }
+
+    public CategoryInfoDto getCategoryInfo(long categoryId) {
+        getCategoryIfExist(categoryId);
+        List<PropertySummaryDto> summaries = getPropertySummaries(categoryId);
+        Long productCount = categoryRepository.getProductCount(categoryId);
+        BigDecimal minPrice = categoryRepository.getMinimumProductPrice(categoryId);
+        BigDecimal maxPrice = categoryRepository.getMaximumProductPrice(categoryId);
+
+        CategoryInfoDto info = new CategoryInfoDto();
+        info.setAvailableProperties(summaries);
+        info.setProductCount(productCount);
+        info.setMaxPrice(maxPrice);
+        info.setMinPrice(minPrice);
+
+        return info;
+    }
+
+    private List<PropertySummaryDto> getPropertySummaries(long categoryId) {
+        List<ProductProperty> properties = categoryRepository.getProductPropertiesForCategory(categoryId);
+        Map<Pair<Long, String>, Set<String>> mapping = properties.stream().collect(
+                groupingBy(
+                        prop -> new Pair<>(prop.getCategoryProperty().getId(), prop.getCategoryProperty().getName()),
+                        mapping(ProductProperty::getValue, toSet())
+                          ));
+        return mapping.entrySet()
+                      .stream()
+                      .map(x -> buildPropertySummaryDto(x.getKey().getKey(), x.getKey().getValue(), new ArrayList<>(x.getValue())))
+                      .collect(toList());
+    }
+
+    private PropertySummaryDto buildPropertySummaryDto(Long id, String name, List<String> values) {
+        PropertySummaryDto dto = new PropertySummaryDto();
+        dto.setPropertyId(id);
+        dto.setPropertyName(name);
+        dto.setValues(values);
+
+        return dto;
     }
 
     private void validateNotSelfParent(long id, Long parentId) {

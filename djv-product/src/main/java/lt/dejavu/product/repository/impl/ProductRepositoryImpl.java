@@ -1,13 +1,16 @@
 package lt.dejavu.product.repository.impl;
 
 import lt.dejavu.product.model.*;
+import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 import lt.dejavu.product.repository.ProductRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,14 +23,17 @@ public class ProductRepositoryImpl implements ProductRepository {
     private EntityManager em;
 
     @Override
-    public Set<Product> getAllProducts() {
+    public Set<Product> getAllProducts(int offset, int limit) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> cq = cb.createQuery(Product.class);
         Root<Product> productRoot = cq.from(Product.class);
         productRoot.fetch(Product_.properties, JoinType.LEFT).fetch(ProductProperty_.categoryProperty, JoinType.LEFT);
         productRoot.fetch(Product_.additionalImagesUrls, JoinType.LEFT);
         CriteriaQuery<Product> all = cq.select(productRoot);
-        return new LinkedHashSet<>(em.createQuery(all).getResultList());
+        TypedQuery<Product> query = em.createQuery(all);
+        query.setFirstResult(offset);
+        query.setMaxResults(limit);
+        return new LinkedHashSet<>(query.getResultList());
     }
 
     @Override
@@ -58,7 +64,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Set<Product> getProductsByCategory(long categoryId) {
+    public Set<Product> getProductsByCategory(long categoryId, int offset, int limit) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> query = cb.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
@@ -66,7 +72,10 @@ public class ProductRepositoryImpl implements ProductRepository {
         root.fetch(Product_.additionalImagesUrls, JoinType.LEFT);
         ParameterExpression<Long> categoryIdParameter = cb.parameter(Long.class);
         query.where(cb.equal(root.get(Product_.category).get(Category_.id), categoryIdParameter));
-        return new LinkedHashSet<>(em.createQuery(query).setParameter(categoryIdParameter, categoryId).getResultList());
+        TypedQuery<Product> q = em.createQuery(query).setParameter(categoryIdParameter, categoryId);
+        q.setFirstResult(offset);
+        q.setMaxResults(limit);
+        return new LinkedHashSet<>(q.getResultList());
     }
 
     @Override
@@ -83,5 +92,92 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public void updateProduct(Product product) {
         em.merge(product);
+    }
+
+    @Override
+    public void reassignProductsToParent(Category oldCategory) {
+        Category parent = oldCategory.getParentCategory();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaUpdate<Product> updateQuery = cb.createCriteriaUpdate(Product.class);
+        Root<Product> productRoot = updateQuery.from(Product.class);
+        updateQuery.set(Product_.category, parent);
+        updateQuery.where(cb.equal(productRoot.get(Product_.category), oldCategory));
+        em.createQuery(updateQuery).executeUpdate();
+    }
+
+    @Override
+    public long getTotalProductCount() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<Product> root = countQuery.from(Product.class);
+        countQuery.select(cb.count(root));
+
+        return em.createQuery(countQuery).getSingleResult();
+    }
+
+    @Override
+    public SearchResult<Product> searchForProducts(ProductSearchRequest request,
+                                                   int offset,
+                                                   int limit) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Product> query = cb.createQuery(Product.class);
+        Root<Product> root = query.from(Product.class);
+        query.where(buildPredicate(cb, root, request));
+
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<Product> countRoot = countQuery.from(Product.class);
+        countQuery.select(cb.count(countRoot));
+        countQuery.where(buildPredicate(cb, countRoot, request));
+
+        TypedQuery<Product> q = em.createQuery(query);
+        q.setFirstResult(offset);
+        q.setMaxResults(limit);
+
+        SearchResult<Product> result = new SearchResult<>();
+        result.setResults(new LinkedHashSet<>(q.getResultList()));
+        result.setTotal(em.createQuery(countQuery).getSingleResult());
+
+        return result;
+    }
+
+    private Predicate buildPredicate(CriteriaBuilder cb, Root<Product> root, ProductSearchRequest request) {
+        List<Predicate> predicates = new ArrayList<>();
+        if (request.getCategoryIdentifier() != null) {
+            Join<Product, Category> join = root.join(Product_.category, JoinType.LEFT);
+            predicates.add(cb.equal(
+                    join.get(Category_.identifier),
+                    request.getCategoryIdentifier())
+                          );
+        }
+        if (request.getMinPrice() != null) {
+            predicates.add(cb.greaterThanOrEqualTo(
+                    root.get(Product_.price),
+                    request.getMinPrice()
+                                                  ));
+        }
+        if (request.getMaxPrice() != null) {
+            predicates.add(cb.lessThanOrEqualTo(
+                    root.get(Product_.price),
+                    request.getMaxPrice()
+                                               ));
+        }
+        if (request.getName() != null && !request.getName().isEmpty()) {
+            predicates.add(cb.like(
+                    cb.lower(root.get(Product_.name)),
+                    "%" + request.getName().toLowerCase() + "%"
+                                  ));
+        }
+
+        if (request.getProperties() != null && request.getProperties().size() > 0) {
+            SetJoin<Product, ProductProperty> join = root.join(Product_.properties);
+            predicates.add(cb.or(request.getProperties()
+                                        .stream()
+                                        .map(prop -> cb.and(
+                                                cb.equal(join.get(ProductProperty_.categoryProperty).get(CategoryProperty_.id), prop.getPropertyId()),
+                                                cb.equal(join.get(ProductProperty_.value), prop.getValue())
+                                                           )).toArray(Predicate[]::new)));
+        }
+
+        return cb.and(predicates.toArray(new Predicate[0]));
     }
 }

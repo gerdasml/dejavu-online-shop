@@ -75,10 +75,10 @@ const common = {
                 ]
             },
             {
-                test: /\.(jsx|tsx|js|ts)$/,
+                test: /\.(tsx?)$/,
                 loader: 'ts-loader',
                 options: {
-                    transpileOnly: true,
+                    transpileOnly: false,
                     getCustomTransformers: () => ({
                         before: [ tsImportPluginFactory({
                             libraryName: "antd",

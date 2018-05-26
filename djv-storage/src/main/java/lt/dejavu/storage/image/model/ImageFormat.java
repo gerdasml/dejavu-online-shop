@@ -1,25 +1,27 @@
 package lt.dejavu.storage.image.model;
 
+import java.util.Arrays;
+
 public enum ImageFormat {
     PNG("png"),
-    JPG("jpg"),
+    JPG("jpg", "jpeg"),
     UNKNOWN("");
 
-    private final String extension;
+    private final String[] extensions;
 
-    ImageFormat(String extension) {
-        this.extension = extension;
+    ImageFormat(String... extensions) {
+        this.extensions = extensions;
     }
 
     public static ImageFormat resolve(String s) {
-        try {
-            return ImageFormat.valueOf(s.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            return UNKNOWN;
-        }
+        return Arrays.stream(ImageFormat.values())
+                     .filter(f -> Arrays.stream(f.extensions)
+                                        .anyMatch(e -> e.toLowerCase().equals(s.toLowerCase())))
+                     .findFirst()
+                     .orElse(UNKNOWN);
     }
 
     public String getExtension() {
-        return extension;
+        return extensions[0];
     }
 }

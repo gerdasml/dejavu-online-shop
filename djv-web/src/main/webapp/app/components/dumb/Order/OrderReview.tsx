@@ -6,6 +6,8 @@ import { Order } from "../../../model/Order";
 
 import { Review } from "../../../model/Review";
 
+import "../../../../style/style.css";
+
 interface OrderReviewProps {
     order: Order;
     onReview: (review: Review) => void;
@@ -32,7 +34,7 @@ export class OrderReview extends React.Component<OrderReviewProps, OrderReviewSt
     render () {
         return (
             <div>
-            <Grid columns={2} divided>
+            <Grid columns={2} divided stackable className="review-modal-content">
                 <Grid.Column>
                     <Header as="h3" dividing>Rating</Header>
                     <Rating
@@ -66,7 +68,7 @@ export class OrderReview extends React.Component<OrderReviewProps, OrderReviewSt
                 </Grid.Column>
                 <Grid.Column>
                     <Header as="h3" dividing>Products</Header>
-                    <Table celled striped>
+                    <Table celled striped className="review-table">
                         <Table.Header>
                             <Table.Row>
                                 <Table.HeaderCell textAlign="center">Product</Table.HeaderCell>
@@ -88,8 +90,14 @@ export class OrderReview extends React.Component<OrderReviewProps, OrderReviewSt
                     </Table>
                 </Grid.Column>
             </Grid>
-            <Button content="Save" positive onClick={this.handleSubmit.bind(this)} />
-            <Button content="Cancel" negative onClick={this.props.onClose} />
+            <Button
+                className="order-review-cancel-button"
+                content="Cancel"
+                onClick={this.props.onClose} />
+            <Button
+                className="order-review-save-button"
+                content="Save"
+                onClick={this.handleSubmit.bind(this)} />
             </div>
         );
     }
