@@ -21,13 +21,14 @@
     "Safari 5"
   ],
   "dependencies": {
+    "@types/react": "^16.3.12",
+    "@types/react-dom": "^16.0.5",
+    "@types/react-redux": "^5.0.0",
     "@types/mime-types": "^2.1.0",
     "@types/query-string": "^5.1.0",
-    "@types/react": "^16.0.38",
     "@types/react-credit-cards": "^0.7.0",
     "@types/react-cropper": "^0.10.2",
     "@types/react-dates": "^16.0.5",
-    "@types/react-dom": "^16.0.4",
     "@types/react-image-gallery": "^0.8.2",
     "@types/react-responsive": "^3.0.1",
     "@types/react-router-dom": "^4.2.5",
@@ -75,9 +76,6 @@
     "build": "webpack --progress -p"
   },
   "devDependencies": {
-    "@types/react": "^16.3.14",
-    "@types/react-dom": "^16.0.5",
-    "@types/react-redux": "^6.0.0",
     "autoprefixer": "^8.5.0",
     "awesome-typescript-loader": "^4.0.1",
     "babel-core": "^6.18.2",

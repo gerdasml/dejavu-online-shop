@@ -35,7 +35,7 @@ interface HeaderReducerMethods {
     dispatchLogout: () => AuthAction;
 }
 
-class Header extends React.Component <AuthReducerState & HeaderReducerMethods, HeaderState> {
+class Header extends React.Component <any, HeaderState> {
     state: HeaderState = {
         activeItem: "home",
         isSearch: false,
