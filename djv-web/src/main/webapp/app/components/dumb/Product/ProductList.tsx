@@ -19,6 +19,7 @@ import "../../../../style/filter.css";
 import { ProductProperties } from "../../../model/ProductProperties";
 
 import { config } from "../../../config";
+import { ProductSort } from "./ProductSort";
 
 interface ProductListProps {
     totalProductCount: number;
@@ -31,6 +32,7 @@ interface ProductListProps {
 
 export const ProductList = (props: ProductListProps) => (
     <div>
+        <ProductSort />
         <Card.Group itemsPerRow={5} doubling>
             {props.products.map((x, i) =>
                 <ProductCard

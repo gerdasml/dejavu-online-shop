@@ -68,3 +68,16 @@
 .ui.loader:after {
     border-color: #ffce2b transparent transparent!important;
 }
+
+.product-sort {
+    margin-bottom: 15px;
+    width: 20%!important;
+    margin-right: 0;
+    margin-left: auto;
+}
+
+@media (max-width: 799px){
+    .product-sort {
+        width: 100%!important;
+    }
+}
