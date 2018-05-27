@@ -57,11 +57,10 @@ public class OrderApi {
     @PutMapping("/{orderId}")
     public void updateOrderStatus(HttpServletRequest request,
                                   @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
-                                  @RequestHeader(value = HttpHeaders.IF_MATCH) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date lastModified,
                                   @PathVariable("orderId") long orderId,
                                   @RequestBody UpdateOrderStatusRequest updateRequest) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
-        orderService.updateOrderStatus(orderId, lastModified.toInstant(), updateRequest.getStatus());
+        orderService.updateOrderStatus(orderId, updateRequest.getLastModified().toInstant(), updateRequest.getStatus());
     }
 
     @GetMapping("/summary")
