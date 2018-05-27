@@ -1,10 +1,13 @@
 package lt.dejavu.excel.service;
 
+import javafx.util.Pair;
+import lt.dejavu.excel.custom.OptimizedXSSFSheetDecorator;
 import lt.dejavu.excel.iterator.ConvertingIterator;
 import lt.dejavu.excel.iterator.PeekingIterator;
 import lt.dejavu.excel.model.ConversionResult;
 import lt.dejavu.excel.strategy.ExcelConversionStrategy;
 import lt.dejavu.excel.strategy.ProcessingStrategy;
+import lt.dejavu.utils.debug.Profiler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.*;
@@ -12,17 +15,23 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 @Component
 public class ExcelServiceImpl<T> implements ExcelService<T> {
+    private final static Logger logger = LogManager.getLogger(ExcelServiceImpl.class);
     private final ExcelConversionStrategy<T> conversionStrategy;
     private final ProcessingStrategy<T> processingStrategy;
-    private final static Logger logger = LogManager.getLogger(ExcelServiceImpl.class);
+
     public ExcelServiceImpl(ExcelConversionStrategy<T> conversionStrategy, ProcessingStrategy<T> processingStrategy) {
         this.conversionStrategy = conversionStrategy;
         this.processingStrategy = processingStrategy;
@@ -30,33 +39,64 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
 
     @Override
     public ByteArrayOutputStream toExcel(Collection<T> items) throws IOException {
-        Workbook wb = new XSSFWorkbook();
+        XSSFWorkbook wb = new XSSFWorkbook();
         CellStyle cellStyle = getCellStyle(wb);
-        Sheet sheet = wb.createSheet();
+        Sheet sheet = new OptimizedXSSFSheetDecorator(wb.createSheet());
         setColumnWidths(sheet);
         Row headerRow = sheet.createRow(0);
-        populateRow(headerRow, conversionStrategy.getHeader(), getHeaderCellStyle(wb));
+        createCells(headerRow, conversionStrategy.getHeader().size(), getHeaderCellStyle(wb));
+        populateRow(headerRow, conversionStrategy.getHeader());
         formatHeader(headerRow);
         AtomicInteger rowIndex = new AtomicInteger(1);
-        items.stream()
-             .map(conversionStrategy::toRows)
-             .forEach(itemData -> {
-                 int fromRow = rowIndex.get();
-                 itemData.forEach(rowData -> {
-                     Row row = sheet.createRow(rowIndex.getAndIncrement());
-                     populateRow(row, rowData, cellStyle);
-                 });
-                 int toRow = rowIndex.get() - 1;
-                 conversionStrategy.getColumnsToMerge()
-                                   .forEach(i ->
-                                                    sheet.addMergedRegion(
-                                                            new CellRangeAddress(fromRow, toRow, i, i)
-                                                                         )
-                                           );
-             });
+        List<Pair<Integer, Integer>> mergeIntervals = new ArrayList<>();
+
+        List<List<List<String>>> rows = Profiler.time("Map to rows", () -> items.stream().map(conversionStrategy::toRows).collect(toList()));
+        List<List<Row>> excelRows = new ArrayList<>();
+        Profiler.time("Create excel cells", () -> {
+            rows.forEach(itemData -> {
+                int fromRow = rowIndex.get();
+                List<Row> innerRows = new ArrayList<>();
+                itemData.forEach(rowData -> {
+                    Row row = sheet.createRow(rowIndex.getAndIncrement());
+                    innerRows.add(row);
+                    createCells(row, rowData.size(), cellStyle);
+                });
+                excelRows.add(innerRows);
+                int toRow = rowIndex.get() - 1;
+                mergeIntervals.add(new Pair<>(fromRow, toRow));
+            });
+        });
+        Profiler.time("Populate cells", () -> {
+            IntStream.range(0, rows.size()).parallel().forEach(rIdx -> {
+                List<List<String>> dRows = rows.get(rIdx);
+                List<Row> eRows = excelRows.get(rIdx);
+                IntStream.range(0, dRows.size()).forEach(idx -> {
+                    List<String> data = dRows.get(idx);
+                    Row row = eRows.get(idx);
+                    populateRow(row, data);
+                });
+            });
+        });
+        
+        Profiler.time("Merge", () -> {
+            conversionStrategy.getColumnsToMerge()
+                              .parallelStream()
+                              .forEach(col ->
+                                               mergeIntervals.parallelStream()
+                                                             .forEach(row ->
+                                                                              sheet.addMergedRegionUnsafe(new CellRangeAddress(row.getKey(), row.getValue(), col, col))
+                                                                     )
+                                      );
+        });
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        wb.write(outputStream);
+        Profiler.time("Write", () -> {
+            try {
+                wb.write(outputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         return outputStream;
     }
 
@@ -105,8 +145,10 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
             if (!lastVal.equals(currentVal)) {
                 if (last != i - 1) {
                     sheet.addMergedRegion(new CellRangeAddress(0, 0, last, i - 1));
+                    last = i + 1;
+                } else {
+                    last = i;
                 }
-                last = i + 1;
             }
         }
         if (last != cellCount - 1) {
@@ -114,12 +156,22 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
         }
     }
 
-    private void populateRow(Row row, List<String> values, CellStyle style) {
+    private List<Cell> createCells(Row row, int count, CellStyle style) {
+        return IntStream.range(0, count)
+                        .boxed()
+                        .map(idx -> {
+                            Cell cell = row.createCell(idx);
+                            cell.setCellStyle(style);
+                            return cell;
+                        })
+                        .collect(toList());
+    }
+
+    private void populateRow(Row row, List<String> values) {
         IntStream.range(0, values.size())
                  .forEach(idx -> {
-                     Cell cell = row.createCell(idx);
+                     Cell cell = row.getCell(idx);
                      cell.setCellValue(values.get(idx));
-                     cell.setCellStyle(style);
                  });
     }
 

@@ -18,6 +18,7 @@ import lt.dejavu.product.service.DiscountService;
 import lt.dejavu.product.service.ProductService;
 import lt.dejavu.product.strategy.IdentifierGenerator;
 import lt.dejavu.utils.collections.UpdatableCollectionUtils;
+import lt.dejavu.utils.debug.Profiler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -186,7 +187,8 @@ public class ProductServiceImpl implements ProductService {
     
     @Override
     public ByteArrayOutputStream exportProducts() throws IOException {
-        return excelService.toExcel(productRepository.getAllProducts(0, Integer.MAX_VALUE));
+        Set<Product> allProducts = Profiler.time("Get all products", () -> productRepository.getAllProducts(0, Integer.MAX_VALUE));
+        return excelService.toExcel(allProducts);
     }
 
     @Override
