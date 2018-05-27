@@ -64,6 +64,14 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
+    public List<Long> addDiscounts(List<DiscountDto> discounts) {
+        discounts.forEach(this::validateTarget);
+        List<Discount> dbDiscounts = discounts.stream().map(discountMapper::mapToDiscount).collect(toList());
+        discountRepository.addDiscounts(dbDiscounts);
+        return dbDiscounts.stream().map(Discount::getId).collect(toList());
+    }
+
+    @Override
     public void updateDiscount(long id, DiscountDto newDiscount) {
         validateTarget(newDiscount);
         if (discountRepository.getDiscount(id) == null) {

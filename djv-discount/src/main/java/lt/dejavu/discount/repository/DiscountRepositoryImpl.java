@@ -16,6 +16,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Repository
 @Transactional
 public class DiscountRepositoryImpl implements DiscountRepository {
@@ -25,6 +27,12 @@ public class DiscountRepositoryImpl implements DiscountRepository {
     public long addDiscount(Discount discount) {
         em.persist(discount);
         return discount.getId();
+    }
+
+    @Override
+    public List<Long> addDiscounts(List<Discount> discounts) {
+        discounts.forEach(em::persist);
+        return discounts.stream().map(Discount::getId).collect(toList());
     }
 
     @Override
