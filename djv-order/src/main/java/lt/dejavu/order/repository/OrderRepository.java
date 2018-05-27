@@ -4,6 +4,7 @@ import lt.dejavu.order.model.OrderStatus;
 import lt.dejavu.order.model.db.Order;
 import lt.dejavu.order.model.db.Review;
 
+import java.time.Instant;
 import java.util.List;
 
 public interface OrderRepository {
@@ -15,7 +16,7 @@ public interface OrderRepository {
 
     long saveOrder(Order order);
 
-    void updateOrderStatus(long orderId, OrderStatus status);
+    void updateOrderStatus(long orderId, Instant lastModified, OrderStatus status);
 
     void addReview(long orderId, Review review);
 }

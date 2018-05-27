@@ -4,6 +4,7 @@ import lt.dejavu.order.dto.OrderDto;
 import lt.dejavu.order.dto.OrderSummaryDto;
 import lt.dejavu.order.model.OrderStatus;
 
+import java.time.Instant;
 import java.util.List;
 
 public interface OrderService {
@@ -13,7 +14,7 @@ public interface OrderService {
 
     OrderDto getOrderById(long orderId);
 
-    void updateOrderStatus(long orderId, OrderStatus status);
+    void updateOrderStatus(long orderId, Instant lastModified, OrderStatus status);
 
     Long createOrder(OrderDto order);
 

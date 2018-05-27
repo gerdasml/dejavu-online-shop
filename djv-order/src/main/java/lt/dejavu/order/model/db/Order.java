@@ -1,20 +1,20 @@
 package lt.dejavu.order.model.db;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lt.dejavu.auth.model.db.User;
 import lt.dejavu.order.model.OrderStatus;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 @Getter
 @Setter
 @EqualsAndHashCode
 @Entity
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "purchase_order")
 public class Order {
     @Id
@@ -48,7 +48,6 @@ public class Order {
     private Review review;
 
     @Version
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "lastModified")
-    private Date lastModified;
+    private Timestamp lastModified;
 }
