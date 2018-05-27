@@ -5,6 +5,8 @@ import { OrderStatus } from "../../../../../model/Order";
 
 import * as api from "../../../../../api";
 
+import { fromString } from "../../../../../utils/enum";
+
 interface OrderStatusCellProps {
     orderId: number;
     status: OrderStatus;
@@ -46,7 +48,7 @@ export class OrderStatusCell extends React.Component<OrderStatusCellProps, Order
     }
 
     handleChange (val: string) {
-        const newStatus = OrderStatus[val.toUpperCase() as keyof typeof OrderStatus];
+        const newStatus = fromString(OrderStatus, val);
         this.setState({...this.state, status: newStatus});
     }
 

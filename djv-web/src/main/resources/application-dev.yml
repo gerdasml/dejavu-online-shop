@@ -1,5 +1,7 @@
 # This file should contain development-specific configuration
 
+debug: true
+
 spring:
   datasource:
     hibernate-dialect: org.hibernate.dialect.H2Dialect

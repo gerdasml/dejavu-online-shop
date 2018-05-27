@@ -13,8 +13,10 @@ export enum DiscountType {
 }
 
 export interface Discount {
+    id?: number;
     targetType: DiscountTarget;
     target?: Product | Category;
+    targetId?: number;
     type: DiscountType;
     value: number;
     activeFrom: Date;
