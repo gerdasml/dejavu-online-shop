@@ -60,7 +60,6 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
                     Row row = sheet.createRow(rowIndex.getAndIncrement());
                     innerRows.add(row);
                     createCells(row, rowData.size(), cellStyle);
-                    //populateRow(row, rowData);
                 });
                 excelRows.add(innerRows);
                 int toRow = rowIndex.get() - 1;
@@ -100,14 +99,6 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
         });
         return outputStream;
     }
-
-//    private void profile(String opName, Runnable runnable) {
-//        logger.warn(String.format(">>> %s STARTED", opName));
-//        long start = System.currentTimeMillis();
-//        runnable.run();
-//        long end = System.currentTimeMillis();
-//        logger.warn(String.format("<<< %s ENDED (%s ms)", opName, String.valueOf(end-start)));
-//    }
 
     @Override
     public UUID fromExcel(byte[] file) throws IOException {
