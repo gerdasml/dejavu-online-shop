@@ -5,10 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lt.dejavu.auth.model.db.User;
 import lt.dejavu.order.model.OrderStatus;
-import lt.dejavu.order.model.ReviewStatus;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -40,10 +40,15 @@ public class Order {
     private User user;
 
     @OneToOne
-    @JoinColumn(name="shippingInformationId")
+    @JoinColumn(name = "shippingInformationId")
     private ShippingInformation shippingInformation;
 
     @OneToOne
     @JoinColumn(name = "reviewId")
     private Review review;
+
+    @Version
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "lastModified")
+    private Date lastModified;
 }
