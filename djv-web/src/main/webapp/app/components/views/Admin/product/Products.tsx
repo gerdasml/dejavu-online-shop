@@ -16,6 +16,8 @@ import { ProductExport } from "./import/ProductExport";
 import { ProductImport } from "./import/ProductImport";
 import { config } from "../../../../config";
 
+import "../../../../../style/admin/products.css";
+
 interface ProductsState {
     isLoading: boolean;
     products: Product[];
@@ -86,9 +88,9 @@ export class Products extends React.Component<RouteComponentProps<{}>, ProductsS
         const { isLoading } = this.state;
         return (
             <div>
-                <ButtonGroup>
+                <ButtonGroup id="buttonGroup">
                     <NavLink to={`/admin/product/create`}>
-                        <Button>Add new product</Button>
+                        <Button className="productsButton">Add new product</Button>
                     </NavLink>
                     <ProductImport navigateToJob={id => this.props.history.push(`/admin/imports/${id}`)}/>
                     <ProductExport />

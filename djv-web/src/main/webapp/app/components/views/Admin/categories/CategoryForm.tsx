@@ -53,7 +53,7 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
 
     render () {
         return (
-            <div>
+            <div className="categoryForm">
                 <Row type="flex" align="middle">
                     <Col span={6}><h3>Category name:</h3></Col>
                     <Col span={18}>
@@ -68,8 +68,11 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
                 <Row type="flex" align="middle">
                     <Col span={6}><h3>Icon:</h3></Col>
                     <Col span={18}>
-                        <Button onClick={() => this.setState({...this.state, isModalVisible: true})}>
-                            {this.state.icon ? <Icon name={this.state.icon as SemanticICONS} /> : "Select..."}
+                        <Button onClick={() => this.setState({...this.state, isModalVisible: true})}
+                        className="categoryFormButton">
+                            {this.state.icon?
+                            <Icon name={this.state.icon as SemanticICONS} />
+                            : "Select..."}
                         </Button>
                     </Col>
                 </Row>
@@ -84,6 +87,7 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
                 </Row>
                 <Row type="flex" align="middle">
                     <Button
+                        className="categoryFormButton"
                         disabled={!this.isValid()}
                         onClick={() => this.props.onSave(this.buildCategory())}
                         type="primary"

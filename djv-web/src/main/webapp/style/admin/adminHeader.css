@@ -3,5 +3,9 @@
 }
 
 #adminHeader .menuItem{
-    color: #FFCE2B;
+    color: #FFE693;
+}
+
+body{
+    background-color: #f1f1f1;
 }

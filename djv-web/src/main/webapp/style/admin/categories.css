@@ -1,0 +1,45 @@
+#addCategoryButton, .categoryFormButton{
+    background-color: #FFCE2B;
+    color: #393D40;
+    font-weight: bold;
+}
+
+.categoryForm{
+    margin-top: 7%;
+    margin-right: 3%;
+}
+
+.categoryForm h3{
+    color: #393D40;
+}
+
+#categories{
+    margin-top: 2%;
+    
+}
+
+.treeNode{
+    background-color: #393D40;
+    color: 	#F1F1F1;
+}  
+
+.treeNode span{
+    color: 	#F1F1F1;
+}
+
+.propertiesTable th{
+    color: 	#FFE693 !important;
+    background-color: #393D40 !important;
+}
+
+.categoryForm .ant-row-flex{
+    margin-bottom: 1%;
+}
+
+#categoryTreeView li span:hover{
+    background-color: #8E8E8E;
+}
+
+#categoryTreeView li:hover{
+    background-color:#8E8E8E !important; 
+}

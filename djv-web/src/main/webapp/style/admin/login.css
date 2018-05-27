@@ -1,8 +1,5 @@
-#loginForm{
-    background-color: #F1F1F1;
-}
-
 #loginButton{
+    margin-top: 1%;
     background-color: #FFCE2B;
     color: #393D40;
     font-weight: bold;

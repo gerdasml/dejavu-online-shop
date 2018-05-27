@@ -1,0 +1,44 @@
+.productRecordTable th, .propertiesTable th{
+    background-color: #393D40 !important;
+    color: #FFE693 !important;
+}
+
+.productsButton, .saveButton{
+    background-color: #FFCE2B !important;
+    color: #393D40 !important;
+    font-weight: bold;
+}
+
+#buttonGroup{
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.editButton{
+    background-color: #393D40;
+    color: #FFE693;
+}
+
+#productFormGrid span span span{
+    background-color: #393D40 !important;
+    color: #FFE693 !important;
+}
+
+#productFormGrid{
+    margin-top: 1%;
+    margin-left: 0.1%;
+    margin-right: 1%;
+}
+
+.inputNumber{
+    margin-bottom: 3% !important;
+}
+
+.categoryDropdown, .imageUpload .ant-upload{
+    background-color: #393D40 !important;
+    color: #FFE693 !important;
+}
+
+.imageUpload:hover{
+    background-color: yellow;
+}

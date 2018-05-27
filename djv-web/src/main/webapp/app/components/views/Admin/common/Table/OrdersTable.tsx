@@ -25,6 +25,7 @@ const dateToString = (d: Date) => new Date(Date.parse(d.toString())).toLocaleDat
 
 export const OrdersTable = (props: OrdersTableProps) => (
     <OrdersRecordTable
+        className="ordersRecordTable"
         scroll={{x: config.adminTableScrollWidth.common}}
         bordered={true}
         dataSource={props.orders.map(addKey)}
@@ -47,22 +48,26 @@ export const OrdersTable = (props: OrdersTableProps) => (
             </span>
         )}>
         <OrdersRecordColumn
+            className="ordersRecordColumn"
             key="date"
             title="Date"
             render={(_, record) => dateToString(record.createdDate)}
         />
         <OrdersRecordColumn
+            className="ordersRecordColumn"
             key="user"
             title="User email"
             render={(_, record) => record.user.email}
         />
         <OrdersRecordColumn
+            className="ordersRecordColumn"
             key="status"
             title="Status"
             dataIndex="status"
             render={(_, record) => <OrderStatusCell orderId={record.id} status={record.status} />}
         />
         <OrdersRecordColumn
+            className="ordersRecordColumn"
             key="recipient"
             title="Recipient"
             render={(_, record) =>
@@ -70,11 +75,13 @@ export const OrdersTable = (props: OrdersTableProps) => (
             }
         />
         <OrdersRecordColumn
+            className="ordersRecordColumn"
             key="shipping"
             title="Shipping address"
             render={(_, record) => stringifyAddress(record.shippingInformation.shippingAddress)}
         />
         <OrdersRecordColumn
+            className="ordersRecordColumn"
             key="review"
             title="Review"
             render={(_, record) =>
@@ -88,6 +95,7 @@ export const OrdersTable = (props: OrdersTableProps) => (
             }
         />
         <OrdersRecordColumn
+            className="ordersRecordColumn"
             key="total"
             title="Total"
             dataIndex="total"
