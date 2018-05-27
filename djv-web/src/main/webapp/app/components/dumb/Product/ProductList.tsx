@@ -32,7 +32,7 @@ interface ProductListProps {
 
 export const ProductList = (props: ProductListProps) => (
     <div>
-        <ProductSort />
+        <ProductSort onChange={() => console.log("blab blakaldkfl")}/>
         <Card.Group itemsPerRow={5} doubling>
             {props.products.map((x, i) =>
                 <ProductCard

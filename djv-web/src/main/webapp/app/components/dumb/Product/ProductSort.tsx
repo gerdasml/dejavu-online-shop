@@ -3,7 +3,11 @@ import { Dropdown, List } from "semantic-ui-react";
 
 import "../../../../style/style.css";
 
-const friendOptions = [
+interface SortProps {
+    onChange: (s: string) => void;
+}
+
+const sortOptions = [
   {
     text: "Price",
     value: "Price"
@@ -18,11 +22,12 @@ const friendOptions = [
   }
 ];
 
-export const ProductSort = () => (
+export const ProductSort = (props: SortProps) => (
     <Dropdown
         className="product-sort"
         placeholder="Sort by"
         fluid
         selection
-        options={friendOptions} />
+        onChange={(e, data) => props.onChange(data.value.toString())}
+        options={sortOptions} />
 );
