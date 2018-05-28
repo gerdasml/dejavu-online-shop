@@ -1,7 +1,7 @@
 // tslint:disable:max-classes-per-file
 import * as React from "react";
 
-import { Table, Rate, Tag, Divider, notification } from "antd";
+import { Table, Rate, Tag, Divider, notification, Modal } from "antd";
 import { Order, OrderStatus } from "../../../../../model/Order";
 import { OrderStatusCell } from "./OrderStatusCell";
 import { OrderTable } from "./OrderTable";
@@ -25,23 +25,49 @@ const dateToString = (d: Date) => new Date(Date.parse(d.toString())).toLocaleDat
 
 export class OrdersTable extends React.Component<OrdersTableProps, never> {
 
-    async handleStatusUpdate (order: Order, newStatus: OrderStatus) {
+    showLockModal = (localStatus: OrderStatus, remoteStatus: OrderStatus, onSelect: (s: OrderStatus) => void) => {
+        Modal.confirm({
+            title: "Status update error",
+            content: (
+                <span>
+                    <p>The status of this order has already been changed by another admin.</p>
+                    <p>You have chosen <b>{localStatus}</b>, they have chosen <b>{remoteStatus}</b></p>
+                    <p>Which status would you like to use?</p>
+                </span>
+            ),
+            okText: `${localStatus}`,
+            cancelText: `${remoteStatus}`,
+            onCancel: () => onSelect(remoteStatus),
+            onOk: () => onSelect(localStatus),
+            className: "lock-modal"
+        });
+    }
+
+    async handleStatusUpdate (order: Order, newStatus: OrderStatus): Promise<OrderStatus> {
         const index = this.props.orders.findIndex(el => el.id === order.id);
         const response = await api.order.updateOrderStatus(order.id, newStatus, order.lastModified);
-        if (api.isError(response)) {
-            notification.error({message: "Failed to update status", description: response.message});
-            const fetchResponse = await api.order.getOrder(order.id);
-            if (api.isError(fetchResponse)) {
-                notification.error({message: "Failed to fetch order information", description: fetchResponse.message});
-                return order.status;
-            }
-            this.props.orders[index] = fetchResponse;
+        if (!api.isError(response)) {
+            this.props.orders[index] = response;
+            console.log(order, response);
             this.forceUpdate();
-            return fetchResponse.status;
+            return response.status;
         }
-        this.props.orders[index] = response;
-        this.forceUpdate();
-        return response.status;
+        if (response.status !== 412) { // PRECONDITION_FAILED code
+            notification.error({message: "Status update failed", description: response.message});
+            return order.status;
+        }
+        const fetchResponse = await api.order.getOrder(order.id);
+        if (api.isError(fetchResponse)) {
+            notification.error({message: "Failed to fetch order information", description: fetchResponse.message});
+            return order.status;
+        }
+        const modalPromise = new Promise<OrderStatus>(resolve => {
+            this.showLockModal(newStatus, fetchResponse.status, resolve);
+        });
+        const status = await modalPromise;
+        fetchResponse.status = status;
+        order.lastModified = fetchResponse.lastModified;
+        return await this.handleStatusUpdate(order, fetchResponse.status);
     }
     render () {
         return (
