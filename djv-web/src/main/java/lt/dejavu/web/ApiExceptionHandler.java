@@ -114,7 +114,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ExceptionDetails> handleGenericException(Exception ex, WebRequest req) {
         log.error("An Exception occurred. ", ex);
-        return buildResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        Exception exc = new Exception("An unexpected error occurred");
+        return buildResponse(exc, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private <T extends Exception> ResponseEntity<ExceptionDetails> buildResponse(T ex, HttpStatus status) {
