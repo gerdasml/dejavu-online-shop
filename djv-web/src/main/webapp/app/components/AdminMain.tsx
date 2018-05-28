@@ -108,7 +108,7 @@ class AdminMain extends React.Component<AuthReducerState & AuthReducerMethods,Ad
                         <Route path="/admin/discounts/" component={Discounts} />
                         <Route path="/admin/discount/create" component={CreateDiscount} />
                         <Route path="/admin/discount/:id" component={SingleDiscount} />
-                        <Route path="/" component={Admin} />
+                        <Route path="/admin" component={Admin} />
                         <Route component={NotFound} />
                     </Switch>
                 </div>
