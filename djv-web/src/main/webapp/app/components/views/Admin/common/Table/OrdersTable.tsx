@@ -48,7 +48,6 @@ export class OrdersTable extends React.Component<OrdersTableProps, never> {
         const response = await api.order.updateOrderStatus(order.id, newStatus, order.lastModified);
         if (!api.isError(response)) {
             this.props.orders[index] = response;
-            console.log(order, response);
             this.forceUpdate();
             return response.status;
         }
@@ -60,6 +59,12 @@ export class OrdersTable extends React.Component<OrdersTableProps, never> {
         if (api.isError(fetchResponse)) {
             notification.error({message: "Failed to fetch order information", description: fetchResponse.message});
             return order.status;
+        }
+        if (fetchResponse.status === newStatus) {
+            // Don't show the modal if the statuses are equal
+            this.props.orders[index] = fetchResponse;
+            this.forceUpdate();
+            return newStatus;
         }
         const modalPromise = new Promise<OrderStatus>(resolve => {
             this.showLockModal(newStatus, fetchResponse.status, resolve);
