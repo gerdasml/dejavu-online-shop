@@ -41,15 +41,14 @@ public class ProductServiceImpl implements ProductService {
     private final ProductPropertyDtoMapper productPropertyDtoMapper;
     private final ProductPropertyRepository productPropertyRepository;
 
-    private final IdentifierGenerator<Product> productIdentifierGenerator;
-
     private final ExcelService<Product> excelService;
     private final DiscountService discountService;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository,
                               ProductDtoMapper productDtoMapper, ExcelService<Product> excelService,
-                              ProductPropertyDtoMapper productPropertyDtoMapper, ProductPropertyRepository productPropertyRepository, IdentifierGenerator<Product> productIdentifierGenerator, DiscountService discountService) {
+                              ProductPropertyDtoMapper productPropertyDtoMapper, ProductPropertyRepository productPropertyRepository,
+                              DiscountService discountService) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.productDtoMapper = productDtoMapper;
@@ -59,7 +58,6 @@ public class ProductServiceImpl implements ProductService {
 
         this.excelService = excelService;
 
-        this.productIdentifierGenerator = productIdentifierGenerator;
         this.discountService = discountService;
     }
 
@@ -119,8 +117,6 @@ public class ProductServiceImpl implements ProductService {
         Product product = productDtoMapper.mapToProduct(request, productCategory);
         product.setCreationDate(LocalDateTime.now());
         Long productId = productRepository.saveProduct(product);
-        product.setIdentifier(productIdentifierGenerator.generateIdentifier(product));
-        productRepository.updateProduct(product);
         Set<CategoryProperty> properties = getProductCategoryProperties(request, productCategory);
         Set<ProductProperty> propertyValues = productPropertyDtoMapper.mapProperties(product, properties, request.getProperties());
         productPropertyRepository.savePropertyValues(propertyValues);
@@ -139,7 +135,6 @@ public class ProductServiceImpl implements ProductService {
         Category productCategory = resolveCategory(request.getCategoryId());
         Product oldProduct = getProductIfExist(productId);
         productDtoMapper.remapToProduct(oldProduct, request, productCategory);
-        oldProduct.setIdentifier(productIdentifierGenerator.generateIdentifier(oldProduct));
         Set<CategoryProperty> properties = getProductCategoryProperties(request, productCategory);
         Set<ProductProperty> propertyValues = productPropertyDtoMapper.mapProperties(oldProduct, properties, request.getProperties());
         UpdatableCollectionUtils.updateCollection(oldProduct.getProperties(), propertyValues);

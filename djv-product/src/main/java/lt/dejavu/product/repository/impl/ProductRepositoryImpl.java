@@ -3,6 +3,7 @@ package lt.dejavu.product.repository.impl;
 import lt.dejavu.product.model.*;
 import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 import lt.dejavu.product.repository.ProductRepository;
+import lt.dejavu.product.strategy.IdentifierGenerator;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -19,8 +20,14 @@ import java.util.Set;
 @Transactional
 public class ProductRepositoryImpl implements ProductRepository {
 
+    private final IdentifierGenerator<Product> identifierGenerator;
+
     @PersistenceContext
     private EntityManager em;
+
+    public ProductRepositoryImpl(IdentifierGenerator<Product> identifierGenerator) {
+        this.identifierGenerator = identifierGenerator;
+    }
 
     @Override
     public Set<Product> getAllProducts(int offset, int limit) {
@@ -89,7 +96,10 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public long saveProduct(Product product) {
+
         em.persist(product);
+        product.setIdentifier(identifierGenerator.generateIdentifier(product));
+        em.flush();
         return product.getId();
     }
 
@@ -100,6 +110,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public void updateProduct(Product product) {
+        product.setIdentifier(identifierGenerator.generateIdentifier(product));
         em.merge(product);
     }
 

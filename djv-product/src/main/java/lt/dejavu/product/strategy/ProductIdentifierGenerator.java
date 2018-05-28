@@ -17,7 +17,11 @@ public class ProductIdentifierGenerator implements IdentifierGenerator<Product> 
     public String generateIdentifier(Product product) {
         String result = "";
         if (product.getCategory() != null) {
-            result += categoryIdentifierGenerator.generateIdentifier(product.getCategory()) + "/";
+            if (product.getCategory().getIdentifier() != null) {
+                result = product.getCategory().getIdentifier() + "/";
+            } else {
+                result += categoryIdentifierGenerator.generateIdentifier(product.getCategory()) + "/";
+            }
         }
         result += FormattingUtils.toUrlFriendlyString(product.getName() + " " + product.getId());
         return result;
