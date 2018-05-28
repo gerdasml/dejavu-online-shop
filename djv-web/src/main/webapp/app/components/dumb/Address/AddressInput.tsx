@@ -10,6 +10,9 @@ interface AddressProps {
   address: Address;
   formSize: string;
   onAddressChange: (newAddress: Address) => void;
+  fieldClassName?: string;
+  labelsOnly?: boolean;
+  labelClassName?: string;
 }
 
 export class AddressInput extends React.Component<AddressProps, {}> {
@@ -40,42 +43,66 @@ export class AddressInput extends React.Component<AddressProps, {}> {
 
   // tslint:disable-next-line:prefer-function-over-method
   render () {
-    return (
-      <div>
-        <Form id="addressForm" size={this.props.formSize}>
-          <Form.Field inline>
+    return [
+          <Form.Field inline className={this.props.fieldClassName}>
             <label>Street</label>
+            { this.props.labelsOnly
+            ?
+            <label className={this.props.labelClassName}>
+                {this.props.address.street}
+            </label>
+            :
             <input type="text"
               placeholder="Gatvės g., 24-16"
-              defaultValue={this.props.address.street}
+              value={this.props.address.street}
               onChange={this.handleStreetInput.bind(this)} />
-          </Form.Field>
-          <Form.Field inline>
+            }
+          </Form.Field>,
+          <Form.Field inline className={this.props.fieldClassName}>
+            <label>City</label>
+            { this.props.labelsOnly
+            ?
+            <label className={this.props.labelClassName}>
+                {this.props.address.city}
+            </label>
+            :
+            <input type="text"
+              placeholder="Vilnius"
+              value={this.props.address.city}
+              onChange={this.handleCityInput.bind(this)} />
+            }
+          </Form.Field>,
+          <Form.Field inline className={this.props.fieldClassName}>
             <label>Zip Code</label>
+            { this.props.labelsOnly
+            ?
+            <label className={this.props.labelClassName}>
+                {this.props.address.zipCode}
+            </label>
+            :
             <input type="text"
               placeholder="LT-03011"
-              defaultValue={this.props.address.zipCode}
+              value={this.props.address.zipCode}
               onChange={this.handleZipCodeInput.bind(this)} />
-          </Form.Field>
-          <Form.Field inline>
+            }
+          </Form.Field>,
+          <Form.Field inline className={this.props.fieldClassName}>
             <label>Country</label>
+            { this.props.labelsOnly
+            ?
+            <label className={this.props.labelClassName}>
+                {this.props.address.country}
+            </label>
+            :
             <select
-              defaultValue={this.props.address.country}
+              value={this.props.address.country}
               onChange={this.handleCountryInput.bind(this)}>
               <option value="" hidden></option>
               {countries.map(country => (
                 <option value={country.name}>{country.name}</option>))}
             </select>
-          </Form.Field>
-          <Form.Field inline>
-            <label>City</label>
-            <input type="text"
-              placeholder="Vilnius"
-              defaultValue={this.props.address.city}
-              onChange={this.handleCityInput.bind(this)} />
-          </Form.Field>
-        </Form>
-      </div>
-    );
+            }
+          </Form.Field>,
+        ];
   }
 }

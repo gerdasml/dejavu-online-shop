@@ -10,6 +10,7 @@ import * as api from "../../../api";
 import {User} from "../../../model/User";
 import {ChangePassword} from "../../dumb/Profile/ChangePassword";
 import { notification } from "antd";
+import { AddressInput } from "../Address/AddressInput";
 
 interface ProfileState {
     beingEdited: boolean;
@@ -217,65 +218,17 @@ export const ProfileInfo = withRouter(class extends React.Component<RouteCompone
                     </label>
                     }
                 </Form.Field>
-                <Form.Field inline className="profileFormField">
-                    <label>Street:</label>
-                    { this.state.beingEdited
-                    ?
-                    <input className="editableFields" type="text" placeholder="street"
-                        onChange = {this.handleStreetInput.bind(this)}
-                        value={isLoading ? "" : this.state.changedUser.address.street}
-                    />
-                    :
-                    <label className="readOnlyFields" >
-                        {isLoading ? "" : this.state.changedUser.address.street}
-                    </label>
-                    }
-                </Form.Field>
-                <Form.Field inline className="profileFormField">
-                    <label>City:</label>
-                    {
-                        this.state.beingEdited
-                        ? <input className="editableFields" type="text" placeholder="city"
-                            onChange = {this.handleCityInput.bind(this)}
-                            value={isLoading ? "" : this.state.changedUser.address.city}
-                        />
-                        : <label className="readOnlyFields" >
-                            {isLoading ? "" : this.state.changedUser.address.city}
-                        </label>
-                    }
-                </Form.Field>
-                <Form.Field inline className="profileFormField">
-{/*Reikia visų galimų šalių sąrašo pasirinkimams*/}
-                    <label>Country:</label>
-                    {
-                        this.state.beingEdited
-                        ? <select className="editableFields"
-                            onChange = {this.handleCountryInput.bind(this)}>
-                            { isLoading
-                            ? undefined
-                            : <option value={this.state.changedUser.address.country}>
-                                {this.state.changedUser.address.country}
-                            </option>
-                            }
-                             <option value="Lithuania">Lithuania</option>
-                             <option value="United Kingdom">United Kingdom</option>
-                         </select>
-                        : <label className="readOnlyFields" >
-                            {isLoading ? "" : this.state.changedUser.address.country}
-                        </label>
-                    }
-                </Form.Field>
-                <Form.Field inline className="profileFormField">
-                    <label>Zip Code:</label>
-                    { this.state.beingEdited
-                    ? <input className="editableFields" type="text" placeholder="zip code"
-                        onChange = {this.handleZipCodeInput.bind(this)}
-                        value={isLoading ? "" : this.state.changedUser.address.zipCode}/>
-                    : <label className="readOnlyFields" >
-                        {isLoading ? "" : this.state.changedUser.address.zipCode}
-                    </label>
-                    }
-                </Form.Field>
+                <AddressInput
+                    address={isLoading ? {} : this.state.changedUser.address}
+                    formSize="mini"
+                    onAddressChange={address => this.setState({
+                        ...this.state,
+                        changedUser: {...this.state.changedUser, address}
+                    })}
+                    fieldClassName="profileFormField"
+                    labelsOnly={!this.state.beingEdited}
+                    labelClassName="readOnlyFields"
+                />
                 <ChangePassword />
             </Form>
         );
