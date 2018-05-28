@@ -1,7 +1,7 @@
 // tslint:disable:max-classes-per-file
 import * as React from "react";
 
-import { Table, Rate, Tag, Divider } from "antd";
+import { Table, Rate, Tag, Divider, notification } from "antd";
 import { Order, OrderStatus } from "../../../../../model/Order";
 import { OrderStatusCell } from "./OrderStatusCell";
 import { OrderTable } from "./OrderTable";
@@ -9,6 +9,8 @@ import { OrderTable } from "./OrderTable";
 import { stringifyAddress } from "../../../../../utils/common";
 import { addKey, WithKey } from "../../../../../utils/table";
 import { config } from "../../../../../config";
+
+import * as api from "../../../../../api";
 
 type OrderRecord = Order & WithKey;
 
@@ -21,74 +23,102 @@ class OrdersRecordColumn extends Table.Column<OrderRecord> {}
 
 const dateToString = (d: Date) => new Date(Date.parse(d.toString())).toLocaleDateString();
 
-export const OrdersTable = (props: OrdersTableProps) => (
-    <OrdersRecordTable
-        scroll={{x: config.adminTableScrollWidth.common}}
-        bordered={true}
-        dataSource={props.orders.map(addKey)}
-        pagination={{pageSize: 25, hideOnSinglePage: true}}
-        expandedRowRender={(record: OrderRecord) => (
-            <span>
-                { record.review !== undefined
-                ?
-                <span>
-                    <b>Review comment: </b>
-                    { record.review.comment === undefined || record.review.comment.length === 0
-                    ? <Tag color="red">Not Given</Tag>
-                    : record.review.comment
+export class OrdersTable extends React.Component<OrdersTableProps, never> {
+
+    async handleStatusUpdate (order: Order, newStatus: OrderStatus) {
+        const index = this.props.orders.findIndex(el => el.id === order.id);
+        const response = await api.order.updateOrderStatus(order.id, newStatus, order.lastModified);
+        if (api.isError(response)) {
+            notification.error({message: "Failed to update status", description: response.message});
+            const fetchResponse = await api.order.getOrder(order.id);
+            if (api.isError(fetchResponse)) {
+                notification.error({message: "Failed to fetch order information", description: fetchResponse.message});
+                return order.status;
+            }
+            this.props.orders[index] = fetchResponse;
+            this.forceUpdate();
+            return fetchResponse.status;
+        }
+        this.props.orders[index] = response;
+        this.forceUpdate();
+        return response.status;
+    }
+    render () {
+        return (
+            <OrdersRecordTable
+                scroll={{x: config.adminTableScrollWidth.common}}
+                bordered={true}
+                dataSource={this.props.orders.map(addKey)}
+                pagination={{pageSize: 25, hideOnSinglePage: true}}
+                expandedRowRender={(record: OrderRecord) => (
+                    <span>
+                        { record.review !== undefined
+                        ?
+                        <span>
+                            <b>Review comment: </b>
+                            { record.review.comment === undefined || record.review.comment.length === 0
+                            ? <Tag color="red">Not Given</Tag>
+                            : record.review.comment
+                            }
+                            <Divider />
+                        </span>
+                        : ""
+                        }
+                        <OrderTable items={record.items} />
+                    </span>
+                )}>
+                <OrdersRecordColumn
+                    key="date"
+                    title="Date"
+                    render={(_, record) => dateToString(record.createdDate)}
+                />
+                <OrdersRecordColumn
+                    key="user"
+                    title="User email"
+                    render={(_, record) => record.user.email}
+                />
+                <OrdersRecordColumn
+                    key="status"
+                    title="Status"
+                    dataIndex="status"
+                    render={(_, record) =>
+                        <OrderStatusCell
+                            onStatusUpdate={newStatus => this.handleStatusUpdate(record, newStatus)}
+                            status={record.status}
+                        />
                     }
-                    <Divider />
-                </span>
-                : ""
-                }
-                <OrderTable items={record.items} />
-            </span>
-        )}>
-        <OrdersRecordColumn
-            key="date"
-            title="Date"
-            render={(_, record) => dateToString(record.createdDate)}
-        />
-        <OrdersRecordColumn
-            key="user"
-            title="User email"
-            render={(_, record) => record.user.email}
-        />
-        <OrdersRecordColumn
-            key="status"
-            title="Status"
-            dataIndex="status"
-            render={(_, record) => <OrderStatusCell orderId={record.id} status={record.status} />}
-        />
-        <OrdersRecordColumn
-            key="recipient"
-            title="Recipient"
-            render={(_, record) =>
-                `${record.shippingInformation.recipientFirstName} ${record.shippingInformation.recipientLastName}`
-            }
-        />
-        <OrdersRecordColumn
-            key="shipping"
-            title="Shipping address"
-            render={(_, record) => stringifyAddress(record.shippingInformation.shippingAddress)}
-        />
-        <OrdersRecordColumn
-            key="review"
-            title="Review"
-            render={(_, record) =>
-                record.reviewShown
-                    ? record.review === undefined
-                        ? <Tag color="red">REJECTED</Tag>
-                        : <Rate disabled defaultValue={record.review.rating} />
-                    : record.status === OrderStatus.DELIVERED
-                        ? <Tag color="orange">NOT SHOWN</Tag>
-                        : <Tag color="orange">N/A</Tag>
-            }
-        />
-        <OrdersRecordColumn
-            key="total"
-            title="Total"
-            dataIndex="total"
-        />
-    </OrdersRecordTable>
-);
+                />
+                <OrdersRecordColumn
+                    key="recipient"
+                    title="Recipient"
+                    render={(_, record) =>
+                        `${record.shippingInformation.recipientFirstName} ${record.shippingInformation.recipientLastName}`
+                    }
+                />
+                <OrdersRecordColumn
+                    key="shipping"
+                    title="Shipping address"
+                    render={(_, record) => stringifyAddress(record.shippingInformation.shippingAddress)}
+                />
+                <OrdersRecordColumn
+                    key="review"
+                    title="Review"
+                    render={(_, record) =>
+                        record.reviewShown
+                            ? record.review === undefined
+                                ? <Tag color="red">REJECTED</Tag>
+                                : <Rate disabled defaultValue={record.review.rating} />
+                            : record.status === OrderStatus.DELIVERED
+                                ? <Tag color="orange">NOT SHOWN</Tag>
+                                : <Tag color="orange">N/A</Tag>
+                    }
+                />
+                <OrdersRecordColumn
+                    key="total"
+                    title="Total"
+                    dataIndex="total"
+                />
+            </OrdersRecordTable>
+        );
+    }
+}

@@ -27,6 +27,7 @@ export interface Order {
     items: OrderItem[];
     reviewShown: boolean;
     review: Review;
+    lastModified: Date;
 }
 
 export interface OrderSummary {

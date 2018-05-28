@@ -8,8 +8,8 @@ import * as api from "../../../../../api";
 import { fromString } from "../../../../../utils/enum";
 
 interface OrderStatusCellProps {
-    orderId: number;
     status: OrderStatus;
+    onStatusUpdate: (newStatus: OrderStatus) => Promise<OrderStatus>;
 }
 
 interface OrderStatusCellState {
@@ -29,22 +29,18 @@ export class OrderStatusCell extends React.Component<OrderStatusCellProps, Order
         this.setState({...this.state, status: this.props.status});
     }
 
+    componentWillReceiveProps (props: OrderStatusCellProps) {
+        this.setState({...this.state, status: props.status});
+    }
+
     startEditing () {
         this.setState({...this.state, isBeingEdited: true});
     }
 
-    async applyChange (status: OrderStatus) {
-        const response = await api.order.updateOrderStatus(this.props.orderId, status);
-        if (api.isError(response)) {
-            notification.error({message: "Failed to update status", description: response.message});
-            return;
-        }
-    }
-
     async stopEditing () {
         this.setState({...this.state, isLoading: true});
-        await this.applyChange(this.state.status);
-        this.setState({...this.state, isBeingEdited: false, isLoading: false});
+        const status = await this.props.onStatusUpdate(this.state.status);
+        this.setState({...this.state, isBeingEdited: false, isLoading: false, status});
     }
 
     handleChange (val: string) {
