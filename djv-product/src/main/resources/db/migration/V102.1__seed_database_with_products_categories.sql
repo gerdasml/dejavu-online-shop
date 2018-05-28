@@ -147,3 +147,66 @@ insert into `image` (`id`, `filename`, `extension`, `uploadedOn`) values
     (5,'image-5','jpg',CURRENT_TIMESTAMP()),
     (6,'image-6','jpg',CURRENT_TIMESTAMP()),
     (7,'image-7','jpg',CURRENT_TIMESTAMP());
+
+insert into category_property (id, categoryId, name) values
+      -- Desktop Pcs
+      (  20, 4, 'Processor'),
+      (  21, 4, 'RAM'),
+      (  22, 4, 'Hard Drive'),
+      (  23, 4, 'Card Description'),
+      (  24, 4, 'Brand Name'),
+      (  25, 4, 'Item model number'),
+      (  26, 4, 'Operating System'),
+      (  27, 4, 'Item Weight'),
+      (  28, 4, 'Product Dimensions'),
+      (  29, 4, 'Color'),
+      (  30, 4, 'Processor Brand'),
+      (  31, 4, 'Processor Count'),
+      (  32, 4, 'Computer Memory Type'),
+      (  33, 4, 'Flash Memory Size'),
+      (  34, 4, 'Hard Drive Interface'),
+      (  35, 4, 'Optical Drive Type'),
+      (  36, 4, 'Batteries');
+
+
+insert into category_property (id, categoryId, name) values
+      -- Tablets
+      (  37, 5, 'Screen Size'),
+      (  38, 5, 'Max Screen Resolution'),
+      (  39, 5, 'Processor'),
+      (  40, 5, 'RAM'),
+      (  41, 5, 'Hard Drive'),
+      (  42, 5, 'Card Description'),
+      (  43, 5, 'Brand Name'),
+      (  44, 5, 'Item model number'),
+      (  45, 5, 'Operating System'),
+      (  46, 5, 'Item Weight'),
+      (  47, 5, 'Product Dimensions'),
+      (  48, 5, 'Color'),
+      (  49, 5, 'Processor Brand'),
+      (  50, 5, 'Processor Count'),
+      (  51, 5, 'Computer Memory Type'),
+      (  52, 5, 'Flash Memory Size'),
+      (  53, 5, 'Hard Drive Interface'),
+      (  54, 5, 'Optical Drive Type'),
+      (  55, 5, 'Batteries');
+
+
+insert into category_property (id, categoryId, name) values
+      -- SmartPhones
+      (  56, 12, 'Screen Size'),
+      (  57, 12, 'Max Screen Resolution'),
+      (  58, 12, 'Processor'),
+      (  59, 12, 'RAM'),
+      (  60, 12, 'Hard Drive'),
+      (  61, 12, 'Card Description'),
+      (  62, 12, 'Brand Name'),
+      (  63, 12, 'Item model number'),
+      (  64, 12, 'Operating System'),
+      (  65, 12, 'Item Weight'),
+      (  66, 12, 'Product Dimensions'),
+      (  67, 12, 'Color'),
+      (  68, 12, 'Processor Brand'),
+      (  69, 12, 'Processor Count'),
+      (  70, 12, 'Flash Memory Size'),
+      (  71, 12, 'Batteries');
