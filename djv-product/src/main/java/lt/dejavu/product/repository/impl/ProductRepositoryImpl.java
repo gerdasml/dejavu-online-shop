@@ -43,6 +43,10 @@ public class ProductRepositoryImpl implements ProductRepository {
         Root<Product> root = query.from(Product.class);
         root.fetch(Product_.properties, JoinType.LEFT).fetch(ProductProperty_.categoryProperty, JoinType.LEFT);
         root.fetch(Product_.additionalImagesUrls, JoinType.LEFT);
+
+        //Temp fix since not discount view
+        root.fetch(Product_.category, JoinType.LEFT).fetch(Category_.parentCategory, JoinType.LEFT);
+
         ParameterExpression<Long> idParameter = cb.parameter(Long.class);
         query.where(cb.equal(root.get(Product_.id), idParameter));
         List<Product> resultList = em.createQuery(query).setParameter(idParameter, id).getResultList();
@@ -57,6 +61,10 @@ public class ProductRepositoryImpl implements ProductRepository {
         Root<Product> root = query.from(Product.class);
         root.fetch(Product_.properties, JoinType.LEFT).fetch(ProductProperty_.categoryProperty, JoinType.LEFT);
         root.fetch(Product_.additionalImagesUrls, JoinType.LEFT);
+
+        //Temp fix since not discount view
+        root.fetch(Product_.category, JoinType.LEFT).fetch(Category_.parentCategory, JoinType.LEFT);
+
         ParameterExpression<String> idParameter = cb.parameter(String.class);
         query.where(cb.equal(root.get(Product_.identifier), idParameter));
         List<Product> resultList = em.createQuery(query).setParameter(idParameter, identifier).getResultList();
@@ -70,6 +78,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         Root<Product> root = query.from(Product.class);
         root.fetch(Product_.properties, JoinType.LEFT).fetch(ProductProperty_.categoryProperty, JoinType.LEFT);
         root.fetch(Product_.additionalImagesUrls, JoinType.LEFT);
+        root.fetch(Product_.category, JoinType.LEFT).fetch(Category_.parentCategory, JoinType.LEFT);
         ParameterExpression<Long> categoryIdParameter = cb.parameter(Long.class);
         query.where(cb.equal(root.get(Product_.category).get(Category_.id), categoryIdParameter));
         TypedQuery<Product> q = em.createQuery(query).setParameter(categoryIdParameter, categoryId);
@@ -122,6 +131,10 @@ public class ProductRepositoryImpl implements ProductRepository {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> query = cb.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
+
+        //Temp fix since not discount view
+        root.fetch(Product_.category, JoinType.LEFT).fetch(Category_.parentCategory, JoinType.LEFT);
+
         query.where(buildPredicate(cb, root, request));
 
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
