@@ -34,6 +34,6 @@ public class Category {
     @JoinColumn(name = "parentCategory")
     private Category parentCategory;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private Set<CategoryProperty> properties = new LinkedHashSet<>();
 }
