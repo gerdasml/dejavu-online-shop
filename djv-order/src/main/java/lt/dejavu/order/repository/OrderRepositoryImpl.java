@@ -71,8 +71,7 @@ public class OrderRepositoryImpl implements OrderRepository {
                               .status(status)
                               .lastModified(Timestamp.from(lastModified))
                               .build();
-        em.merge(newOrder);
-        return newOrder;
+        return em.merge(newOrder);
     }
 
     @Override
