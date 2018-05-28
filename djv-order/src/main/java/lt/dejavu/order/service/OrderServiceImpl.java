@@ -60,8 +60,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrderStatus(long orderId, Instant lastModified, OrderStatus status) {
-        orderRepository.updateOrderStatus(orderId, lastModified, status);
+    public OrderDto updateOrderStatus(long orderId, Instant lastModified, OrderStatus status) {
+        return orderMapper.map(orderRepository.updateOrderStatus(orderId, lastModified, status));
     }
 
     @Override

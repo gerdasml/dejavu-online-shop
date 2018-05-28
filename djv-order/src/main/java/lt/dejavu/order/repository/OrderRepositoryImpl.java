@@ -62,7 +62,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public void updateOrderStatus(long orderId, Instant lastModified, OrderStatus status) {
+    public Order updateOrderStatus(long orderId, Instant lastModified, OrderStatus status) {
         Order order = getOrder(orderId);
         if (order == null) {
             throw new OrderNotFoundException("The order with the specified ID was not found");
@@ -72,6 +72,7 @@ public class OrderRepositoryImpl implements OrderRepository {
                               .lastModified(Timestamp.from(lastModified))
                               .build();
         em.merge(newOrder);
+        return newOrder;
     }
 
     @Override

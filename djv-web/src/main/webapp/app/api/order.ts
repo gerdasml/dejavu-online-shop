@@ -18,8 +18,9 @@ export const getUserOrderHistory = (userId: number): Promise<ApiResponse<Order[]
 export const getOrderHistory = (): Promise<ApiResponse<Order[]>> =>
     fetchData(PATH_PREFIX + "/history", HttpMethod.GET);
 
-export const updateOrderStatus = (orderId: number, status: OrderStatus): Promise<ApiResponse<void>> =>
-    fetchData(PATH_PREFIX + "/" + orderId.toString(), HttpMethod.PUT, {status});
+export const updateOrderStatus =
+    (orderId: number, status: OrderStatus, lastModified: Date): Promise<ApiResponse<Order>> =>
+        fetchData(PATH_PREFIX + "/" + orderId.toString(), HttpMethod.PUT, {status, lastModified});
 
 export const getOrderSummary = (): Promise<ApiResponse<OrderSummary[]>> =>
     fetchData(PATH_PREFIX + "/summary", HttpMethod.GET);

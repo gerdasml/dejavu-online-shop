@@ -14,7 +14,7 @@ public interface OrderService {
 
     OrderDto getOrderById(long orderId);
 
-    void updateOrderStatus(long orderId, Instant lastModified, OrderStatus status);
+    OrderDto updateOrderStatus(long orderId, Instant lastModified, OrderStatus status);
 
     Long createOrder(OrderDto order);
 

@@ -16,7 +16,7 @@ public interface OrderRepository {
 
     long saveOrder(Order order);
 
-    void updateOrderStatus(long orderId, Instant lastModified, OrderStatus status);
+    Order updateOrderStatus(long orderId, Instant lastModified, OrderStatus status);
 
     void addReview(long orderId, Review review);
 }
