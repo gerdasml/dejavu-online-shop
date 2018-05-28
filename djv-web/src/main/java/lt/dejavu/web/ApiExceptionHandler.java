@@ -2,6 +2,7 @@ package lt.dejavu.web;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.exception.IncorrectPasswordException;
+import lt.dejavu.auth.exception.UserAlreadyExistsException;
 import lt.dejavu.auth.exception.UserNotFoundException;
 import lt.dejavu.order.exception.OrderNotFoundException;
 import lt.dejavu.payment.exception.PaymentException;
@@ -31,6 +32,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public final ResponseEntity<ExceptionDetails> handleUserNotFoundException(UserNotFoundException ex, WebRequest req) {
         return buildResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public final ResponseEntity<ExceptionDetails> handleUserAlreadyExistsException(UserAlreadyExistsException ex, WebRequest req) {
+        return buildResponse(ex, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(IncorrectPasswordException.class)

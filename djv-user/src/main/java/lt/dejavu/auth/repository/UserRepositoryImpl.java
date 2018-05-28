@@ -46,6 +46,16 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public boolean emailExists(String email) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<User> query = cb.createQuery(User.class);
+        Root<User> root = query.from(User.class);
+        query.where(cb.equal(root.get(User_.email), email));
+        TypedQuery<User> q = em.createQuery(query);
+        return q.getResultList().size() > 0;
+    }
+
+    @Override
     public List<User> getAllUsers() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<User> cq = cb.createQuery(User.class);
