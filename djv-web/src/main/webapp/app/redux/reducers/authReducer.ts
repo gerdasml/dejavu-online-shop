@@ -1,4 +1,5 @@
 import { ReducersMapObject, Reducer, Action } from "redux";
+import { getToken } from "../../utils/token";
 
 export interface AuthReducerState {
     loggedIn: boolean;
@@ -14,7 +15,7 @@ export enum AuthActionType {
 }
 
 const initialState: AuthReducerState = {
-    loggedIn: false,
+    loggedIn: getToken() !== null,
 };
 
 export default  (state: AuthReducerState = initialState, action: AuthAction): AuthReducerState => {
