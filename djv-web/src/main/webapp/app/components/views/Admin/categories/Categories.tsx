@@ -86,7 +86,7 @@ export class Categories extends React.Component<never, CategoriesState> {
         return (
             <Spin spinning={this.state.categories.length === 0}>
                 <Grid stackable>
-                    <Grid.Column width="three" id="categories">
+                    <Grid.Column width="five" id="categories">
                         <Button
                             id="addCategoryButton"
                             icon="plus"

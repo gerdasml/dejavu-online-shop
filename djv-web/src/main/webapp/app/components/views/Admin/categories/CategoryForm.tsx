@@ -57,7 +57,7 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
                 <Row type="flex" align="middle">
                     <Col span={6}><h3>Category name:</h3></Col>
                     <Col span={18}>
-                        <Input
+                        <Input className="categoryNameInput"
                             size="large"
                             placeholder="Category name"
                             value={this.state.name}
@@ -69,7 +69,7 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
                     <Col span={6}><h3>Icon:</h3></Col>
                     <Col span={18}>
                         <Button onClick={() => this.setState({...this.state, isModalVisible: true})}
-                        className="categoryFormButton">
+                        className="selectButton">
                             {this.state.icon?
                             <Icon name={this.state.icon as SemanticICONS} />
                             : "Select..."}
@@ -100,16 +100,19 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
                         title="Are you sure you want to delete this category?"
                         onConfirm={() => this.props.onDelete(this.props.category.id)}
                     >
-                        <Button type="danger">Delete category</Button>
+                        <Button className="categoryFormButton">Delete category</Button>
                     </Popconfirm>
                     : ""}
                 </Row>
                 <Modal
                     title="Icon selection"
                     visible={this.state.isModalVisible}
-                    onCancel={() => this.setState({...this.state, isModalVisible: false})}
                     className="modalWrapper"
                     style={{top: 0}}
+                    footer={[
+                        <Button className="categoryFormButton"
+                        onClick={() => this.setState({...this.state, isModalVisible: false})}>Cancel</Button>,
+                      ]}
                 >
                     <IconSelect onSelect={icon => this.setState({...this.state, icon, isModalVisible: false})} />
                 </Modal>

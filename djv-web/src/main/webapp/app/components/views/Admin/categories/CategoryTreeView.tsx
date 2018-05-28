@@ -51,7 +51,7 @@ export class CategoryTreeView extends React.Component<CategoryTreeViewProps, nev
     }
     render () {
         return (
-            <Tree 
+            <Tree
                 showIcon
                 draggable
                 onDrop={(info: any) =>

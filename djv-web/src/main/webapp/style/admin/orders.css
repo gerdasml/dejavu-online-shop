@@ -6,3 +6,8 @@
     background-color: #393D40 !important;
     color: #FFE693 !important;
 }
+
+.ant-table-row-expand-icon, .ant-table-row-expanded{
+    background-color: #393D40 !important;
+    color: #FFE693 !important;
+}

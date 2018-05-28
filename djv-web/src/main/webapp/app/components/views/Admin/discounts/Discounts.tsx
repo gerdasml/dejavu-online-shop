@@ -49,7 +49,7 @@ export class Discounts extends React.Component <{}, DiscountsState> {
             <Spin spinning={this.state.isLoading} size="large">
                 <ButtonGroup>
                     <NavLink to={`/admin/discount/create`}>
-                        <Button>Add new discount</Button>
+                        <Button id="discountButton">Add new discount</Button>
                     </NavLink>
                 </ButtonGroup>
                 <DiscountsTable

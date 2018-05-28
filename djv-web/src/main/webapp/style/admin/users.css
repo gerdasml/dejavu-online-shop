@@ -9,11 +9,18 @@
 
 #userInfoButton{
     background-color: #393D40;
-    color: #FFE693;
+    color: #FFCE2B;
     font-weight: bold;
 }
 
 #singleUserGrid{
     margin-top: 0.2%;
     margin-left: 0.1%;
+}
+
+#userInfoButton:hover{
+    background-color: #393D40;
+    color: #FFE693;
+    font-weight: bold;
+    border-color: transparent;
 }

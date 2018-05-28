@@ -77,7 +77,7 @@ export const ProductTable = (props: ProductTableProps) => (
                         cancelText="No"
                         okText="Yes"
                         onConfirm={() => props.onDelete(record.id)}>
-                        <Button icon="delete" type="danger"/>
+                        <Button icon="delete" className="editButton"/>
                     </Popconfirm>
                 </div>
             }

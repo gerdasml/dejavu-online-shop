@@ -3,4 +3,73 @@
     background-color: #FFCE2B;
     color: #393D40;
     font-weight: bold;
+    width: 10% !important;
+    margin-left: 45%;
+    margin-right: auto;
+}
+
+#loginForm{
+    margin-top: 5%;
+}
+
+#loginForm .loginInput{
+    margin-top: 1%;
+    width: 30% !important;
+    margin-left: 35%;
+    margin-right: auto;
+}
+
+
+#loginButton:hover{
+    background-color: #FFE693 !important;
+    border-color: transparent;
+}
+
+.ant-input:hover{
+    border-color: #DBDBDB !important;
+}
+
+@media (max-width: 650px){
+    #loginForm .loginInput{
+        margin-top: 1%;
+        width: 45% !important;
+        margin-left: 30%;
+        margin-right: auto;
+    }
+    #loginButton{
+        margin-top: 1%;
+        width: 20% !important;
+        margin-left: 40%;
+        margin-right: auto;
+    }
+}
+
+@media (max-width: 400px){
+    #loginForm .loginInput{
+        margin-top: 1%;
+        width: 90% !important;
+        margin-left: 5%;
+        margin-right: auto;
+    }
+    #loginButton{
+        margin-top: 1%;
+        width: 50% !important;
+        margin-left: 25%;
+        margin-right: auto;
+    }
+}
+
+@media (max-width: 315px){
+    #loginForm .loginInput{
+        margin-top: 1%;
+        width: 100% !important;
+        margin-left: 0%;
+        margin-right: auto;
+    }
+    #loginButton{
+        margin-top: 1%;
+        width: 50% !important;
+        margin-left: 0%;
+        margin-right: auto;
+    }
 }

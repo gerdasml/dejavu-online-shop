@@ -15,6 +15,8 @@ import { DiscountTarget, DiscountType, Discount } from "../../../../model/Discou
 
 import { fromString } from "../../../../utils/enum";
 
+import "../../../../../style/admin/discounts.css";
+
 interface DiscountEditorProps {
     discount?: Discount;
     onSubmit?: () => void;
@@ -211,14 +213,14 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
 
     render () {
         return (
-            <div>
+            <div id="discountEditor">
                 <Dropdown overlay={this.discountTargetMenu} disabled={this.props.discount !== undefined}>
                     <Button>
                         { this.state.discountTarget === undefined
                         ? "Discount target"
                         : this.state.discountTarget
                         }
-                        <Icon type="down" />
+                        <Icon type="down"/>
                     </Button>
                 </Dropdown>
                 { this.state.dateStart === undefined || this.state.dateEnd === undefined
@@ -236,7 +238,8 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                 />
                 }
                 <Dropdown overlay={this.discountTypeMenu}>
-                    <Button style={{ marginLeft: 0 }}>
+                    <Button
+                        style={{ marginLeft: 0 }}>
                         { this.state.discountType === undefined
                         ? "Discount type"
                         : this.state.discountType
@@ -294,7 +297,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                 : ""
                 }
                 <br/>
-                <Button onClick={this.handleSave.bind(this)}>Save</Button>
+                <Button onClick={this.handleSave.bind(this)} id="saveButton">Save</Button>
             </div>
         );
     }

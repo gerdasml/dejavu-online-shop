@@ -1,0 +1,40 @@
+#discountButton{
+    margin-top: 5%;
+    background-color: #FFCE2B !important;
+    color: #393D40 !important;
+    font-weight: bold;
+    margin-bottom: 5%;
+}
+
+.discountRecordTable th{
+    background-color: #393D40 !important;
+    color: #FFE693 !important;
+}
+
+#discountEditor{
+    margin-top: 1%;
+}
+
+#saveButton{
+    background-color: #FFCE2B !important;
+    color: #393D40 !important;
+    font-weight: bold;
+}
+
+.categoryNameInput, .selectButton{
+    margin-left: 15px;
+}
+
+#discountButton:hover, #saveButton:hover{
+    background-color: #FFE693 !important;
+    border-color: transparent;
+}
+
+.editButton{
+    background-color: #393D40 !important;
+    color: #FFCE2B!important;
+}
+
+.editButton:hover{
+    color: #FFE693 !important;
+}

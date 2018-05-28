@@ -71,7 +71,7 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
                         />
                     <PropertyColumn
                         key="remove"
-                        render={(_, record) => <Button
+                        render={(_, record) => <Button className="editButton"
                                                     type="danger"
                                                     onClick={() => this.handleRemoveRow(record.key)}>
                                                     <Icon type="delete" />

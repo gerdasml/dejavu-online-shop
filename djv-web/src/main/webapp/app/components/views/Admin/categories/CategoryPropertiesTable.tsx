@@ -74,8 +74,7 @@ export class CategoryPropertiesTable extends React.Component<PropertiesTableProp
                         />
                     <PropertyColumn
                         key="remove"
-                        render={(_, record) => <Button
-                                                    type="danger"
+                        render={(_, record) => <Button id="removeButton"
                                                     onClick={() => this.handleRemoveRow(record.key)}>
                                                     <Icon type="delete" />
                                                 </Button>}/>

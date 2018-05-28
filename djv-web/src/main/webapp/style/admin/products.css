@@ -9,6 +9,11 @@
     font-weight: bold;
 }
 
+.saveButton:hover{
+    background-color: #FFE693 !important;
+    border-color: transparent;
+}
+
 #buttonGroup{
     margin-top: 1%;
     margin-bottom: 1%;
@@ -16,7 +21,7 @@
 
 .editButton{
     background-color: #393D40;
-    color: #FFE693;
+    color: #FFCE2B;
 }
 
 #productFormGrid span span span{
@@ -34,11 +39,33 @@
     margin-bottom: 3% !important;
 }
 
-.categoryDropdown, .imageUpload .ant-upload{
+.categoryDropdown{
     background-color: #393D40 !important;
-    color: #FFE693 !important;
+    color: #FFCE2B !important;
 }
 
-.imageUpload:hover{
-    background-color: yellow;
+.categoryDropdown:hover{
+    color: #FFE693 !important;
+    border-color:transparent;
+}
+
+.productsButton:hover{
+    background-color: #FFE693 !important;
+    border-color: transparent;
+}
+
+.editButton:hover{
+    background-color: #393D40;
+    color: #FFE693 !important;
+    border-color: transparent;
+}
+
+.imageUpload .ant-upload{
+    background-color: #393D40 !important;
+    color: #FFCE2B !important;
+}
+
+.imageUpload .ant-upload:hover{
+    color: #FFE693 !important;
+    border-color:transparent !important;
 }
