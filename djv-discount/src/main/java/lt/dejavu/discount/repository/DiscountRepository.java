@@ -8,6 +8,8 @@ import java.util.List;
 public interface DiscountRepository {
     long addDiscount(Discount discount);
 
+    List<Long> addDiscounts(List<Discount> discounts);
+
     Discount getDiscount(long id);
 
     void updateDiscount(long id, Discount newDiscount);

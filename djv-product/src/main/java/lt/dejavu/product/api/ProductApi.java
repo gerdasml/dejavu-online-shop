@@ -146,6 +146,15 @@ public class ProductApi {
         return statusService.getStatus(jobId);
     }
 
+
+    @GetMapping(path = "/import/statistics/{jobId}")
+    public ProductImportStatusDto getImportStats(HttpServletRequest request,
+                                                 @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
+                                                 @PathVariable("jobId") UUID jobId) throws ApiSecurityException {
+        securityService.authorize(authHeader, request);
+        return statusService.getStatistics(jobId);
+    }
+
     @GetMapping(path = "/import/status/")
     public List<ProductImportStatusDto> getImportStatuses(HttpServletRequest request,
                                                           @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) throws ApiSecurityException {

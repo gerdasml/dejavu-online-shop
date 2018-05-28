@@ -8,7 +8,9 @@ import java.util.UUID;
 public interface ImportStatusRepository {
     List<ImportStatus> getAllImportStatuses();
 
-    ImportStatus getImportStatus(UUID id);
+    ImportStatus getImportStatusWithFailures(UUID id);
+
+    ImportStatus getImportStatistics(UUID id);
 
     void createImportStatus(ImportStatus status);
 

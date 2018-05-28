@@ -61,6 +61,12 @@ export class MenuHeader extends React.Component<MenuHeaderProps, MenuHeaderState
                         onClick={this.handleItemClick.bind(this)}
                         className="menuItem"
                     />
+                    <Menu.Item
+                        name="discounts"
+                        active={activeItem === "discounts"}
+                        as={NavLink} to="/admin/discounts"
+                        onClick={this.handleItemClick.bind(this)}
+                    />
                     <Menu.Menu position="right">
                         <Menu.Item
                             name="backToShop"
@@ -114,6 +120,12 @@ export class MenuHeader extends React.Component<MenuHeaderProps, MenuHeaderState
                         onClick={this.handleItemClick.bind(this)}>
                         <Icon type="file-excel"/>
                     </Menu.Item>
+                    <Menu.Item
+                        name="discounts"
+                        active={activeItem === "discounts"}
+                        as={NavLink} to="/admin/discounts"
+                        onClick={this.handleItemClick.bind(this)}
+                    />
                     <Menu.Menu position="right">
                         <Menu.Item
                             name="backToShop"

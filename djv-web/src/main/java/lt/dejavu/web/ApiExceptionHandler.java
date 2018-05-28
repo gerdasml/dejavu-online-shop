@@ -48,6 +48,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponse(ex, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ImportStatusNotFoundException.class)
+    public final ResponseEntity<ExceptionDetails> handlePropertyNotFoundException(ImportStatusNotFoundException ex, WebRequest req) {
+        return buildResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(OrderNotFoundException.class)
     public final ResponseEntity<ExceptionDetails> handleOrderNotFoundException(OrderNotFoundException ex, WebRequest req) {
         return buildResponse(ex, HttpStatus.NOT_FOUND);
