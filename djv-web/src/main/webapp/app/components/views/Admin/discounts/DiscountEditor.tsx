@@ -7,9 +7,7 @@ import * as api from "../../../../api";
 import { RangePickerValue } from "antd/lib/date-picker/interface";
 import { CategoryDropdown } from "../product/CategoryDropdown";
 import { DiscountProductsTable } from "./DiscountProductsTable";
-import { Category } from "../../../../model/Category";
 import { CategoryTree } from "../../../../model/CategoryTree";
-import { timingSafeEqual } from "crypto";
 import { Product } from "../../../../model/Product";
 import { DiscountTarget, DiscountType, Discount } from "../../../../model/Discount";
 
@@ -135,7 +133,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
             this.notifyError("Discount date period was not selected.");
             anyErrors = true;
         }
-        if(anyErrors === true) {
+        if(anyErrors) {
             return;
         }
 

@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { RouteComponentProps } from "react-router-dom";
 
-import { Button, notification, Spin } from "antd";
+import { Button, notification } from "antd";
 
 import { NavLink } from "react-router-dom";
 import * as api from "../../../../api";

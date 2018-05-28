@@ -1,8 +1,7 @@
 // tslint:disable:max-classes-per-file
 import * as React from "react";
-import { Table, Button, Popconfirm } from "antd";
+import { Table } from "antd";
 import { WithKey } from "../../../../utils/table";
-import { NavLink } from "react-router-dom";
 import { Product } from "../../../../model/Product";
 import { formatPrice } from "../../../../utils/common";
 

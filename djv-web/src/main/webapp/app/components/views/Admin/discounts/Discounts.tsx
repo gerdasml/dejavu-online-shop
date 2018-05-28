@@ -1,9 +1,9 @@
 import * as React from "react";
 
-import { Dropdown, Button, Icon, Menu, DatePicker, InputNumber, notification, Spin } from "antd";
+import { Button, notification, Spin } from "antd";
 
 import * as api from "../../../../api";
-import { Discount, DiscountTarget } from "../../../../model/Discount";
+import { Discount } from "../../../../model/Discount";
 import ButtonGroup from "antd/lib/button/button-group";
 import { NavLink } from "react-router-dom";
 import { DiscountsTable } from "./DiscountsTable";

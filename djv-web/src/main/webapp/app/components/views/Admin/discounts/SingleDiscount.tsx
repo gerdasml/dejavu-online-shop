@@ -5,8 +5,7 @@ import { notification, Spin } from "antd";
 
 import * as api from "../../../../api";
 import { DiscountEditor } from "./DiscountEditor";
-import { Discount, DiscountTarget, DiscountType } from "../../../../model/Discount";
-import { Product } from "../../Regular";
+import { Discount } from "../../../../model/Discount";
 
 interface SingleDiscountState {
     discount?: Discount;

@@ -2,9 +2,8 @@ import * as React from "react";
 
 import { Loader} from "semantic-ui-react";
 
-import { RouteComponentProps } from "react-router-dom";
 import {Product} from "../../../model/Product";
-import {Category as CategoryModel, CategoryInfo} from "../../../model/Category";
+import {CategoryInfo} from "../../../model/Category";
 
 import { notification, message } from "antd";
 import * as api from "../../../api";
