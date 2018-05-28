@@ -16,26 +16,23 @@ interface ProductCardProps {
 }
 
 export const ProductCard = (props: ProductCardProps) => (
-    <Card link>
+    <Card link
+       as={NavLink}
+        to={`/product/${props.product.identifier}`}
+    >
         <Header
             className="card-header"
-            as={NavLink}
-            to={`/product/${props.product.identifier}`}
             attached >
             <h3>{props.product.name}</h3>
         </Header>
         {isNullOrUndefined(props.product.discount)
         ?
             <Image
-                src={props.product.mainImageUrl} 
-                as={NavLink}
-                to={`/product/${props.product.identifier}`}/>
+                src={props.product.mainImageUrl}/>
         :
         props.product.discount.type === "PERCENTAGE"
         ?
             <Image
-                as={NavLink}
-                to={`/product/${props.product.identifier}`}
                 src={props.product.mainImageUrl}
                 label={{
                 className: "discount-ribbon",
@@ -46,8 +43,6 @@ export const ProductCard = (props: ProductCardProps) => (
                 }} />
         :
         <Image
-            as={NavLink}
-            to={`/product/${props.product.identifier}`}
             src={props.product.mainImageUrl}
             label={{
             className: "discount-ribbon",
@@ -58,14 +53,13 @@ export const ProductCard = (props: ProductCardProps) => (
             }} />
 
         }
-        <Card.Content
-            as={NavLink}
-            to={`/product/${props.product.identifier}`}>
+        <Card.Content>
             <Card.Description>
                 {shortenString(props.product.description)}
             </Card.Description>
         </Card.Content>
-        <Card.Content extra className="card-price-cart">
+        <Card.Content 
+            extra className="card-price-cart">
             <Grid columns={2}>
                 <Grid.Column>
                     {isNullOrUndefined(props.product.discount)
@@ -85,7 +79,10 @@ export const ProductCard = (props: ProductCardProps) => (
                         floated="right"
                         positive
                         animated="fade"
-                        onClick={() => props.onProductAddToCart(props.product)}
+                        onClick={e => {
+                            e.preventDefault();
+                            props.onProductAddToCart(props.product);
+                        }}
                     >
                         <Button.Content visible className="button-text">
                             <Icon name="shop" />

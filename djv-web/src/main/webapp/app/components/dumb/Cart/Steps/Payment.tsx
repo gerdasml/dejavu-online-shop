@@ -20,6 +20,8 @@ import { ApiError } from "../../../../api";
 import { Address } from "../../../../model/Address";
 import { ShippingInformation } from "../../../../model/ShippingInformation";
 
+import { fromString } from "../../../../utils/enum";
+
 interface PaymentProps {
     onStepComplete: () => void;
     shippingInformation: ShippingInformation;
@@ -56,16 +58,14 @@ export class Payment extends React.Component<PaymentProps, PaymentState> {
         number: "",
     };
 
-    fieldTypeFromString = (val: string) => CardField[val.toUpperCase() as keyof typeof CardField];
-
     handleInputFocus = (event: React.FormEvent<HTMLInputElement>) => {
         const val: string = event.currentTarget.name;
-        const field = this.fieldTypeFromString(val);
+        const field = fromString(CardField, val);
         this.setState({...this.state, focused: field});
     }
 
     handleInputChange = (event: React.FormEvent<HTMLInputElement>) => {
-        const field = this.fieldTypeFromString(event.currentTarget.name);
+        const field = fromString(CardField, event.currentTarget.name);
         const value = event.currentTarget.value;
         const newState = {...this.state};
         switch(field) {

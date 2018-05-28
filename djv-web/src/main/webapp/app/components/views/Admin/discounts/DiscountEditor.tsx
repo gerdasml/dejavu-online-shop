@@ -13,6 +13,8 @@ import { timingSafeEqual } from "crypto";
 import { Product } from "../../../../model/Product";
 import { DiscountTarget, DiscountType, Discount } from "../../../../model/Discount";
 
+import { fromString } from "../../../../utils/enum";
+
 interface DiscountEditorProps {
     discount?: Discount;
     onSubmit?: () => void;
@@ -41,7 +43,10 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
     };
 
     discountTargetMenu = (
-        <Menu onClick={e =>this.setState({...this.state, discountTarget: this.DiscountTargetFromString(e.key)})}>
+        <Menu onClick={e =>this.setState({
+            ...this.state,
+            discountTarget: fromString(DiscountTarget, e.key)
+        })}>
             <Menu.Item key={DiscountTarget.EVERYTHING}>{DiscountTarget.EVERYTHING}</Menu.Item>
             <Menu.Item key={DiscountTarget.CATEGORY}>{DiscountTarget.CATEGORY}</Menu.Item>
             <Menu.Item key={DiscountTarget.PRODUCT}>{DiscountTarget.PRODUCT}</Menu.Item>
@@ -50,7 +55,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
 
     discountTypeMenu = (
         <Menu onClick={e =>this.setState({ ...this.state,
-                discountType: this.DiscountTypeFromString(e.key),
+                discountType: fromString(DiscountType, e.key),
                 discountValue: 0,
         })}>
             <Menu.Item key={DiscountType.ABSOLUTE}>{DiscountType.ABSOLUTE}</Menu.Item>
@@ -95,9 +100,6 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
         }
         this.setState({...this.state,category,products: categoryProducts});
     }
-
-    DiscountTargetFromString = (val: string) => DiscountTarget[val.toUpperCase() as keyof typeof DiscountTarget];
-    DiscountTypeFromString = (val: string) => DiscountType[val.toUpperCase() as keyof typeof DiscountType];
 
     updateDate (date: RangePickerValue, dateString: [string, string]) {
         this.setState({
