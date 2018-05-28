@@ -98,6 +98,9 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         ConversionResult<Product> result = rowToProduct(rowIterator.next());
         while (rowIterator.hasNext() && rowIterator.peek().get(0).isEmpty()) {
             List<String> row = rowIterator.next();
+            if (row.stream().allMatch(r -> r == null || r.length() == 0)) {
+                continue;
+            }
             readProperty(6, row, result);
         }
         return result;
