@@ -41,7 +41,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(IncorrectPasswordException.class)
     public final ResponseEntity<ExceptionDetails> handleIncorrectPasswordException(IncorrectPasswordException ex, WebRequest req) {
-        return buildResponse(ex, HttpStatus.UNAUTHORIZED);
+        return buildResponse(ex, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
