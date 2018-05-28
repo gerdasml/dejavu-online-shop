@@ -79,7 +79,7 @@ class Header extends React.Component <any, HeaderState> {
         this.setState({...this.state, ordersToReview: []});
     }
 
-    isLoggedIn = (): boolean => this.props.loggedIn !== undefined ? this.props.loggedIn : getToken() !== null;
+    isLoggedIn = (): boolean => getToken() !== null || this.props.loggedIn;
     render () {
         const loggedIn = this.isLoggedIn();
         const { activeItem } = this.state;
