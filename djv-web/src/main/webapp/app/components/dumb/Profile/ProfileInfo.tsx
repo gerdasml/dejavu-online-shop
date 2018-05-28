@@ -142,13 +142,12 @@ export const ProfileInfo = withRouter(class extends React.Component<RouteCompone
                 size="mini"
                 id="changeProfile"
                 loading={isLoading}
-                onSubmit={e => {e.preventDefault(); this.saveChanges();}}
             >
                 <div className="profileEditing header">
                     { this.state.beingEdited
                     ?
                     <Button.Group id="profileSave">
-                        <Button positive type="submit">Save</Button>
+                        <Button positive type="submit" onClick={this.saveChanges.bind(this)}>Save</Button>
                         <Button negative type="cancel" onClick={this.cancelChanges.bind(this)}>Cancel</Button>
                     </Button.Group>
                     :
