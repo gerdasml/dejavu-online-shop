@@ -1,5 +1,6 @@
 package lt.dejavu.product.service;
 
+import lt.dejavu.product.dto.ProductDto;
 import lt.dejavu.product.dto.discount.DiscountDto;
 import lt.dejavu.product.dto.discount.ProductDiscountDto;
 import lt.dejavu.product.model.Product;
@@ -25,6 +26,10 @@ public interface DiscountService {
 
     ProductDiscountDto getProductDiscount(Product product);
 
-    Map<Long,ProductDiscountDto> getProductsDiscounts(Collection<Product> products);
+    Map<Long, ProductDiscountDto> getProductsDiscounts(Collection<Product> products);
+
+    ProductDto attachDiscount(Product product);
+
+    List<ProductDto> attachDiscount(Collection<Product> products);
 
 }
