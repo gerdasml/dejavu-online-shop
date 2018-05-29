@@ -84,7 +84,7 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
     @Override
     public List<String> getHeader() {
         return Arrays.asList(
-                "Title",
+                "Product Name",
                 "Price",
                 "SKU Code",
                 "Description",
