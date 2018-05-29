@@ -16,6 +16,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 @Repository
@@ -60,13 +62,16 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public void updateOrderStatus(long orderId, OrderStatus status) {
+    public Order updateOrderStatus(long orderId, Instant lastModified, OrderStatus status) {
         Order order = getOrder(orderId);
         if (order == null) {
             throw new OrderNotFoundException("The order with the specified ID was not found");
         }
-        order.setStatus(status);
-        em.merge(order);
+        Order newOrder = order.toBuilder()
+                              .status(status)
+                              .lastModified(Timestamp.from(lastModified))
+                              .build();
+        return em.merge(newOrder);
     }
 
     @Override

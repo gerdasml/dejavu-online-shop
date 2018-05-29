@@ -5,6 +5,7 @@ CREATE TABLE `product` (
   `creationDate` TIMESTAMP,
   `category` BIGINT,
   `price` DECIMAL(10,2),
+  `minimalPrice` DECIMAL(10,2),
   `identifier` VARCHAR(255),
   `mainImageUrl` VARCHAR(255),
   CONSTRAINT FK_product_category FOREIGN KEY (`category`) REFERENCES `category`(`id`) ON DELETE SET NULL

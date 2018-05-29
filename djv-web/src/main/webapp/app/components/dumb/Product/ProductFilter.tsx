@@ -3,7 +3,7 @@ import * as React from "react";
 import { Slider } from "antd";
 import { Grid, Accordion, Button } from "semantic-ui-react";
 
-import { Category, PropertySummary } from "../../../model/Category";
+import { PropertySummary } from "../../../model/Category";
 import { transform } from "../../../utils/product/productFilter";
 import { Filter } from "./Filter";
 

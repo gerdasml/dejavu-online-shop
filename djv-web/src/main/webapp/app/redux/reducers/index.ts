@@ -1,4 +1,4 @@
-import { combineReducers, Reducer, ReducersMapObject } from "redux";
+import { combineReducers } from "redux";
 import authReducer, {AuthReducerState} from "./authReducer";
 
 export interface StoreState {

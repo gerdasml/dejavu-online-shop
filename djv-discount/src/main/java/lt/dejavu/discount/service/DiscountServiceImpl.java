@@ -17,6 +17,7 @@ import lt.dejavu.product.model.Product;
 import lt.dejavu.product.repository.CategoryRepository;
 import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.product.service.DiscountService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -36,6 +37,8 @@ public class DiscountServiceImpl implements DiscountService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
 
+    @Value("${constants.minimalPricePercentage}")
+    private final BigDecimal minimalPricePercentage = BigDecimal.ZERO;
 
     public DiscountServiceImpl(DiscountRepository discountRepository, DiscountMapper discountMapper, ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.discountRepository = discountRepository;
@@ -132,28 +135,32 @@ public class DiscountServiceImpl implements DiscountService {
                 (ProductDiscountDto) discountMapper.mapToDto(
                         discountMapper.mapToProductDiscount(result)
                 );
-        dto.setFinalPrice(calculateNewPrice(result, product));
+        adjustFinalDiscount(product, result, dto);
         return dto;
     }
 
+
+
     @Override
     public ProductDiscountDto getProductDiscount(Product product) {
-        List<Discount> productDiscounts =
-                discountRepository.getAllDiscounts()
-                        .stream()
-                        .filter(this::isDiscountActive)
-                        .filter(d -> doesDiscountApplyToProduct(d, product))
-                        .collect(toList());
-        Discount result = productDiscounts.stream().reduce(null, (a, b) -> reduceDiscount(a, b, product));
-        if (result == null) {
-            return null;
+        return getDiscountForProduct(product, discountRepository.getAllDiscounts());
+    }
+
+    private void adjustFinalDiscount(Product product, Discount discount, ProductDiscountDto dto) {
+        BigDecimal finalPrice = calculateNewPrice(discount, product);
+        BigDecimal productMinimalPrice = product.getMinimalPrice() != null ? product.getMinimalPrice() : getPricePercentage(minimalPricePercentage.setScale(2, RoundingMode.HALF_UP), product.getPrice());
+
+        if (finalPrice.compareTo(productMinimalPrice) < 0) {
+            dto.setFinalPrice(productMinimalPrice);
+            if (discount.getType() == DiscountType.ABSOLUTE){
+                dto.setValue(product.getPrice().subtract(productMinimalPrice));
+            } else {
+                dto.setValue(product.getPrice().subtract(productMinimalPrice).divide(product.getPrice(), RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100)));
+            }
+
+        } else {
+            dto.setFinalPrice(finalPrice);
         }
-        ProductDiscountDto dto =
-                (ProductDiscountDto) discountMapper.mapToDto(
-                        discountMapper.mapToProductDiscount(result)
-                );
-        dto.setFinalPrice(calculateNewPrice(result, product));
-        return dto;
     }
 
     private boolean isDiscountActive(Discount discount) {
@@ -197,19 +204,24 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     private BigDecimal calculateNewPrice(Discount discount, Product product) {
+        BigDecimal priceDelta = getDiscountValue(discount.getType(), discount.getValue(), product.getPrice());
+        return product.getPrice().subtract(priceDelta);
+    }
+
+    private BigDecimal getDiscountValue(DiscountType discountType, BigDecimal discountValue, BigDecimal productPrice) {
         BigDecimal priceDelta;
-        if (discount.getType() == DiscountType.ABSOLUTE) {
-            priceDelta = discount.getValue();
+        if (discountType == DiscountType.ABSOLUTE) {
+            priceDelta = discountValue;
         } else {
-            priceDelta = discount.getValue()
-                                 .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP)
-                                 .multiply(product.getPrice())
-                                 .setScale(2, RoundingMode.HALF_UP);
+            priceDelta = getPricePercentage(discountValue, productPrice);
         }
-        BigDecimal newPrice = product.getPrice().subtract(priceDelta);
-        // TODO: how to handle negative prices?
-        newPrice = newPrice.max(BigDecimal.ZERO);
-        return newPrice;
+        return priceDelta;
+    }
+
+    private BigDecimal getPricePercentage(BigDecimal percentage, BigDecimal productPrice) {
+        return percentage.divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP)
+                         .multiply(productPrice)
+                         .setScale(2, RoundingMode.HALF_UP);
     }
 
     private void validateTarget(DiscountDto dto) {

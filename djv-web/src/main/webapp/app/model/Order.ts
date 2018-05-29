@@ -1,4 +1,3 @@
-import { Address } from "./Address";
 import { Product } from "./Product";
 import { User } from "./User";
 import { Review } from "./Review";
@@ -27,6 +26,7 @@ export interface Order {
     items: OrderItem[];
     reviewShown: boolean;
     review: Review;
+    lastModified: Date;
 }
 
 export interface OrderSummary {
