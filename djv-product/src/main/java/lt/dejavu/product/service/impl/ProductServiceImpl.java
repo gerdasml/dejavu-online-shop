@@ -25,16 +25,12 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -45,15 +41,14 @@ public class ProductServiceImpl implements ProductService {
     private final ProductPropertyDtoMapper productPropertyDtoMapper;
     private final ProductPropertyRepository productPropertyRepository;
 
-    private final IdentifierGenerator<Product> productIdentifierGenerator;
-
     private final ExcelService<Product> excelService;
     private final DiscountService discountService;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository,
                               ProductDtoMapper productDtoMapper, ExcelService<Product> excelService,
-                              ProductPropertyDtoMapper productPropertyDtoMapper, ProductPropertyRepository productPropertyRepository, IdentifierGenerator<Product> productIdentifierGenerator, DiscountService discountService) {
+                              ProductPropertyDtoMapper productPropertyDtoMapper, ProductPropertyRepository productPropertyRepository,
+                              DiscountService discountService) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.productDtoMapper = productDtoMapper;
@@ -63,7 +58,6 @@ public class ProductServiceImpl implements ProductService {
 
         this.excelService = excelService;
 
-        this.productIdentifierGenerator = productIdentifierGenerator;
         this.discountService = discountService;
     }
 
@@ -75,24 +69,17 @@ public class ProductServiceImpl implements ProductService {
         if (offset == null) {
             offset = 0;
         }
-        List<ProductDto> products =
-                productDtoMapper.mapToDto(productRepository.getAllProducts(offset, limit));
-        enrichProductsWithDiscount(products);
-        return products;
-    }
+        return mapToDtoWithDiscount(productRepository.getAllProducts(offset, limit));
+        }
 
     @Override
     public ProductDto getProduct(long id) {
-        ProductDto product = productDtoMapper.mapToDto(getProductIfExist(id));
-        enrichProductWithDiscount(product);
-        return product;
+        return mapToDtoWithDiscount(getProductIfExist(id));
     }
 
     @Override
     public ProductDto getProduct(String identifier) {
-        ProductDto product = productDtoMapper.mapToDto(getProductIfExist(identifier));
-        enrichProductWithDiscount(product);
-        return product;
+        return mapToDtoWithDiscount(getProductIfExist(identifier));
     }
 
     @Override
@@ -104,13 +91,8 @@ public class ProductServiceImpl implements ProductService {
         if (offset == null) {
             offset = 0;
         }
-        List<ProductDto> products =
-                productDtoMapper.mapToDto(
-                        productRepository.getProductsByCategory(categoryId, offset, limit)
-                                         );
+        return mapToDtoWithDiscount(productRepository.getProductsByCategory(categoryId, offset, limit));
 
-        enrichProductsWithDiscount(products);
-        return products;
     }
 
     @Override
@@ -124,8 +106,7 @@ public class ProductServiceImpl implements ProductService {
         SearchResult<Product> dbResult = productRepository.searchForProducts(request, offset, limit);
         SearchResult<ProductDto> result = new SearchResult<>();
         result.setTotal(dbResult.getTotal());
-        result.setResults(productDtoMapper.mapToDto(dbResult.getResults()));
-        enrichProductsWithDiscount(result.getResults());
+        result.setResults(mapToDtoWithDiscount(dbResult.getResults()));
         return result;
     }
 
@@ -136,8 +117,6 @@ public class ProductServiceImpl implements ProductService {
         Product product = productDtoMapper.mapToProduct(request, productCategory);
         product.setCreationDate(LocalDateTime.now());
         Long productId = productRepository.saveProduct(product);
-        product.setIdentifier(productIdentifierGenerator.generateIdentifier(product));
-        productRepository.updateProduct(product);
         Set<CategoryProperty> properties = getProductCategoryProperties(request, productCategory);
         Set<ProductProperty> propertyValues = productPropertyDtoMapper.mapProperties(product, properties, request.getProperties());
         productPropertyRepository.savePropertyValues(propertyValues);
@@ -156,21 +135,27 @@ public class ProductServiceImpl implements ProductService {
         Category productCategory = resolveCategory(request.getCategoryId());
         Product oldProduct = getProductIfExist(productId);
         productDtoMapper.remapToProduct(oldProduct, request, productCategory);
-        oldProduct.setIdentifier(productIdentifierGenerator.generateIdentifier(oldProduct));
         Set<CategoryProperty> properties = getProductCategoryProperties(request, productCategory);
         Set<ProductProperty> propertyValues = productPropertyDtoMapper.mapProperties(oldProduct, properties, request.getProperties());
         UpdatableCollectionUtils.updateCollection(oldProduct.getProperties(), propertyValues);
         productRepository.updateProduct(oldProduct);
     }
 
-    private void enrichProductsWithDiscount(Collection<ProductDto> products) {
-        products.parallelStream()
-                .forEach(this::enrichProductWithDiscount);
+    private ProductDto mapToDtoWithDiscount(Product product) {
+        ProductDiscountDto discount = discountService.getProductDiscount(product);
+        ProductDto productDto = productDtoMapper.mapToDto(product);
+        productDto.setDiscount(discount);
+        return productDto;
     }
 
-    private void enrichProductWithDiscount(ProductDto product) {
-        ProductDiscountDto discount = discountService.getProductDiscount(product.getId());
-        product.setDiscount(discount);
+
+    private List<ProductDto> mapToDtoWithDiscount(Collection<Product> products) {
+        Map<Long, ProductDiscountDto> productsDiscounts = discountService.getProductsDiscounts(products);
+        List<ProductDto> productDtos = productDtoMapper.mapToDto(products);
+        productDtos.forEach(
+                productDto -> productDto.setDiscount(productsDiscounts.get(productDto.getId()))
+        );
+        return productDtos;
     }
 
     private Set<CategoryProperty> getProductCategoryProperties(ProductDto request, Category productCategory) {

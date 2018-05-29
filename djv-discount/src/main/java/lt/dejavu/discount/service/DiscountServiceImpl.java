@@ -22,7 +22,10 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
 
@@ -102,6 +105,53 @@ public class DiscountServiceImpl implements DiscountService {
                 (ProductDiscountDto) discountMapper.mapToDto(
                         discountMapper.mapToProductDiscount(result)
                                                             );
+        dto.setFinalPrice(calculateNewPrice(result, product));
+        return dto;
+    }
+
+    @Override
+    public Map<Long, ProductDiscountDto> getProductsDiscounts(Collection<Product> products) {
+        List<Discount> allDiscounts = discountRepository.getAllDiscounts();
+        Map<Long, ProductDiscountDto> discountDtoMap = new HashMap<>();
+        products.forEach(p -> discountDtoMap.put(p.getId(), getDiscountForProduct(p, allDiscounts)));
+        return discountDtoMap;
+    }
+
+    private ProductDiscountDto getDiscountForProduct(Product product, List<Discount> allDiscounts){
+        List<Discount> productDiscounts =
+                allDiscounts
+                        .stream()
+                        .filter(this::isDiscountActive)
+                        .filter(d -> doesDiscountApplyToProduct(d, product))
+                        .collect(toList());
+        Discount result = productDiscounts.stream().reduce(null, (a, b) -> reduceDiscount(a, b, product));
+        if (result == null) {
+            return null;
+        }
+        ProductDiscountDto dto =
+                (ProductDiscountDto) discountMapper.mapToDto(
+                        discountMapper.mapToProductDiscount(result)
+                );
+        dto.setFinalPrice(calculateNewPrice(result, product));
+        return dto;
+    }
+
+    @Override
+    public ProductDiscountDto getProductDiscount(Product product) {
+        List<Discount> productDiscounts =
+                discountRepository.getAllDiscounts()
+                        .stream()
+                        .filter(this::isDiscountActive)
+                        .filter(d -> doesDiscountApplyToProduct(d, product))
+                        .collect(toList());
+        Discount result = productDiscounts.stream().reduce(null, (a, b) -> reduceDiscount(a, b, product));
+        if (result == null) {
+            return null;
+        }
+        ProductDiscountDto dto =
+                (ProductDiscountDto) discountMapper.mapToDto(
+                        discountMapper.mapToProductDiscount(result)
+                );
         dto.setFinalPrice(calculateNewPrice(result, product));
         return dto;
     }
