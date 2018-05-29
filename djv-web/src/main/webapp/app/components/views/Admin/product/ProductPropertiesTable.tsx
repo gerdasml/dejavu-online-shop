@@ -54,7 +54,8 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
                 <PropertiesTable className="propertiesTable"
                     scroll={{x: config.adminTableScrollWidth.properties}}
                     pagination={false}
-                    dataSource={this.state.properties}>
+                    dataSource={this.state.properties}
+                    bordered={true}>
                     <PropertyColumn
                         key="name"
                         title="Name"

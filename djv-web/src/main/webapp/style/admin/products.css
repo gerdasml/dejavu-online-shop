@@ -59,3 +59,15 @@
     color: #FFE693 !important;
     border-color:transparent !important;
 }
+
+.saveButton{
+    margin-left: 45%;
+    margin-right: auto;
+}
+
+@media(max-width: 350px){
+    .saveButton{
+        margin-left: 30%;
+        margin-right: auto;
+    }
+}

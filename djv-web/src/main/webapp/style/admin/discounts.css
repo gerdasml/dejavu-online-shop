@@ -38,3 +38,28 @@
 .editButton:hover{
     color: #FFE693 !important;
 }
+
+.ant-checkbox-checked .ant-checkbox-inner, .ant-checkbox-indeterminate .ant-checkbox-inner{
+    background-color: #FFCE2B!important;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner:hover, .ant-checkbox-indeterminate .ant-checkbox-inner:hover{
+    border-color:transparent;
+}
+
+#saveButton{
+    margin-left: 45%;
+    margin-right: auto;
+}
+
+@media(max-width: 350px){
+    #saveButton{
+        margin-left: 30%;
+        margin-right: auto;
+    }
+}
+
+.categoryDropdown{
+    margin-top: 1% !important;
+    margin-bottom: 1% !important;
+}

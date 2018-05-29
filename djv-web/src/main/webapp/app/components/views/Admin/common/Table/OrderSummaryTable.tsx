@@ -26,7 +26,8 @@ export const OrderSummaryTable = (props: OrderSummaryTableProps) => (
         className="summaryTable"
         scroll={{x: config.adminTableScrollWidth.common}}
         dataSource={props.summaries.map(addKey)}
-        pagination={{pageSize: 25, hideOnSinglePage: true}}>
+        pagination={{pageSize: 25, hideOnSinglePage: true}}
+        bordered={true}>
         <SummaryColumn
                     className="summaryColumn"
                     key="email"

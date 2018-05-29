@@ -61,7 +61,8 @@ export class CategoryPropertiesTable extends React.Component<PropertiesTableProp
         return (
             <div>
                 <h3>Properties:</h3>
-                <PropertiesTable pagination={false} dataSource={this.state.properties} className="propertiesTable">
+                <PropertiesTable bordered={true}
+                pagination={false} dataSource={this.state.properties} className="propertiesTable">
                     <PropertyColumn
                         className="propertyColumn"
                         key="name"
