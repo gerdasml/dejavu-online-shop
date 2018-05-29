@@ -1,0 +1,4 @@
+CREATE TABLE productIdGen (
+  genName VARCHAR(50) PRIMARY KEY,
+  genValue BIGINT NOT NULL
+);

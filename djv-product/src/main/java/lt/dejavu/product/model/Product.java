@@ -15,24 +15,10 @@ import java.util.Set;
 @Entity
 @EqualsAndHashCode(exclude = {"properties", "category"})
 @Table(name = "product")
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+public class Product extends AbstractProduct {
 
     @Column(name="skuCode")
     private String skuCode;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "description")
-    private String description;
-
-    @Column(name = "price")
-    private BigDecimal price;
 
     @Column(name = "minimalPrice")
     private BigDecimal minimalPrice;
@@ -47,9 +33,6 @@ public class Product {
     @Column(name = "identifier")
     private String identifier;
 
-    @Column(name = "mainImageUrl")
-    private String mainImageUrl;
-
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "additional_image_url",
@@ -60,4 +43,17 @@ public class Product {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private Set<ProductProperty> properties = new LinkedHashSet<>();
+
+    public Product() {
+        super();
+    }
+
+    public Product(AbstractProduct p) {
+        super(p);
+    }
+
+    public Product(AbstractProduct p, long id) {
+        super(p);
+        setId(id);
+    }
 }

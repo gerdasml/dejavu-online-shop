@@ -12,6 +12,7 @@ import lt.dejavu.order.model.OrderStatus;
 import lt.dejavu.order.model.db.Order;
 import lt.dejavu.order.model.db.OrderItem;
 import lt.dejavu.order.repository.OrderRepository;
+import lt.dejavu.product.model.Product;
 import lt.dejavu.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -110,9 +111,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private OrderItem buildOrderItem(OrderItemDto dto, Order order) {
-        OrderItem item = new OrderItem();
+        Product product = productRepository.getProduct(dto.getProduct().getId());
+        OrderItem item =  new OrderItem(product);
         item.setAmount(dto.getAmount());
-        item.setProduct(productRepository.getProduct(dto.getProduct().getId()));
         item.setOrder(order);
         return item;
     }

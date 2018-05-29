@@ -210,3 +210,5 @@ insert into category_property (id, categoryId, name) values
       (  69, 12, 'Processor Count'),
       (  70, 12, 'Flash Memory Size'),
       (  71, 12, 'Batteries');
+
+insert into productIdGen (genName, genValue) values ('productGen', 3);

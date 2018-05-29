@@ -51,8 +51,7 @@ public class CartRepositoryImpl implements CartRepository {
 
     @Override
     public void addOrderItem(Cart cart, Product product, int amount) {
-        OrderItem item = new OrderItem();
-        item.setProduct(product);
+        OrderItem item = new OrderItem(product);
         item.setAmount(amount);
         em.persist(item);
         cart.getItems().add(item);

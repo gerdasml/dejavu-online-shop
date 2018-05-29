@@ -52,6 +52,7 @@ public class JpaConfiguration {
         Properties properties = new Properties();
         properties.put("hibernate.show_sql", showSql);
         properties.put("hibernate.format_sql", formatSql);
+        //properties.put("hibernate.hbm2ddl.auto", "update");
         return properties;
     }
 }

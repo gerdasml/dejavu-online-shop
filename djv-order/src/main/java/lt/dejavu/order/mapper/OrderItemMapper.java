@@ -2,6 +2,7 @@ package lt.dejavu.order.mapper;
 
 import lt.dejavu.order.dto.OrderItemDto;
 import lt.dejavu.order.model.db.OrderItem;
+import lt.dejavu.product.model.Product;
 import lt.dejavu.product.service.DiscountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class OrderItemMapper {
     public OrderItemDto map(OrderItem item) {
         OrderItemDto dto = new OrderItemDto();
         dto.setAmount(item.getAmount());
-        dto.setProduct(discountService.attachDiscount(item.getProduct()));
+        dto.setProduct(discountService.attachDiscount(new Product(item, item.getProductId())));
         BigDecimal price = dto.getProduct().getDiscount() == null ? dto.getProduct().getPrice() : dto.getProduct().getDiscount().getFinalPrice();
         dto.setTotal(price.multiply(BigDecimal.valueOf(dto.getAmount())));
 
