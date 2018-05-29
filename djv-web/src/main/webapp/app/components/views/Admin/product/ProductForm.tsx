@@ -13,6 +13,8 @@ import { ProductPictures } from "./ProductPictures";
 import { ProductPrice } from "./ProductPrice";
 import { ProductPropertiesTable } from "./ProductPropertiesTable";
 
+import "../../../../../style/admin/products.css";
+
 export interface ProductFormProps {
     product?: Product;
     onSubmit?: () => void;
@@ -177,8 +179,8 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
     }
     render () {
         return (
-            <Grid stackable>
-                <Grid.Row>
+            <Grid stackable id="productFormGrid">
+                <Grid.Row >
                     <Grid.Column width="eight">
                         <ProductName
                             name={this.state.name}
@@ -192,7 +194,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                             onChange={newPrice => this.setState({
                                 ...this.state, price: newPrice
                             })}/>
-                        <Input
+                        <Input className="inputSku"
                             addonBefore="Sku code:"
                             placeholder="Enter sku code..."
                             value={this.state.skuCode}
@@ -234,7 +236,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
-                    <Button
+                    <Button className="saveButton"
                         onClick={this.handleSave.bind(this)}
                     >Save</Button>
                 </Grid.Row>

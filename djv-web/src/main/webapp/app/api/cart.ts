@@ -1,6 +1,5 @@
 import { ApiResponse } from "./ApiResponse";
 
-import { Address } from "../model/Address";
 import { Cart } from "../model/Cart";
 import { Card } from "../model/Payment";
 

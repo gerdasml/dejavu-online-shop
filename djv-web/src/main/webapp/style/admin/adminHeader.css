@@ -1,0 +1,15 @@
+.adminHeader{
+    background-color: #393D40 !important;
+}
+
+.adminHeader .menuItem{
+    color: #FFE693 !important;
+}
+
+body{
+    background-color: #f1f1f1;
+}
+
+.ui.secondary.pointing.menu .active.item{
+    border-color: #FFE693;
+}

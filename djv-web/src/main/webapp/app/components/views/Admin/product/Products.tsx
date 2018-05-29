@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { RouteComponentProps } from "react-router-dom";
 
-import { Button, notification, Spin } from "antd";
+import { Button, notification } from "antd";
 
 import { NavLink } from "react-router-dom";
 import * as api from "../../../../api";
@@ -15,6 +15,8 @@ import "../../../../../style/admin/product.css";
 import { ProductExport } from "./import/ProductExport";
 import { ProductImport } from "./import/ProductImport";
 import { config } from "../../../../config";
+
+import "../../../../../style/admin/products.css";
 
 interface ProductsState {
     isLoading: boolean;
@@ -86,9 +88,9 @@ export class Products extends React.Component<RouteComponentProps<{}>, ProductsS
         const { isLoading } = this.state;
         return (
             <div>
-                <ButtonGroup>
+                <ButtonGroup id="buttonGroup">
                     <NavLink to={`/admin/product/create`}>
-                        <Button>Add new product</Button>
+                        <Button className="productsButton">Add new product</Button>
                     </NavLink>
                     <ProductImport navigateToJob={id => this.props.history.push(`/admin/imports/${id}`)}/>
                     <ProductExport />

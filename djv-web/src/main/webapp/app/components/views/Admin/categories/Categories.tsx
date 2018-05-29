@@ -10,6 +10,8 @@ import { CategoryForm } from "./CategoryForm";
 import { CategoryTreeView } from "./CategoryTreeView";
 import { Grid } from "semantic-ui-react";
 
+import "../../../../../style/admin/categories.css";
+
 interface CategoriesState {
     categories: CategoryTree[];
     selectedCategory?: Category;
@@ -84,8 +86,9 @@ export class Categories extends React.Component<never, CategoriesState> {
         return (
             <Spin spinning={this.state.categories.length === 0}>
                 <Grid stackable>
-                    <Grid.Column width="seven">
+                    <Grid.Column width="five" id="categories">
                         <Button
+                            id="addCategoryButton"
                             icon="plus"
                             onClick={() => this.setState({
                                 ...this.state,
@@ -98,11 +101,13 @@ export class Categories extends React.Component<never, CategoriesState> {
                         >
                             Add category
                         </Button>
+                        <div id="categoryTreeView">
                         <CategoryTreeView
                             categories={this.state.categories}
                             onCategoryMove={(cat, parent) => this.handleParentUpdate(cat, parent)}
                             onSelect={cat => this.setState({...this.state, selectedCategory: cat})}
                         />
+                        </div>
                     </Grid.Column>
                     <Grid.Column width="nine">
                         {
