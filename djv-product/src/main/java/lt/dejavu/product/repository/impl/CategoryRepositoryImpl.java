@@ -81,7 +81,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public void updateCategory(Category category) {
-        //category.setIdentifier(categoryIdentifierGenerator.generateIdentifier(category));
         em.merge(category);
     }
 
@@ -112,7 +111,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public List<ProductProperty> getProductPropertiesForCategory(long categoryId) {
+    public List<ProductProperty> getProductPropert  iesForCategory(long categoryId) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<ProductProperty> query = cb.createQuery(ProductProperty.class);
@@ -156,7 +155,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         query.select(cb.max(root.get(Product_.price)));
         ParameterExpression<Long> idParameter = cb.parameter(Long.class);
         query.where(cb.equal(root.get(Product_.category).get(Category_.id), idParameter));
-
         return em.createQuery(query).setParameter(idParameter, categoryId).getSingleResult();
     }
 }
