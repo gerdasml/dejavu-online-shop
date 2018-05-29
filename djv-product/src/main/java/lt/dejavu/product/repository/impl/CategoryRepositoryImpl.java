@@ -111,7 +111,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public List<ProductProperty> getProductPropert  iesForCategory(long categoryId) {
+    public List<ProductProperty> getProductPropertiesForCategory(long categoryId) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<ProductProperty> query = cb.createQuery(ProductProperty.class);
