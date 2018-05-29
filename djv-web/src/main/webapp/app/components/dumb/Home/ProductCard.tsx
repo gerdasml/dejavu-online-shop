@@ -4,7 +4,7 @@ import { Button, Card, Grid, Header, Icon, Image } from "semantic-ui-react";
 
 import { Product } from "../../../model/Product";
 import { NavLink } from "react-router-dom";
-import { shortenString, formatPrice } from "../../../utils/common";
+import { shortenString } from "../../../utils/common";
 
 import { isNullOrUndefined } from "util";
 
@@ -58,7 +58,7 @@ export const ProductCard = (props: ProductCardProps) => (
                 {shortenString(props.product.description)}
             </Card.Description>
         </Card.Content>
-        <Card.Content 
+        <Card.Content
             extra className="card-price-cart">
             <Grid columns={2}>
                 <Grid.Column>

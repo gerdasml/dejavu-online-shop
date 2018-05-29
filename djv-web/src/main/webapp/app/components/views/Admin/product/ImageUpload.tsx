@@ -88,12 +88,13 @@ export class ImageUpload extends React.Component<ImageUploadProps, ImageUploadSt
 
     render () {
         return (
-            <Upload fileList={this.state.imageList}
+            <Upload className="imageUpload"
+                    fileList={this.state.imageList}
                     onChange={this.handleChange.bind(this)}
                     beforeUpload={this.handleBefore.bind(this)}
                     customRequest={this.upload.bind(this)}
                     listType="picture-card">
-                <Icon type="plus" />
+                <Icon type="plus"/>
                 <div className="ant-upload-text">Upload</div>
             </Upload>
         );

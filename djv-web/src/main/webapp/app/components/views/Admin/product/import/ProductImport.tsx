@@ -29,7 +29,7 @@ export class ProductImport extends React.Component<ProductImportProps, never> {
         return (
             <Upload fileList={[]}
                     customRequest={this.upload.bind(this)}>
-                <Button>
+                <Button className="productsButton">
                     <Icon type="upload" /> Import
                 </Button>
             </Upload>

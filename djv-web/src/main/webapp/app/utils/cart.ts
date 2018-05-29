@@ -2,7 +2,6 @@ import { Cart } from "../model/Cart";
 import { isLoggedIn } from "./user";
 
 import * as api from "../api";
-import { ModifyCartRequest } from "../api/cart";
 import { Product } from "../model/Product";
 
 const CART_KEY = "cart";
