@@ -34,6 +34,7 @@ public class OrderMapper {
         dto.setUser(userMapper.map(order.getUser()));
         dto.setShippingInformation(order.getShippingInformation());
         dto.setReview(reviewMapper.map(order.getReview()));
+        dto.setLastModified(order.getLastModified());
         List<OrderItemDto> items = itemMapper.map(order.getItems());
         dto.setItems(items);
         dto.setTotal(items.stream().map(OrderItemDto::getTotal).reduce(BigDecimal.ZERO, BigDecimal::add));
