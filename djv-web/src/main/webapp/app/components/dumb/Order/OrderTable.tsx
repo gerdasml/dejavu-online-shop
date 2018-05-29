@@ -35,7 +35,13 @@ export const OrderTable = (props: OrderTableProps) => (
             {props.data.items.map((item,i) => (
                 <Table.Row key={i}>
                     <Table.Cell textAlign="center">{item.product.name}</Table.Cell>
-                    <Table.Cell textAlign="center">{formatPrice(item.product.price)}</Table.Cell>
+                    <Table.Cell textAlign="center">
+                        {formatPrice(
+                            item.product.discount === undefined
+                            ? item.product.price
+                            : item.product.discount.finalPrice
+                        )}
+                    </Table.Cell>
                     {/* TODO: use price formatting utility*/}
                     <Table.Cell textAlign="center">
                         { props.onAmountChange === undefined
