@@ -39,16 +39,6 @@
     margin-bottom: 3% !important;
 }
 
-.categoryDropdown{
-    background-color: #393D40 !important;
-    color: #FFCE2B !important;
-}
-
-.categoryDropdown:hover{
-    color: #FFE693 !important;
-    border-color:transparent;
-}
-
 .productsButton:hover{
     background-color: #FFE693 !important;
     border-color: transparent;

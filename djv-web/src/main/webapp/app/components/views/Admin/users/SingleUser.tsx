@@ -65,8 +65,8 @@ export class SingleUser extends React.Component<RouteComponentProps<SingleUserPr
                 { user
                 ?
                 <Grid id="singleUserGrid" stackable>
-                    <Grid.Row>
-                        <Grid.Column>
+                    <Grid.Row >
+                        <Grid.Column width="two">
                             <h3><b>Traits:</b></h3>
                         </Grid.Column>
                         <Grid.Column width="eight">
@@ -83,42 +83,42 @@ export class SingleUser extends React.Component<RouteComponentProps<SingleUserPr
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
-                        <Grid.Column>
+                        <Grid.Column  width="two">
                             <h3><b>Email:</b></h3>
                         </Grid.Column>
-                        <Grid.Column>
+                        <Grid.Column width="eight">
                         <h3>{this.showString(user.email)}</h3>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
-                        <Grid.Column>
+                        <Grid.Column  width="two">
                             <h3><b>Name:</b></h3>
                         </Grid.Column>
-                        <Grid.Column>
+                        <Grid.Column width="eight">
                         <h3>{this.showString(user.firstName)} {this.showString(user.lastName)}</h3>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
-                        <Grid.Column>
+                        <Grid.Column  width="two">
                             <h3><b>Phone:</b></h3>
                         </Grid.Column>
-                        <Grid.Column>
+                        <Grid.Column width="eight">
                         <h3>{this.showString(user.phone)}</h3>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
-                        <Grid.Column>
+                        <Grid.Column  width="two">
                             <h3><b>Address:</b></h3>
                         </Grid.Column>
-                        <Grid.Column>
+                        <Grid.Column width="eight">
                         <h3>{this.showString(stringifyAddress(user.address))}</h3>
                         </Grid.Column>
                     </Grid.Row>
                     { user.type !== UserType.ADMIN
                     ?
                     <Grid.Row>
-                        <Grid.Column><h3><b>Actions: </b></h3></Grid.Column>
-                        <Grid.Column><h3>
+                        <Grid.Column  width="two"><h3><b>Actions: </b></h3></Grid.Column>
+                        <Grid.Column width="eight"><h3>
                         <BanButton
                             user={user}
                             onSwitch={() => this.setState({...this.state, user: {...user, banned: !user.banned}})}

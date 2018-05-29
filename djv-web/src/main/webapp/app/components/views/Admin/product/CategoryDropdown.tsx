@@ -28,7 +28,7 @@ const buildDefaultValue = (categories: CategoryTree[], id?: number): string[] =>
 };
 
 export const CategoryDropdown = (props: CategoryDropdownProps) => (
-    <Cascader className="categoryDropdown"
+    <Cascader
         onChange={values => values.length === 0 ? undefined : props.onChange(+values[values.length-1])}
         options={props.categories.map(mapToOption)}
         placeholder="Select category"
