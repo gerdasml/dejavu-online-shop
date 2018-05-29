@@ -69,6 +69,10 @@ export class ImageUpload extends React.Component<ImageUploadProps, ImageUploadSt
 
     handleBefore = async (file: RcFile): Promise<RcFile> =>
         new Promise<RcFile>((resolve, reject) => {
+            if (!file.name.endsWith(".jpg") && !file.name.endsWith("jpeg") && !file.name.endsWith("png")) {
+                reject(file);
+                return;
+            }
             let newImgProvider: () => Blob = () => file;
             const onChange = (f: () => Blob) => newImgProvider = f;
             Modal.confirm({
@@ -92,7 +96,9 @@ export class ImageUpload extends React.Component<ImageUploadProps, ImageUploadSt
                     onChange={this.handleChange.bind(this)}
                     beforeUpload={this.handleBefore.bind(this)}
                     customRequest={this.upload.bind(this)}
-                    listType="picture-card">
+                    listType="picture-card"
+                    accept=".jpg,.jpeg,.png"
+            >
                 <Icon type="plus" />
                 <div className="ant-upload-text">Upload</div>
             </Upload>
