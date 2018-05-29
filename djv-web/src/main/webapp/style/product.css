@@ -14,6 +14,10 @@
     padding-bottom: 10px!important;
 }
 
+.propertiesTable td {
+    font-weight: unset!important;
+}
+
 .priceArea{
     color: #393d40; 
     font-weight: bold;
