@@ -58,7 +58,7 @@ export const ProductCard = (props: ProductCardProps) => (
                 {shortenString(props.product.description)}
             </Card.Description>
         </Card.Content>
-        <Card.Content 
+        <Card.Content
             extra className="card-price-cart">
             <Grid columns={2}>
                 <Grid.Column>
