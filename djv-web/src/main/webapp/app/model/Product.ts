@@ -10,6 +10,7 @@ export interface Product {
     additionalImagesUrls?: string[];
     description: string;
     price: number;
+    minimalPrice?: number;
     properties?: ProductProperties[];
     creationDate?: Date;
     categoryId?: number;

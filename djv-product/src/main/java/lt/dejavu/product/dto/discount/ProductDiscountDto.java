@@ -7,6 +7,7 @@ import lt.dejavu.product.dto.ProductDto;
 import lt.dejavu.product.model.DiscountTarget;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Getter
 @Setter
