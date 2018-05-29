@@ -1,4 +1,3 @@
-import { Address } from "./Address";
 import { Product } from "./Product";
 import { User } from "./User";
 import { Review } from "./Review";

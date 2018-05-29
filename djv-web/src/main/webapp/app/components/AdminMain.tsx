@@ -5,10 +5,9 @@ import { notification, Spin } from "antd";
 
 import * as api from "../api";
 import { Discounts } from "../components/views/Admin/discounts/Discounts";
-import { DiscountEditor } from "../components/views/Admin/discounts/DiscountEditor";
 import { Products } from "../components/views/Admin/product/Products";
 import { UserType } from "../model/User";
-import { clearToken, storeToken } from "../utils/token";
+import { storeToken } from "../utils/token";
 import { Admin } from "./views/Admin";
 import { Categories } from "./views/Admin/categories/Categories";
 import { MenuHeader } from "./views/Admin/layout/Header";

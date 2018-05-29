@@ -13,6 +13,8 @@ import { formatPrice } from "../../../../../utils/common";
 import { TablePaginationConfig } from "antd/lib/table";
 import { config } from "../../../../../config";
 
+import "../../../../../../style/admin/products.css";
+
 type ProductRecord = Product & WithKey;
 
 interface ProductTableProps {
@@ -30,7 +32,7 @@ class ProductRecordTable extends Table<ProductRecord> {}
 class ProductRecordColumn extends Table.Column<ProductRecord> {}
 
 export const ProductTable = (props: ProductTableProps) => (
-    <ProductRecordTable
+    <ProductRecordTable className="productRecordTable"
         scroll={{x: config.adminTableScrollWidth.common}}
         bordered={true}
         dataSource={props.products.map(p => ({...p, key: p.id}))}
@@ -68,14 +70,14 @@ export const ProductTable = (props: ProductTableProps) => (
             render={(_, record) =>
                 <div>
                     <NavLink to={`/admin/product/${record.id}`}>
-                        <Button icon="edit"/>
+                        <Button icon="edit" className="editButton"/>
                     </NavLink>
                     <Popconfirm
                         title="Are you sure you want to delete this product?"
                         cancelText="No"
                         okText="Yes"
                         onConfirm={() => props.onDelete(record.id)}>
-                        <Button icon="delete" />
+                        <Button icon="delete" className="editButton"/>
                     </Popconfirm>
                 </div>
             }

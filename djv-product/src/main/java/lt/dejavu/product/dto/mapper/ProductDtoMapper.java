@@ -37,6 +37,7 @@ public class ProductDtoMapper {
         dto.setAdditionalImagesUrls(product.getAdditionalImagesUrls());
         dto.setPrice(product.getPrice());
         dto.setProperties(propertiesMapper.map(product.getProperties()));
+        dto.setMinimalPrice(product.getMinimalPrice());
         if (product.getCategory() != null) {
             dto.setCategoryId(product.getCategory().getId());
         }
@@ -58,6 +59,7 @@ public class ProductDtoMapper {
         product.setAdditionalImagesUrls(productRequest.getAdditionalImagesUrls());
         product.setCreationDate(productRequest.getCreationDate());
         product.setCategory(category);
+        product.setMinimalPrice(productRequest.getMinimalPrice());
         return product;
     }
 
@@ -68,6 +70,7 @@ public class ProductDtoMapper {
         oldProduct.setDescription(productDto.getDescription());
         oldProduct.setPrice(productDto.getPrice());
         oldProduct.setMainImageUrl(productDto.getMainImageUrl());
+        oldProduct.setMinimalPrice(productDto.getMinimalPrice());
         CommonCollectionUtils.updateCollection(oldProduct.getAdditionalImagesUrls(), productDto.getAdditionalImagesUrls());
         oldProduct.setCreationDate(productDto.getCreationDate());
         oldProduct.setCategory(category);

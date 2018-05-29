@@ -13,6 +13,8 @@ import { ProductPictures } from "./ProductPictures";
 import { ProductPrice } from "./ProductPrice";
 import { ProductPropertiesTable } from "./ProductPropertiesTable";
 
+import "../../../../../style/admin/products.css";
+
 export interface ProductFormProps {
     product?: Product;
     onSubmit?: () => void;
@@ -22,6 +24,7 @@ export interface ProductFormProps {
 export interface ProductFormState {
     name: string;
     price?: number;
+    minimalPrice?: number;
     pictures: string[];
     description: string;
     properties: ProductProperties[];
@@ -78,6 +81,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
             newState.name = props.product.name;
             newState.price = props.product.price;
             newState.properties = props.product.properties;
+            newState.minimalPrice = props.product.minimalPrice;
             newState.pictures = [];
             if (props.product.mainImageUrl !== undefined) {
                 newState.pictures.push(props.product.mainImageUrl);
@@ -137,7 +141,8 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                 name: this.state.name,
                 price: this.state.price,
                 properties: this.state.properties,
-                skuCode: this.state.skuCode
+                skuCode: this.state.skuCode,
+                minimalPrice: this.state.minimalPrice,
             };
             if (this.props.product === undefined ||
                 this.props.product.id === undefined ||
@@ -177,8 +182,8 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
     }
     render () {
         return (
-            <Grid stackable>
-                <Grid.Row>
+            <Grid stackable id="productFormGrid">
+                <Grid.Row >
                     <Grid.Column width="eight">
                         <ProductName
                             name={this.state.name}
@@ -188,11 +193,18 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                     </Grid.Column>
                     <Grid.Column width="eight">
                         <ProductPrice
+                            title="Product price"
                             price={this.state.price}
                             onChange={newPrice => this.setState({
                                 ...this.state, price: newPrice
                             })}/>
-                        <Input
+                        <ProductPrice
+                            title="Minimal price"
+                            price={this.state.minimalPrice}
+                            onChange={newMinPrice => this.setState({
+                                ...this.state, minimalPrice: newMinPrice
+                            })}/>
+                        <Input className="inputSku"
                             addonBefore="Sku code:"
                             placeholder="Enter sku code..."
                             value={this.state.skuCode}
@@ -234,7 +246,7 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
-                    <Button
+                    <Button className="saveButton"
                         onClick={this.handleSave.bind(this)}
                     >Save</Button>
                 </Grid.Row>

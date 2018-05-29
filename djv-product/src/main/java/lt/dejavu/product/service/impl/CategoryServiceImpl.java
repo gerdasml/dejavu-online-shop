@@ -34,7 +34,6 @@ public class CategoryServiceImpl implements CategoryService {
     private final ProductRepository productRepository;
     private final CategoryDtoMapper categoryDtoMapper;
     private final ProductPropertyRepository productPropertyRepository;
-    private final IdentifierGenerator<Category> categoryIdentifierGenerator;
 
     @Autowired
     public CategoryServiceImpl(CategoryRepository categoryRepository, ProductRepository productRepository,
@@ -44,7 +43,6 @@ public class CategoryServiceImpl implements CategoryService {
         this.productRepository = productRepository;
         this.categoryDtoMapper = categoryDtoMapper;
         this.productPropertyRepository = productPropertyRepository;
-        this.categoryIdentifierGenerator = categoryIdentifierGenerator;
     }
 
     @Override
@@ -77,7 +75,6 @@ public class CategoryServiceImpl implements CategoryService {
     public Long createCategory(CategoryDto categoryDto) {
         Category parentCategory = resolveParentCategory(categoryDto);
         Category category = categoryDtoMapper.mapToCategory(categoryDto, parentCategory);
-        category.setIdentifier(categoryIdentifierGenerator.generateIdentifier(category));
         Long categoryId = categoryRepository.saveCategory(category);
         productPropertyRepository.saveProperties(category.getProperties());
         return categoryId;
@@ -90,7 +87,6 @@ public class CategoryServiceImpl implements CategoryService {
         Category oldCategory = getCategoryIfExist(categoryId);
         Category parentCategory = resolveParentCategory(categoryDto);
         Category newCategory = categoryDtoMapper.remapToCategory(oldCategory, categoryDto, parentCategory);
-        newCategory.setIdentifier(categoryIdentifierGenerator.generateIdentifier(newCategory));
         categoryRepository.updateCategory(newCategory);
     }
 

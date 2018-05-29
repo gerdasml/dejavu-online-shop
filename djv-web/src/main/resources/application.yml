@@ -3,6 +3,9 @@
 
 databaseSchema: dejavu
 
+constants:
+  minimalPricePercentage: 10
+
 logging:
   level:
     lt.dejavu.web.logging.RequestLoggingFilter: DEBUG
@@ -56,6 +59,7 @@ auth:
       - DELETE ${rest.cart}/*
       - POST ${rest.cart}/checkout
       - GET ${rest.user}/profile
+      - GET ${rest.review}/*
     ADMIN:
       - GET ${rest.user}/*
       - GET ${rest.user}/

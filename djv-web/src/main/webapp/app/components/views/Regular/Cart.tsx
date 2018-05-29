@@ -12,7 +12,6 @@ import * as api from "../../../api";
 
 import { Loader } from "semantic-ui-react";
 
-import { Address } from "../../../model/Address";
 import { CartStep, CartStepHeader } from "../../dumb/Cart/CartStepHeader";
 
 import * as CartManager from "../../../utils/cart";

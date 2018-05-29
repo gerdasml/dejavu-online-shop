@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Link, NavLink} from "react-router-dom";
 
-import {Menu, Search, Icon} from "semantic-ui-react";
+import {Menu, Icon} from "semantic-ui-react";
 import "../../../../style/header.css";
 import {Login} from "../Login/Login";
 
@@ -22,7 +22,7 @@ import { ProductSearch } from "./ProductSearch";
 import { connect } from "react-redux";
 import { bindActionCreators} from "redux";
 import { login, logout } from "../../../redux/actions/auth";
-import { AuthReducerState, AuthAction } from "../../../redux/reducers/authReducer";
+import { AuthAction } from "../../../redux/reducers/authReducer";
 import { StoreState} from "../../../redux/reducers";
 interface HeaderState {
     activeItem: String;

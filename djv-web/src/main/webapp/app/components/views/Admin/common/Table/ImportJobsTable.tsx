@@ -8,6 +8,8 @@ import { ImportStatus } from "../../../../../model/Product";
 import { addKey, WithKey } from "../../../../../utils/table";
 import { config } from "../../../../../config";
 
+import "../../../../../../style/admin/importHistory.css";
+
 type ImportJobRecord = ImportStatus & WithKey;
 
 interface ImportJobStatusTableProps {
@@ -19,7 +21,7 @@ class ImportJobStatusTable extends Table<ImportJobRecord> {}
 class ImportJobStatusColumn extends Table.Column<ImportJobRecord> {}
 
 export const ImportJobsTable = (props: ImportJobStatusTableProps) => (
-    <ImportJobStatusTable
+    <ImportJobStatusTable className="importJobStatusTable"
         scroll={{x: config.adminTableScrollWidth.common}}
         bordered={true}
         dataSource={props.jobs.map(addKey)}

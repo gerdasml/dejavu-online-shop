@@ -2,6 +2,7 @@ package lt.dejavu.product.repository.impl;
 
 import lt.dejavu.product.model.*;
 import lt.dejavu.product.repository.CategoryRepository;
+import lt.dejavu.product.strategy.IdentifierGenerator;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +18,14 @@ import java.util.Set;
 @Transactional
 public class CategoryRepositoryImpl implements CategoryRepository {
 
+    private final IdentifierGenerator<Category> categoryIdentifierGenerator;
+
     @PersistenceContext
     private EntityManager em;
+
+    public CategoryRepositoryImpl(IdentifierGenerator<Category> categoryIdentifierGenerator) {
+        this.categoryIdentifierGenerator = categoryIdentifierGenerator;
+    }
 
     @Override
     public Category getCategory(long id) {
@@ -67,6 +74,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public long saveCategory(Category category) {
+        category.setIdentifier(categoryIdentifierGenerator.generateIdentifier(category));
         em.persist(category);
         return category.getId();
     }
@@ -147,7 +155,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         query.select(cb.max(root.get(Product_.price)));
         ParameterExpression<Long> idParameter = cb.parameter(Long.class);
         query.where(cb.equal(root.get(Product_.category).get(Category_.id), idParameter));
-
         return em.createQuery(query).setParameter(idParameter, categoryId).getSingleResult();
     }
 }

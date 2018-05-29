@@ -1,7 +1,7 @@
 import { ApiResponse } from "./ApiResponse";
 
 import { ApiError } from ".";
-import {buildAuthHeader, clearToken} from "../utils/token";
+import {buildAuthHeader} from "../utils/token";
 import store from "../redux/store";
 import {logout} from "../redux/actions/auth";
 interface Headers {

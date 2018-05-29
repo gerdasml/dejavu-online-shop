@@ -17,7 +17,6 @@ import "../../../../../style/payment.css";
 
 import { ApiError } from "../../../../api";
 
-import { Address } from "../../../../model/Address";
 import { ShippingInformation } from "../../../../model/ShippingInformation";
 
 import { fromString } from "../../../../utils/enum";

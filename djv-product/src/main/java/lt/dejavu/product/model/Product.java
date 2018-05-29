@@ -34,6 +34,9 @@ public class Product {
     @Column(name = "price")
     private BigDecimal price;
 
+    @Column(name = "minimalPrice")
+    private BigDecimal minimalPrice;
+
     @Column(name = "creationDate")
     private LocalDateTime creationDate;
 
