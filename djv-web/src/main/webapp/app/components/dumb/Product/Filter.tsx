@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Dropdown } from "semantic-ui-react";
-import { ProductFilter } from "../../../utils/product/productFilter";
 
 import "../../../../style/filter.css";
 import { PropertySummary } from "../../../model/Category";

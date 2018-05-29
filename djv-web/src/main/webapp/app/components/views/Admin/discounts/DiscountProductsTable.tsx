@@ -1,10 +1,11 @@
 // tslint:disable:max-classes-per-file
 import * as React from "react";
-import { Table, Button, Popconfirm } from "antd";
+import { Table } from "antd";
 import { WithKey } from "../../../../utils/table";
-import { NavLink } from "react-router-dom";
 import { Product } from "../../../../model/Product";
 import { formatPrice } from "../../../../utils/common";
+
+import { config } from "../../../../config";
 
 type ProductRecord = Product & WithKey;
 
@@ -20,7 +21,7 @@ class ProductRecordTable extends Table<ProductRecord> {}
 class ProductRecordColumn extends Table.Column<ProductRecord> {}
 
 export const DiscountProductsTable = (props: DiscountProductsTableProps) => (
-    <ProductRecordTable
+    <ProductRecordTable className="discountRecordTable"
         bordered={true}
         rowSelection={{
             onChange: (keys,rows: any) => props.onSelect(rows),
@@ -29,6 +30,7 @@ export const DiscountProductsTable = (props: DiscountProductsTableProps) => (
         }}
         dataSource={props.products.map(p => ({...p, key: p.id}))}
         pagination={{pageSize: 25, hideOnSinglePage: true}}
+        scroll={{x: config.adminTableScrollWidth.common}}
     >
         <ProductRecordColumn
             key = "picture"

@@ -8,6 +8,8 @@ import { addKey, WithKey } from "../../../../utils/table";
 import { EditableCell } from "../common/EditableCell";
 import { config } from "../../../../config";
 
+import "../../../../../style/admin/products.css";
+
 type Property = ProductProperties & WithKey;
 
 interface PropertiesTableProps {
@@ -49,10 +51,11 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
     render () {
         return (
             <div>
-                <PropertiesTable
+                <PropertiesTable className="propertiesTable"
                     scroll={{x: config.adminTableScrollWidth.properties}}
                     pagination={false}
-                    dataSource={this.state.properties}>
+                    dataSource={this.state.properties}
+                    bordered={true}>
                     <PropertyColumn
                         key="name"
                         title="Name"
@@ -69,7 +72,7 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
                         />
                     <PropertyColumn
                         key="remove"
-                        render={(_, record) => <Button
+                        render={(_, record) => <Button className="editButton"
                                                     type="danger"
                                                     onClick={() => this.handleRemoveRow(record.key)}>
                                                     <Icon type="delete" />

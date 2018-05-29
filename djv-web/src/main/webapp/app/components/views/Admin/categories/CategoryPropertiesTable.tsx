@@ -7,6 +7,8 @@ import { CategoryProperty } from "../../../../model/CategoryProperties";
 import { addKeyString, WithStringKey } from "../../../../utils/table";
 import { EditableCell } from "../common/EditableCell";
 
+import "../../../../../style/admin/categories.css";
+
 type Property = CategoryProperty & WithStringKey;
 
 interface PropertiesTableProps {
@@ -59,8 +61,10 @@ export class CategoryPropertiesTable extends React.Component<PropertiesTableProp
         return (
             <div>
                 <h3>Properties:</h3>
-                <PropertiesTable pagination={false} dataSource={this.state.properties}>
+                <PropertiesTable bordered={true}
+                pagination={false} dataSource={this.state.properties} className="propertiesTable">
                     <PropertyColumn
+                        className="propertyColumn"
                         key="name"
                         title="Name"
                         render={(text, record, index) =>
@@ -71,13 +75,12 @@ export class CategoryPropertiesTable extends React.Component<PropertiesTableProp
                         />
                     <PropertyColumn
                         key="remove"
-                        render={(_, record) => <Button
-                                                    type="danger"
+                        render={(_, record) => <Button id="removeButton"
                                                     onClick={() => this.handleRemoveRow(record.key)}>
                                                     <Icon type="delete" />
                                                 </Button>}/>
                 </PropertiesTable>
-                <Button onClick={this.handleAddRow.bind(this)}>Add new property</Button>
+                <Button onClick={this.handleAddRow.bind(this)} className="categoryFormButton">Add new property</Button>
             </div>
         );
     }

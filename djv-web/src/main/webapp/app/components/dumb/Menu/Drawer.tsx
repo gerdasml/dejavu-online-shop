@@ -1,12 +1,11 @@
 import * as React from "react";
 
-import { Grid, Menu } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 
 import { notification } from "antd";
 import "../../../../style/drawer.css";
 import * as api from "../../../api";
 import { CategoryTree } from "../../../model/CategoryTree";
-import { MenuItem } from "../../smart/Menu/MenuItem";
 import { SubMenu, SubMenuPosition } from "../../smart/Menu/SubMenu";
 import { DesktopMenu } from "./DesktopMenu";
 import MediaQuery from "react-responsive";

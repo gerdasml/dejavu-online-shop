@@ -3,6 +3,9 @@
 
 databaseSchema: dejavu
 
+constants:
+  minimalPricePercentage: 10
+
 logging:
   level:
     lt.dejavu.web.logging.RequestLoggingFilter: DEBUG

@@ -1,5 +1,4 @@
-import { ReducersMapObject, Reducer, Action } from "redux";
-import { getToken } from "../../utils/token";
+import { Action } from "redux";
 
 export interface AuthReducerState {
     loggedIn: boolean;

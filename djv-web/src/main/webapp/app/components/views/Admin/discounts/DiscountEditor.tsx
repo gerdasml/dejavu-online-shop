@@ -7,13 +7,14 @@ import * as api from "../../../../api";
 import { RangePickerValue } from "antd/lib/date-picker/interface";
 import { CategoryDropdown } from "../product/CategoryDropdown";
 import { DiscountProductsTable } from "./DiscountProductsTable";
-import { Category } from "../../../../model/Category";
 import { CategoryTree } from "../../../../model/CategoryTree";
-import { timingSafeEqual } from "crypto";
 import { Product } from "../../../../model/Product";
 import { DiscountTarget, DiscountType, Discount } from "../../../../model/Discount";
 
 import { fromString } from "../../../../utils/enum";
+
+import "../../../../../style/admin/discounts.css";
+import { Category } from "../../../../model/Category";
 
 interface DiscountEditorProps {
     discount?: Discount;
@@ -141,7 +142,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
             this.notifyError("Discount date period was not selected.");
             anyErrors = true;
         }
-        if(anyErrors === true) {
+        if(anyErrors) {
             return;
         }
 
@@ -227,7 +228,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
 
     render () {
         return (
-            <div>
+            <div id="discountEditor">
                 <Dropdown
                     trigger={["click"]}
                     overlay={this.discountTargetMenu}
@@ -238,7 +239,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                         ? "Discount target"
                         : this.state.discountTarget
                         }
-                        <Icon type="down" />
+                        <Icon type="down"/>
                     </Button>
                 </Dropdown>
                 { this.state.dateStart === undefined || this.state.dateEnd === undefined
@@ -326,7 +327,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                 : ""
                 }
                 <br/>
-                <Button onClick={this.handleSave.bind(this)}>Save</Button>
+                <Button onClick={this.handleSave.bind(this)} id="saveButton">Save</Button>
             </div>
         );
     }

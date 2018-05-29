@@ -32,7 +32,7 @@ export class ProductImport extends React.Component<ProductImportProps, never> {
                     customRequest={this.upload.bind(this)}
                     accept=".xlsx"
             >
-                <Button>
+                <Button className="productsButton">
                     <Icon type="upload" /> Import
                 </Button>
             </Upload>
