@@ -45,7 +45,8 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
     discountTargetMenu = (
         <Menu onClick={e =>this.setState({
             ...this.state,
-            discountTarget: fromString(DiscountTarget, e.key)
+            discountTarget: fromString(DiscountTarget, e.key),
+            category: undefined
         })}>
             <Menu.Item key={DiscountTarget.EVERYTHING}>{DiscountTarget.EVERYTHING}</Menu.Item>
             <Menu.Item key={DiscountTarget.CATEGORY}>{DiscountTarget.CATEGORY}</Menu.Item>
@@ -285,6 +286,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                         category: newCategory
                         })
                     }
+                    allowParentSelection={true}
                 />
                 : this.state.discountTarget === DiscountTarget.PRODUCT
                 ?

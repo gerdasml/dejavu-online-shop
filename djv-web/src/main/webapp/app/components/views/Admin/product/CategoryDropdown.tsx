@@ -8,6 +8,7 @@ export interface CategoryDropdownProps {
     categories: CategoryTree[];
     onChange: (n?: number) => void;
     selected?: number;
+    allowParentSelection?: boolean;
 }
 
 const mapToOption = (c: CategoryTree): CascaderOptionType => ({
@@ -32,5 +33,6 @@ export const CategoryDropdown = (props: CategoryDropdownProps) => (
         placeholder="Select category"
         value={buildDefaultValue(props.categories, props.selected)}
         allowClear={false}
+        changeOnSelect={props.allowParentSelection}
     />
 );
