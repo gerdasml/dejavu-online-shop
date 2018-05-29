@@ -82,6 +82,8 @@ class AdminMain extends React.Component<AuthReducerState & AuthReducerMethods,Ad
     async componentDidMount () {
         if (await isLoggedInAsAdmin()) {
             this.props.dispatchLogin();
+        } else {
+            this.props.dispatchLogout();
         }
         this.setState({...this.state, isLoading: false});
     }
