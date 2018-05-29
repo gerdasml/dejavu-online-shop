@@ -73,7 +73,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
         this.setState({...this.state,categories});
     }
 
-    componentWillReceiveProps (props: DiscountEditorProps) {
+    async componentWillReceiveProps (props: DiscountEditorProps) {
         const newState = this.state;
         if(props.discount !== undefined) {
             newState.discountTarget = props.discount.targetType;
@@ -81,6 +81,13 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
             newState.dateStart = new Date (Date.parse(props.discount.activeFrom.toString()));
             newState.dateEnd = new Date (Date.parse(props.discount.activeTo.toString()));
             newState.discountValue = props.discount.value;
+            if (props.discount.targetType === DiscountTarget.PRODUCT) {
+                newState.category = (props.discount.target as Product).categoryId;
+                newState.selectedProductIds = [props.discount.target.id];
+                newState.products = await this.getProductsForCategory(newState.category);
+            } else if (props.discount.targetType === DiscountTarget.CATEGORY) {
+                newState.category = (props.discount.target as Category).id;
+            }
             this.setState(newState);
         } else {
             this.setState({
@@ -93,13 +100,13 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
         }
     }
 
-    async getProductsForCategory (category: number) {
+    getProductsForCategory = async (category: number): Promise<Product[]> => {
         const categoryProducts = await api.product.getProductsByCategory(category);
         if(api.isError(categoryProducts)) {
             notification.error({message: "Failed to fetch products data", description: categoryProducts.message});
-            return;
+            return [];
         }
-        this.setState({...this.state,category,products: categoryProducts});
+        return categoryProducts;
     }
 
     updateDate (date: RangePickerValue, dateString: [string, string]) {
@@ -295,17 +302,25 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                         })
                     }
                     allowParentSelection={true}
+                    disabled={this.props.discount !== undefined}
                 />
                 : this.state.discountTarget === DiscountTarget.PRODUCT
                 ?
                 [<CategoryDropdown
                     selected={this.state.category}
                     categories={this.state.categories}
-                    onChange={newCategory => this.getProductsForCategory(newCategory)}
+                    onChange={async newCategory => this.setState({
+                        ...this.state,
+                        category: newCategory,
+                        products: await this.getProductsForCategory(newCategory)
+                    })}
+                    disabled={this.props.discount !== undefined}
                 />,
                 <DiscountProductsTable
                     products={this.state.products}
                     onSelect={selectedProducts => this.extractProductIds(selectedProducts)}
+                    selectionDisabled={this.props.discount !== undefined}
+                    selectedProductIds={this.state.selectedProductIds}
                 />
                 ]
                 : ""

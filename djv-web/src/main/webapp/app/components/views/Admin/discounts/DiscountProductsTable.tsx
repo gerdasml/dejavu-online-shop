@@ -11,6 +11,8 @@ type ProductRecord = Product & WithKey;
 interface DiscountProductsTableProps {
     products: Product[];
     onSelect: (selectedProducts: Product[]) => void;
+    selectionDisabled?: boolean;
+    selectedProductIds?: number[];
 }
 
 class ProductRecordTable extends Table<ProductRecord> {}
@@ -20,7 +22,11 @@ class ProductRecordColumn extends Table.Column<ProductRecord> {}
 export const DiscountProductsTable = (props: DiscountProductsTableProps) => (
     <ProductRecordTable
         bordered={true}
-        rowSelection={{onChange: (keys,rows: any) => props.onSelect(rows)}}
+        rowSelection={{
+            onChange: (keys,rows: any) => props.onSelect(rows),
+            getCheckboxProps: _ => ({disabled: props.selectionDisabled}),
+            selectedRowKeys: props.selectedProductIds
+        }}
         dataSource={props.products.map(p => ({...p, key: p.id}))}
         pagination={{pageSize: 25, hideOnSinglePage: true}}
     >
