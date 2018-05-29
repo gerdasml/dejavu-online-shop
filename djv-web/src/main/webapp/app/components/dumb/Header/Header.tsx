@@ -79,7 +79,7 @@ class Header extends React.Component <any, HeaderState> {
         this.setState({...this.state, ordersToReview: []});
     }
 
-    isLoggedIn = (): boolean => getToken() !== null || this.props.loggedIn;
+    isLoggedIn = (): boolean => this.props.loggedIn;
     render () {
         const loggedIn = this.isLoggedIn();
         const { activeItem } = this.state;
@@ -203,5 +203,7 @@ export default connect(
     dispatch => bindActionCreators({
           dispatchLogin: login,
           dispatchLogout: logout,
-    }, dispatch)
+    }, dispatch),
+    undefined,
+    { pure: false }
 )(Header);

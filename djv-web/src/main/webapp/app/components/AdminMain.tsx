@@ -30,6 +30,7 @@ import { StoreState } from "../redux/reducers";
 import { bindActionCreators } from "redux";
 import { login, logout } from "../redux/actions/auth";
 import { AuthAction, AuthReducerState } from "../redux/reducers/authReducer";
+import { isLoggedIn } from "../utils/user";
 
 const isLoggedInAsAdmin = async () => {
     const userResponse = await api.user.getProfile();
@@ -85,7 +86,7 @@ class AdminMain extends React.Component<AuthReducerState & AuthReducerMethods,Ad
         this.setState({...this.state, isLoading: false});
     }
     handleLogout () {
-       this.props.dispatchLogout();
+        this.props.dispatchLogout();
     }
     render () {
         return (
@@ -126,5 +127,7 @@ export default connect(
     dispatch => bindActionCreators({
           dispatchLogin: login,
           dispatchLogout: logout,
-    }, dispatch)
+    }, dispatch),
+    undefined,
+    { pure: false }
 )(AdminMain);

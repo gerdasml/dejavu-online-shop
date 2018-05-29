@@ -15,10 +15,10 @@ export enum AuthActionType {
 }
 
 const initialState: AuthReducerState = {
-    loggedIn: getToken() !== null,
+    loggedIn: false,
 };
 
-export default  (state: AuthReducerState = initialState, action: AuthAction): AuthReducerState => {
+export default (state: AuthReducerState = initialState, action: AuthAction): AuthReducerState => {
     switch (action.type) {
         case AuthActionType.LOGIN:
             return {
