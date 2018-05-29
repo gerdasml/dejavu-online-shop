@@ -23,7 +23,7 @@ class PropertiesTable extends Table<Property> {}
 class PropertyColumn extends Table.Column<Property> {}
 
 const addUniqueKey = (categoryId: number) =>
-    (x: CategoryProperty, idx: number) => addKeyString(x, categoryId + "-" + idx);
+    (x: CategoryProperty, idx: number) => addKeyString(x, categoryId + "-" + x.propertyId + "-" + x.name);
 
 export class CategoryPropertiesTable extends React.Component<PropertiesTableProps, PropertiesTableState> {
     state: PropertiesTableState = {
@@ -66,7 +66,7 @@ export class CategoryPropertiesTable extends React.Component<PropertiesTableProp
                         render={(text, record, index) =>
                             <EditableCell
                                 value={record.name}
-                                onChange={s=>this.updatePropertyName(index, s)}
+                                onSubmit={s => this.updatePropertyName(index, s)}
                             />}
                         />
                     <PropertyColumn
