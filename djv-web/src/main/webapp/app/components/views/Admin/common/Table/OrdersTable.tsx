@@ -24,32 +24,17 @@ class OrdersRecordColumn extends Table.Column<OrderRecord> {}
 
 const dateToString = (d: Date) => new Date(Date.parse(d.toString())).toLocaleDateString();
 
-<<<<<<< HEAD
 export class OrdersTable extends React.Component<OrdersTableProps, never> {
 
     showLockModal = (localStatus: OrderStatus, remoteStatus: OrderStatus, onSelect: (s: OrderStatus) => void) => {
         Modal.confirm({
             title: "Status update error",
             content: (
-=======
-export const OrdersTable = (props: OrdersTableProps) => (
-    <OrdersRecordTable
-        className="ordersRecordTable"
-        scroll={{x: config.adminTableScrollWidth.common}}
-        bordered={true}
-        dataSource={props.orders.map(addKey)}
-        pagination={{pageSize: 25, hideOnSinglePage: true}}
-        expandedRowRender={(record: OrderRecord) => (
-            <span>
-                { record.review !== undefined
-                ?
->>>>>>> master
                 <span>
                     <p>The status of this order has already been changed by another admin.</p>
                     <p>You have chosen <b>{localStatus}</b>, they have chosen <b>{remoteStatus}</b></p>
                     <p>Which status would you like to use?</p>
                 </span>
-<<<<<<< HEAD
             ),
             okText: `${localStatus}`,
             cancelText: `${remoteStatus}`,
@@ -93,6 +78,7 @@ export const OrdersTable = (props: OrdersTableProps) => (
     render () {
         return (
             <OrdersRecordTable
+                className="ordersRecordTable"
                 scroll={{x: config.adminTableScrollWidth.common}}
                 bordered={true}
                 dataSource={this.props.orders.map(addKey)}
@@ -115,16 +101,19 @@ export const OrdersTable = (props: OrdersTableProps) => (
                     </span>
                 )}>
                 <OrdersRecordColumn
+                    className="ordersRecordColumn"
                     key="date"
                     title="Date"
                     render={(_, record) => dateToString(record.createdDate)}
                 />
                 <OrdersRecordColumn
+                    className="ordersRecordColumn"
                     key="user"
                     title="User email"
                     render={(_, record) => record.user.email}
                 />
                 <OrdersRecordColumn
+                    className="ordersRecordColumn"
                     key="status"
                     title="Status"
                     dataIndex="status"
@@ -136,6 +125,7 @@ export const OrdersTable = (props: OrdersTableProps) => (
                     }
                 />
                 <OrdersRecordColumn
+                    className="ordersRecordColumn"
                     key="recipient"
                     title="Recipient"
                     render={(_, record) =>
@@ -143,11 +133,13 @@ export const OrdersTable = (props: OrdersTableProps) => (
                     }
                 />
                 <OrdersRecordColumn
+                    className="ordersRecordColumn"
                     key="shipping"
                     title="Shipping address"
                     render={(_, record) => stringifyAddress(record.shippingInformation.shippingAddress)}
                 />
                 <OrdersRecordColumn
+                    className="ordersRecordColumn"
                     key="review"
                     title="Review"
                     render={(_, record) =>
@@ -161,6 +153,7 @@ export const OrdersTable = (props: OrdersTableProps) => (
                     }
                 />
                 <OrdersRecordColumn
+                    className="ordersRecordColumn"
                     key="total"
                     title="Total"
                     dataIndex="total"
@@ -169,65 +162,3 @@ export const OrdersTable = (props: OrdersTableProps) => (
         );
     }
 }
-=======
-                : ""
-                }
-                <OrderTable items={record.items} />
-            </span>
-        )}>
-        <OrdersRecordColumn
-            className="ordersRecordColumn"
-            key="date"
-            title="Date"
-            render={(_, record) => dateToString(record.createdDate)}
-        />
-        <OrdersRecordColumn
-            className="ordersRecordColumn"
-            key="user"
-            title="User email"
-            render={(_, record) => record.user.email}
-        />
-        <OrdersRecordColumn
-            className="ordersRecordColumn"
-            key="status"
-            title="Status"
-            dataIndex="status"
-            render={(_, record) => <OrderStatusCell orderId={record.id} status={record.status} />}
-        />
-        <OrdersRecordColumn
-            className="ordersRecordColumn"
-            key="recipient"
-            title="Recipient"
-            render={(_, record) =>
-                `${record.shippingInformation.recipientFirstName} ${record.shippingInformation.recipientLastName}`
-            }
-        />
-        <OrdersRecordColumn
-            className="ordersRecordColumn"
-            key="shipping"
-            title="Shipping address"
-            render={(_, record) => stringifyAddress(record.shippingInformation.shippingAddress)}
-        />
-        <OrdersRecordColumn
-            className="ordersRecordColumn"
-            key="review"
-            title="Review"
-            render={(_, record) =>
-                record.reviewShown
-                    ? record.review === undefined
-                        ? <Tag color="red">REJECTED</Tag>
-                        : <Rate disabled defaultValue={record.review.rating} />
-                    : record.status === OrderStatus.DELIVERED
-                        ? <Tag color="orange">NOT SHOWN</Tag>
-                        : <Tag color="orange">N/A</Tag>
-            }
-        />
-        <OrdersRecordColumn
-            className="ordersRecordColumn"
-            key="total"
-            title="Total"
-            dataIndex="total"
-        />
-    </OrdersRecordTable>
-);
->>>>>>> master
