@@ -31,5 +31,6 @@ export const CategoryDropdown = (props: CategoryDropdownProps) => (
         options={props.categories.map(mapToOption)}
         placeholder="Select category"
         value={buildDefaultValue(props.categories, props.selected)}
+        allowClear={false}
     />
 );
