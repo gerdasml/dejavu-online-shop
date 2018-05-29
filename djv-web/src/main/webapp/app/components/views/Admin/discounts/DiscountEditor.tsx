@@ -212,7 +212,11 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
     render () {
         return (
             <div>
-                <Dropdown overlay={this.discountTargetMenu} disabled={this.props.discount !== undefined}>
+                <Dropdown
+                    trigger={["click"]}
+                    overlay={this.discountTargetMenu}
+                    disabled={this.props.discount !== undefined}
+                >
                     <Button>
                         { this.state.discountTarget === undefined
                         ? "Discount target"
@@ -235,7 +239,10 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                     format={"YYYY-MM-DD"}
                 />
                 }
-                <Dropdown overlay={this.discountTypeMenu}>
+                <Dropdown
+                    trigger={["click"]}
+                    overlay={this.discountTypeMenu}
+                >
                     <Button style={{ marginLeft: 0 }}>
                         { this.state.discountType === undefined
                         ? "Discount type"
