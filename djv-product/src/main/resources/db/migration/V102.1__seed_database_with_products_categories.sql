@@ -145,8 +145,7 @@ insert into `image` (`id`, `filename`, `extension`, `uploadedOn`) values
     (3,'image-3','jpg',CURRENT_TIMESTAMP()),
     (4,'image-4','jpg',CURRENT_TIMESTAMP()),
     (5,'image-5','jpg',CURRENT_TIMESTAMP()),
-    (6,'image-6','jpg',CURRENT_TIMESTAMP()),
-    (7,'image-7','jpg',CURRENT_TIMESTAMP());
+    (6,'image-6','jpg',CURRENT_TIMESTAMP());
 
 insert into category_property (id, categoryId, name) values
       -- Desktop Pcs
