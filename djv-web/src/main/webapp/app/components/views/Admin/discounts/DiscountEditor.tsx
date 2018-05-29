@@ -104,8 +104,8 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
     updateDate (date: RangePickerValue, dateString: [string, string]) {
         this.setState({
             ...this.state,
-            dateStart: new Date(Date.parse(dateString[0])),
-            dateEnd: new Date(Date.parse(dateString[1])),
+            dateStart: dateString[0].length > 0 ? new Date(Date.parse(dateString[0])) : undefined,
+            dateEnd: dateString[1].length > 0 ? new Date(Date.parse(dateString[1])) : undefined,
         });
     }
 
