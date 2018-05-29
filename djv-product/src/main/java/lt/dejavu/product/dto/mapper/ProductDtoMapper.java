@@ -70,6 +70,7 @@ public class ProductDtoMapper {
         oldProduct.setDescription(productDto.getDescription());
         oldProduct.setPrice(productDto.getPrice());
         oldProduct.setMainImageUrl(productDto.getMainImageUrl());
+        oldProduct.setMinimalPrice(productDto.getMinimalPrice());
         CommonCollectionUtils.updateCollection(oldProduct.getAdditionalImagesUrls(), productDto.getAdditionalImagesUrls());
         oldProduct.setCreationDate(productDto.getCreationDate());
         oldProduct.setCategory(category);
