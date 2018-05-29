@@ -12,14 +12,14 @@ export interface ProductPriceProps {
 }
 
 export const ProductPrice = (props: ProductPriceProps) => (
-                <div>
-                    <span>{props.title}</span>
+                <div className="label-and-number">
+                    <span className="input-title ant-input-group-addon">{props.title}</span>
                     <InputNumber
                         className="inputNumber"
                         formatter={formatPrice}
                         value={props.price}
                         onChange={props.onChange}
-                    min={0}
+                        min={0}
                     />
                 </div>
 );
