@@ -11,8 +11,7 @@ interface ProductImportProps {
 export class ProductImport extends React.Component<ProductImportProps, never> {
     upload = async (info: any) => {
         if (!info.file.name.endsWith(".xlsx")) {
-            info.onError(undefined, "Unsupported file type");
-            return;
+            info.onSuccess({});
         }
         const response = await api.product.importProducts(info.file);
         if (api.isError(response)) {
