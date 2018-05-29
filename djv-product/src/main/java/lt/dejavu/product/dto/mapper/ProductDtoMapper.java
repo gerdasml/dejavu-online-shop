@@ -37,6 +37,7 @@ public class ProductDtoMapper {
         dto.setAdditionalImagesUrls(product.getAdditionalImagesUrls());
         dto.setPrice(product.getPrice());
         dto.setProperties(propertiesMapper.map(product.getProperties()));
+        dto.setMinimalPrice(product.getMinimalPrice());
         if (product.getCategory() != null) {
             dto.setCategoryId(product.getCategory().getId());
         }
@@ -58,6 +59,7 @@ public class ProductDtoMapper {
         product.setAdditionalImagesUrls(productRequest.getAdditionalImagesUrls());
         product.setCreationDate(productRequest.getCreationDate());
         product.setCategory(category);
+        product.setMinimalPrice(productRequest.getMinimalPrice());
         return product;
     }
 

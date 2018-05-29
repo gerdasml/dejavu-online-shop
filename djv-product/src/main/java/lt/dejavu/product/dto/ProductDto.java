@@ -24,6 +24,7 @@ public class ProductDto {
     private String identifier;
     private String description;
     private BigDecimal price;
+    private BigDecimal minimalPrice;
     private String mainImageUrl;
     private Set<String> additionalImagesUrls;
     private LocalDateTime creationDate;
