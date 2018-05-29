@@ -210,6 +210,14 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
         this.setState({...this.state, selectedProductIds: productIds});
     }
 
+    parsePercentage = (val: string): number => {
+        const inputNum = +(val.replace(/[^0-9]/g, ""));
+        let result = inputNum;
+        result = Math.min(100, result);
+        result = Math.max(0, result);
+        return result;
+    }
+
     render () {
         return (
             <div>
@@ -260,7 +268,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                     value={this.state.discountValue}
                     min={0}
                     formatter={value => `€ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                    parser={value => +value.replace(/\€\s?|(,*)/g, "")}
+                    parser={value => +(value.replace(/[^0-9]/g, ""))}
                     onChange={(e: number) => this.setState({...this.state, discountValue: e})}
                 />
                 :
@@ -270,7 +278,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                     min={0}
                     max={100}
                     formatter={value => `${value}%`}
-                    parser={value => +value.replace("%", "")}
+                    parser={this.parsePercentage.bind(this)}
                     onChange={(e: number) => this.setState({...this.state, discountValue: e})}
                 />
                 }
