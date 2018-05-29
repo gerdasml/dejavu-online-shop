@@ -17,6 +17,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -50,9 +51,10 @@ public class CartRepositoryImpl implements CartRepository {
     }
 
     @Override
-    public void addOrderItem(Cart cart, Product product, int amount) {
+    public void addOrderItem(Cart cart, Product product, int amount, BigDecimal price) {
         OrderItem item = new OrderItem(product);
         item.setAmount(amount);
+        item.setPrice(price);
         em.persist(item);
         cart.getItems().add(item);
     }

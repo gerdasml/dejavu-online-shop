@@ -114,6 +114,7 @@ public class OrderServiceImpl implements OrderService {
         Product product = productRepository.getProduct(dto.getProduct().getId());
         OrderItem item =  new OrderItem(product);
         item.setAmount(dto.getAmount());
+        item.setPrice(dto.getProduct().getPrice());
         item.setOrder(order);
         return item;
     }
