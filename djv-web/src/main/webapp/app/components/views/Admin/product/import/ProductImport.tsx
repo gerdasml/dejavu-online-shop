@@ -10,12 +10,10 @@ interface ProductImportProps {
 
 export class ProductImport extends React.Component<ProductImportProps, never> {
     upload = async (info: any) => {
-        if (!info.file.name.endsWith(".xlsx")) {
-            info.onSuccess({});
-        }
         const response = await api.product.importProducts(info.file);
         if (api.isError(response)) {
             info.onError(undefined, response.message);
+            notification.error({message: "Failed to start import job", description: response.message});
             return;
         }
         info.onSuccess(response);

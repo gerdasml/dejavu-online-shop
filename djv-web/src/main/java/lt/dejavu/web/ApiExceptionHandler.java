@@ -69,6 +69,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponse(ex, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(UnsupportedFileTypeException.class)
+    public final ResponseEntity<ExceptionDetails> handleUnsupportedFileTypeException(UnsupportedFileTypeException ex, WebRequest req) {
+        return buildResponse(ex, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(CategoryNotFoundException.class)
     public final ResponseEntity<ExceptionDetails> handleCategoryNotFoundException(CategoryNotFoundException ex, WebRequest req) {
         return buildResponse(ex, HttpStatus.NOT_FOUND);

@@ -4,6 +4,7 @@ import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.product.dto.ProductDto;
 import lt.dejavu.product.dto.ProductImportStatusDto;
+import lt.dejavu.product.exception.UnsupportedFileTypeException;
 import lt.dejavu.product.model.SearchResult;
 import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 import lt.dejavu.product.service.ProductImportStatusService;
@@ -135,6 +136,9 @@ public class ProductApi {
                                @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
                                @RequestParam("file") MultipartFile file) throws ApiSecurityException, IOException {
         securityService.authorize(authHeader, request);
+        if (!file.getOriginalFilename().endsWith(".xlsx")) {
+            throw new UnsupportedFileTypeException("Only the '.xlsx' file type is supported for import");
+        }
         return productService.importProducts(file.getBytes());
     }
 
