@@ -9,7 +9,7 @@ constants:
 logging:
   level:
     lt.dejavu.web.logging.RequestLoggingFilter: DEBUG
-    lt.dejavu.logging.logger.RequestLoggerImpl: ERROR
+    lt.dejavu.logging.logger.RequestLoggerImpl: DEBUG
 
 spring:
   datasource:
