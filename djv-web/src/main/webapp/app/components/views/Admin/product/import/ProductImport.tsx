@@ -13,6 +13,7 @@ export class ProductImport extends React.Component<ProductImportProps, never> {
         const response = await api.product.importProducts(info.file);
         if (api.isError(response)) {
             info.onError(undefined, response.message);
+            notification.error({message: "Failed to start import job", description: response.message});
             return;
         }
         info.onSuccess(response);
@@ -28,7 +29,9 @@ export class ProductImport extends React.Component<ProductImportProps, never> {
     render () {
         return (
             <Upload fileList={[]}
-                    customRequest={this.upload.bind(this)}>
+                    customRequest={this.upload.bind(this)}
+                    accept=".xlsx"
+            >
                 <Button className="productsButton">
                     <Icon type="upload" /> Import
                 </Button>

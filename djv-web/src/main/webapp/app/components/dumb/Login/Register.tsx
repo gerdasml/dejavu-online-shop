@@ -8,6 +8,7 @@ import { Address } from "../../../model/Address";
 import {AddressInput} from "../Address/AddressInput";
 
 import "../../../../style/login.css";
+import { message } from "antd";
 
 interface RegistrationState {
     loading: boolean;
@@ -102,6 +103,7 @@ export class Register extends React.Component <{}, RegistrationState> {
         this.setState({
             ...this.state, error: "", loading: false
         });
+        message.success("Registration successful!");
         this.handleClose();
     }
     render () {

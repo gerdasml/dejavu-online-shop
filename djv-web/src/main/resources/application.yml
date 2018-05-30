@@ -49,6 +49,8 @@ auth:
   secret: changeit
   rights:
     REGULAR:
+      - POST ${rest.auth}/changePassword
+      - GET ${rest.auth}/validate
       - GET ${rest.user}/{id}
       - POST ${rest.user}/{id}
       - POST ${rest.user}/

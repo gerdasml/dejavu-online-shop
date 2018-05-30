@@ -37,3 +37,6 @@ export const register = (user: RegistrationRequest): Promise<ApiResponse<void>> 
 
 export const changePassword = (currentPassword: string, newPassword: string): Promise<ApiResponse<void>> =>
     fetchData(PATH_PREFIX + "/changePassword", HttpMethod.POST, {currentPassword, newPassword});
+
+export const isTokenValid = (): Promise<ApiResponse<boolean>> =>
+    fetchData(PATH_PREFIX + "/validate", HttpMethod.GET);

@@ -106,6 +106,10 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
         CompletableFuture.runAsync(() -> {
             processingStrategy.start(uuid);
             try {
+                if (isEmpty(uuid, getIterator(file))) {
+                    processingStrategy.finish(uuid);
+                    return;
+                }
                 analyze(uuid, getIterator(file));
                 process(uuid, getIterator(file));
                 processingStrategy.finish(uuid);
@@ -115,6 +119,19 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
             }
         });
         return uuid;
+    }
+
+    private boolean isEmpty(UUID jobId, PeekingIterator<List<String>> rowIterator) {
+        if (!rowIterator.hasNext()){
+            return true;
+        }
+        rowIterator.next();
+        while (rowIterator.hasNext()) {
+            if (rowIterator.next().stream().anyMatch(r -> r != null && r.length() > 0)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void process(UUID jobId, PeekingIterator<List<String>> rowIterator) {

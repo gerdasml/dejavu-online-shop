@@ -1,7 +1,6 @@
 package lt.dejavu.cart.service;
 
 import lt.dejavu.auth.exception.UserNotFoundException;
-import lt.dejavu.auth.model.db.Address;
 import lt.dejavu.auth.model.db.User;
 import lt.dejavu.auth.repository.UserRepository;
 import lt.dejavu.cart.model.rest.CartResponse;
@@ -12,7 +11,6 @@ import lt.dejavu.cart.repository.CartRepository;
 import lt.dejavu.cart.util.CartUtil;
 import lt.dejavu.order.dto.OrderDto;
 import lt.dejavu.order.model.OrderStatus;
-import lt.dejavu.order.model.ReviewStatus;
 import lt.dejavu.order.model.db.OrderItem;
 import lt.dejavu.order.model.db.ShippingInformation;
 import lt.dejavu.order.service.OrderService;
@@ -20,9 +18,11 @@ import lt.dejavu.payment.exception.PaymentException;
 import lt.dejavu.payment.model.Card;
 import lt.dejavu.payment.model.Payment;
 import lt.dejavu.payment.service.PaymentService;
+import lt.dejavu.product.dto.discount.ProductDiscountDto;
 import lt.dejavu.product.exception.ProductNotFoundException;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.repository.ProductRepository;
+import lt.dejavu.product.service.DiscountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,15 +41,17 @@ public class CartServiceImpl implements CartService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final CartMapper cartMapper;
+    private final DiscountService discountService;
 
     @Autowired
-    public CartServiceImpl(OrderService orderService, PaymentService paymentService, CartRepository cartRepository, ProductRepository productRepository, UserRepository userRepository, CartMapper cartMapper) {
+    public CartServiceImpl(OrderService orderService, PaymentService paymentService, CartRepository cartRepository, ProductRepository productRepository, UserRepository userRepository, CartMapper cartMapper, DiscountService discountService) {
         this.orderService = orderService;
         this.paymentService = paymentService;
         this.cartRepository = cartRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.cartMapper = cartMapper;
+        this.discountService = discountService;
     }
 
     @Override
@@ -71,7 +73,9 @@ public class CartServiceImpl implements CartService {
             item.setAmount(item.getAmount() + amount);
             cartRepository.updateOrderItem(item);
         } else {
-            cartRepository.addOrderItem(cart, product, amount);
+            ProductDiscountDto discount = discountService.getProductDiscount(product);
+            BigDecimal finalPrice = discount == null ? product.getPrice() : discount.getFinalPrice();
+            cartRepository.addOrderItem(cart, product, amount, finalPrice);
         }
         return getCart(userId);
     }

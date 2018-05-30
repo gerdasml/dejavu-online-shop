@@ -79,7 +79,7 @@ class Header extends React.Component <any, HeaderState> {
         this.setState({...this.state, ordersToReview: []});
     }
 
-    isLoggedIn = (): boolean => this.props.loggedIn !== undefined ? this.props.loggedIn : getToken() !== null;
+    isLoggedIn = (): boolean => this.props.loggedIn;
     render () {
         const loggedIn = this.isLoggedIn();
         const { activeItem } = this.state;
@@ -92,16 +92,16 @@ class Header extends React.Component <any, HeaderState> {
                         active={activeItem === "menu"}
                         onClick={this.handleItemClick}>
                     <NavLink to="/">
-                        <MediaQuery query="(min-width: 900px)">
+                        <MediaQuery query="(min-width: 430px)">
                             <Logo size="large"/>
                         </MediaQuery>
-                        <MediaQuery query="(max-width: 899px)">
+                        <MediaQuery query="(max-width: 429px)">
                             <Logo size="small"/>
                         </MediaQuery>
                     </NavLink>
                     </Menu.Item>
                     <Menu.Menu position="right" id="dejavu-menu">
-                        <MediaQuery query="(min-width: 500px)">
+                        <MediaQuery query="(min-width: 680px)">
                             <Menu.Item className="borderless hoverless">
                                 <ProductSearch />
                             </Menu.Item>
@@ -134,7 +134,7 @@ class Header extends React.Component <any, HeaderState> {
                                 <Login onLogin={this.handleLogin.bind(this)}/>
                             }
                         </MediaQuery>
-                        <MediaQuery query="(max-width: 499px)">
+                        <MediaQuery query="(max-width: 679px)">
                             <Menu.Item
                                 className="borderless"
                                 onClick={() => this.setState({...this.state, isSearch: !this.state.isSearch})}>
@@ -203,5 +203,7 @@ export default connect(
     dispatch => bindActionCreators({
           dispatchLogin: login,
           dispatchLogout: logout,
-    }, dispatch)
+    }, dispatch),
+    undefined,
+    { pure: false }
 )(Header);

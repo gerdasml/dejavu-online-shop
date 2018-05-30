@@ -17,7 +17,7 @@ const initialState: AuthReducerState = {
     loggedIn: false,
 };
 
-export default  (state: AuthReducerState = initialState, action: AuthAction): AuthReducerState => {
+export default (state: AuthReducerState = initialState, action: AuthAction): AuthReducerState => {
     switch (action.type) {
         case AuthActionType.LOGIN:
             return {

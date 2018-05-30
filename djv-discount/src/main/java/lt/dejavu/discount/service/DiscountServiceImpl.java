@@ -6,8 +6,10 @@ import lt.dejavu.discount.model.db.Discount;
 import lt.dejavu.discount.model.db.ProductDiscount;
 import lt.dejavu.discount.model.mapper.DiscountMapper;
 import lt.dejavu.discount.repository.DiscountRepository;
+import lt.dejavu.product.dto.ProductDto;
 import lt.dejavu.product.dto.discount.DiscountDto;
 import lt.dejavu.product.dto.discount.ProductDiscountDto;
+import lt.dejavu.product.dto.mapper.ProductDtoMapper;
 import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.ProductNotFoundException;
 import lt.dejavu.product.model.Category;
@@ -36,15 +38,17 @@ public class DiscountServiceImpl implements DiscountService {
     private final DiscountMapper discountMapper;
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ProductDtoMapper productDtoMapper;
 
     @Value("${constants.minimalPricePercentage}")
     private final BigDecimal minimalPricePercentage = BigDecimal.ZERO;
 
-    public DiscountServiceImpl(DiscountRepository discountRepository, DiscountMapper discountMapper, ProductRepository productRepository, CategoryRepository categoryRepository) {
+    public DiscountServiceImpl(DiscountRepository discountRepository, DiscountMapper discountMapper, ProductRepository productRepository, CategoryRepository categoryRepository, ProductDtoMapper productDtoMapper) {
         this.discountRepository = discountRepository;
         this.discountMapper = discountMapper;
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.productDtoMapper = productDtoMapper;
     }
 
     @Override
@@ -118,6 +122,24 @@ public class DiscountServiceImpl implements DiscountService {
         Map<Long, ProductDiscountDto> discountDtoMap = new HashMap<>();
         products.forEach(p -> discountDtoMap.put(p.getId(), getDiscountForProduct(p, allDiscounts)));
         return discountDtoMap;
+    }
+
+    @Override
+    public ProductDto attachDiscount(Product product) {
+        ProductDiscountDto discount = getProductDiscount(product);
+        ProductDto productDto = productDtoMapper.mapToDto(product);
+        productDto.setDiscount(discount);
+        return productDto;
+    }
+
+    @Override
+    public List<ProductDto> attachDiscount(Collection<Product> products) {
+        Map<Long, ProductDiscountDto> productsDiscounts = getProductsDiscounts(products);
+        List<ProductDto> productDtos = productDtoMapper.mapToDto(products);
+        productDtos.forEach(
+                productDto -> productDto.setDiscount(productsDiscounts.get(productDto.getId()))
+                           );
+        return productDtos;
     }
 
     private ProductDiscountDto getDiscountForProduct(Product product, List<Discount> allDiscounts){

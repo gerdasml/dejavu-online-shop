@@ -30,11 +30,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void register(UserDto info) {
+        if (userRepository.emailExists(info.getEmail())) {
+            throw new UserAlreadyExistsException("A user with the specified email already exists");
+        }
         String passHash = hasher.hash(info.getPassword());
         Long id = userRepository.getUserId(info.getEmail(), passHash);
-        if (id != null) {
-            throw new UserAlreadyExistsException("A user with the specified credentials already exists");
-        }
         info.setPassword(passHash);
         userRepository.addUser(userMapper.map(info));
     }

@@ -4,7 +4,8 @@ import { Icon, Input } from "antd";
 
 interface EditableCellProps {
     value: string;
-    onChange: (s: string) => void;
+    onChange?: (s: string) => void;
+    onSubmit?: (s: string) => void;
 }
 
 interface EditableCellState {
@@ -21,11 +22,16 @@ export class EditableCell extends React.Component<EditableCellProps, EditableCel
     handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
         this.setState({...this.state, value: val});
-        this.props.onChange(val);
+        if (this.props.onChange !== undefined) {
+            this.props.onChange(val);
+        }
     }
 
     finishEdit = () => {
         this.setState({...this.state, isBeingEdited: false});
+        if (this.props.onSubmit !== undefined) {
+            this.props.onSubmit(this.state.value);
+        }
     }
 
     startEdit = () => {

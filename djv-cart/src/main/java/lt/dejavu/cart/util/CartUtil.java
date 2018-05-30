@@ -9,7 +9,7 @@ public class CartUtil {
     public static Optional<OrderItem> getOrderItemByProductId(Cart cart, long productId) {
         return cart.getItems()
                    .stream()
-                   .filter(item -> item.getProduct().getId() == productId)
+                   .filter(item -> item.getProductId() == productId)
                    .findFirst();
     }
 }

@@ -29,15 +29,23 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
         isModalVisible: false
     };
 
+    componentWillMount () {
+        this.applyProps(this.props);
+    }
+
     componentWillReceiveProps (nextProps: CategoryFormProps) {
         if(nextProps.category) {
-            this.setState({
-                icon: nextProps.category.icon,
-                isModalVisible: false,
-                name: nextProps.category.name,
-                properties: nextProps.category.properties,
-            });
+            this.applyProps(nextProps);
         }
+    }
+
+    applyProps (props: CategoryFormProps) {
+        this.setState({
+            icon: props.category.icon,
+            isModalVisible: false,
+            name: props.category.name,
+            properties: props.category.properties,
+        });
     }
 
     isValid () {

@@ -2,6 +2,7 @@ package lt.dejavu.web;
 
 import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.exception.IncorrectPasswordException;
+import lt.dejavu.auth.exception.UserAlreadyExistsException;
 import lt.dejavu.auth.exception.UserNotFoundException;
 import lt.dejavu.order.exception.OrderNotFoundException;
 import lt.dejavu.payment.exception.PaymentException;
@@ -35,6 +36,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponse(ex, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public final ResponseEntity<ExceptionDetails> handleUserAlreadyExistsException(UserAlreadyExistsException ex, WebRequest req) {
+        return buildResponse(ex, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
     public final ResponseEntity<ExceptionDetails> handleOptimisticLockException(ObjectOptimisticLockingFailureException ex, WebRequest req) {
         OptimisticLockException e = new OptimisticLockException("This entity was already modified or deleted");
@@ -43,7 +49,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(IncorrectPasswordException.class)
     public final ResponseEntity<ExceptionDetails> handleIncorrectPasswordException(IncorrectPasswordException ex, WebRequest req) {
-        return buildResponse(ex, HttpStatus.UNAUTHORIZED);
+        return buildResponse(ex, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
@@ -69,6 +75,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ProductAlreadyExistException.class)
     public final ResponseEntity<ExceptionDetails> handleUserNotFoundException(ProductAlreadyExistException ex, WebRequest req) {
         return buildResponse(ex, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UnsupportedFileTypeException.class)
+    public final ResponseEntity<ExceptionDetails> handleUnsupportedFileTypeException(UnsupportedFileTypeException ex, WebRequest req) {
+        return buildResponse(ex, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(CategoryNotFoundException.class)
@@ -116,7 +127,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ExceptionDetails> handleGenericException(Exception ex, WebRequest req) {
         log.error("An Exception occurred. ", ex);
-        return buildResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        Exception exc = new Exception("An unexpected error occurred");
+        return buildResponse(exc, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private <T extends Exception> ResponseEntity<ExceptionDetails> buildResponse(T ex, HttpStatus status) {

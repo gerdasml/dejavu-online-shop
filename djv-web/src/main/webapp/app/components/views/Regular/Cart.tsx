@@ -24,18 +24,20 @@ interface CartState {
     shippingInformation?: ShippingInformation;
 }
 
-export class Cart extends React.Component<{}, CartState> {
-    state: CartState = {
-        cart: {
-            items: [],
-            total: 0,
-            user: undefined,
-        },
-        currentStep: CartStep.CART,
-        isLoading: true,
-    };
+const EMPTY_STATE: CartState = {
+    cart: {
+        items: [],
+        total: 0,
+        user: undefined,
+    },
+    currentStep: CartStep.CART,
+    isLoading: true,
+};
 
-    buildShippingInformation (cart: CartModel) {
+export class Cart extends React.Component<{}, CartState> {
+    state: CartState = EMPTY_STATE;
+
+    buildShippingInformation = (cart: CartModel) => {
         const info: ShippingInformation = {
             recipientFirstName: undefined,
             recipientLastName: undefined,
@@ -73,6 +75,9 @@ export class Cart extends React.Component<{}, CartState> {
 
     nextStep = () => {
         const step = this.state.currentStep;
+        if (step+1 === CartStep.APPROVAL) {
+            this.setState({...EMPTY_STATE, currentStep: step, isLoading: false});
+        }
         if(step === CartStep.APPROVAL) {
             return;
         }
