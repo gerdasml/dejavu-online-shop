@@ -39,7 +39,7 @@ export const ProductCard = (props: ProductCardProps) => (
                 as: "a",
                 ribbon: "right",
                 size: "large",
-                content: "- "+ formatPrice(props.product.discount.value)
+                content: "- "+props.product.discount.value+"%"
                 }} />
         :
         <Image
