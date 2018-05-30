@@ -62,7 +62,8 @@ auth:
       - DELETE ${rest.cart}/*
       - POST ${rest.cart}/checkout
       - GET ${rest.user}/profile
-      - GET ${rest.review}/*
+      - GET ${rest.review}/
+      - POST ${rest.review}/*
     ADMIN:
       - GET ${rest.user}/*
       - GET ${rest.user}/

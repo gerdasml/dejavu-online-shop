@@ -4,7 +4,7 @@ import { Button, Card, Grid, Header, Icon, Image } from "semantic-ui-react";
 
 import { Product } from "../../../model/Product";
 import { NavLink } from "react-router-dom";
-import { shortenString } from "../../../utils/common";
+import { shortenString, formatPrice } from "../../../utils/common";
 
 import { isNullOrUndefined } from "util";
 
@@ -39,7 +39,7 @@ export const ProductCard = (props: ProductCardProps) => (
                 as: "a",
                 ribbon: "right",
                 size: "large",
-                content: "- "+props.product.discount.value+"%"
+                content: "- "+ formatPrice(props.product.discount.value)
                 }} />
         :
         <Image
@@ -49,7 +49,7 @@ export const ProductCard = (props: ProductCardProps) => (
             as: "a",
             ribbon: "right",
             size: "large",
-            content: "- " + props.product.discount.value+"€"
+            content: "- " + formatPrice(props.product.discount.value)
             }} />
 
         }
@@ -64,12 +64,12 @@ export const ProductCard = (props: ProductCardProps) => (
                 <Grid.Column>
                     {isNullOrUndefined(props.product.discount)
                     ?
-                        <Header as="h3" className="priceHeader">{props.product.price}€
+                        <Header as="h3" className="priceHeader">{formatPrice(props.product.price)}
                         <Header.Subheader style={{visibility: "hidden"}} as="del" content="."/>
                         </Header>
                         :
-                        <Header as="h3" className="priceHeader">{props.product.discount.finalPrice}€
-                            <Header.Subheader as="del" content={props.product.price + "€"} />
+                        <Header as="h3" className="priceHeader">{formatPrice(props.product.discount.finalPrice)}
+                            <Header.Subheader as="del" content={formatPrice(props.product.price)} />
                         </Header>
                     }
                 </Grid.Column>

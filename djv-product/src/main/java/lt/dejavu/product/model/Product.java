@@ -54,7 +54,7 @@ public class Product extends AbstractProduct {
         super(p);
     }
 
-    public Product(AbstractProduct p, long id) {
+    public Product(AbstractProduct p, Long id) {
         super(p);
         setId(id);
     }

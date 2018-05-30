@@ -2,9 +2,6 @@ ALTER TABLE orderItem
 DROP productId;
 
 ALTER TABLE orderItem
-ADD skuCode VARCHAR(255);
-
-ALTER TABLE orderItem
 ADD name VARCHAR(255) NOT NULL;
 
 ALTER TABLE orderItem
