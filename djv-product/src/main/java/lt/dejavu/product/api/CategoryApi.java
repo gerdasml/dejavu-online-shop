@@ -4,6 +4,7 @@ import lt.dejavu.auth.exception.ApiSecurityException;
 import lt.dejavu.auth.service.SecurityService;
 import lt.dejavu.product.dto.CategoryDto;
 import lt.dejavu.product.dto.CategoryInfoDto;
+import lt.dejavu.product.dto.CategoryPropertyDto;
 import lt.dejavu.product.dto.CategoryTreeResponse;
 import lt.dejavu.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,14 @@ public class CategoryApi {
     )
     public List<CategoryDto> getSubCategories(@PathVariable("categoryId") long categoryId) {
         return categoryService.getSubCategories(categoryId);
+    }
+
+    @GetMapping(
+            path = "/{categoryId}/properties",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public List<CategoryPropertyDto> getCategoryProperties(@PathVariable("categoryId") long categoryId){
+        return  categoryService.getCategoryProperties(categoryId);
     }
 
     @PostMapping(

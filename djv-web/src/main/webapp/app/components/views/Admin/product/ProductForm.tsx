@@ -164,14 +164,14 @@ export class ProductForm extends React.Component<ProductFormProps,ProductFormSta
         this.setState({
             ...this.state, category: categoryId
         });
-        const response = await api.category.getCategory(categoryId);
+        const response = await api.category.getCategoryProperties(categoryId);
         if (api.isError(response)) {
             notification.error({message: "Failed to fetch category data", description: response.message});
             return;
         }
         this.setState({
             ...this.state,
-            properties: response.properties.map(
+            properties: response.map(
                 prop => ({
                     name: prop.name,
                     value: "",

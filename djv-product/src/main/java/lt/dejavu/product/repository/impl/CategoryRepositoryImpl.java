@@ -116,38 +116,19 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public List<ProductProperty> getProductPropertiesForCategory(long categoryId) {
-
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<ProductProperty> query = cb.createQuery(ProductProperty.class);
         Root<ProductProperty> root = query.from(ProductProperty.class);
         Join<Category, Category> parentJoin = root.join(ProductProperty_.categoryProperty).join(CategoryProperty_.category).join(Category_.parentCategory);
-        Join<Category, Category> granpaJoin = parentJoin.join(Category_.parentCategory);
         ParameterExpression<Long> idParameter = cb.parameter(Long.class);
-
         query.where(cb.or(
                 cb.equal(root.get(ProductProperty_.categoryProperty).get(CategoryProperty_.category).get(Category_.id), idParameter),
                 cb.equal(parentJoin.get(Category_.id), idParameter),
-                cb.equal(granpaJoin.get(Category_.id), idParameter)));
+                cb.equal(parentJoin.get(Category_.parentCategory).get(Category_.id), idParameter)));
         return em.createQuery(query).setParameter(idParameter, categoryId).getResultList();
     }
 
-//    @Override
-//    public List<CategoryProperty> getCategoryProperties(long categoryId) {
-//        CriteriaBuilder cb = em.getCriteriaBuilder();
-//        CriteriaQuery<CategoryProperty> query = cb.createQuery(CategoryProperty.class);
-//        Root<Category> root = query.from(Category.class);
-//        Selection<CategoryProperty> selection = query.select(root.get(Category_.));
-//        Join<Category, Category> parentJoin = root.join(Category_.parentCategory);
-//        ParameterExpression<Long> idParameter = cb.parameter(Long.class);
-//
-//        query.where(cb.or(
-//                cb.equal(root.get(ProductProperty_.categoryProperty).get(CategoryProperty_.category).get(Category_.id), idParameter),
-//                cb.equal(parentJoin.get(Category_.id), idParameter),
-//                cb.equal(granpaJoin.get(Category_.id), idParameter)));
-//        return em.createQuery(query).setParameter(idParameter, categoryId).getResultList();
-//    }
-
-    @Override
+   @Override
     public long getProductCount(long categoryId) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);

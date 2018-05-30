@@ -11,7 +11,7 @@ import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.ProductNotFoundException;
 import lt.dejavu.product.exception.ProductPropertyNotFoundException;
 import lt.dejavu.product.repository.CategoryRepository;
-import lt.dejavu.product.repository.ProductPropertyRepository;
+import lt.dejavu.product.repository.PropertyRepository;
 import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.product.service.DiscountService;
 import lt.dejavu.product.service.ProductService;
@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductDtoMapper productDtoMapper;
 
     private final ProductPropertyDtoMapper productPropertyDtoMapper;
-    private final ProductPropertyRepository productPropertyRepository;
+    private final PropertyRepository propertyRepository;
 
     private final ExcelService<Product> excelService;
     private final DiscountService discountService;
@@ -45,14 +45,14 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository,
                               ProductDtoMapper productDtoMapper, ExcelService<Product> excelService,
-                              ProductPropertyDtoMapper productPropertyDtoMapper, ProductPropertyRepository productPropertyRepository,
+                              ProductPropertyDtoMapper productPropertyDtoMapper, PropertyRepository propertyRepository,
                               DiscountService discountService) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.productDtoMapper = productDtoMapper;
 
         this.productPropertyDtoMapper = productPropertyDtoMapper;
-        this.productPropertyRepository = productPropertyRepository;
+        this.propertyRepository = propertyRepository;
 
         this.excelService = excelService;
 
@@ -117,7 +117,7 @@ public class ProductServiceImpl implements ProductService {
         Long productId = productRepository.saveProduct(product);
         Set<CategoryProperty> properties = getProductCategoryProperties(request);
         Set<ProductProperty> propertyValues = productPropertyDtoMapper.mapProperties(product, properties, request.getProperties());
-        productPropertyRepository.savePropertyValues(propertyValues);
+        propertyRepository.savePropertyValues(propertyValues);
         return productId;
     }
 
@@ -141,7 +141,7 @@ public class ProductServiceImpl implements ProductService {
 
     private Set<CategoryProperty> getProductCategoryProperties(ProductDto request) {
         Set<Long> propertyIds = getPropertyIds(request);
-        Set<CategoryProperty> properties = productPropertyRepository.findByIds(propertyIds);
+        Set<CategoryProperty> properties = propertyRepository.findByIds(propertyIds);
         checkIfAllPropertiesWereFound(propertyIds, properties);
         return properties;
     }

@@ -70,7 +70,7 @@ public class CategoryDtoMapper {
         return dto;
     }
 
-    private List<CategoryPropertyDto> map(Collection<CategoryProperty> productProperties) {
+    public List<CategoryPropertyDto> map(Collection<CategoryProperty> productProperties) {
         return productProperties.stream().map(this::map).collect(toList());
     }
 
@@ -89,10 +89,10 @@ public class CategoryDtoMapper {
             return new LinkedHashSet<>();
         }
         return categoryPropertyDtos.stream()
-                .map(request -> {
+                .map(dto -> {
                     CategoryProperty property = new CategoryProperty();
-                    property.setId(request.getPropertyId());
-                    property.setName(request.getName());
+                    property.setId(dto.getPropertyId());
+                    property.setName(dto.getName());
                     property.setCategory(category);
                     return property;
                 }).collect(toCollection(LinkedHashSet::new));
