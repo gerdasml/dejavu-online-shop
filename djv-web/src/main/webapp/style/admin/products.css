@@ -9,6 +9,10 @@
     font-weight: bold;
 }
 
+.productsButton{
+    margin-left: 10px !important;
+}
+
 .saveButton:hover{
     background-color: #FFE693 !important;
     border-color: transparent;

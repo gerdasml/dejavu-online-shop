@@ -4,6 +4,7 @@
     color: #393D40 !important;
     font-weight: bold;
     margin-bottom: 5%;
+    margin-left: 10px !important;
 }
 
 .discountRecordTable th{
@@ -62,4 +63,8 @@
 .categoryDropdown{
     margin-top: 1% !important;
     margin-bottom: 1% !important;
+}
+
+.discountEditorButton{
+    margin-left: 10px !important;
 }

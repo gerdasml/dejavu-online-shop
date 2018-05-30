@@ -234,7 +234,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                     overlay={this.discountTargetMenu}
                     disabled={this.props.discount !== undefined}
                 >
-                    <Button>
+                    <Button className="discountEditorButton">
                         { this.state.discountTarget === undefined
                         ? "Discount target"
                         : this.state.discountTarget
@@ -244,23 +244,23 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                 </Dropdown>
                 { this.state.dateStart === undefined || this.state.dateEnd === undefined
                 ?
-                <DatePicker.RangePicker
+                <DatePicker.RangePicker className="discountEditorButton"
                     onChange={this.updateDate.bind(this)}
                     format={"YYYY-MM-DD"}
                 />
                 :
-                <DatePicker.RangePicker
+                <DatePicker.RangePicker className="discountEditorButton"
                     onChange={this.updateDate.bind(this)}
                     value={[ Moment(this.state.dateStart),
                                     Moment(this.state.dateEnd)]}
                     format={"YYYY-MM-DD"}
                 />
                 }
-                <Dropdown
+                <Dropdown className="discountEditorButton"
                     trigger={["click"]}
                     overlay={this.discountTypeMenu}
                 >
-                    <Button style={{ marginLeft: 0 }}>
+                    <Button style={{ marginLeft: 0 }} className="discountEditorButton">
                         { this.state.discountType === undefined
                         ? "Discount type"
                         : this.state.discountType
@@ -271,7 +271,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                 { this.state.discountType === undefined ? ""
                 : this.state.discountType === DiscountType.ABSOLUTE
                 ?
-                <InputNumber
+                <InputNumber className="discountEditorButton"
                     defaultValue={this.state.discountValue}
                     value={this.state.discountValue}
                     min={0}
@@ -280,7 +280,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                     onChange={(e: number) => this.setState({...this.state, discountValue: e})}
                 />
                 :
-                <InputNumber
+                <InputNumber className="discountEditorButton"
                     defaultValue={this.state.discountValue}
                     value={this.state.discountValue}
                     min={0}
