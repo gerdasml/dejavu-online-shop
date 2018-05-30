@@ -21,6 +21,7 @@
         <module>djv-excel</module>
         <module>djv-discount</module>
     </modules>
+    
     <packaging>pom</packaging>
 
     <name>djv-shop</name>
