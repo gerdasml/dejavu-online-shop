@@ -1,4 +1,7 @@
 ALTER TABLE orderItem
+DROP FOREIGN KEY FK_orderItem_productId;
+
+ALTER TABLE orderItem
 DROP productId;
 
 ALTER TABLE orderItem
