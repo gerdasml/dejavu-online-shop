@@ -24,9 +24,19 @@
     color: #FFCE2B;
 }
 
-#productFormGrid span span span{
+#productFormGrid span span span, .input-title{
     background-color: #393D40 !important;
     color: #FFE693 !important;
+}
+
+.label-and-number {
+    display: table;
+    margin: 1% 0;
+}
+
+.label-and-number > div {
+    display: table-cell;
+    border-left: 0;
 }
 
 #productFormGrid{
