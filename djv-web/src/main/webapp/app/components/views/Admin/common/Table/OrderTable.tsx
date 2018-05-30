@@ -49,7 +49,7 @@ export const OrderTable = (props: OrderTableProps) => (
             className="ordersRecordColumn"
             key = "total"
             title = "Total"
-            dataIndex="total"
+            render={(_, record) => formatPrice(record.total)}
         />
     </OrderRecordTable>
 );
