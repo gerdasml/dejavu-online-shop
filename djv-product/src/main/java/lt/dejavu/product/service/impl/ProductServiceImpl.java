@@ -3,7 +3,6 @@ package lt.dejavu.product.service.impl;
 import lt.dejavu.excel.service.ExcelService;
 import lt.dejavu.product.dto.ProductDto;
 import lt.dejavu.product.dto.ProductPropertyDto;
-import lt.dejavu.product.dto.discount.ProductDiscountDto;
 import lt.dejavu.product.dto.mapper.ProductDtoMapper;
 import lt.dejavu.product.dto.mapper.ProductPropertyDtoMapper;
 import lt.dejavu.product.model.*;
@@ -16,7 +15,6 @@ import lt.dejavu.product.repository.ProductPropertyRepository;
 import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.product.service.DiscountService;
 import lt.dejavu.product.service.ProductService;
-import lt.dejavu.product.strategy.IdentifierGenerator;
 import lt.dejavu.utils.collections.UpdatableCollectionUtils;
 import lt.dejavu.utils.debug.Profiler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,7 +115,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = productDtoMapper.mapToProduct(request, productCategory);
         product.setCreationDate(LocalDateTime.now());
         Long productId = productRepository.saveProduct(product);
-        Set<CategoryProperty> properties = getProductCategoryProperties(request, productCategory);
+        Set<CategoryProperty> properties = getProductCategoryProperties(request);
         Set<ProductProperty> propertyValues = productPropertyDtoMapper.mapProperties(product, properties, request.getProperties());
         productPropertyRepository.savePropertyValues(propertyValues);
         return productId;
@@ -135,15 +133,15 @@ public class ProductServiceImpl implements ProductService {
         Category productCategory = resolveCategory(request.getCategoryId());
         Product oldProduct = getProductIfExist(productId);
         productDtoMapper.remapToProduct(oldProduct, request, productCategory);
-        Set<CategoryProperty> properties = getProductCategoryProperties(request, productCategory);
+        Set<CategoryProperty> properties = getProductCategoryProperties(request);
         Set<ProductProperty> propertyValues = productPropertyDtoMapper.mapProperties(oldProduct, properties, request.getProperties());
         UpdatableCollectionUtils.updateCollection(oldProduct.getProperties(), propertyValues);
         productRepository.updateProduct(oldProduct);
     }
 
-    private Set<CategoryProperty> getProductCategoryProperties(ProductDto request, Category productCategory) {
+    private Set<CategoryProperty> getProductCategoryProperties(ProductDto request) {
         Set<Long> propertyIds = getPropertyIds(request);
-        Set<CategoryProperty> properties = productPropertyRepository.findByCategoryIdAndIds(productCategory.getId(), propertyIds);
+        Set<CategoryProperty> properties = productPropertyRepository.findByIds(propertyIds);
         checkIfAllPropertiesWereFound(propertyIds, properties);
         return properties;
     }
@@ -211,7 +209,7 @@ public class ProductServiceImpl implements ProductService {
 
     private void checkIfAllPropertiesWereFound(Set<Long> propertyIds, Set<CategoryProperty> properties) {
         if (propertyIds.size() != properties.size()) {
-            throw new ProductPropertyNotFoundException("Not product all properties were found in given category");
+            throw new ProductPropertyNotFoundException("Not all product properties were found in given category");
             //TODO more details
         }
 

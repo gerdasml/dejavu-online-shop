@@ -44,7 +44,12 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Category> query = cb.createQuery(Category.class);
         Root<Category> root = query.from(Category.class);
+        query.select(root).distinct(true);
         root.fetch(Category_.properties, JoinType.LEFT);
+        Fetch<Category, Category> fetch = root.fetch(Category_.parentCategory, JoinType.LEFT);
+        fetch.fetch(Category_.properties, JoinType.LEFT);
+        fetch = fetch.fetch(Category_.parentCategory, JoinType.LEFT);
+        fetch.fetch(Category_.properties, JoinType.LEFT);
         ParameterExpression<String> idParameter = cb.parameter(String.class);
         query.where(cb.equal(root.get(Category_.identifier), idParameter));
         List<Category> resultList = em.createQuery(query).setParameter(idParameter, identifier).getResultList();
@@ -95,7 +100,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         CriteriaQuery<Category> query = cb.createQuery(Category.class);
         Root<Category> root = query.from(Category.class);
         root.fetch(Category_.properties, JoinType.LEFT);
-        root.fetch(Category_.parentCategory, JoinType.LEFT);
         return new LinkedHashSet<>(em.createQuery(query).getResultList());
     }
 
@@ -116,12 +120,32 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<ProductProperty> query = cb.createQuery(ProductProperty.class);
         Root<ProductProperty> root = query.from(ProductProperty.class);
-
+        Join<Category, Category> parentJoin = root.join(ProductProperty_.categoryProperty).join(CategoryProperty_.category).join(Category_.parentCategory);
+        Join<Category, Category> granpaJoin = parentJoin.join(Category_.parentCategory);
         ParameterExpression<Long> idParameter = cb.parameter(Long.class);
-        query.where(cb.equal(root.get(ProductProperty_.categoryProperty).get(CategoryProperty_.category).get(Category_.id), idParameter));
 
+        query.where(cb.or(
+                cb.equal(root.get(ProductProperty_.categoryProperty).get(CategoryProperty_.category).get(Category_.id), idParameter),
+                cb.equal(parentJoin.get(Category_.id), idParameter),
+                cb.equal(granpaJoin.get(Category_.id), idParameter)));
         return em.createQuery(query).setParameter(idParameter, categoryId).getResultList();
     }
+
+//    @Override
+//    public List<CategoryProperty> getCategoryProperties(long categoryId) {
+//        CriteriaBuilder cb = em.getCriteriaBuilder();
+//        CriteriaQuery<CategoryProperty> query = cb.createQuery(CategoryProperty.class);
+//        Root<Category> root = query.from(Category.class);
+//        Selection<CategoryProperty> selection = query.select(root.get(Category_.));
+//        Join<Category, Category> parentJoin = root.join(Category_.parentCategory);
+//        ParameterExpression<Long> idParameter = cb.parameter(Long.class);
+//
+//        query.where(cb.or(
+//                cb.equal(root.get(ProductProperty_.categoryProperty).get(CategoryProperty_.category).get(Category_.id), idParameter),
+//                cb.equal(parentJoin.get(Category_.id), idParameter),
+//                cb.equal(granpaJoin.get(Category_.id), idParameter)));
+//        return em.createQuery(query).setParameter(idParameter, categoryId).getResultList();
+//    }
 
     @Override
     public long getProductCount(long categoryId) {

@@ -9,7 +9,7 @@ public interface ProductPropertyRepository {
 
     void saveProperties(Set<CategoryProperty> properties);
 
-    Set<CategoryProperty> findByCategoryIdAndIds(long categoryId, Set<Long> ids);
+    Set<CategoryProperty> findByIds(Set<Long> ids);
 
     void savePropertyValues(Set<ProductProperty> productProperties);
 }

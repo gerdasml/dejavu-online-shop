@@ -30,9 +30,7 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
     };
 
     componentWillReceiveProps (nextProps: PropertiesTableProps) {
-        if(nextProps.properties.length === 0 || this.state.properties.length === 0) {
-            this.setState({properties: nextProps.properties.map(addKey)});
-        }
+        this.setState({properties: nextProps.properties.map(addKey)});
     }
     handleRemoveRow (keyToDelete: number) {
         const newProp = this.state.properties.filter(x => x.key !== keyToDelete);
