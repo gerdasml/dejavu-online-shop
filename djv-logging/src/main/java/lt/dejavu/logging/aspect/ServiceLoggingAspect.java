@@ -6,6 +6,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.logging.LogLevel;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
@@ -13,6 +15,9 @@ import org.springframework.util.StopWatch;
 @Aspect
 @Order(value=2)
 public class ServiceLoggingAspect {
+
+    @Value("${logging.level.common:OFF}")
+    private LogLevel LOG_LEVEL;
 
     @Around("execution(* lt.dejavu..*.service..*.*(..))")
     public Object logServiceMethod(ProceedingJoinPoint joinPoint) throws Throwable{
@@ -36,7 +41,9 @@ public class ServiceLoggingAspect {
 
             startMessageStringBuffer.append(")");
 
-            logger.debug(startMessageStringBuffer.toString());
+            if (LOG_LEVEL.compareTo(LogLevel.DEBUG) <= 0) {
+                logger.debug(startMessageStringBuffer.toString());
+            }
 
             StopWatch stopWatch = new StopWatch();
             stopWatch.start();
@@ -51,9 +58,13 @@ public class ServiceLoggingAspect {
                                             stopWatch.getTotalTimeMillis() +
                                             " ms; return value: " +
                                             retVal;
-            logger.debug(endMessageStringBuffer);
+            if (LOG_LEVEL.compareTo(LogLevel.DEBUG) <= 0) {
+                logger.debug(endMessageStringBuffer);
+            }
         } catch (Throwable ex) {
-            logger.error("", ex);
+            if (LOG_LEVEL.compareTo(LogLevel.ERROR) <= 0) {
+                logger.error("", ex);
+            }
             throw ex;
         }
 
