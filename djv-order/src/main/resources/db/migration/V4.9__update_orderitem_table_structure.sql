@@ -1,8 +1,8 @@
 ALTER TABLE orderItem
-DROP productId;
+DROP FOREIGN KEY FK_orderItem_productId;
 
 ALTER TABLE orderItem
-ADD skuCode VARCHAR(255);
+DROP productId;
 
 ALTER TABLE orderItem
 ADD name VARCHAR(255) NOT NULL;

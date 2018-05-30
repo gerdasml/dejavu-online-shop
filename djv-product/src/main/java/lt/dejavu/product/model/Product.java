@@ -3,6 +3,7 @@ package lt.dejavu.product.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.util.Set;
 @Entity
 @EqualsAndHashCode(exclude = {"properties", "category"})
 @Table(name = "product")
+@ToString(exclude={"properties"})
 public class Product extends AbstractProduct {
 
     @Column(name="skuCode")
@@ -52,7 +54,7 @@ public class Product extends AbstractProduct {
         super(p);
     }
 
-    public Product(AbstractProduct p, long id) {
+    public Product(AbstractProduct p, Long id) {
         super(p);
         setId(id);
     }

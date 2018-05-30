@@ -4,6 +4,7 @@ package lt.dejavu.product.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Entity
 @EqualsAndHashCode(exclude = {"properties", "parentCategory"})
 @Table(name = "category")
+@ToString(exclude={"properties"})
 public class Category {
 
     @Id

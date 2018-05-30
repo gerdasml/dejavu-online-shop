@@ -6,7 +6,7 @@ import { Order, OrderStatus } from "../../../../../model/Order";
 import { OrderStatusCell } from "./OrderStatusCell";
 import { OrderTable } from "./OrderTable";
 
-import { stringifyAddress } from "../../../../../utils/common";
+import { stringifyAddress, formatPrice } from "../../../../../utils/common";
 import { addKey, WithKey } from "../../../../../utils/table";
 import { config } from "../../../../../config";
 
@@ -156,7 +156,7 @@ export class OrdersTable extends React.Component<OrdersTableProps, never> {
                     className="ordersRecordColumn"
                     key="total"
                     title="Total"
-                    dataIndex="total"
+                    render={(_, record) => formatPrice(record.total)}
                 />
             </OrdersRecordTable>
         );

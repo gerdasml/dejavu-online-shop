@@ -3,6 +3,7 @@ package lt.dejavu.product.dto.discount;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lt.dejavu.product.model.DiscountTarget;
 import lt.dejavu.product.model.DiscountType;
 
@@ -12,6 +13,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @EqualsAndHashCode
+@ToString
 public class DiscountDto {
     private Long id;
     private DiscountType type;

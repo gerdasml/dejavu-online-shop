@@ -117,6 +117,7 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
                     visible={this.state.isModalVisible}
                     className="modalWrapper"
                     style={{top: 0}}
+                    onCancel={() => this.setState({...this.state, isModalVisible: false})}
                     footer={[
                         <Button className="categoryFormButton"
                         onClick={() => this.setState({...this.state, isModalVisible: false})}>Cancel</Button>,

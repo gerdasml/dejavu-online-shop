@@ -8,6 +8,7 @@ import { NavLink } from "react-router-dom";
 import "../../../../../style/admin/discounts.css";
 
 import { config } from "../../../../config";
+import { formatPrice } from "../../../../utils/common";
 
 type DiscountRecord = Discount & WithKey;
 
@@ -29,7 +30,7 @@ const getTargetName = (record: DiscountRecord) => {
 
 const showAmount = (record: DiscountRecord) => {
     if(record.type === DiscountType.ABSOLUTE) {
-        return record.value + "€";
+        return formatPrice(record.value);
     }
     return record.value + "%";
 };
