@@ -15,7 +15,7 @@ import java.util.Set;
 @Entity
 @EqualsAndHashCode(exclude = {"properties", "parentCategory"})
 @Table(name = "category")
-@ToString
+@ToString(exclude={"properties"})
 public class Category {
 
     @Id

@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @EqualsAndHashCode
-@ToString
+@ToString(exclude={"target"})
 public class CategoryDiscount extends Discount {
     @ManyToOne
     @JoinColumn(name = "categoryId")

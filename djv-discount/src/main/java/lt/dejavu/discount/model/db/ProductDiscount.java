@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @EqualsAndHashCode
-@ToString
+@ToString(exclude={"target"})
 public class ProductDiscount extends Discount {
     @ManyToOne
     @JoinColumn(name = "productId")

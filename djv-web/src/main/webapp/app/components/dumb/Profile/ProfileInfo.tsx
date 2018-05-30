@@ -58,6 +58,9 @@ export const ProfileInfo = withRouter(class extends React.Component<RouteCompone
 
     async saveChanges () {
         const userInfo = this.state.changedUser;
+        if (userInfo.email === undefined || userInfo.email.length === 0) {
+            return;
+        }
         await api.user.updateUser(userInfo);
         this.setState({
             ...this.state,
@@ -86,13 +89,6 @@ export const ProfileInfo = withRouter(class extends React.Component<RouteCompone
         const value = event.currentTarget.value;
         this.setState({
             ...this.state, changedUser: {...this.state.changedUser, lastName: value}
-        });
-    }
-
-    handleEmailInput = (event: React.FormEvent<HTMLInputElement>) => {
-        const value = event.currentTarget.value;
-        this.setState({
-            ...this.state, changedUser: {...this.state.changedUser, email: value}
         });
     }
 
@@ -162,6 +158,12 @@ export const ProfileInfo = withRouter(class extends React.Component<RouteCompone
                     }
                 </div>
                 <Form.Field inline className="profileFormField">
+                    <label>Email:</label>
+                    <label className="readOnlyFields" >
+                        {isLoading ? "" : this.state.changedUser.email}
+                    </label>
+                </Form.Field>
+                <Form.Field inline className="profileFormField">
                     <label>First name:</label>
                     { this.state.beingEdited
                     ?
@@ -186,20 +188,6 @@ export const ProfileInfo = withRouter(class extends React.Component<RouteCompone
                     :
                     <label className="readOnlyFields" >
                         {isLoading ? "" : this.state.changedUser.lastName}
-                    </label>
-                    }
-                </Form.Field>
-                <Form.Field inline className="profileFormField">
-                    <label>Email:</label>
-                    { this.state.beingEdited
-                    ?
-                    <input required className="editableFields" type="email" placeholder="email"
-                        onChange = {this.handleEmailInput.bind(this)}
-                        value={isLoading ? "" : this.state.changedUser.email}
-                    />
-                    :
-                    <label className="readOnlyFields" >
-                        {isLoading ? "" : this.state.changedUser.email}
                     </label>
                     }
                 </Form.Field>

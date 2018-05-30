@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "purchase_order")
-@ToString
+@ToString(exclude={"items", "review"})
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

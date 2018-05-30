@@ -16,7 +16,7 @@ import java.util.Set;
 @Entity
 @EqualsAndHashCode(exclude = {"properties", "category"})
 @Table(name = "product")
-@ToString
+@ToString(exclude={"properties"})
 public class Product extends AbstractProduct {
 
     @Column(name="skuCode")
