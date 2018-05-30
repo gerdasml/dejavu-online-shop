@@ -3,6 +3,7 @@ package lt.dejavu.order.model.db;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lt.dejavu.product.model.AbstractProduct;
 import lt.dejavu.product.model.Product;
 
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "orderItem")
 @EqualsAndHashCode
+@ToString
 public class OrderItem extends AbstractProduct {
     @Column(name = "productId")
     private Long productId;

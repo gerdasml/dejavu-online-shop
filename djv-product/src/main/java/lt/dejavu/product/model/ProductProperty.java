@@ -3,6 +3,7 @@ package lt.dejavu.product.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lt.dejavu.utils.collections.Updatable;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name = "product_property")
+@ToString
 public class ProductProperty implements Updatable<ProductProperty> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
