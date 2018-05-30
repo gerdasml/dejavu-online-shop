@@ -3,6 +3,7 @@ package lt.dejavu.cart.model.db;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lt.dejavu.auth.model.db.User;
 import lt.dejavu.order.model.db.OrderItem;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @EqualsAndHashCode
 @Entity
 @Table(name = "cart")
+@ToString
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

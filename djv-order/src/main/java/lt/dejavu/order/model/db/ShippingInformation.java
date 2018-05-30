@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lt.dejavu.auth.model.db.Address;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @EqualsAndHashCode
+@ToString
 public class ShippingInformation {
     @JsonIgnore
     @Id

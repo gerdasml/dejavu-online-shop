@@ -3,6 +3,7 @@ package lt.dejavu.product.dto;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lt.dejavu.excel.model.db.Status;
 
 import java.time.Instant;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @EqualsAndHashCode
+@ToString
 public class ProductImportStatusDto {
     private UUID id;
     private Status status;

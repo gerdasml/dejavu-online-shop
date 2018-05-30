@@ -3,6 +3,7 @@ package lt.dejavu.discount.model.db;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lt.dejavu.product.model.DiscountType;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import java.sql.Timestamp;
 @EqualsAndHashCode
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "discount")
+@ToString
 public class Discount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

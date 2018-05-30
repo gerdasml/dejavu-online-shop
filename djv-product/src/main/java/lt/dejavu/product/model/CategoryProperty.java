@@ -2,6 +2,7 @@ package lt.dejavu.product.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lt.dejavu.utils.collections.Updatable;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name = "category_property")
+@ToString
 public class CategoryProperty  implements Updatable<CategoryProperty> {
 
     @Id
