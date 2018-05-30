@@ -52,7 +52,7 @@
         <jackson.version>2.9.4</jackson.version>
         <hibernate.version>5.2.16.Final</hibernate.version>
         <apache-commons-lang3.version>3.7</apache-commons-lang3.version>
-        <mysql-connector-java.version>6.0.6</mysql-connector-java.version>
+        <mysql-connector-java.version>8.0.11</mysql-connector-java.version>
         <httpclient.version>4.5.3</httpclient.version>
         <apache-poi.version>3.17</apache-poi.version>
     </properties>
