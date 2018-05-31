@@ -83,6 +83,7 @@ public class ExcelServiceImpl<T> implements ExcelService<T> {
                               .parallelStream()
                               .forEach(col ->
                                                mergeIntervals.parallelStream()
+                                                             .filter(row -> !row.getKey().equals(row.getValue()))
                                                              .forEach(row ->
                                                                               sheet.addMergedRegionUnsafe(new CellRangeAddress(row.getKey(), row.getValue(), col, col))
                                                                      )

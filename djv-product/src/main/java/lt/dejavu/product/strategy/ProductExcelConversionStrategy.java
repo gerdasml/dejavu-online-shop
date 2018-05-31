@@ -65,10 +65,6 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
     @Override
     public List<List<String>> toRows(Product item) {
         List<ProductProperty> properties = new ArrayList<>(item.getProperties());
-        if (properties.size() == 0) {
-            properties = new ArrayList<>();
-            properties.add(new ProductProperty());
-        }
         List<List<String>> result = new ArrayList<>();
         List<String> firstRow =
                 Arrays.asList(
@@ -77,8 +73,8 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
                         item.getSkuCode(),
                         item.getDescription(),
                         item.getCategory().getIdentifier(),
-                        properties.get(0).getCategoryProperty().getName(),
-                        properties.get(0).getValue()
+                        properties.size() > 0 ? properties.get(0).getCategoryProperty().getName() : "",
+                        properties.size() > 0 ? properties.get(0).getValue() : ""
                              );
         result.add(firstRow);
         properties.stream().skip(1).forEach(p -> {
