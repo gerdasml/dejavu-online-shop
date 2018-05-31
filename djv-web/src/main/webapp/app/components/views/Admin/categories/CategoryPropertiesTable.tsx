@@ -7,6 +7,8 @@ import { CategoryProperty } from "../../../../model/CategoryProperties";
 import { addKeyString, WithStringKey } from "../../../../utils/table";
 import { EditableCell } from "../common/EditableCell";
 
+import "../../../../../style/admin/categories.css";
+
 type Property = CategoryProperty & WithStringKey;
 
 interface PropertiesTableProps {
@@ -23,7 +25,7 @@ class PropertiesTable extends Table<Property> {}
 class PropertyColumn extends Table.Column<Property> {}
 
 const addUniqueKey = (categoryId: number) =>
-    (x: CategoryProperty, idx: number) => addKeyString(x, categoryId + "-" + idx);
+    (x: CategoryProperty, idx: number) => addKeyString(x, categoryId + "-" + x.propertyId + "-" + x.name);
 
 export class CategoryPropertiesTable extends React.Component<PropertiesTableProps, PropertiesTableState> {
     state: PropertiesTableState = {
@@ -59,25 +61,26 @@ export class CategoryPropertiesTable extends React.Component<PropertiesTableProp
         return (
             <div>
                 <h3>Properties:</h3>
-                <PropertiesTable pagination={false} dataSource={this.state.properties}>
+                <PropertiesTable bordered={true}
+                pagination={false} dataSource={this.state.properties} className="propertiesTable">
                     <PropertyColumn
+                        className="propertyColumn"
                         key="name"
                         title="Name"
                         render={(text, record, index) =>
                             <EditableCell
                                 value={record.name}
-                                onChange={s=>this.updatePropertyName(index, s)}
+                                onSubmit={s => this.updatePropertyName(index, s)}
                             />}
                         />
                     <PropertyColumn
                         key="remove"
-                        render={(_, record) => <Button
-                                                    type="danger"
+                        render={(_, record) => <Button id="removeButton"
                                                     onClick={() => this.handleRemoveRow(record.key)}>
                                                     <Icon type="delete" />
                                                 </Button>}/>
                 </PropertiesTable>
-                <Button onClick={this.handleAddRow.bind(this)}>Add new property</Button>
+                <Button onClick={this.handleAddRow.bind(this)} className="categoryFormButton">Add new property</Button>
             </div>
         );
     }

@@ -1,9 +1,14 @@
 // tslint:disable:max-classes-per-file
 import * as React from "react";
-import { Discount, DiscountTarget, DiscountType } from "../../../../model/Discount";
+import { Discount, DiscountType } from "../../../../model/Discount";
 import { Table, Button, Popconfirm } from "antd";
 import { WithKey } from "../../../../utils/table";
 import { NavLink } from "react-router-dom";
+
+import "../../../../../style/admin/discounts.css";
+
+import { config } from "../../../../config";
+import { formatPrice } from "../../../../utils/common";
 
 type DiscountRecord = Discount & WithKey;
 
@@ -25,16 +30,17 @@ const getTargetName = (record: DiscountRecord) => {
 
 const showAmount = (record: DiscountRecord) => {
     if(record.type === DiscountType.ABSOLUTE) {
-        return record.value + "€";
+        return formatPrice(record.value);
     }
     return record.value + "%";
 };
 
 export const DiscountsTable = (props: DiscountsTableProps) => (
-    <DiscountRecordTable
+    <DiscountRecordTable className="discountRecordTable"
         bordered={true}
         dataSource={props.discounts.map(d => ({...d, key: d.id}))}
         pagination={{pageSize: 25, hideOnSinglePage: true}}
+        scroll={{x: config.adminTableScrollWidth.common}}
     >
         <DiscountRecordColumn
             key = "targetType"
@@ -69,14 +75,14 @@ export const DiscountsTable = (props: DiscountsTableProps) => (
             render={(_, record) =>
                 <div>
                     <NavLink to={`/admin/discount/${record.id}`}>
-                        <Button icon="edit"/>
+                        <Button icon="edit" className="editButton"/>
                     </NavLink>
                     <Popconfirm
                         title="Are you sure you want to delete this discount?"
                         cancelText="No"
                         okText="Yes"
                         onConfirm={() => props.onDelete(record.id)}>
-                        <Button icon="delete" />
+                        <Button icon="delete" className="editButton"/>
                     </Popconfirm>
                 </div>
             }

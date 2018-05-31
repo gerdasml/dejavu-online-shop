@@ -1,0 +1,8 @@
+.importJobStatusTable th{
+    background-color: #393D40 !important;
+    color: #FFE693 !important;
+}
+
+.importJobStatusTable{
+    margin-top: 2%;
+}

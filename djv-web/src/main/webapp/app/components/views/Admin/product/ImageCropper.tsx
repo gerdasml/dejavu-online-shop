@@ -46,7 +46,7 @@ export class ImageCropper extends React.Component<ImageCropperProps, ImageCroppe
             .getCroppedCanvas({
                 fillColor: type === "image/png" ? undefined : "white"
             })
-            .toBlob((result: Blob) => this.props.onChange(() => result), type, 0.5);
+            .toBlob((result: Blob) => this.props.onChange(() => result), type, 0.7);
             // TODO: investigate this compression ratio
     }
 

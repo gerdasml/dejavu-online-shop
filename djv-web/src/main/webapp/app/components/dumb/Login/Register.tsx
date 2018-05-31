@@ -8,6 +8,7 @@ import { Address } from "../../../model/Address";
 import {AddressInput} from "../Address/AddressInput";
 
 import "../../../../style/login.css";
+import { message } from "antd";
 
 interface RegistrationState {
     loading: boolean;
@@ -19,6 +20,7 @@ interface RegistrationState {
     address: Address;
     error: string;
     open: boolean;
+    repeatPassword: string;
 }
 
 export class Register extends React.Component <{}, RegistrationState> {
@@ -31,7 +33,8 @@ export class Register extends React.Component <{}, RegistrationState> {
         loading: false,
         open: false,
         password: "",
-        phone: ""
+        phone: "",
+        repeatPassword: ""
     };
     handleEmailInput = (event: React.FormEvent<HTMLInputElement>) => {
         const value = event.currentTarget.value;
@@ -43,6 +46,12 @@ export class Register extends React.Component <{}, RegistrationState> {
         const value = event.currentTarget.value;
         this.setState({
             ...this.state, password: value
+        });
+    }
+    handleRepeatPasswordInput = (event: React.FormEvent<HTMLInputElement>) => {
+        const value = event.currentTarget.value;
+        this.setState({
+            ...this.state, repeatPassword: value
         });
     }
     handleFirstNameInput = (event: React.FormEvent<HTMLInputElement>) => {
@@ -69,6 +78,13 @@ export class Register extends React.Component <{}, RegistrationState> {
         this.setState({
             ...this.state, loading: true
         });
+        if (this.state.password !== this.state.repeatPassword) {
+            this.setState({
+                ...this.state,
+                error: "The passwords do not match"
+            });
+            return;
+        }
         const user = {
             address: {},
             email: this.state.email,
@@ -87,6 +103,7 @@ export class Register extends React.Component <{}, RegistrationState> {
         this.setState({
             ...this.state, error: "", loading: false
         });
+        message.success("Registration successful!");
         this.handleClose();
     }
     render () {
@@ -126,7 +143,7 @@ export class Register extends React.Component <{}, RegistrationState> {
                             <label>Repeat password<span className="redStar">*</span></label>
                             <input  type="password"
                                     placeholder="********"
-                                    onChange={this.handlePasswordInput.bind(this)}
+                                    onChange={this.handleRepeatPasswordInput.bind(this)}
                                     required/>
                         </Form.Field>
                         <Form.Field inline>

@@ -5,10 +5,9 @@ import { notification, Spin } from "antd";
 
 import * as api from "../api";
 import { Discounts } from "../components/views/Admin/discounts/Discounts";
-import { DiscountEditor } from "../components/views/Admin/discounts/DiscountEditor";
 import { Products } from "../components/views/Admin/product/Products";
 import { UserType } from "../model/User";
-import { clearToken, storeToken } from "../utils/token";
+import { storeToken } from "../utils/token";
 import { Admin } from "./views/Admin";
 import { Categories } from "./views/Admin/categories/Categories";
 import { MenuHeader } from "./views/Admin/layout/Header";
@@ -30,6 +29,7 @@ import { StoreState } from "../redux/reducers";
 import { bindActionCreators } from "redux";
 import { login, logout } from "../redux/actions/auth";
 import { AuthAction, AuthReducerState } from "../redux/reducers/authReducer";
+import { isLoggedIn } from "../utils/user";
 
 const isLoggedInAsAdmin = async () => {
     const userResponse = await api.user.getProfile();
@@ -81,11 +81,13 @@ class AdminMain extends React.Component<AuthReducerState & AuthReducerMethods,Ad
     async componentDidMount () {
         if (await isLoggedInAsAdmin()) {
             this.props.dispatchLogin();
+        } else {
+            this.props.dispatchLogout();
         }
         this.setState({...this.state, isLoading: false});
     }
     handleLogout () {
-       this.props.dispatchLogout();
+        this.props.dispatchLogout();
     }
     render () {
         return (
@@ -108,7 +110,7 @@ class AdminMain extends React.Component<AuthReducerState & AuthReducerMethods,Ad
                         <Route path="/admin/discounts/" component={Discounts} />
                         <Route path="/admin/discount/create" component={CreateDiscount} />
                         <Route path="/admin/discount/:id" component={SingleDiscount} />
-                        <Route path="/" component={Admin} />
+                        <Route path="/admin" component={Admin} />
                         <Route component={NotFound} />
                     </Switch>
                 </div>
@@ -126,5 +128,7 @@ export default connect(
     dispatch => bindActionCreators({
           dispatchLogin: login,
           dispatchLogout: logout,
-    }, dispatch)
+    }, dispatch),
+    undefined,
+    { pure: false }
 )(AdminMain);

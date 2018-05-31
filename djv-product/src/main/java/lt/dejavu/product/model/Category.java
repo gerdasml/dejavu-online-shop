@@ -4,6 +4,7 @@ package lt.dejavu.product.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Entity
 @EqualsAndHashCode(exclude = {"properties", "parentCategory"})
 @Table(name = "category")
+@ToString(exclude={"properties"})
 public class Category {
 
     @Id
@@ -34,6 +36,6 @@ public class Category {
     @JoinColumn(name = "parentCategory")
     private Category parentCategory;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private Set<CategoryProperty> properties = new LinkedHashSet<>();
 }

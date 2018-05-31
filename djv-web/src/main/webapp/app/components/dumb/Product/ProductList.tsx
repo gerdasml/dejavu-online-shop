@@ -1,22 +1,14 @@
 import * as React from "react";
 
-import { message, notification, Slider } from "antd";
-import { Card, Icon, Grid, Pagination, Accordion, Button } from "semantic-ui-react";
+import { Card, Icon, Pagination } from "semantic-ui-react";
 
-import * as api from "../../../api";
 
 import { Cart } from "../../../model/Cart";
 import { Product } from "../../../model/Product";
 import { ProductCard } from "../Home/ProductCard";
-import { Category, PropertySummary } from "../../../model/Category";
-import { getProperties, ProductFilter, transform, getMin, getMax } from "../../../utils/product/productFilter";
-import { Filter } from "./Filter";
-import { FilterBuilder, hasProperties, priceInRange } from "../../../utils/product/filter";
 
-import * as CartManager from "../../../utils/cart";
 
 import "../../../../style/filter.css";
-import { ProductProperties } from "../../../model/ProductProperties";
 
 import { config } from "../../../config";
 import { ProductSort } from "./ProductSort";

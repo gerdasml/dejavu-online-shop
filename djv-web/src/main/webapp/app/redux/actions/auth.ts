@@ -1,5 +1,4 @@
 import { AuthAction, AuthActionType } from "../reducers/authReducer";
-import { Action } from "redux";
 import { clearToken, storeToken} from "../../utils/token";
 
 export const login = (token?: string): AuthAction => {

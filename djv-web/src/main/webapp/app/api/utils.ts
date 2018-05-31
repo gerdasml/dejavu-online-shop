@@ -1,7 +1,7 @@
 import { ApiResponse } from "./ApiResponse";
 
 import { ApiError } from ".";
-import {buildAuthHeader, clearToken} from "../utils/token";
+import {buildAuthHeader} from "../utils/token";
 import store from "../redux/store";
 import {logout} from "../redux/actions/auth";
 interface Headers {
@@ -16,7 +16,8 @@ interface Request {
 const buildUnknownError = (code: number, msg: string): ApiError => ({
     message: msg + " (" + code.toString() + "): Please contact the administrators of the site",
     timestamp: new Date(),
-    type: "Unknown"
+    type: "Unknown",
+    status: code
 });
 
 // =========> Exported members <==========
@@ -69,6 +70,11 @@ export const fetchData = <T, K>(url: string, method: HttpMethod, payload?: T): P
             .catch(r => {
                 if (r.headers === undefined) return buildUnknownError(500, r);
                 if(r.headers.get("content-length") === "0") return buildUnknownError(r.status, r.statusText);
-                return r.json();
+                return r.json()
+                        .then((j: ApiError) => ({
+                            ...j,
+                            status: r.status,
+                            timestamp: new Date(Date.parse(j.timestamp.toString()))
+                        }));
             });
 };

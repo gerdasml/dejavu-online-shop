@@ -7,10 +7,12 @@ import lt.dejavu.order.dto.OrderSummaryDto;
 import lt.dejavu.order.model.rest.UpdateOrderStatusRequest;
 import lt.dejavu.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -53,12 +55,12 @@ public class OrderApi {
     }
 
     @PutMapping("/{orderId}")
-    public void updateOrderStatus(HttpServletRequest request,
+    public OrderDto updateOrderStatus(HttpServletRequest request,
                                   @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader,
                                   @PathVariable("orderId") long orderId,
                                   @RequestBody UpdateOrderStatusRequest updateRequest) throws ApiSecurityException {
         securityService.authorize(authHeader, request);
-        orderService.updateOrderStatus(orderId, updateRequest.getStatus());
+        return orderService.updateOrderStatus(orderId, updateRequest.getLastModified().toInstant(), updateRequest.getStatus());
     }
 
     @GetMapping("/summary")

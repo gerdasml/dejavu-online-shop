@@ -53,4 +53,15 @@ public class AuthApi {
         long userId = securityService.authorize(authHeader, request);
         authService.updatePassword(userId, passwordRequest.getCurrentPassword(), passwordRequest.getNewPassword());
     }
+
+    @GetMapping(path = "/validate")
+    public boolean validateToken(HttpServletRequest request,
+                                 @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
+        try {
+            securityService.authorize(authHeader, request);
+            return true;
+        } catch (ApiSecurityException e) {
+            return false;
+        }
+    }
 }

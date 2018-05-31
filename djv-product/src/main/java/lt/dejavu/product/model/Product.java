@@ -3,6 +3,7 @@ package lt.dejavu.product.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -15,24 +16,14 @@ import java.util.Set;
 @Entity
 @EqualsAndHashCode(exclude = {"properties", "category"})
 @Table(name = "product")
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+@ToString(exclude={"properties"})
+public class Product extends AbstractProduct {
 
     @Column(name="skuCode")
     private String skuCode;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "description")
-    private String description;
-
-    @Column(name = "price")
-    private BigDecimal price;
+    @Column(name = "minimalPrice")
+    private BigDecimal minimalPrice;
 
     @Column(name = "creationDate")
     private LocalDateTime creationDate;
@@ -44,9 +35,6 @@ public class Product {
     @Column(name = "identifier")
     private String identifier;
 
-    @Column(name = "mainImageUrl")
-    private String mainImageUrl;
-
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "additional_image_url",
@@ -57,4 +45,17 @@ public class Product {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private Set<ProductProperty> properties = new LinkedHashSet<>();
+
+    public Product() {
+        super();
+    }
+
+    public Product(AbstractProduct p) {
+        super(p);
+    }
+
+    public Product(AbstractProduct p, Long id) {
+        super(p);
+        setId(id);
+    }
 }

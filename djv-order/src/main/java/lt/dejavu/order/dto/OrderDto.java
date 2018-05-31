@@ -2,10 +2,9 @@ package lt.dejavu.order.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lt.dejavu.auth.dto.UserDto;
-import lt.dejavu.auth.model.db.Address;
 import lt.dejavu.order.model.OrderStatus;
-import lt.dejavu.order.model.ReviewStatus;
 import lt.dejavu.order.model.db.ShippingInformation;
 
 import java.math.BigDecimal;
@@ -14,6 +13,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@ToString
 public class OrderDto {
     private long id;
     private OrderStatus status;
@@ -24,4 +24,5 @@ public class OrderDto {
     private BigDecimal total;
     private ShippingInformation shippingInformation;
     private ReviewDto review;
+    private Timestamp lastModified;
 }

@@ -29,15 +29,23 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
         isModalVisible: false
     };
 
+    componentWillMount () {
+        this.applyProps(this.props);
+    }
+
     componentWillReceiveProps (nextProps: CategoryFormProps) {
         if(nextProps.category) {
-            this.setState({
-                icon: nextProps.category.icon,
-                isModalVisible: false,
-                name: nextProps.category.name,
-                properties: nextProps.category.properties,
-            });
+            this.applyProps(nextProps);
         }
+    }
+
+    applyProps (props: CategoryFormProps) {
+        this.setState({
+            icon: props.category.icon,
+            isModalVisible: false,
+            name: props.category.name,
+            properties: props.category.properties,
+        });
     }
 
     isValid () {
@@ -53,11 +61,11 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
 
     render () {
         return (
-            <div>
+            <div className="categoryForm">
                 <Row type="flex" align="middle">
                     <Col span={6}><h3>Category name:</h3></Col>
                     <Col span={18}>
-                        <Input
+                        <Input className="categoryNameInput"
                             size="large"
                             placeholder="Category name"
                             value={this.state.name}
@@ -68,8 +76,11 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
                 <Row type="flex" align="middle">
                     <Col span={6}><h3>Icon:</h3></Col>
                     <Col span={18}>
-                        <Button onClick={() => this.setState({...this.state, isModalVisible: true})}>
-                            {this.state.icon ? <Icon name={this.state.icon as SemanticICONS} /> : "Select..."}
+                        <Button onClick={() => this.setState({...this.state, isModalVisible: true})}
+                        className="selectButton">
+                            {this.state.icon?
+                            <Icon name={this.state.icon as SemanticICONS} />
+                            : "Select..."}
                         </Button>
                     </Col>
                 </Row>
@@ -84,6 +95,7 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
                 </Row>
                 <Row type="flex" align="middle">
                     <Button
+                        className="categoryFormButton"
                         disabled={!this.isValid()}
                         onClick={() => this.props.onSave(this.buildCategory())}
                         type="primary"
@@ -96,16 +108,20 @@ export class CategoryForm extends React.Component<CategoryFormProps, CategoryFor
                         title="Are you sure you want to delete this category?"
                         onConfirm={() => this.props.onDelete(this.props.category.id)}
                     >
-                        <Button type="danger">Delete category</Button>
+                        <Button className="categoryFormButton">Delete category</Button>
                     </Popconfirm>
                     : ""}
                 </Row>
                 <Modal
                     title="Icon selection"
                     visible={this.state.isModalVisible}
-                    onCancel={() => this.setState({...this.state, isModalVisible: false})}
                     className="modalWrapper"
                     style={{top: 0}}
+                    onCancel={() => this.setState({...this.state, isModalVisible: false})}
+                    footer={[
+                        <Button className="categoryFormButton"
+                        onClick={() => this.setState({...this.state, isModalVisible: false})}>Cancel</Button>,
+                      ]}
                 >
                     <IconSelect onSelect={icon => this.setState({...this.state, icon, isModalVisible: false})} />
                 </Modal>

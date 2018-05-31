@@ -9,16 +9,17 @@ import lt.dejavu.order.dto.OrderSummaryDto;
 import lt.dejavu.order.exception.OrderNotFoundException;
 import lt.dejavu.order.mapper.OrderMapper;
 import lt.dejavu.order.model.OrderStatus;
-import lt.dejavu.order.model.ReviewStatus;
 import lt.dejavu.order.model.db.Order;
 import lt.dejavu.order.model.db.OrderItem;
 import lt.dejavu.order.repository.OrderRepository;
+import lt.dejavu.product.model.Product;
 import lt.dejavu.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Instant;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -60,9 +61,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrderStatus(long orderId, OrderStatus status) {
-        orderRepository.updateOrderStatus(orderId, status);
-        // TODO: update reviewStatus
+    public OrderDto updateOrderStatus(long orderId, Instant lastModified, OrderStatus status) {
+        return orderMapper.map(orderRepository.updateOrderStatus(orderId, lastModified, status));
     }
 
     @Override
@@ -98,8 +98,8 @@ public class OrderServiceImpl implements OrderService {
         BigDecimal total = orders.stream().map(OrderDto::getTotal).reduce(BigDecimal.ZERO, BigDecimal::add);
         BigDecimal average =
                 count == 0
-                ? null
-                : total.divide(BigDecimal.valueOf(count), 2, RoundingMode.HALF_UP);
+                        ? null
+                        : total.divide(BigDecimal.valueOf(count), 2, RoundingMode.HALF_UP);
 
         OrderSummaryDto orderSummary = new OrderSummaryDto();
         orderSummary.setUser(userMapper.map(user));
@@ -111,9 +111,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private OrderItem buildOrderItem(OrderItemDto dto, Order order) {
-        OrderItem item = new OrderItem();
+        Product product = productRepository.getProduct(dto.getProduct().getId());
+        OrderItem item =  new OrderItem(product);
         item.setAmount(dto.getAmount());
-        item.setProduct(productRepository.getProduct(dto.getProduct().getId()));
+        item.setPrice(dto.getProduct().getPrice());
         item.setOrder(order);
         return item;
     }

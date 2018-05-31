@@ -114,16 +114,18 @@ export class ChangePassword extends React.Component<{}, ChangePasswordState> {
                             content={this.state.error}
                         />
                         <Button
-                            onClick={this.handleClose.bind(this)}
-                            className="password-cancel-button">
-                            <Icon name="remove" />
-                            Cancel
-                        </Button>
-                        <Button
                             onClick={this.handleSubmit.bind(this)}
-                            className="password-save-button">
+                            className="password-save-button"
+                        >
                             <Icon name="checkmark" />
                             Save
+                        </Button>
+                        <Button
+                            onClick={this.handleClose.bind(this)}
+                            className="password-cancel-button"
+                        >
+                            <Icon name="remove" />
+                            Cancel
                         </Button>
                     </Form>
                 </Modal.Content>

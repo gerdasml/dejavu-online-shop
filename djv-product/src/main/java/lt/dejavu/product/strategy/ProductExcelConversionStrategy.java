@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -36,12 +37,13 @@ import static java.util.stream.Collectors.toList;
 
 @Component
 public class ProductExcelConversionStrategy implements ExcelConversionStrategy<Product> {
+    private final static String IMAGE_PATH_SEPARATOR = ";";
     private final CategoryRepository categoryRepository;
     private final ImageStorageService imageStorageService;
     private final List<TriConsumer<Integer, List<String>, ConversionResult<Product>>> rowReaders = Arrays.asList(
             this::readName,
             this::readPrice,
-            this::readImage,
+            this::readImages,
             this::readSkuCode,
             this::readDescription,
             this::readCategory,
@@ -84,7 +86,7 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
     @Override
     public List<String> getHeader() {
         return Arrays.asList(
-                "Title",
+                "Product Name",
                 "Price",
                 "SKU Code",
                 "Description",
@@ -98,6 +100,9 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         ConversionResult<Product> result = rowToProduct(rowIterator.next());
         while (rowIterator.hasNext() && rowIterator.peek().get(0).isEmpty()) {
             List<String> row = rowIterator.next();
+            if (row.stream().allMatch(r -> r == null || r.length() == 0)) {
+                continue;
+            }
             readProperty(6, row, result);
         }
         return result;
@@ -152,13 +157,17 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
              val -> result.getResult().setPrice(val));
     }
 
-    private void readImage(int columnIndex, List<String> row, ConversionResult<Product> result) {
+    private void readImages(int columnIndex, List<String> row, ConversionResult<Product> result) {
         read(columnIndex,
              row,
              result,
-             this::isValidImageFile,
-             this::getImageUrl,
-             url -> result.getResult().setMainImageUrl(url));
+             this::areAllImagePathsValid,
+             this::getImageUrls,
+             urls -> {
+                if (urls.size() == 0) return;
+                result.getResult().setMainImageUrl(urls.get(0));
+                result.getResult().setAdditionalImagesUrls(new HashSet<>(urls.subList(1, urls.size())));
+             });
     }
 
     private void readSkuCode(int columnIndex, List<String> row, ConversionResult<Product> result) {
@@ -220,12 +229,25 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         }
     }
 
+    private boolean areAllImagePathsValid(String path) {
+        String[] parts = path.split(Pattern.quote(IMAGE_PATH_SEPARATOR));
+        return Arrays.stream(parts).allMatch(this::isValidImageFile);
+    }
+
     private boolean isValidImageFile(String path) {
+        path = path.trim();
         File f = new File(path);
         if (!f.exists() || !f.canRead()) return false;
         String ext = FilenameUtils.getExtension(f.getName());
         ImageFormat format = ImageFormat.resolve(ext);
         return format != ImageFormat.UNKNOWN;
+    }
+
+    private List<String> getImageUrls(String path) {
+        return Arrays.stream(path.split(Pattern.quote(IMAGE_PATH_SEPARATOR)))
+                     .map(String::trim)
+                     .map(this::getImageUrl)
+                     .collect(toList());
     }
 
     private String getImageUrl(String path) {

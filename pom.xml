@@ -21,6 +21,7 @@
         <module>djv-excel</module>
         <module>djv-discount</module>
     </modules>
+    
     <packaging>pom</packaging>
 
     <name>djv-shop</name>
@@ -52,7 +53,7 @@
         <jackson.version>2.9.4</jackson.version>
         <hibernate.version>5.2.16.Final</hibernate.version>
         <apache-commons-lang3.version>3.7</apache-commons-lang3.version>
-        <mysql-connector-java.version>6.0.6</mysql-connector-java.version>
+        <mysql-connector-java.version>8.0.11</mysql-connector-java.version>
         <httpclient.version>4.5.3</httpclient.version>
         <apache-poi.version>3.17</apache-poi.version>
     </properties>
@@ -91,6 +92,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.13</version>
         </dependency>
     </dependencies>
 

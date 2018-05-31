@@ -2,9 +2,8 @@ import * as React from "react";
 
 import { Loader} from "semantic-ui-react";
 
-import { RouteComponentProps } from "react-router-dom";
 import {Product} from "../../../model/Product";
-import {Category as CategoryModel, CategoryInfo} from "../../../model/Category";
+import {CategoryInfo} from "../../../model/Category";
 
 import { notification, message } from "antd";
 import * as api from "../../../api";
@@ -53,7 +52,7 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
 
     // required to load data on each url change
     async componentWillReceiveProps (nextProps: ProductContainerProps) {
-        if (nextProps.categoryIdentifier !== this.props.categoryIdentifier) {
+        if (nextProps.query !== this.props.query) {
             await this.loadData(nextProps);
         }
     }

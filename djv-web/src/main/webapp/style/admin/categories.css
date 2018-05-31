@@ -1,0 +1,73 @@
+#addCategoryButton, .selectButton, .categoryFormButton, .categoryFormButton:active, .categoryFormButton:hover{
+    background-color: #FFCE2B !important;
+    color: #393D40 !important;
+    font-weight: bold;
+    border-color: transparent !important;
+}
+
+.categoryFormButton, #addCategoryButton{
+    margin-bottom: 2%;
+    margin-right: 2%;
+}
+
+#addCategoryButton{
+    margin-left: 10px !important;
+}
+
+.categoryForm{
+    margin-top: 7%;
+    margin-right: 3%;
+}
+
+.categoryForm h3{
+    color: #393D40;
+}
+
+#categories{
+    margin-top: 1%;
+    
+}
+
+.treeNode{
+    background-color: #393D40;
+    color: 	#F1F1F1;
+}  
+
+.treeNode span{
+    color: 	#F1F1F1;
+}
+
+.propertiesTable th{
+    color: 	#FFE693 !important;
+    background-color: #393D40 !important;
+}
+
+.categoryForm .ant-row-flex{
+    margin-bottom: 1%;
+}
+
+#categoryTreeView li span:hover, #categoryTreeView li span:active{
+    background-color: transparent !important;
+}
+
+
+.ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected{
+    background-color:transparent !important;
+}
+
+.ant-tree-title::selection{
+    background-color: transparent !important;
+}
+
+#addCategoryButton:hover, .selectButton:hover, .categoryFormButton:hover{
+    background-color: 	#FFE693 !important;
+}
+
+#removeButton{
+    color: #FFCE2B !important;
+    background-color: #393D40 !important;
+}
+
+#removeButton:hover{
+    color: 	#FFE693 !important;
+}

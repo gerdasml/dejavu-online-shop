@@ -9,6 +9,8 @@ public interface UserRepository {
 
     Long getUserId(String email, String password);
 
+    boolean emailExists(String email);
+
     List<User> getAllUsers();
 
     void setBanned(User user, boolean isBanned);

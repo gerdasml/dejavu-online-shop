@@ -7,11 +7,14 @@ import * as api from "../../../../api";
 import { RangePickerValue } from "antd/lib/date-picker/interface";
 import { CategoryDropdown } from "../product/CategoryDropdown";
 import { DiscountProductsTable } from "./DiscountProductsTable";
-import { Category } from "../../../../model/Category";
 import { CategoryTree } from "../../../../model/CategoryTree";
-import { timingSafeEqual } from "crypto";
 import { Product } from "../../../../model/Product";
 import { DiscountTarget, DiscountType, Discount } from "../../../../model/Discount";
+
+import { fromString } from "../../../../utils/enum";
+
+import "../../../../../style/admin/discounts.css";
+import { Category } from "../../../../model/Category";
 
 interface DiscountEditorProps {
     discount?: Discount;
@@ -41,7 +44,11 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
     };
 
     discountTargetMenu = (
-        <Menu onClick={e =>this.setState({...this.state, discountTarget: this.DiscountTargetFromString(e.key)})}>
+        <Menu onClick={e =>this.setState({
+            ...this.state,
+            discountTarget: fromString(DiscountTarget, e.key),
+            category: undefined
+        })}>
             <Menu.Item key={DiscountTarget.EVERYTHING}>{DiscountTarget.EVERYTHING}</Menu.Item>
             <Menu.Item key={DiscountTarget.CATEGORY}>{DiscountTarget.CATEGORY}</Menu.Item>
             <Menu.Item key={DiscountTarget.PRODUCT}>{DiscountTarget.PRODUCT}</Menu.Item>
@@ -50,7 +57,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
 
     discountTypeMenu = (
         <Menu onClick={e =>this.setState({ ...this.state,
-                discountType: this.DiscountTypeFromString(e.key),
+                discountType: fromString(DiscountType, e.key),
                 discountValue: 0,
         })}>
             <Menu.Item key={DiscountType.ABSOLUTE}>{DiscountType.ABSOLUTE}</Menu.Item>
@@ -67,7 +74,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
         this.setState({...this.state,categories});
     }
 
-    componentWillReceiveProps (props: DiscountEditorProps) {
+    async componentWillReceiveProps (props: DiscountEditorProps) {
         const newState = this.state;
         if(props.discount !== undefined) {
             newState.discountTarget = props.discount.targetType;
@@ -75,6 +82,13 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
             newState.dateStart = new Date (Date.parse(props.discount.activeFrom.toString()));
             newState.dateEnd = new Date (Date.parse(props.discount.activeTo.toString()));
             newState.discountValue = props.discount.value;
+            if (props.discount.targetType === DiscountTarget.PRODUCT) {
+                newState.category = (props.discount.target as Product).categoryId;
+                newState.selectedProductIds = [props.discount.target.id];
+                newState.products = await this.getProductsForCategory(newState.category);
+            } else if (props.discount.targetType === DiscountTarget.CATEGORY) {
+                newState.category = (props.discount.target as Category).id;
+            }
             this.setState(newState);
         } else {
             this.setState({
@@ -87,23 +101,20 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
         }
     }
 
-    async getProductsForCategory (category: number) {
+    getProductsForCategory = async (category: number): Promise<Product[]> => {
         const categoryProducts = await api.product.getProductsByCategory(category);
         if(api.isError(categoryProducts)) {
             notification.error({message: "Failed to fetch products data", description: categoryProducts.message});
-            return;
+            return [];
         }
-        this.setState({...this.state,category,products: categoryProducts});
+        return categoryProducts;
     }
-
-    DiscountTargetFromString = (val: string) => DiscountTarget[val.toUpperCase() as keyof typeof DiscountTarget];
-    DiscountTypeFromString = (val: string) => DiscountType[val.toUpperCase() as keyof typeof DiscountType];
 
     updateDate (date: RangePickerValue, dateString: [string, string]) {
         this.setState({
             ...this.state,
-            dateStart: new Date(Date.parse(dateString[0])),
-            dateEnd: new Date(Date.parse(dateString[1])),
+            dateStart: dateString[0].length > 0 ? new Date(Date.parse(dateString[0])) : undefined,
+            dateEnd: dateString[1].length > 0 ? new Date(Date.parse(dateString[1])) : undefined,
         });
     }
 
@@ -131,7 +142,7 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
             this.notifyError("Discount date period was not selected.");
             anyErrors = true;
         }
-        if(anyErrors === true) {
+        if(anyErrors) {
             return;
         }
 
@@ -207,34 +218,49 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
         this.setState({...this.state, selectedProductIds: productIds});
     }
 
+    parsePercentage = (val: string): number => {
+        const inputNum = +(val.replace(/[^0-9]/g, ""));
+        let result = inputNum;
+        result = Math.min(100, result);
+        result = Math.max(0, result);
+        return result;
+    }
+
     render () {
         return (
-            <div>
-                <Dropdown overlay={this.discountTargetMenu} disabled={this.props.discount !== undefined}>
-                    <Button>
+            <div id="discountEditor">
+                <Dropdown
+                    trigger={["click"]}
+                    overlay={this.discountTargetMenu}
+                    disabled={this.props.discount !== undefined}
+                >
+                    <Button className="discountEditorButton">
                         { this.state.discountTarget === undefined
                         ? "Discount target"
                         : this.state.discountTarget
                         }
-                        <Icon type="down" />
+                        <Icon type="down"/>
                     </Button>
                 </Dropdown>
                 { this.state.dateStart === undefined || this.state.dateEnd === undefined
                 ?
-                <DatePicker.RangePicker
+                <DatePicker.RangePicker className="discountEditorButton"
                     onChange={this.updateDate.bind(this)}
                     format={"YYYY-MM-DD"}
                 />
                 :
-                <DatePicker.RangePicker
+                <DatePicker.RangePicker className="discountEditorButton"
                     onChange={this.updateDate.bind(this)}
                     value={[ Moment(this.state.dateStart),
                                     Moment(this.state.dateEnd)]}
                     format={"YYYY-MM-DD"}
                 />
                 }
-                <Dropdown overlay={this.discountTypeMenu}>
-                    <Button style={{ marginLeft: 0 }}>
+                <Dropdown className="discountEditorButton"
+                    trigger={["click"]}
+                    overlay={this.discountTypeMenu}
+                >
+                    <Button style={{ marginLeft: 0 }} className="discountEditorButton">
                         { this.state.discountType === undefined
                         ? "Discount type"
                         : this.state.discountType
@@ -245,22 +271,22 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                 { this.state.discountType === undefined ? ""
                 : this.state.discountType === DiscountType.ABSOLUTE
                 ?
-                <InputNumber
+                <InputNumber className="discountEditorButton"
                     defaultValue={this.state.discountValue}
                     value={this.state.discountValue}
                     min={0}
                     formatter={value => `€ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                    parser={value => +value.replace(/\€\s?|(,*)/g, "")}
+                    parser={value => +(value.replace(/[^0-9]/g, ""))}
                     onChange={(e: number) => this.setState({...this.state, discountValue: e})}
                 />
                 :
-                <InputNumber
+                <InputNumber className="discountEditorButton"
                     defaultValue={this.state.discountValue}
                     value={this.state.discountValue}
                     min={0}
                     max={100}
                     formatter={value => `${value}%`}
-                    parser={value => +value.replace("%", "")}
+                    parser={this.parsePercentage.bind(this)}
                     onChange={(e: number) => this.setState({...this.state, discountValue: e})}
                 />
                 }
@@ -276,23 +302,32 @@ export class DiscountEditor extends React.Component <DiscountEditorProps, Discou
                         category: newCategory
                         })
                     }
+                    allowParentSelection={true}
+                    disabled={this.props.discount !== undefined}
                 />
                 : this.state.discountTarget === DiscountTarget.PRODUCT
                 ?
                 [<CategoryDropdown
                     selected={this.state.category}
                     categories={this.state.categories}
-                    onChange={newCategory => this.getProductsForCategory(newCategory)}
+                    onChange={async newCategory => this.setState({
+                        ...this.state,
+                        category: newCategory,
+                        products: await this.getProductsForCategory(newCategory)
+                    })}
+                    disabled={this.props.discount !== undefined}
                 />,
                 <DiscountProductsTable
                     products={this.state.products}
                     onSelect={selectedProducts => this.extractProductIds(selectedProducts)}
+                    selectionDisabled={this.props.discount !== undefined}
+                    selectedProductIds={this.state.selectedProductIds}
                 />
                 ]
                 : ""
                 }
                 <br/>
-                <Button onClick={this.handleSave.bind(this)}>Save</Button>
+                <Button onClick={this.handleSave.bind(this)} id="saveButton">Save</Button>
             </div>
         );
     }

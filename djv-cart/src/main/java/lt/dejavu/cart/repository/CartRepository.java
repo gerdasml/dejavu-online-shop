@@ -5,6 +5,7 @@ import lt.dejavu.cart.model.db.Cart;
 import lt.dejavu.order.model.db.OrderItem;
 import lt.dejavu.product.model.Product;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 public interface CartRepository {
@@ -12,7 +13,7 @@ public interface CartRepository {
 
     void removeItem(Cart cart, long productId);
 
-    void addOrderItem(Cart cart, Product product, int amount);
+    void addOrderItem(Cart cart, Product product, int amount, BigDecimal price);
 
     void updateOrderItem(OrderItem item);
 

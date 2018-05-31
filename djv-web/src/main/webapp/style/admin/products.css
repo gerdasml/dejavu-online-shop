@@ -1,0 +1,87 @@
+.productRecordTable th, .propertiesTable th{
+    background-color: #393D40 !important;
+    color: #FFE693 !important;
+}
+
+.productsButton, .saveButton{
+    background-color: #FFCE2B !important;
+    color: #393D40 !important;
+    font-weight: bold;
+}
+
+.productsButton{
+    margin-left: 10px !important;
+}
+
+.saveButton:hover{
+    background-color: #FFE693 !important;
+    border-color: transparent;
+}
+
+#buttonGroup{
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.editButton{
+    background-color: #393D40;
+    color: #FFCE2B;
+}
+
+#productFormGrid span span span, .input-title{
+    background-color: #393D40 !important;
+    color: #FFE693 !important;
+}
+
+.label-and-number {
+    display: table;
+    margin: 1% 0;
+}
+
+.label-and-number > div {
+    display: table-cell;
+    border-left: 0;
+}
+
+#productFormGrid{
+    margin-top: 1%;
+    margin-left: 0.1%;
+    margin-right: 1%;
+}
+
+.inputNumber{
+    margin-bottom: 3% !important;
+}
+
+.productsButton:hover{
+    background-color: #FFE693 !important;
+    border-color: transparent;
+}
+
+.editButton:hover{
+    background-color: #393D40;
+    color: #FFE693 !important;
+    border-color: transparent;
+}
+
+.imageUpload .ant-upload{
+    background-color: #393D40 !important;
+    color: #FFCE2B !important;
+}
+
+.imageUpload .ant-upload:hover{
+    color: #FFE693 !important;
+    border-color:transparent !important;
+}
+
+.saveButton{
+    margin-left: 45%;
+    margin-right: auto;
+}
+
+@media(max-width: 350px){
+    .saveButton{
+        margin-left: 30%;
+        margin-right: auto;
+    }
+}

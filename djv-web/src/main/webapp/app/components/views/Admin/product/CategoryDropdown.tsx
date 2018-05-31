@@ -4,10 +4,14 @@ import { Cascader } from "antd";
 import { CascaderOptionType } from "antd/lib/cascader";
 import { CategoryTree } from "../../../../model/CategoryTree";
 
+import "../../../../../style/admin/discounts.css";
+
 export interface CategoryDropdownProps {
     categories: CategoryTree[];
     onChange: (n?: number) => void;
     selected?: number;
+    allowParentSelection?: boolean;
+    disabled?: boolean;
 }
 
 const mapToOption = (c: CategoryTree): CascaderOptionType => ({
@@ -27,9 +31,13 @@ const buildDefaultValue = (categories: CategoryTree[], id?: number): string[] =>
 
 export const CategoryDropdown = (props: CategoryDropdownProps) => (
     <Cascader
+        disabled={props.disabled}
+        className="categoryDropdown discountEditorButton"
         onChange={values => values.length === 0 ? undefined : props.onChange(+values[values.length-1])}
         options={props.categories.map(mapToOption)}
         placeholder="Select category"
         value={buildDefaultValue(props.categories, props.selected)}
+        allowClear={false}
+        changeOnSelect={props.allowParentSelection}
     />
 );

@@ -1,11 +1,8 @@
 package lt.dejavu.order.model.db;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lt.dejavu.auth.model.db.User;
 import lt.dejavu.order.model.OrderStatus;
-import lt.dejavu.order.model.ReviewStatus;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -15,7 +12,11 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @Entity
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "purchase_order")
+@ToString(exclude={"items", "review"})
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,10 +41,14 @@ public class Order {
     private User user;
 
     @OneToOne
-    @JoinColumn(name="shippingInformationId")
+    @JoinColumn(name = "shippingInformationId")
     private ShippingInformation shippingInformation;
 
     @OneToOne
     @JoinColumn(name = "reviewId")
     private Review review;
+
+    @Version
+    @Column(name = "lastModified")
+    private Timestamp lastModified;
 }

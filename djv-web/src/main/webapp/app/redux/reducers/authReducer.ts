@@ -1,4 +1,4 @@
-import { ReducersMapObject, Reducer, Action } from "redux";
+import { Action } from "redux";
 
 export interface AuthReducerState {
     loggedIn: boolean;
@@ -17,7 +17,7 @@ const initialState: AuthReducerState = {
     loggedIn: false,
 };
 
-export default  (state: AuthReducerState = initialState, action: AuthAction): AuthReducerState => {
+export default (state: AuthReducerState = initialState, action: AuthAction): AuthReducerState => {
     switch (action.type) {
         case AuthActionType.LOGIN:
             return {

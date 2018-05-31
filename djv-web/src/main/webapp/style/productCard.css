@@ -26,3 +26,13 @@
 .card-price-cart .add-to-cart .button-text {
     color: #393d40!important;
 }
+
+@media(max-width:400px){
+    .ui.positive.button, .ui.positive.buttons .button{
+        font-size: 12px !important;
+    }
+
+    .priceHeader{
+        font-size: 12px !important;
+    }
+}
