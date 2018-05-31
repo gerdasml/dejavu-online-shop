@@ -122,6 +122,7 @@ export class Cart extends React.Component<{}, CartState> {
                     onShippingInfoChange={info => this.setState({...this.state, shippingInformation: info})}
                     saveToProfile={this.state.saveToProfile}
                     onSaveToProfileChange={val => this.setState({...this.state, saveToProfile: val})}
+                    showSaveToProfile={this.state.cart.user !== undefined}
                 />
                 : ""
                 }

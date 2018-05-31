@@ -86,7 +86,7 @@ export class Register extends React.Component <{}, RegistrationState> {
             return;
         }
         const user = {
-            address: {},
+            address: this.state.address,
             email: this.state.email,
             firstName: this.state.firstName,
             lastName: this.state.lastName,

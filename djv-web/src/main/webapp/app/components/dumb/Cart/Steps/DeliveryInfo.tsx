@@ -13,6 +13,7 @@ interface DeliveryInfoProps {
     shippingInformation: ShippingInformation;
     saveToProfile: boolean;
     onSaveToProfileChange: (save: boolean) => void;
+    showSaveToProfile: boolean;
 }
 export class DeliveryInfo extends React.Component <DeliveryInfoProps, {}> {
     render () {
@@ -47,6 +48,8 @@ export class DeliveryInfo extends React.Component <DeliveryInfoProps, {}> {
                         ...this.props.shippingInformation,
                         shippingAddress: newAddress
                     })} />
+                { this.props.showSaveToProfile
+                ?
                 <Form.Field inline>
                     <label>Save address to profile: </label>
                     <Checkbox
@@ -54,6 +57,9 @@ export class DeliveryInfo extends React.Component <DeliveryInfoProps, {}> {
                         onChange={(e, val) => this.props.onSaveToProfileChange(val.checked)}
                     />
                 </Form.Field>
+                :
+                ""
+                }
                 <Button
                     icon
                     type="submit"
