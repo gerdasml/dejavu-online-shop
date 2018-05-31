@@ -8,11 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Tuple;
 import javax.persistence.criteria.*;
 import java.math.BigDecimal;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 @Repository
 @Transactional
@@ -44,7 +46,12 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Category> query = cb.createQuery(Category.class);
         Root<Category> root = query.from(Category.class);
+        query.select(root).distinct(true);
         root.fetch(Category_.properties, JoinType.LEFT);
+        Fetch<Category, Category> fetch = root.fetch(Category_.parentCategory, JoinType.LEFT);
+        fetch.fetch(Category_.properties, JoinType.LEFT);
+        fetch = fetch.fetch(Category_.parentCategory, JoinType.LEFT);
+        fetch.fetch(Category_.properties, JoinType.LEFT);
         ParameterExpression<String> idParameter = cb.parameter(String.class);
         query.where(cb.equal(root.get(Category_.identifier), idParameter));
         List<Category> resultList = em.createQuery(query).setParameter(idParameter, identifier).getResultList();
@@ -81,6 +88,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public void updateCategory(Category category) {
+        category.setIdentifier(categoryIdentifierGenerator.generateIdentifier(category));
         em.merge(category);
     }
 
@@ -95,7 +103,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         CriteriaQuery<Category> query = cb.createQuery(Category.class);
         Root<Category> root = query.from(Category.class);
         root.fetch(Category_.properties, JoinType.LEFT);
-        root.fetch(Category_.parentCategory, JoinType.LEFT);
         return new LinkedHashSet<>(em.createQuery(query).getResultList());
     }
 
@@ -112,18 +119,15 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public List<ProductProperty> getProductPropertiesForCategory(long categoryId) {
-
+        List<Long> pathToCategory = getPathToCategory(categoryId);
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<ProductProperty> query = cb.createQuery(ProductProperty.class);
         Root<ProductProperty> root = query.from(ProductProperty.class);
-
-        ParameterExpression<Long> idParameter = cb.parameter(Long.class);
-        query.where(cb.equal(root.get(ProductProperty_.categoryProperty).get(CategoryProperty_.category).get(Category_.id), idParameter));
-
-        return em.createQuery(query).setParameter(idParameter, categoryId).getResultList();
+        query.where(root.get(ProductProperty_.categoryProperty).get(CategoryProperty_.category).get(Category_.id).in(pathToCategory));
+        return em.createQuery(query).getResultList();
     }
 
-    @Override
+   @Override
     public long getProductCount(long categoryId) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
@@ -156,5 +160,31 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         ParameterExpression<Long> idParameter = cb.parameter(Long.class);
         query.where(cb.equal(root.get(Product_.category).get(Category_.id), idParameter));
         return em.createQuery(query).setParameter(idParameter, categoryId).getSingleResult();
+    }
+
+    private List<Long> getPathToCategory(long categoryId) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Tuple> query = cb.createTupleQuery();
+        Root<Category> root = query.from(Category.class);
+        Join<Category, Category> parentJoin = root.join(Category_.parentCategory, JoinType.LEFT);
+        Join<Category, Category> grandparentJoin = parentJoin.join(Category_.parentCategory, JoinType.LEFT);
+        query.multiselect(root.get(Category_.id), parentJoin.get(Category_.id), grandparentJoin.get(Category_.id));
+
+        ParameterExpression<Long> idParameter = cb.parameter(Long.class);
+        query.where(cb.equal(root.get(Category_.id), idParameter));
+
+        Tuple result =
+                em.createQuery(query)
+                  .setParameter(idParameter, categoryId)
+                  .getResultList()
+                  .stream()
+                  .findFirst()
+                .orElse(null);
+        if (result == null) {
+            return new ArrayList<>();
+        }
+        return Stream.of((Long)result.get(0), (Long)result.get(1), (Long)result.get(2))
+                     .filter(Objects::nonNull)
+                     .collect(toList());
     }
 }

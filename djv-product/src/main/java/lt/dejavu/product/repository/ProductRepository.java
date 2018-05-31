@@ -26,4 +26,6 @@ public interface ProductRepository {
     long getTotalProductCount();
 
     SearchResult<Product> searchForProducts(ProductSearchRequest request, int offset, int limit, SortBy sortBy, SortDirection sortDirection);
+
+    boolean productWithSkuExits(String sku);
 }

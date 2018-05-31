@@ -9,13 +9,17 @@ import lt.dejavu.product.model.CategoryProperty;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.model.ProductProperty;
 import lt.dejavu.product.repository.CategoryRepository;
+import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.storage.image.model.ImageFormat;
 import lt.dejavu.storage.image.model.ImageInfo;
 import lt.dejavu.storage.image.service.ImageStorageService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.util.TriConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,8 +41,10 @@ import static java.util.stream.Collectors.toList;
 
 @Component
 public class ProductExcelConversionStrategy implements ExcelConversionStrategy<Product> {
+    private final static Logger log = LoggerFactory.getLogger(ProductExcelConversionStrategy.class);
     private final static String IMAGE_PATH_SEPARATOR = ";";
     private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
     private final ImageStorageService imageStorageService;
     private final List<TriConsumer<Integer, List<String>, ConversionResult<Product>>> rowReaders = Arrays.asList(
             this::readName,
@@ -50,8 +56,9 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
             this::readProperty
                                                                                                                 );
 
-    public ProductExcelConversionStrategy(CategoryRepository categoryRepository, ImageStorageService imageStorageService) {
+    public ProductExcelConversionStrategy(CategoryRepository categoryRepository, ProductRepository productRepository, ImageStorageService imageStorageService) {
         this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
         this.imageStorageService = imageStorageService;
     }
 
@@ -174,8 +181,8 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         read(columnIndex,
              row,
              result,
-             s -> s != null && s.length() > 0,
-             s -> s,
+             s -> s != null && s.length() > 0 && isValidSkuCode(s),
+             val -> val,
              code -> result.getResult().setSkuCode(code));
     }
 
@@ -204,6 +211,9 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         if (productCategory == null) {
             return;
         }
+        if (StringUtils.isEmpty(row.get(columnIndex)) && StringUtils.isEmpty(row.get(columnIndex + 1))){
+            return;
+        }
         ProductProperty property = new ProductProperty();
         property.setProduct(result.getResult());
         read(columnIndex,
@@ -223,6 +233,7 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
              property::setValue);
         if (property.getCategoryProperty().getName() == null ^ property.getValue() == null) {
             result.setStatus(ConversionStatus.FAILURE);
+            log.debug("CONVERSION FAILED:" + System.lineSeparator() + "product: " + result.getResult()  + System.lineSeparator() + " property: "+ property);
         }
         if (property.getCategoryProperty().getName() != null || property.getValue() != null) {
             result.getResult().getProperties().add(property);
@@ -278,12 +289,23 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
     }
 
     private Predicate<String> isValidPropertyName(Category category) {
-        return s -> category.getProperties().stream().anyMatch(prop -> prop.getName().equals(s));
+        return s -> (
+                category.getProperties().stream().anyMatch(prop -> prop.getName().equals(s))
+                        ||
+                category.getParentCategory() != null
+                        &&
+                category.getParentCategory().getProperties().stream().anyMatch(prop -> prop.getName().equals(s)));
     }
 
+    private boolean isValidSkuCode(String sku) {
+        return !productRepository.productWithSkuExits(sku);
+
+    }
 
     private Function<String, CategoryProperty> getPropertyByName(Category category) {
-        return s -> category.getProperties().stream().filter(prop -> prop.getName().equals(s)).findFirst().orElse(null);
+        return s -> category.getProperties().stream().filter(prop -> prop.getName().equals(s)).findFirst().orElse(
+                category.getParentCategory() != null ?
+                category.getParentCategory().getProperties().stream().filter(prop -> prop.getName().equals(s)).findFirst().orElse(null) : null);
     }
 
     private boolean isValidBigDecimal(String s) {
@@ -307,11 +329,13 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
             Consumer<T> setter) {
         if (row.size() <= columnIndex) {
             result.setStatus(ConversionStatus.FAILURE);
+            log.debug("CONVERSION FAILED: row size mismatch");
             return;
         }
         String value = row.get(columnIndex);
-        if (!validator.test(value)) {
-            result.setStatus(ConversionStatus.FAILURE);
+            if (!validator.test(value)) {
+                result.setStatus(ConversionStatus.FAILURE);
+                log.debug("CONVERSION FAILED: validation failure: Value: " + value);
             return;
         }
         T converted = converter.apply(value);

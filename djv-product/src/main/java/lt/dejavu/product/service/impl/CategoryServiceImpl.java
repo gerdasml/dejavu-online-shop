@@ -1,17 +1,15 @@
 package lt.dejavu.product.service.impl;
 
 import javafx.util.Pair;
-import lt.dejavu.product.dto.CategoryDto;
-import lt.dejavu.product.dto.CategoryInfoDto;
-import lt.dejavu.product.dto.CategoryTreeResponse;
-import lt.dejavu.product.dto.PropertySummaryDto;
+import lt.dejavu.product.dto.*;
 import lt.dejavu.product.dto.mapper.CategoryDtoMapper;
 import lt.dejavu.product.exception.CategoryNotFoundException;
 import lt.dejavu.product.exception.IllegalRequestDataException;
 import lt.dejavu.product.model.Category;
+import lt.dejavu.product.model.CategoryProperty;
 import lt.dejavu.product.model.ProductProperty;
 import lt.dejavu.product.repository.CategoryRepository;
-import lt.dejavu.product.repository.ProductPropertyRepository;
+import lt.dejavu.product.repository.PropertyRepository;
 import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.product.service.CategoryService;
 import lt.dejavu.product.strategy.IdentifierGenerator;
@@ -33,16 +31,16 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
     private final CategoryDtoMapper categoryDtoMapper;
-    private final ProductPropertyRepository productPropertyRepository;
+    private final PropertyRepository propertyRepository;
 
     @Autowired
     public CategoryServiceImpl(CategoryRepository categoryRepository, ProductRepository productRepository,
-                               CategoryDtoMapper categoryDtoMapper, ProductPropertyRepository productPropertyRepository,
+                               CategoryDtoMapper categoryDtoMapper, PropertyRepository propertyRepository,
                                IdentifierGenerator<Category> categoryIdentifierGenerator) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.categoryDtoMapper = categoryDtoMapper;
-        this.productPropertyRepository = productPropertyRepository;
+        this.propertyRepository = propertyRepository;
     }
 
     @Override
@@ -76,7 +74,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category parentCategory = resolveParentCategory(categoryDto);
         Category category = categoryDtoMapper.mapToCategory(categoryDto, parentCategory);
         Long categoryId = categoryRepository.saveCategory(category);
-        productPropertyRepository.saveProperties(category.getProperties());
+        propertyRepository.saveProperties(category.getProperties());
         return categoryId;
     }
 
@@ -114,6 +112,11 @@ public class CategoryServiceImpl implements CategoryService {
         return info;
     }
 
+    public List<CategoryPropertyDto> getCategoryProperties(long categoryId){
+        List<CategoryProperty> categoryProperties = propertyRepository.getCategoryProperties(categoryId);
+        return categoryDtoMapper.map(categoryProperties);
+    }
+
     private List<PropertySummaryDto> getPropertySummaries(long categoryId) {
         List<ProductProperty> properties = categoryRepository.getProductPropertiesForCategory(categoryId);
         Map<Pair<Long, String>, Set<String>> mapping = properties.stream().collect(
@@ -132,7 +135,6 @@ public class CategoryServiceImpl implements CategoryService {
         dto.setPropertyId(id);
         dto.setPropertyName(name);
         dto.setValues(values);
-
         return dto;
     }
 

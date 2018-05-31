@@ -30,18 +30,18 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
     };
 
     componentWillReceiveProps (nextProps: PropertiesTableProps) {
-        if(nextProps.properties.length === 0 || this.state.properties.length === 0) {
-            this.setState({properties: nextProps.properties.map(addKey)});
-        }
+        this.setState({properties: this.addPropertyIdAsKey(nextProps.properties)});
     }
+
+    addPropertyIdAsKey = (props: ProductProperties[] ) => props.map(x => ({...x, key: x.propertyId}));
+
     handleRemoveRow (keyToDelete: number) {
         const newProp = this.state.properties.filter(x => x.key !== keyToDelete);
         this.setState({properties: newProp});
         this.updateParent(newProp);
     }
-    updatePropertyValue (index: number, value: string) {
-        const newProps = [...this.state.properties];
-        newProps[index].value = value;
+    updatePropertyValue (key: number, value: string) {
+        const newProps = this.state.properties.map(x => x.key === key ? {...x, value }: x);
         this.setState({properties: newProps});
         this.updateParent(newProps);
     }
@@ -67,7 +67,7 @@ export class ProductPropertiesTable extends React.Component<PropertiesTableProps
                         render={(text, record, index) =>
                             <EditableCell
                                 value={record.value}
-                                onChange={s=>this.updatePropertyValue(index, s)}
+                                onChange={s=>this.updatePropertyValue(record.key, s)}
                             />}
                         />
                     <PropertyColumn

@@ -236,4 +236,15 @@ public class ProductRepositoryImpl implements ProductRepository {
 
         return cb.and(predicates.toArray(new Predicate[0]));
     }
+
+    @Override
+    public boolean productWithSkuExits(String sku) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Product> query = cb.createQuery(Product.class);
+        Root<Product> root = query.from(Product.class);
+        ParameterExpression<String> skuParameter = cb.parameter(String.class);
+        query.where(cb.equal(root.get(Product_.skuCode), skuParameter));
+        List<Product> resultList = em.createQuery(query).setParameter(skuParameter, sku).getResultList();
+        return resultList.size() != 0;
+    }
 }
