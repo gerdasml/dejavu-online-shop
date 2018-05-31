@@ -9,6 +9,7 @@ import lt.dejavu.product.model.CategoryProperty;
 import lt.dejavu.product.model.Product;
 import lt.dejavu.product.model.ProductProperty;
 import lt.dejavu.product.repository.CategoryRepository;
+import lt.dejavu.product.repository.ProductRepository;
 import lt.dejavu.storage.image.model.ImageFormat;
 import lt.dejavu.storage.image.model.ImageInfo;
 import lt.dejavu.storage.image.service.ImageStorageService;
@@ -43,6 +44,7 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
     private final static Logger log = LoggerFactory.getLogger(ProductExcelConversionStrategy.class);
     private final static String IMAGE_PATH_SEPARATOR = ";";
     private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
     private final ImageStorageService imageStorageService;
     private final List<TriConsumer<Integer, List<String>, ConversionResult<Product>>> rowReaders = Arrays.asList(
             this::readName,
@@ -54,8 +56,9 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
             this::readProperty
                                                                                                                 );
 
-    public ProductExcelConversionStrategy(CategoryRepository categoryRepository, ImageStorageService imageStorageService) {
+    public ProductExcelConversionStrategy(CategoryRepository categoryRepository, ProductRepository productRepository, ImageStorageService imageStorageService) {
         this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
         this.imageStorageService = imageStorageService;
     }
 
@@ -178,8 +181,8 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
         read(columnIndex,
              row,
              result,
-             s -> s != null && s.length() > 0,
-             s -> s,
+             s -> s != null && s.length() > 0 && isValidSkuCode(s),
+             val -> val,
              code -> result.getResult().setSkuCode(code));
     }
 
@@ -294,6 +297,10 @@ public class ProductExcelConversionStrategy implements ExcelConversionStrategy<P
                 category.getParentCategory().getProperties().stream().anyMatch(prop -> prop.getName().equals(s)));
     }
 
+    private boolean isValidSkuCode(String sku) {
+        return !productRepository.productWithSkuExits(sku);
+
+    }
 
     private Function<String, CategoryProperty> getPropertyByName(Category category) {
         return s -> category.getProperties().stream().filter(prop -> prop.getName().equals(s)).findFirst().orElse(

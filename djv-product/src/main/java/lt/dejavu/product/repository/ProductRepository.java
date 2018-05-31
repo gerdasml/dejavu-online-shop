@@ -28,4 +28,6 @@ public interface ProductRepository {
     long getTotalProductCount();
 
     SearchResult<Product> searchForProducts(ProductSearchRequest request, int offset, int limit);
+
+    boolean productWithSkuExits(String sku);
 }

@@ -5,6 +5,7 @@ import lt.dejavu.product.dto.ProductDto;
 import lt.dejavu.product.dto.ProductPropertyDto;
 import lt.dejavu.product.dto.mapper.ProductDtoMapper;
 import lt.dejavu.product.dto.mapper.ProductPropertyDtoMapper;
+import lt.dejavu.product.exception.ProductAlreadyExistException;
 import lt.dejavu.product.model.*;
 import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 import lt.dejavu.product.exception.CategoryNotFoundException;
@@ -112,6 +113,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Long createProduct(ProductDto request) {
         Category productCategory = resolveCategory(request.getCategoryId());
+        checkSku(request.getSkuCode());
         Product product = productDtoMapper.mapToProduct(request, productCategory);
         product.setCreationDate(LocalDateTime.now());
         Long productId = productRepository.saveProduct(product);
@@ -131,6 +133,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void updateProduct(long productId, ProductDto request) {
         Category productCategory = resolveCategory(request.getCategoryId());
+        checkSku(request.getSkuCode());
         Product oldProduct = getProductIfExist(productId);
         productDtoMapper.remapToProduct(oldProduct, request, productCategory);
         Set<CategoryProperty> properties = getProductCategoryProperties(request);
@@ -144,6 +147,12 @@ public class ProductServiceImpl implements ProductService {
         Set<CategoryProperty> properties = propertyRepository.findByIds(propertyIds);
         checkIfAllPropertiesWereFound(propertyIds, properties);
         return properties;
+    }
+
+    private void checkSku(String sku){
+        if (productRepository.productWithSkuExits(sku)){
+            throw new ProductAlreadyExistException("Products with such sku code already exist");
+        }
     }
 
 
