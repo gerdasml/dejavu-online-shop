@@ -113,7 +113,7 @@ export class OrdersTable extends React.Component<OrdersTableProps, never> {
                     render={(_, record) => record.user.email}
                 />
                 <OrdersRecordColumn
-                    className="ordersRecordColumn"
+                    className="ordersRecordColumn statusColumn"
                     key="status"
                     title="Status"
                     dataIndex="status"

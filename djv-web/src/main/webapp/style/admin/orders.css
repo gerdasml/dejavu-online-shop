@@ -11,3 +11,11 @@
     background-color: #393D40 !important;
     color: #FFE693 !important;
 }
+
+.editable-cell-input-wrapper .statusSelect{
+    width: 80% !important;
+}
+
+.statusColumn{
+    width: 15% !important;
+}
