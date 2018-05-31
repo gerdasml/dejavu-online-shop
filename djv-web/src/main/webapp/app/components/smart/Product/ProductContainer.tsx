@@ -156,6 +156,7 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
     }
 
     buildSearchRequest = (identifier: string, minPrice: number, maxPrice: number, properties: ProductProperties[]) => ({
+        ...this.props.query,
         categoryIdentifier: identifier,
         minPrice,
         maxPrice,
