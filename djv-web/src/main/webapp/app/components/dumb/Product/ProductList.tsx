@@ -2,11 +2,9 @@ import * as React from "react";
 
 import { Card, Icon, Pagination } from "semantic-ui-react";
 
-
 import { Cart } from "../../../model/Cart";
-import { Product } from "../../../model/Product";
+import { Product, SortBy, SortDirection } from "../../../model/Product";
 import { ProductCard } from "../Home/ProductCard";
-
 
 import "../../../../style/filter.css";
 
@@ -20,11 +18,14 @@ interface ProductListProps {
     activePage: number;
     cart: Cart;
     onAddToCart: (product: Product) => void;
+    onSortChange: (sortBy: SortBy, sortDir: SortDirection) => void;
+    sortBy: SortBy;
+    sortDir: SortDirection;
 }
 
 export const ProductList = (props: ProductListProps) => (
     <div>
-        <ProductSort onChange={() => console.log("blab blakaldkfl")}/>
+        <ProductSort onChange={props.onSortChange} sortBy={props.sortBy} sortDir={props.sortDir} />
         <Card.Group itemsPerRow={5} doubling>
             {props.products.map((x, i) =>
                 <ProductCard

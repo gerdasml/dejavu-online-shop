@@ -37,3 +37,13 @@ export interface ImportStatus {
 interface ProductDiscount extends Discount {
     finalPrice: number;
 }
+
+export enum SortBy {
+    PRICE = "PRICE",
+    CREATION_DATE = "CREATION_DATE"
+}
+
+export enum SortDirection {
+    ASC = "ASC",
+    DESC = "DESC"
+}
