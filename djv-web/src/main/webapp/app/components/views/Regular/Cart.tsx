@@ -22,6 +22,7 @@ interface CartState {
     isLoading: boolean;
     cart: CartModel;
     shippingInformation?: ShippingInformation;
+    saveToProfile: boolean;
 }
 
 const EMPTY_STATE: CartState = {
@@ -32,6 +33,7 @@ const EMPTY_STATE: CartState = {
     },
     currentStep: CartStep.CART,
     isLoading: true,
+    saveToProfile: false
 };
 
 export class Cart extends React.Component<{}, CartState> {
@@ -73,9 +75,20 @@ export class Cart extends React.Component<{}, CartState> {
         this.setState({currentStep: step});
     }
 
-    nextStep = () => {
+    nextStep = async () => {
         const step = this.state.currentStep;
         if (step+1 === CartStep.APPROVAL) {
+            if (this.state.saveToProfile) {
+                const newUser = {
+                    ...this.state.cart.user,
+                    address: this.state.shippingInformation.shippingAddress
+                };
+                const response = await api.user.updateUser(newUser);
+                if (api.isError(response)) {
+                    notification.error({message: "Failed to update profile", description: response.message});
+                    return;
+                }
+            }
             this.setState({...EMPTY_STATE, currentStep: step, isLoading: false});
         }
         if(step === CartStep.APPROVAL) {
@@ -107,6 +120,8 @@ export class Cart extends React.Component<{}, CartState> {
                     onStepComplete={this.nextStep}
                     shippingInformation={this.state.shippingInformation}
                     onShippingInfoChange={info => this.setState({...this.state, shippingInformation: info})}
+                    saveToProfile={this.state.saveToProfile}
+                    onSaveToProfileChange={val => this.setState({...this.state, saveToProfile: val})}
                 />
                 : ""
                 }

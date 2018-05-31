@@ -7,6 +7,8 @@ import * as api from "../../../../../api";
 
 import { fromString } from "../../../../../utils/enum";
 
+import "../../../../../../style/admin/orders.css";
+
 interface OrderStatusCellProps {
     status: OrderStatus;
     onStatusUpdate: (newStatus: OrderStatus) => Promise<OrderStatus>;
@@ -53,7 +55,7 @@ export class OrderStatusCell extends React.Component<OrderStatusCellProps, Order
         return (
             <div className="editable-cell-input-wrapper">
                 <Spin spinning={this.state.isLoading}>
-                    <Select onChange={this.handleChange.bind(this)} defaultValue={status}>
+                    <Select className="statusSelect" onChange={this.handleChange.bind(this)} defaultValue={status}>
                         {
                             Object.keys(OrderStatus)
                                 .filter(key => !Number(key))

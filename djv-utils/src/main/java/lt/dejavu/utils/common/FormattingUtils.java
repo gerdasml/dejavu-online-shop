@@ -7,7 +7,7 @@ public class FormattingUtils {
         return StringUtils.isEmpty(input)
                 ? ""
                 : input.toLowerCase()
-                       .replaceAll("[^a-z0-9_]+", "-")
+                       .replaceAll("[^a-z0-9ąčęėįšųūž_]+", "-")
                        .replaceAll("^-|-$", "");
     }
 }

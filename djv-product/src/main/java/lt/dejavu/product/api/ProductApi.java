@@ -6,6 +6,8 @@ import lt.dejavu.product.dto.ProductDto;
 import lt.dejavu.product.dto.ProductImportStatusDto;
 import lt.dejavu.product.exception.UnsupportedFileTypeException;
 import lt.dejavu.product.model.SearchResult;
+import lt.dejavu.product.model.SortBy;
+import lt.dejavu.product.model.SortDirection;
 import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 import lt.dejavu.product.service.ProductImportStatusService;
 import lt.dejavu.product.service.ProductService;
@@ -41,8 +43,10 @@ public class ProductApi {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public List<ProductDto> getAllProducts(@RequestParam(value="offset", required=false) Integer offset,
-                                           @RequestParam(value="limit", required=false) Integer limit) {
-        return productService.getAllProducts(limit, offset);
+                                           @RequestParam(value="limit", required=false) Integer limit,
+                                           @RequestParam(value="sortBy", required=false, defaultValue="PRICE") SortBy sortBy,
+                                           @RequestParam(value="sortDirection", required=false, defaultValue="ASC") SortDirection sortDirection) {
+        return productService.getAllProducts(limit, offset, sortBy, sortDirection);
     }
 
     @GetMapping("/count")
@@ -64,8 +68,10 @@ public class ProductApi {
     )
     public List<ProductDto> getProductsByCategory(@PathVariable("categoryId") long categoryId,
                                                   @RequestParam(value="offset", required=false) Integer offset,
-                                                  @RequestParam(value="limit", required=false) Integer limit) {
-        return productService.getProductsByCategory(categoryId, offset, limit);
+                                                  @RequestParam(value="limit", required=false) Integer limit,
+                                                  @RequestParam(value="sortBy", required=false, defaultValue="PRICE") SortBy sortBy,
+                                                  @RequestParam(value="sortDirection", required=false, defaultValue="ASC") SortDirection sortDirection) {
+        return productService.getProductsByCategory(categoryId, offset, limit, sortBy, sortDirection);
     }
 
     @GetMapping(
@@ -83,8 +89,10 @@ public class ProductApi {
     )
     public SearchResult<ProductDto> productSearch(@RequestBody ProductSearchRequest request,
                                                   @RequestParam(value="offset", required=false) Integer offset,
-                                                  @RequestParam(value="limit", required=false) Integer limit) {
-        return productService.searchProducts(request, offset, limit);
+                                                  @RequestParam(value="limit", required=false) Integer limit,
+                                                  @RequestParam(value="sortBy", required=false, defaultValue="PRICE") SortBy sortBy,
+                                                  @RequestParam(value="sortDirection", required=false, defaultValue="ASC") SortDirection sortDirection) {
+        return productService.searchProducts(request, offset, limit, sortBy, sortDirection);
     }
 
     @PostMapping(

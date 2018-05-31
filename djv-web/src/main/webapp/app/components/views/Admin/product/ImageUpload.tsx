@@ -69,7 +69,9 @@ export class ImageUpload extends React.Component<ImageUploadProps, ImageUploadSt
 
     handleBefore = async (file: RcFile): Promise<RcFile> =>
         new Promise<RcFile>((resolve, reject) => {
-            if (!file.name.endsWith(".jpg") && !file.name.endsWith("jpeg") && !file.name.endsWith("png")) {
+            if (!file.name.toLocaleLowerCase().endsWith(".jpg")
+            && !file.name.toLocaleLowerCase().endsWith("jpeg")
+            && !file.name.toLocaleLowerCase().endsWith("png")) {
                 reject(file);
                 return;
             }

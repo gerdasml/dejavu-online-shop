@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Loader} from "semantic-ui-react";
 
-import {Product} from "../../../model/Product";
+import {Product, SortBy, SortDirection} from "../../../model/Product";
 import {CategoryInfo} from "../../../model/Category";
 
 import { notification, message } from "antd";
@@ -35,6 +35,8 @@ interface ProductContainerState {
     categoryInfo?: CategoryInfo;
     productCount?: number;
     selectedProperties: ProductProperties[];
+    activeSortBy: SortBy;
+    activeSortDir: SortDirection;
 }
 
 export class ProductContainer extends React.Component<ProductContainerProps, ProductContainerState> {
@@ -43,7 +45,9 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
         isProductInfoLoading: true,
         products: [],
         activePage: 1,
-        selectedProperties: []
+        selectedProperties: [],
+        activeSortBy: SortBy.PRICE,
+        activeSortDir: SortDirection.ASC
     };
     // required to load data on initial render
     async componentDidMount () {
@@ -73,7 +77,13 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
 
     async fetchData (props: ProductContainerProps) {
         const productPromise =
-            api.product.searchForProducts(props.query, 0, config.productsPerPage)
+            api.product.searchForProducts(
+                props.query,
+                0,
+                config.productsPerPage,
+                this.state.activeSortBy,
+                this.state.activeSortDir
+            )
             .then(response => {
                 if (api.isError(response)) {
                     notification.error({ message: "Failed to fetch product data", description: response.message });
@@ -112,14 +122,14 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
             this.state.minPrice,
             this.state.maxPrice,
             this.state.selectedProperties);
-        await this.fetchNewProducts(request, page);
+        await this.fetchNewProducts(request, page, this.state.activeSortBy, this.state.activeSortDir);
         this.setState({...this.state, activePage: page, isProductInfoLoading: false});
     }
 
-    async fetchNewProducts (req: ProductSearchRequest, page: number) {
+    async fetchNewProducts (req: ProductSearchRequest, page: number, by: SortBy, dir: SortDirection) {
         const offset = (page-1) * config.productsPerPage;
         const limit = config.productsPerPage;
-        const products = await api.product.searchForProducts(req, offset, limit);
+        const products = await api.product.searchForProducts(req, offset, limit, by, dir);
         if (api.isError(products)) {
             notification.error({message: "Failed to load products", description: products.message});
         } else {
@@ -141,11 +151,12 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
             selectedProperties: properties
         });
         const request = this.buildSearchRequest(this.props.categoryIdentifier, minPrice, maxPrice, properties);
-        await this.fetchNewProducts(request, 1);
+        await this.fetchNewProducts(request, 1, this.state.activeSortBy, this.state.activeSortDir);
         this.setState({...this.state, isProductInfoLoading: false});
     }
 
     buildSearchRequest = (identifier: string, minPrice: number, maxPrice: number, properties: ProductProperties[]) => ({
+        ...this.props.query,
         categoryIdentifier: identifier,
         minPrice,
         maxPrice,
@@ -163,6 +174,22 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
             });
             message.success("Successfully added product to cart");
         }
+    }
+
+    async handleSort (by: SortBy, dir: SortDirection) {
+        this.setState({
+            ...this.state,
+            activeSortBy: by,
+            activeSortDir: dir,
+            isProductInfoLoading: true,
+        });
+        const request = this.buildSearchRequest(
+            this.props.categoryIdentifier,
+            this.state.minPrice,
+            this.state.maxPrice,
+            this.state.selectedProperties);
+        await this.fetchNewProducts(request, 1, by, dir);
+        this.setState({...this.state, isProductInfoLoading: false});
     }
 
     renderFilter () {
@@ -194,6 +221,9 @@ export class ProductContainer extends React.Component<ProductContainerProps, Pro
                 onPageChange={this.handlePageChange.bind(this)}
                 cart={this.state.cart}
                 onAddToCart={this.handleAddToCart.bind(this)}
+                onSortChange={this.handleSort.bind(this)}
+                sortBy={this.state.activeSortBy}
+                sortDir={this.state.activeSortDir}
             />
         );
     }

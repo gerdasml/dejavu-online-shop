@@ -1,6 +1,6 @@
 import { ApiResponse } from "./ApiResponse";
 
-import { ImportStatus, Product } from "../model/Product";
+import { ImportStatus, Product, SortBy, SortDirection } from "../model/Product";
 import { fetchData, HttpMethod } from "./utils";
 import { ProductProperties } from "../model/ProductProperties";
 import { SearchResult } from "../model/SearchResult";
@@ -20,16 +20,26 @@ export interface ProductSearchRequest {
     name?: string;
 }
 
-const buildPaginationPath = (relPath: string, offset?: number, limit?: number) => {
-    let path = PATH_PREFIX + relPath;
-    if (offset !== undefined && limit !== undefined) {
-        path += `?offset=${offset}&limit=${limit}`;
-    } else if (offset !== undefined) {
-        path += `?offset=${offset}`;
-    } else if(limit !== undefined) {
-        path += `?limit=${limit}`;
+const buildPaginationPath =
+(relPath: string,offset?: number, limit?: number, sortBy?: SortBy, sortDirection?: SortDirection) => {
+    const path = PATH_PREFIX + relPath;
+
+    const params = [];
+    if (offset !== undefined) {
+        params.push(`offset=${offset}`);
     }
-    return path;
+    if (limit !== undefined) {
+        params.push(`limit=${limit}`);
+    }
+    if (sortBy !== undefined) {
+        params.push(`sortBy=${sortBy}`);
+    }
+    if (sortDirection !== undefined) {
+        params.push(`sortDirection=${sortDirection}`);
+    }
+    const urlSuffix = params.join("&");
+
+    return path + (params.length > 0 ? "?"+urlSuffix : "");
 };
 
 // export const getProducts = (): Promise<ApiResponse<Product[]>> =>
@@ -42,11 +52,13 @@ export const getProductByIdentifier = (identifier: string): Promise<ApiResponse<
     fetchData(PATH_PREFIX + "/byIdentifier?identifier=" + identifier, HttpMethod.GET);
 
 export const searchForProducts =
-    (req: ProductSearchRequest, offset?: number, limit?: number): Promise<ApiResponse<SearchResult<Product>>> =>
-        fetchData(buildPaginationPath("/search", offset, limit), HttpMethod.POST, req);
+    (req: ProductSearchRequest, offset?: number, limit?: number, sortBy?: SortBy, sortDir?: SortDirection)
+    : Promise<ApiResponse<SearchResult<Product>>> =>
+        fetchData(buildPaginationPath("/search", offset, limit, sortBy, sortDir), HttpMethod.POST, req);
 
-export const getAllProducts = (offset?: number, limit?: number): Promise<ApiResponse<Product[]>> =>
-    fetchData(buildPaginationPath("/", offset, limit), HttpMethod.GET);
+export const getAllProducts = (offset?: number, limit?: number, sortBy?: SortBy, sortDir?: SortDirection)
+    : Promise<ApiResponse<Product[]>> =>
+    fetchData(buildPaginationPath("/", offset, limit, sortBy, sortDir), HttpMethod.GET);
 
 export const createProduct = (product: Product): Promise<ApiResponse<number>> =>
     fetchData(PATH_PREFIX + "/", HttpMethod.POST, product);
@@ -72,8 +84,10 @@ export const importProducts = (excel: File): Promise<ApiResponse<string>> => {
 export const getImportStatuses = (): Promise<ApiResponse<ImportStatus[]>> =>
     fetchData(PATH_PREFIX + "/import/status/", HttpMethod.GET);
 
-export const getProductsByCategory = (id: number, offset?: number, limit?: number): Promise<ApiResponse<Product[]>> =>
-    fetchData(buildPaginationPath("/category/" + id.toString()), HttpMethod.GET);
+export const getProductsByCategory =
+    (id: number, offset?: number, limit?: number, sortBy?: SortBy, sortDir?: SortDirection)
+    : Promise<ApiResponse<Product[]>> =>
+    fetchData(buildPaginationPath("/category/" + id.toString(), offset, limit, sortBy, sortDir), HttpMethod.GET);
 
 export const updateImportStatus = (jobId: string, newStatus: ImportStatus): Promise<ApiResponse<ImportStatus>> =>
     fetchData(PATH_PREFIX + "/import/status/" + jobId, HttpMethod.PUT, newStatus);

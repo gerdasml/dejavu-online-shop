@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -30,13 +31,27 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Set<Product> getAllProducts(int offset, int limit) {
+    public Set<Product> getAllProducts(int offset, int limit, SortBy sortBy, SortDirection sortDirection) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> cq = cb.createQuery(Product.class);
         Root<Product> productRoot = cq.from(Product.class);
         productRoot.fetch(Product_.properties, JoinType.LEFT).fetch(ProductProperty_.categoryProperty, JoinType.LEFT);
         productRoot.fetch(Product_.additionalImagesUrls, JoinType.LEFT);
         CriteriaQuery<Product> all = cq.select(productRoot);
+
+        if (sortBy != null && sortDirection != null) {
+            Path<?> path = null;
+            if (sortBy == SortBy.CREATION_DATE) {
+                path = productRoot.get(Product_.creationDate);
+            } else if(sortBy == SortBy.PRICE) {
+                path = productRoot.get(Product_.price);
+            }
+            if (sortDirection == SortDirection.ASC) {
+                all.orderBy(cb.asc(path));
+            } else {
+                all.orderBy(cb.desc(path));
+            }
+        }
         TypedQuery<Product> query = em.createQuery(all);
         query.setFirstResult(offset);
         query.setMaxResults(limit);
@@ -71,7 +86,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Set<Product> getProductsByCategory(long categoryId, int offset, int limit) {
+    public Set<Product> getProductsByCategory(long categoryId, int offset, int limit, SortBy sortBy, SortDirection sortDirection) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> query = cb.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
@@ -80,6 +95,19 @@ public class ProductRepositoryImpl implements ProductRepository {
         root.fetch(Product_.category, JoinType.LEFT).fetch(Category_.parentCategory, JoinType.LEFT);
         ParameterExpression<Long> categoryIdParameter = cb.parameter(Long.class);
         query.where(cb.equal(root.get(Product_.category).get(Category_.id), categoryIdParameter));
+        if (sortBy != null && sortDirection != null) {
+            Path<?> path = null;
+            if (sortBy == SortBy.CREATION_DATE) {
+                path = root.get(Product_.creationDate);
+            } else if (sortBy == SortBy.PRICE) {
+                path = root.get(Product_.price);
+            }
+            if (sortDirection == SortDirection.ASC) {
+                query.orderBy(cb.asc(path));
+            } else {
+                query.orderBy(cb.desc(path));
+            }
+        }
         TypedQuery<Product> q = em.createQuery(query).setParameter(categoryIdParameter, categoryId);
         q.setFirstResult(offset);
         q.setMaxResults(limit);
@@ -130,7 +158,9 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public SearchResult<Product> searchForProducts(ProductSearchRequest request,
                                                    int offset,
-                                                   int limit) {
+                                                   int limit,
+                                                   SortBy sortBy,
+                                                   SortDirection sortDirection) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> query = cb.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
@@ -140,6 +170,20 @@ public class ProductRepositoryImpl implements ProductRepository {
         Root<Product> countRoot = countQuery.from(Product.class);
         countQuery.select(cb.count(countRoot));
         countQuery.where(buildPredicate(cb, countRoot, request));
+
+        if (sortBy != null && sortDirection != null) {
+            Path<?> path = null;
+            if (sortBy == SortBy.CREATION_DATE) {
+                path = root.get(Product_.creationDate);
+            } else if (sortBy == SortBy.PRICE) {
+                path = root.get(Product_.price);
+            }
+            if (sortDirection == SortDirection.ASC) {
+                query.orderBy(cb.asc(path));
+            } else {
+                query.orderBy(cb.desc(path));
+            }
+        }
 
         TypedQuery<Product> q = em.createQuery(query);
         q.setFirstResult(offset);
