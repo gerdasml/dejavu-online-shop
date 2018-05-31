@@ -11,7 +11,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -20,7 +19,6 @@ import java.util.Set;
 @Repository
 @Transactional
 public class ProductRepositoryImpl implements ProductRepository {
-
     private final IdentifierGenerator<Product> identifierGenerator;
 
     @PersistenceContext
@@ -38,20 +36,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         productRoot.fetch(Product_.properties, JoinType.LEFT).fetch(ProductProperty_.categoryProperty, JoinType.LEFT);
         productRoot.fetch(Product_.additionalImagesUrls, JoinType.LEFT);
         CriteriaQuery<Product> all = cq.select(productRoot);
-
-        if (sortBy != null && sortDirection != null) {
-            Path<?> path = null;
-            if (sortBy == SortBy.CREATION_DATE) {
-                path = productRoot.get(Product_.creationDate);
-            } else if(sortBy == SortBy.PRICE) {
-                path = productRoot.get(Product_.price);
-            }
-            if (sortDirection == SortDirection.ASC) {
-                all.orderBy(cb.asc(path));
-            } else {
-                all.orderBy(cb.desc(path));
-            }
-        }
+        buildSort(sortBy, sortDirection, cb, productRoot, all);
         TypedQuery<Product> query = em.createQuery(all);
         query.setFirstResult(offset);
         query.setMaxResults(limit);
@@ -95,19 +80,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         root.fetch(Product_.category, JoinType.LEFT).fetch(Category_.parentCategory, JoinType.LEFT);
         ParameterExpression<Long> categoryIdParameter = cb.parameter(Long.class);
         query.where(cb.equal(root.get(Product_.category).get(Category_.id), categoryIdParameter));
-        if (sortBy != null && sortDirection != null) {
-            Path<?> path = null;
-            if (sortBy == SortBy.CREATION_DATE) {
-                path = root.get(Product_.creationDate);
-            } else if (sortBy == SortBy.PRICE) {
-                path = root.get(Product_.price);
-            }
-            if (sortDirection == SortDirection.ASC) {
-                query.orderBy(cb.asc(path));
-            } else {
-                query.orderBy(cb.desc(path));
-            }
-        }
+        buildSort(sortBy, sortDirection, cb, root, query);
         TypedQuery<Product> q = em.createQuery(query).setParameter(categoryIdParameter, categoryId);
         q.setFirstResult(offset);
         q.setMaxResults(limit);
@@ -171,19 +144,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         countQuery.select(cb.count(countRoot));
         countQuery.where(buildPredicate(cb, countRoot, request));
 
-        if (sortBy != null && sortDirection != null) {
-            Path<?> path = null;
-            if (sortBy == SortBy.CREATION_DATE) {
-                path = root.get(Product_.creationDate);
-            } else if (sortBy == SortBy.PRICE) {
-                path = root.get(Product_.price);
-            }
-            if (sortDirection == SortDirection.ASC) {
-                query.orderBy(cb.asc(path));
-            } else {
-                query.orderBy(cb.desc(path));
-            }
-        }
+        buildSort(sortBy, sortDirection, cb, root, query);
 
         TypedQuery<Product> q = em.createQuery(query);
         q.setFirstResult(offset);
@@ -246,5 +207,21 @@ public class ProductRepositoryImpl implements ProductRepository {
         query.where(cb.equal(root.get(Product_.skuCode), skuParameter));
         List<Product> resultList = em.createQuery(query).setParameter(skuParameter, sku).getResultList();
         return resultList.size() != 0;
+    }
+
+    private void buildSort(SortBy sortBy, SortDirection sortDirection, CriteriaBuilder cb, Root<Product> productRoot, CriteriaQuery<Product> all) {
+        if (sortBy != null && sortDirection != null) {
+            Path<?> path = null;
+            if (sortBy == SortBy.CREATION_DATE) {
+                path = productRoot.get(Product_.creationDate);
+            } else if(sortBy == SortBy.PRICE) {
+                path = productRoot.get(Product_.price);
+            }
+            if (sortDirection == SortDirection.ASC) {
+                all.orderBy(cb.asc(path));
+            } else {
+                all.orderBy(cb.desc(path));
+            }
+        }
     }
 }
