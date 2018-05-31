@@ -62,14 +62,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getAllProducts(Integer limit, Integer offset) {
+    public List<ProductDto> getAllProducts(Integer limit, Integer offset, SortBy sortBy, SortDirection sortDirection) {
         if (limit == null) {
             limit = Integer.MAX_VALUE;
         }
         if (offset == null) {
             offset = 0;
         }
-        return discountService.attachDiscount(productRepository.getAllProducts(offset, limit));
+        return discountService.attachDiscount(productRepository.getAllProducts(offset, limit, sortBy, sortDirection));
     }
 
     @Override
@@ -83,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getProductsByCategory(long categoryId, Integer offset, Integer limit) {
+    public List<ProductDto> getProductsByCategory(long categoryId, Integer offset, Integer limit, SortBy sortBy, SortDirection sortDirection) {
         getCategoryIfExist(categoryId);
         if (limit == null) {
             limit = Integer.MAX_VALUE;
@@ -91,19 +91,19 @@ public class ProductServiceImpl implements ProductService {
         if (offset == null) {
             offset = 0;
         }
-        return discountService.attachDiscount(productRepository.getProductsByCategory(categoryId, offset, limit));
+        return discountService.attachDiscount(productRepository.getProductsByCategory(categoryId, offset, limit, sortBy, sortDirection));
 
     }
 
     @Override
-    public SearchResult<ProductDto> searchProducts(ProductSearchRequest request, Integer offset, Integer limit) {
+    public SearchResult<ProductDto> searchProducts(ProductSearchRequest request, Integer offset, Integer limit, SortBy sortBy, SortDirection sortDirection) {
         if (limit == null) {
             limit = Integer.MAX_VALUE;
         }
         if (offset == null) {
             offset = 0;
         }
-        SearchResult<Product> dbResult = productRepository.searchForProducts(request, offset, limit);
+        SearchResult<Product> dbResult = productRepository.searchForProducts(request, offset, limit, sortBy, sortDirection);
         SearchResult<ProductDto> result = new SearchResult<>();
         result.setTotal(dbResult.getTotal());
         result.setResults(discountService.attachDiscount(dbResult.getResults()));
@@ -155,7 +155,7 @@ public class ProductServiceImpl implements ProductService {
     
     @Override
     public ByteArrayOutputStream exportProducts() throws IOException {
-        Set<Product> allProducts = Profiler.time("Get all products", () -> productRepository.getAllProducts(0, Integer.MAX_VALUE));
+        Set<Product> allProducts = Profiler.time("Get all products", () -> productRepository.getAllProducts(0, Integer.MAX_VALUE, null, null));
         return excelService.toExcel(allProducts);
     }
 
