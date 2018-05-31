@@ -4,6 +4,11 @@ A project for the Software Development course in Vilnius University. 2018.
 
 Ideas for the initial setup were taken from [here](https://github.com/dlizarra/spring-boot-react-webpack-starter).
 
+### Prerequisites
+* Java 8
+* Maven
+* npm (optional - only if you want to launch the frontend alone)
+
 ### Getting started
 1. Clone the repository
 1. Perform Maven's `clean`-`install` routine. This might take some time. You can also use just `install` - it will take less time (but might leave some old code, so if you really want to be sure, `clean` first).
