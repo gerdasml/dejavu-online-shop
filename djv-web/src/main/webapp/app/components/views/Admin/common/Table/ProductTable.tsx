@@ -58,7 +58,10 @@ export const ProductTable = (props: ProductTableProps) => (
         <ProductRecordColumn
             key = "category"
             title = "Category"
-            render={(_, record) => findCategoryFromTree(props.categories, record.categoryId).name}
+            render={(_, record) => {
+                const cat = findCategoryFromTree(props.categories, record.categoryId);
+                return cat === undefined ? "-" : cat.name;
+            }}
         />
         <ProductRecordColumn
             key = "price"
