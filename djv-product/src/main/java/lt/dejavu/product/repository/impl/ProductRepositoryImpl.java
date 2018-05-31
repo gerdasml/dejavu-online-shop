@@ -208,6 +208,16 @@ public class ProductRepositoryImpl implements ProductRepository {
         List<Product> resultList = em.createQuery(query).setParameter(skuParameter, sku).getResultList();
         return resultList.size() != 0;
     }
+    @Override
+    public Product getProductBySku(String sku) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Product> query = cb.createQuery(Product.class);
+        Root<Product> root = query.from(Product.class);
+        ParameterExpression<String> skuParameter = cb.parameter(String.class);
+        query.where(cb.equal(root.get(Product_.skuCode), skuParameter));
+        List<Product> resultList = em.createQuery(query).setParameter(skuParameter, sku).getResultList();
+        return resultList.size() != 0 ? resultList.get(0) : null ;
+    }
 
     private void buildSort(SortBy sortBy, SortDirection sortDirection, CriteriaBuilder cb, Root<Product> productRoot, CriteriaQuery<Product> all) {
         if (sortBy != null && sortDirection != null) {

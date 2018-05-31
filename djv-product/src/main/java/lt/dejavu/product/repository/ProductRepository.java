@@ -28,4 +28,6 @@ public interface ProductRepository {
     SearchResult<Product> searchForProducts(ProductSearchRequest request, int offset, int limit, SortBy sortBy, SortDirection sortDirection);
 
     boolean productWithSkuExits(String sku);
+
+    Product getProductBySku(String sku);
 }

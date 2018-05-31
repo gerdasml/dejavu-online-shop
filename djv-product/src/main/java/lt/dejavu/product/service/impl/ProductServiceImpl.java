@@ -133,7 +133,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void updateProduct(long productId, ProductDto request) {
         Category productCategory = resolveCategory(request.getCategoryId());
-        checkSku(request.getSkuCode());
+        checkSku(request.getSkuCode(), productId);
         Product oldProduct = getProductIfExist(productId);
         productDtoMapper.remapToProduct(oldProduct, request, productCategory);
         Set<CategoryProperty> properties = getProductCategoryProperties(request);
@@ -151,6 +151,13 @@ public class ProductServiceImpl implements ProductService {
 
     private void checkSku(String sku){
         if (productRepository.productWithSkuExits(sku)){
+            throw new ProductAlreadyExistException("Products with such sku code already exist");
+        }
+    }
+
+    private void checkSku(String sku, long id){
+        Product product = productRepository.getProductBySku(sku);
+        if (product != null && !product.getId().equals(id)){
             throw new ProductAlreadyExistException("Products with such sku code already exist");
         }
     }
