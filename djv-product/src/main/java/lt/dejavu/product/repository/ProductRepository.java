@@ -1,8 +1,6 @@
 package lt.dejavu.product.repository;
 
-import lt.dejavu.product.model.Category;
-import lt.dejavu.product.model.Product;
-import lt.dejavu.product.model.SearchResult;
+import lt.dejavu.product.model.*;
 import lt.dejavu.product.model.rest.request.ProductSearchRequest;
 
 import java.util.Set;
@@ -13,9 +11,9 @@ public interface ProductRepository {
 
     Product getProduct(String identifier);
 
-    Set<Product> getAllProducts(int offset, int limit);
+    Set<Product> getAllProducts(int offset, int limit, SortBy sortBy, SortDirection sortDirection);
 
-    Set<Product> getProductsByCategory(long categoryId, int offset, int limit);
+    Set<Product> getProductsByCategory(long categoryId, int offset, int limit, SortBy sortBy, SortDirection sortDirection);
 
     long saveProduct(Product product);
 
@@ -27,5 +25,5 @@ public interface ProductRepository {
 
     long getTotalProductCount();
 
-    SearchResult<Product> searchForProducts(ProductSearchRequest request, int offset, int limit);
+    SearchResult<Product> searchForProducts(ProductSearchRequest request, int offset, int limit, SortBy sortBy, SortDirection sortDirection);
 }
