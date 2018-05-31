@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button, Form, Icon } from "semantic-ui-react";
+import { Button, Form, Icon, Checkbox } from "semantic-ui-react";
 
 import {AddressInput} from "../../Address/AddressInput";
 
@@ -11,6 +11,8 @@ interface DeliveryInfoProps {
     onStepComplete: () => void;
     onShippingInfoChange: (info: ShippingInformation) => void;
     shippingInformation: ShippingInformation;
+    saveToProfile: boolean;
+    onSaveToProfileChange: (save: boolean) => void;
 }
 export class DeliveryInfo extends React.Component <DeliveryInfoProps, {}> {
     render () {
@@ -45,6 +47,13 @@ export class DeliveryInfo extends React.Component <DeliveryInfoProps, {}> {
                         ...this.props.shippingInformation,
                         shippingAddress: newAddress
                     })} />
+                <Form.Field inline>
+                    <label>Save address to profile: </label>
+                    <Checkbox
+                        checked={this.props.saveToProfile}
+                        onChange={(e, val) => this.props.onSaveToProfileChange(val.checked)}
+                    />
+                </Form.Field>
                 <Button
                     icon
                     type="submit"
