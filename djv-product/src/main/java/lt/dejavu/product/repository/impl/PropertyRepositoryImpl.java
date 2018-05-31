@@ -47,7 +47,6 @@ public class PropertyRepositoryImpl implements PropertyRepository {
         return em.createQuery(query).setParameter(idParameter, categoryId).getResultList();
     }
 
-
     @Override
     public void saveProperties(Set<CategoryProperty> properties) {
         properties.forEach(em::persist);

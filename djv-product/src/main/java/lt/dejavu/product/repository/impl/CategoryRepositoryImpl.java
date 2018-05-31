@@ -88,6 +88,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public void updateCategory(Category category) {
+        category.setIdentifier(categoryIdentifierGenerator.generateIdentifier(category));
         em.merge(category);
     }
 
