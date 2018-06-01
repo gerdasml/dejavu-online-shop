@@ -15,6 +15,7 @@ flyway:
     types:
       text: TEXT
       bool: BIT(1)
+      uuid: BINARY(16)
 
 storage:
   basePath: /path/to/files

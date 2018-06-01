@@ -23,6 +23,7 @@ flyway:
     types:
       text: VARCHAR(80000)
       bool: BIT
+      uuid: VARCHAR(36)
 
 storage:
   basePath: @project.build.directory@\files\images
